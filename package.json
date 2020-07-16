@@ -10,16 +10,35 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:yapi-code.helloWorld"
+    "onCommand:yapi-code.generateFetchFun",
+    "onCommand:yapi-code.generateFetchFunByJSON"
   ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "yapi-code.helloWorld",
-        "title": "Hello World"
+        "command": "yapi-code.generateFetchFun",
+        "title": "新增接口定义"
       }
-    ]
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "yapi-code.generateFetchFun"
+        }
+      ]
+    },
+    "configuration": {
+      "type": "object",
+      "title": "yapi-code configuration",
+      "properties": {
+        "yapi.domain": {
+          "type": "string",
+          "default": "",
+          "description": "api 域名"
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "yarn run compile",
