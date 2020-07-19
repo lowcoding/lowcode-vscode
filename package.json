@@ -1,41 +1,67 @@
 {
   "name": "yapi-code",
   "displayName": "yapi-code",
-  "description": "",
+  "description": "根据 yapi 接口定义快速生成 TypeScript 类型，支持自定义模板",
+  "author": "wjkang <ruoxieme@gmail.com>",
   "version": "0.0.1",
+  "icon": "asset/icon.png",
+  "publisher": "wjkang",
   "engines": {
-    "vscode": "^1.46.0"
+    "vscode": "^1.42.0"
   },
   "categories": [
     "Other"
   ],
+  "keywords": [
+    "yapi",
+    "typescript",
+    "generate code",
+    "json"
+  ],
   "activationEvents": [
-    "onCommand:yapi-code.generateFetchFun",
-    "onCommand:yapi-code.generateFetchFunByJSON"
+    "onCommand:yapi-code.generateCode",
+    "onCommand:yapi-code.generateMockCode"
   ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "yapi-code.generateFetchFun",
-        "title": "新增接口定义"
+        "command": "yapi-code.generateCode",
+        "title": "YAPI->生成代码"
+      },
+      {
+        "command": "yapi-code.generateMockCode",
+        "title": "YAPI->生成mock代码"
       }
     ],
     "menus": {
       "editor/context": [
         {
-          "command": "yapi-code.generateFetchFun"
+          "command": "yapi-code.generateCode"
+        },
+        {
+          "command": "yapi-code.generateMockCode"
         }
       ]
     },
     "configuration": {
       "type": "object",
-      "title": "yapi-code configuration",
+      "title": "yapi-code 配置项",
       "properties": {
         "yapi.domain": {
           "type": "string",
           "default": "",
-          "description": "api 域名"
+          "description": "域名"
+        },
+        "yapi.project": {
+          "type": "array",
+          "default": [],
+          "description": "项目列表。eg.[{\"name\": \"项目\",\"token\": \"token\"}]"
+        },
+        "yapi.codeTemplate": {
+          "type": "array",
+          "default": [],
+          "description": "模板列表。eg.[{\"name\": \"模板名称\",\"template\": \"模板字符串\"}]"
         }
       }
     }
@@ -49,16 +75,29 @@
     "test": "node ./out/test/runTest.js"
   },
   "devDependencies": {
-    "@types/vscode": "^1.47.0",
+    "@types/copy-paste": "^1.1.30",
     "@types/glob": "^7.1.1",
     "@types/mocha": "^7.0.2",
     "@types/node": "^13.11.0",
-    "eslint": "^6.8.0",
-    "@typescript-eslint/parser": "^2.30.0",
+    "@types/prettier": "^2.0.2",
+    "@types/readable-stream": "^2.3.9",
+    "@types/urijs": "^1.19.9",
+    "@types/vscode": "1.42.0",
     "@typescript-eslint/eslint-plugin": "^2.30.0",
+    "@typescript-eslint/parser": "^2.30.0",
+    "eslint": "^6.8.0",
     "glob": "^7.1.6",
     "mocha": "^7.1.2",
     "typescript": "^3.8.3",
     "vscode-test": "^1.3.0"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "copy-paste": "^1.3.0",
+    "handlebars": "^4.7.6",
+    "is-url": "^1.2.4",
+    "json-schema-to-typescript": "^9.1.1",
+    "quicktype-core": "^6.0.66",
+    "strip-comments": "^2.0.1"
   }
 }
