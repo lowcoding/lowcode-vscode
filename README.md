@@ -22,11 +22,11 @@
 
 ```json
 "yapi.project": [
-		{
-			"name": "价值一个亿的项目",
-			"token": "baf6748bf45cd1b924a03d56b8a74e3fb13e744bd7dd49e222f3a97xxxxxx"
-		}
-	],
+	{
+		"name": "价值一个亿的项目",
+		"token": "baf6748bf45cd1b924a03d56b8a74e3fb13e744bd7dd49e222f3a97xxxxxx"
+	}
+],
 ```
 
 `token` 在 `yapi` 中取得
@@ -37,11 +37,11 @@
 
 ```json
 "yapi.codeTemplate": [
-		{
-			"name": "json to ts",
-			"template": "{{type}}"
-		}
-	]
+	{
+		"name": "json to ts",
+		"template": "{{type}}"
+	}
+]
 ```
 
 `{{type}}` 为模板语法，取得生成的 `ts` 接口类型。内部使用 [handlebarsjs](https://handlebarsjs.com/zh/) 模板引擎解析模板，所以支持自定义模板。
@@ -73,8 +73,6 @@
     inputValues: string[]; // vscode 代码编辑器选中的文本通过空格' '分割后的数组，第一个元素就是`funcName`，第二个为 `typeName`
 }
 ```
-
-    inputValues: string[]; // vscode 代码编辑器选中的文本通过空格' '分割后的数组，第一个元素就是`funcName`，第二个为 `typeName`
 
 支持的 `handlebarsjs` 自定义 `helper`
 
