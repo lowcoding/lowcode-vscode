@@ -3,7 +3,7 @@
   "displayName": "yapi-code",
   "description": "根据 yapi 接口定义快速生成 TypeScript 类型，支持自定义模板",
   "author": "wjkang <ruoxieme@gmail.com>",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "icon": "asset/icon.png",
   "publisher": "wjkang",
   "engines": {
