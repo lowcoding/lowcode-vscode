@@ -1,6 +1,6 @@
 # yapi-code
 
-根据 yap 接口定义或 JSON 快速生成 Typescript 类型，支持自定义模板。
+根据 yapi 接口定义或 JSON 快速生成 Typescript 类型，支持自定义模板。
 
 ![U4j69U.gif](https://s1.ax1x.com/2020/07/20/U4j69U.gif)
 
