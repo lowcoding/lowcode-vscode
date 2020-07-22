@@ -52,7 +52,7 @@
 {
     type: string; // 生成的ts 接口类型
     funcName: string; // vs 代码编辑器选中的文本通过空格' '分割后的第一个元素
-    typeName: string; // vs 代码编辑器选中的文本通过空格' '分割后的第一个元素
+    typeName: string; // vs 代码编辑器选中的文本通过空格' '分割后的第二个元素
     api: {
         query_path: {
             path: string;
