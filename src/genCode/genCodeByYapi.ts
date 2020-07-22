@@ -1,7 +1,6 @@
 import {
   getDomain,
   getProjectList,
-  getCodeTemplateList,
   getCodeTemplateListFromFiles,
 } from '../config';
 import { window } from 'vscode';
@@ -50,29 +49,78 @@ export const genCodeByYapi = async (yapiId: string) => {
   const template = templateList.find((s) => s.name === templateResult);
   try {
     const res = await fetchApiDetailInfo(domain, yapiId, project!.token);
-    let schema = JSON.parse(res.data.data.res_body);
     if (res.data.data.res_body_type === 'json') {
-      compile(schema, selectInfo.typeName, {
+      const schema = JSON.parse(res.data.data.res_body);
+      const ts = await compile(schema, selectInfo.typeName, {
         bannerComment: undefined,
-      }).then((ts) => {
-        const code = compileHbs(template!.template, {
-          type: strip(ts.replace(/\[k: string\]: unknown;/g, '')),
-          funcName: selectInfo.funcName,
-          typeName: selectInfo.typeName,
-          api: res.data.data,
-          inputValues: selectInfo.inputValues,
-        });
-        pasteToMarker(code);
       });
+      let requestBodyType = '';
+      if (res.data.data.req_body_other) {
+        requestBodyType = await compile(
+          JSON.parse(res.data.data.req_body_other),
+          'IRequestBody',
+          {
+            bannerComment: undefined,
+          },
+        );
+      }
+      const code =
+        template?.type === 'hbs'
+          ? compileHbs(template!.template, {
+              type: strip(ts.replace(/\[k: string\]: unknown;/g, '')),
+              requestBodyType: strip(
+                requestBodyType.replace(/\[k: string\]: unknown;/g, ''),
+              ),
+              funcName: selectInfo.funcName,
+              typeName: selectInfo.typeName,
+              api: res.data.data,
+              inputValues: selectInfo.inputValues,
+            })
+          : compileEjs(template!.template, {
+              type: strip(ts.replace(/\[k: string\]: unknown;/g, '')),
+              requestBodyType: strip(
+                requestBodyType.replace(/\[k: string\]: unknown;/g, ''),
+              ),
+              funcName: selectInfo.funcName,
+              typeName: selectInfo.typeName,
+              api: res.data.data,
+              inputValues: selectInfo.inputValues,
+            });
+      pasteToMarker(code);
     } else {
       const ts = await jsonToTs(selectInfo.typeName, res.data.data.res_body);
-      const code = compileHbs(template!.template, {
-        type: ts,
-        funcName: selectInfo.funcName,
-        typeName: selectInfo.typeName,
-        api: res.data.data,
-        inputValues: selectInfo.inputValues,
-      });
+      let requestBodyType = '';
+      if (res.data.data.req_body_other) {
+        requestBodyType = await compile(
+          JSON.parse(res.data.data.req_body_other),
+          'IRequestBody',
+          {
+            bannerComment: undefined,
+          },
+        );
+      }
+      const code =
+        template?.type === 'hbs'
+          ? compileHbs(template!.template, {
+              type: ts,
+              requestBodyType: strip(
+                requestBodyType.replace(/\[k: string\]: unknown;/g, ''),
+              ),
+              funcName: selectInfo.funcName,
+              typeName: selectInfo.typeName,
+              api: res.data.data,
+              inputValues: selectInfo.inputValues,
+            })
+          : compileEjs(template!.template, {
+              type: ts,
+              requestBodyType: strip(
+                requestBodyType.replace(/\[k: string\]: unknown;/g, ''),
+              ),
+              funcName: selectInfo.funcName,
+              typeName: selectInfo.typeName,
+              api: res.data.data,
+              inputValues: selectInfo.inputValues,
+            });
       pasteToMarker(code);
     }
   } catch (e) {

@@ -25,6 +25,7 @@ export const compile = (
   templateString: string,
   model: {
     type: string;
+    requestBodyType?: string;
     funcName: string;
     typeName: string;
     inputValues: string[];

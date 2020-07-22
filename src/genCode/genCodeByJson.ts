@@ -1,9 +1,8 @@
-import { getCodeTemplateList, getCodeTemplateListFromFiles } from '../config';
+import { getCodeTemplateListFromFiles } from '../config';
 import { window } from 'vscode';
 import { getFuncNameAndTypeName, jsonToTs, pasteToMarker } from '../lib';
 import { compile as compileHbs } from '../compiler/hbs';
 import { compile as compileEjs } from '../compiler/ejs';
-import { compile } from 'handlebars';
 
 export const genCodeByJson = async (jsonString: string) => {
   // const templateList = getCodeTemplateList();
