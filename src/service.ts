@@ -14,6 +14,7 @@ interface IApiDetailInfo {
     req_query: { required: '0' | '1'; name: string }[];
     res_body_type: 'raw' | 'json';
     res_body: string;
+    req_body_other: string;
     username: string;
   };
 }

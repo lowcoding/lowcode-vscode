@@ -1,7 +1,13 @@
-import { getDomain, getProjectList, getCodeTemplateList } from '../config';
+import {
+  getDomain,
+  getProjectList,
+  getCodeTemplateList,
+  getCodeTemplateListFromFiles,
+} from '../config';
 import { window } from 'vscode';
 import { compile } from 'json-schema-to-typescript';
-import { compile as compileTemplate } from '../compile';
+import { compile as compileHbs } from '../compiler/hbs';
+import { compile as compileEjs } from '../compiler/ejs';
 import { getFuncNameAndTypeName, pasteToMarker, jsonToTs } from '../lib';
 import { fetchApiDetailInfo } from '../service';
 const strip = require('strip-comments');
@@ -17,9 +23,10 @@ export const genCodeByYapi = async (yapiId: string) => {
     window.showErrorMessage('请配置项目');
     return;
   }
-  const templateList = getCodeTemplateList();
+  //const templateList = getCodeTemplateList();
+  const templateList = getCodeTemplateListFromFiles();
   if (templateList.length === 0) {
-    window.showErrorMessage('请配置模板');
+    window.showErrorMessage('请配置模板1212');
     return;
   }
   const selectInfo = getFuncNameAndTypeName();
@@ -48,7 +55,7 @@ export const genCodeByYapi = async (yapiId: string) => {
       compile(schema, selectInfo.typeName, {
         bannerComment: undefined,
       }).then((ts) => {
-        const code = compileTemplate(template!.template, {
+        const code = compileHbs(template!.template, {
           type: strip(ts.replace(/\[k: string\]: unknown;/g, '')),
           funcName: selectInfo.funcName,
           typeName: selectInfo.typeName,
@@ -59,7 +66,7 @@ export const genCodeByYapi = async (yapiId: string) => {
       });
     } else {
       const ts = await jsonToTs(selectInfo.typeName, res.data.data.res_body);
-      const code = compileTemplate(template!.template, {
+      const code = compileHbs(template!.template, {
         type: ts,
         funcName: selectInfo.funcName,
         typeName: selectInfo.typeName,

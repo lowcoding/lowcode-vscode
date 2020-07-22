@@ -1,10 +1,13 @@
-import { getCodeTemplateList } from '../config';
+import { getCodeTemplateList, getCodeTemplateListFromFiles } from '../config';
 import { window } from 'vscode';
 import { getFuncNameAndTypeName, jsonToTs, pasteToMarker } from '../lib';
-import { compile as compileTemplate } from '../compile';
+import { compile as compileHbs } from '../compiler/hbs';
+import { compile as compileEjs } from '../compiler/ejs';
+import { compile } from 'handlebars';
 
 export const genCodeByJson = async (jsonString: string) => {
-  const templateList = getCodeTemplateList();
+  // const templateList = getCodeTemplateList();
+  const templateList = getCodeTemplateListFromFiles();
   if (templateList.length === 0) {
     window.showErrorMessage('请配置模板');
     return;
@@ -21,12 +24,20 @@ export const genCodeByJson = async (jsonString: string) => {
   const template = templateList.find((s) => s.name === templateResult);
   try {
     const ts = await jsonToTs(selectInfo.typeName, jsonString);
-    const code = compileTemplate(template!.template, {
-      type: ts,
-      funcName: selectInfo.funcName,
-      typeName: selectInfo.typeName,
-      inputValues: selectInfo.inputValues,
-    });
+    const code =
+      template?.type === 'hbs'
+        ? compileHbs(template!.template, {
+            type: ts,
+            funcName: selectInfo.funcName,
+            typeName: selectInfo.typeName,
+            inputValues: selectInfo.inputValues,
+          })
+        : compileEjs(template!.template, {
+            type: ts,
+            funcName: selectInfo.funcName,
+            typeName: selectInfo.typeName,
+            inputValues: selectInfo.inputValues,
+          });
     pasteToMarker(code);
   } catch (e) {
     window.showErrorMessage(e.toString());

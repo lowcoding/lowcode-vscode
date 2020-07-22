@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import { generateCode } from './commands/generateCode';
+import { getCodeTemplateListFromFiles } from './config';
 
 export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(generateCode());
