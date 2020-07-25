@@ -8,7 +8,7 @@ import * as fs from 'fs';
  * @returns
  */
 export const getDomain = () => {
-  return vscode.workspace.getConfiguration().get('yapi.domain', '');
+  return vscode.workspace.getConfiguration().get('yapi-code.domain', '');
 };
 
 /**
@@ -19,7 +19,10 @@ export const getDomain = () => {
 export const getProjectList = () => {
   return vscode.workspace
     .getConfiguration()
-    .get<{ name: string; token: string; domain: string }[]>('yapi.project', []);
+    .get<{ name: string; token: string; domain: string }[]>(
+      'yapi-code.project',
+      [],
+    );
 };
 
 /**
@@ -30,7 +33,7 @@ export const getProjectList = () => {
 export const getCodeTemplateList = () => {
   return vscode.workspace
     .getConfiguration()
-    .get<{ name: string; template: string }[]>('yapi.codeTemplate', []);
+    .get<{ name: string; template: string }[]>('yapi-code.codeTemplate', []);
 };
 
 /**
@@ -41,7 +44,7 @@ export const getCodeTemplateList = () => {
 export const getTemplateFilePath = () => {
   return vscode.workspace
     .getConfiguration()
-    .get<string>('yapi.codeTemplatePath', 'codeTemplate');
+    .get<string>('yapi-code.templatePath', 'codeTemplate');
 };
 
 export const getCodeTemplateListFromFiles = () => {
@@ -67,4 +70,18 @@ export const getCodeTemplateListFromFiles = () => {
     } catch (error) {}
   }
   return list;
+};
+
+export const getMockConfig = () => {
+  return {
+    number: vscode.workspace
+      .getConfiguration()
+      .get<string>('yapi-code.mockNumber', 'Random.natural(1000,1000)'),
+    boolean: vscode.workspace
+      .getConfiguration()
+      .get<string>('yapi-code.mockBoolean', 'false'),
+    string: vscode.workspace
+      .getConfiguration()
+      .get<string>('yapi-code.mockString', 'Random.cword(5, 7)'),
+  };
 };

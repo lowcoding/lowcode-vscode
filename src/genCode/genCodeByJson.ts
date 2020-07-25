@@ -1,8 +1,14 @@
-import { getCodeTemplateListFromFiles } from '../config';
 import { window } from 'vscode';
-import { getFuncNameAndTypeName, jsonToTs, pasteToMarker } from '../lib';
+import { getCodeTemplateListFromFiles } from '../config';
+import {
+  getFuncNameAndTypeName,
+  jsonToTs,
+  pasteToMarker,
+  formatSchema,
+} from '../lib';
 import { compile as compileHbs } from '../compiler/hbs';
 import { compile as compileEjs } from '../compiler/ejs';
+const GenerateSchema = require('generate-schema');
 
 export const genCodeByJson = async (jsonString: string) => {
   // const templateList = getCodeTemplateList();
@@ -23,6 +29,8 @@ export const genCodeByJson = async (jsonString: string) => {
   const template = templateList.find((s) => s.name === templateResult);
   try {
     const ts = await jsonToTs(selectInfo.typeName, jsonString);
+    const schema = GenerateSchema.json('Schema', JSON.parse(jsonString));
+    const { mockCode, mockData } = formatSchema(schema);
     const code =
       template?.type === 'hbs'
         ? compileHbs(template!.template, {
@@ -30,12 +38,16 @@ export const genCodeByJson = async (jsonString: string) => {
             funcName: selectInfo.funcName,
             typeName: selectInfo.typeName,
             inputValues: selectInfo.inputValues,
+            mockCode,
+            mockData,
           })
         : compileEjs(template!.template, {
             type: ts,
             funcName: selectInfo.funcName,
             typeName: selectInfo.typeName,
             inputValues: selectInfo.inputValues,
+            mockCode,
+            mockData,
           });
     pasteToMarker(code);
   } catch (e) {

@@ -19,28 +19,20 @@
     "json"
   ],
   "activationEvents": [
-    "onCommand:yapi-code.generateCode",
-    "onCommand:yapi-code.generateMockCode"
+    "onCommand:yapi-code.generateCode"
   ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
         "command": "yapi-code.generateCode",
-        "title": "YAPI->生成代码"
-      },
-      {
-        "command": "yapi-code.generateMockCode",
-        "title": "YAPI->生成mock代码"
+        "title": "YAPI-CODE->生成代码"
       }
     ],
     "menus": {
       "editor/context": [
         {
           "command": "yapi-code.generateCode"
-        },
-        {
-          "command": "yapi-code.generateMockCode"
         }
       ]
     },
@@ -48,20 +40,35 @@
       "type": "object",
       "title": "yapi-code 配置项",
       "properties": {
-        "yapi.domain": {
+        "yapi-code.domain": {
           "type": "string",
           "default": "",
           "description": "域名"
         },
-        "yapi.project": {
+        "yapi-code.project": {
           "type": "array",
           "default": [],
           "description": "项目列表。eg.[{\"name\": \"项目\",\"token\": \"token\"}]"
         },
-        "yapi.codeTemplate": {
-          "type": "array",
-          "default": [],
-          "description": "模板列表。eg.[{\"name\": \"模板名称\",\"template\": \"模板字符串\"}]"
+        "yapi-code.templatePath": {
+          "type": "string",
+          "default": "codeTemplate/",
+          "description": "模板存放路径"
+        },
+        "yapi-code.mockNumber": {
+          "type": "string",
+          "default": "Random.natural(1000,1000)",
+          "description": "模拟number数据"
+        },
+        "yapi-code.mockBoolean": {
+          "type": "string",
+          "default": "false",
+          "description": "模拟boolean数据"
+        },
+        "yapi-code.mockString": {
+          "type": "string",
+          "default": "Random.cword(5, 7)",
+          "description": "模拟string数据"
         }
       }
     }

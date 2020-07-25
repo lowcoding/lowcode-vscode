@@ -30,6 +30,8 @@ export const compile = (
     typeName: string;
     inputValues: string[];
     api?: YapiInfo;
+    mockCode: string;
+    mockData: string;
   },
 ) => {
   const template = c(templateString);

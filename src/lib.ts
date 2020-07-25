@@ -1,6 +1,7 @@
 import { window, Range } from 'vscode';
 import * as copyPaste from 'copy-paste';
 import * as quicktypeCore from 'quicktype-core';
+import { getMockConfig } from './config';
 
 export const getClipboardText = () => {
   return copyPaste.paste();
@@ -87,4 +88,75 @@ export const jsonIsValid = (jsonString: string) => {
 
 export const isYapiId = (value: string) => {
   return /^[0-9]{1,}$/g.test(value);
+};
+
+export const formatSchema = (schema: any) => {
+  let listIndex = 1;
+  const mockConfig = getMockConfig();
+  const formatProperty = (property: any, key?: string) => {
+    let jsonStr = '';
+    let listStr: string[] = [];
+    if (property.type === 'object') {
+      jsonStr = jsonStr + `${key ? key + ': {' : ''}`;
+      Object.keys(property.properties).map((childPropertyKey) => {
+        const childProperty = property.properties[childPropertyKey];
+        const { jsonStr: childJsonStr, listStr: childListStr } = formatProperty(
+          childProperty,
+          childPropertyKey,
+        );
+        jsonStr = jsonStr + childJsonStr;
+        listStr = listStr.concat(childListStr);
+      });
+      jsonStr = jsonStr + `${key ? '},' : ''}`;
+    } else if (property.type === 'array') {
+      if (Object.keys(property.items).length > 0) {
+        const index = listIndex;
+        listIndex++;
+        let itemStr = `
+		   const list${index}=[];
+		   for(let i = 0; i < 10 ; i++){
+			list${index}.push(
+		`;
+        if (property.items.type === 'object') {
+          itemStr = itemStr + '{';
+          Object.keys(property.items.properties).map((itemPropertyKey) => {
+            const itemProperty = property.items.properties[itemPropertyKey];
+            const {
+              jsonStr: itemJsonStr,
+              listStr: itemListStr,
+            } = formatProperty(itemProperty, itemPropertyKey);
+            itemStr = itemStr + itemJsonStr;
+            listStr = listStr.concat(itemListStr);
+          });
+          itemStr = itemStr + `})}`;
+        } else {
+          if (property.items.type === 'string') {
+            itemStr = itemStr + mockConfig.string;
+          } else {
+            itemStr = itemStr + mockConfig.number;
+          }
+          itemStr = itemStr + `)}`;
+        }
+        listStr.push(itemStr);
+        jsonStr = jsonStr + `${key}: list${index},`;
+      } else {
+        jsonStr = jsonStr + `${key}: [],`;
+      }
+    } else if (property.type === 'number') {
+      jsonStr = jsonStr + `${key}: ${mockConfig.number},`;
+    } else if (property.type === 'boolean') {
+      jsonStr = jsonStr + `${key}: ${mockConfig.boolean},`;
+    } else if (property.type === 'string') {
+      jsonStr = jsonStr + `${key}: ${mockConfig.string},`;
+    }
+    return {
+      jsonStr,
+      listStr,
+    };
+  };
+  const { jsonStr, listStr } = formatProperty(schema);
+  return {
+    mockCode: listStr.join('\n'),
+    mockData: `{${jsonStr}}`,
+  };
 };

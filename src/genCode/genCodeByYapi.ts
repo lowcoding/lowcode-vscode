@@ -7,9 +7,15 @@ import { window } from 'vscode';
 import { compile } from 'json-schema-to-typescript';
 import { compile as compileHbs } from '../compiler/hbs';
 import { compile as compileEjs } from '../compiler/ejs';
-import { getFuncNameAndTypeName, pasteToMarker, jsonToTs } from '../lib';
+import {
+  getFuncNameAndTypeName,
+  pasteToMarker,
+  jsonToTs,
+  formatSchema,
+} from '../lib';
 import { fetchApiDetailInfo } from '../service';
 const strip = require('strip-comments');
+const GenerateSchema = require('generate-schema');
 
 export const genCodeByYapi = async (yapiId: string) => {
   const domain = getDomain();
@@ -54,6 +60,7 @@ export const genCodeByYapi = async (yapiId: string) => {
       const ts = await compile(schema, selectInfo.typeName, {
         bannerComment: undefined,
       });
+      const { mockCode, mockData } = formatSchema(schema);
       let requestBodyType = '';
       if (res.data.data.req_body_other) {
         requestBodyType = await compile(
@@ -75,6 +82,8 @@ export const genCodeByYapi = async (yapiId: string) => {
               typeName: selectInfo.typeName,
               api: res.data.data,
               inputValues: selectInfo.inputValues,
+              mockCode,
+              mockData,
             })
           : compileEjs(template!.template, {
               type: strip(ts.replace(/\[k: string\]: unknown;/g, '')),
@@ -85,10 +94,17 @@ export const genCodeByYapi = async (yapiId: string) => {
               typeName: selectInfo.typeName,
               api: res.data.data,
               inputValues: selectInfo.inputValues,
+              mockCode,
+              mockData,
             });
       pasteToMarker(code);
     } else {
       const ts = await jsonToTs(selectInfo.typeName, res.data.data.res_body);
+      const schema = GenerateSchema.json(
+        'Schema',
+        JSON.parse(res.data.data.res_body),
+      );
+      const { mockCode, mockData } = formatSchema(schema);
       let requestBodyType = '';
       if (res.data.data.req_body_other) {
         requestBodyType = await compile(
@@ -110,6 +126,8 @@ export const genCodeByYapi = async (yapiId: string) => {
               typeName: selectInfo.typeName,
               api: res.data.data,
               inputValues: selectInfo.inputValues,
+              mockCode,
+              mockData,
             })
           : compileEjs(template!.template, {
               type: ts,
@@ -120,6 +138,8 @@ export const genCodeByYapi = async (yapiId: string) => {
               typeName: selectInfo.typeName,
               api: res.data.data,
               inputValues: selectInfo.inputValues,
+              mockCode,
+              mockData,
             });
       pasteToMarker(code);
     }

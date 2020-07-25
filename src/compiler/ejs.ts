@@ -10,6 +10,8 @@ export const compile = (
     typeName: string;
     inputValues: string[];
     api?: YapiInfo;
+    mockCode: string;
+    mockData: string;
   },
 ) => {
   return ejs.render(templateString, model);

@@ -1,19 +1,21 @@
 # yapi-code
 
-根据 yapi 接口定义或 JSON 快速生成 Typescript 类型，支持自定义模板。
+根据 yapi 接口定义或 JSON 快速生成 Typescript 类型，以及 mock 数据，支持自定义模板（[handlebarsjs](https://handlebarsjs.com/zh/)，[ejs](https://ejs.bootcss.com/#promo)）。
 
 ![U4j69U.gif](https://s1.ax1x.com/2020/07/20/U4j69U.gif)
+
+![aSRAyT.gif](https://s1.ax1x.com/2020/07/25/aSRAyT.gif)
 
 ## 根据 yapi 接口定义生成代码
 
 ### 配置 yapi 接口文档域名
 
-![UhngC4.png](https://s1.ax1x.com/2020/07/20/UhngC4.png)
+![aS6rdA.png](https://s1.ax1x.com/2020/07/25/aS6rdA.png)
 
 或者在 `settings.json` 中配置
 
 ```json
-"yapi.domain": "https://www.google.com"
+"yapi-api.domain": "https://www.google.com"
 ```
 
 ### 配置项目
@@ -21,7 +23,7 @@
 在 `settings.json` 中配置
 
 ```json
-"yapi.project": [
+"yapi-code.project": [
 	{
 		"name": "价值一个亿的项目",
 		"token": "baf6748bf45cd1b924a03d56b8a74e3fb13e744bd7dd49e222f3a97xxxxxx"
@@ -35,22 +37,22 @@
 
 ### 配置模板
 
+配置模板路径
+
+默认模板路径为 `codeTemplate` 文件夹下
+
 ```json
-"yapi.codeTemplate": [
-	{
-		"name": "json to ts",
-		"template": "{{type}}"
-	}
-]
+"yapi-code.templatePath": "codeTemplate/"
 ```
 
-`{{type}}` 为模板语法，取得生成的 `ts` 接口类型。内部使用 [handlebarsjs](https://handlebarsjs.com/zh/) 模板引擎解析模板，所以支持自定义模板。
+模板文件类型必须为 `ejs` 或 `hbs`。分别支持 [ejs](https://ejs.bootcss.com/#promo)，[handlebarsjs](https://handlebarsjs.com/zh/) 模板语法
 
 以下为可以在模板中获取到的数据
 
 ```js
 {
-    type: string; // 生成的ts 接口类型
+	type: string; // 生成的 ts 接口类型
+	requestBodyType：string; // yapi 接口定义需要提交的数据的 ts 接口类型
     funcName: string; // vs 代码编辑器选中的文本通过空格' '分割后的第一个元素
     typeName: string; // vs 代码编辑器选中的文本通过空格' '分割后的第二个元素
     api: {
@@ -70,7 +72,9 @@
         res_body: string;
         username: string;
     }; // yapi 接口返回的信息，这里只列出可能需要的字段，模板中可以访问到全部
-    inputValues: string[]; // vscode 代码编辑器选中的文本通过空格' '分割后的数组，第一个元素就是`funcName`，第二个为 `typeName`
+	inputValues: string[]; // vscode 代码编辑器选中的文本通过空格' '分割后的数组，第一个元素就是`funcName`，第二个为 `typeName`
+	mockCode：string; // 生成的 mock 代码，主要是 数组类型数据的生成代码
+	mockData: string; // 生成的 mock 数据
 }
 ```
 
@@ -116,24 +120,27 @@ vscode 中光标定位到要生成代码的地方，然后右键选择 "YAPI->�
 
 ![U4L8tU.gif](https://s1.ax1x.com/2020/07/20/U4L8tU.gif)
 
-> 上面生成代码的模板为 `\n{{type}}\n{{index inputValues 0}}\n{{index inputValues 1}}`
+上面生成代码的模板为(handlebarsjs)
+
+`\n{{type}}\n{{index inputValues 0}}\n{{index inputValues 1}}`
 
 首图使用的模板：
 
+`umi request.hbs`
+
 ```js
-const umiRequestTemplate = `
 {{type}}
 
 {{#if (notEmpty api.req_query)}}
 {{#if (eq api.method 'GET')}}
 export interface I{{firstUpperCase funcName}}Params {
-{{#each api.req_query}}	 
+{{#each api.req_query}}
 	{{this.name}}:string,
 {{/each}}
 }
 {{else}}
 export interface I{{firstUpperCase funcName}}Data {
-{{#each api.req_query}}	 
+{{#each api.req_query}}
 	{{this.name}}:string,
 {{/each}}
 }
@@ -166,8 +173,6 @@ export const {{funcName}} = (
 {{/if}}
 	});
   };
-`;
-console.log(JSON.stringify(umiRequestTemplate));
 ```
 
 **Enjoy!**
