@@ -175,4 +175,13 @@ export const {{funcName}} = (
   };
 ```
 
+`mock yapi.ejs`
+
+```js
+.<%= api.method.toLowerCase() %>(`<%= api.query_path.path %>`, async (ctx, next) => {
+	<%- mockCode %> ctx.body = <%= mockData %>
+})
+
+```
+
 **Enjoy!**
