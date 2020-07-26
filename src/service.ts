@@ -3,6 +3,7 @@ import axios from 'axios';
 interface IApiDetailInfo {
   data: {
     query_path: { path: string };
+    path: string;
     method: string;
     title: string;
     project_id: number;

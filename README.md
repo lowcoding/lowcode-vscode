@@ -175,6 +175,81 @@ export const {{funcName}} = (
   };
 ```
 
+`umi reqeust by yapi.ejs`
+
+```js
+<%= type %>
+<% if (api.req_query.length > 0 || api.req_params.length > 0) { %>
+export interface I<%= funcName.slice(0, 1).toUpperCase() + funcName.slice(1) %>Params {
+<% api.req_query.map(query => { %><%= query.name %>: 请手动修改此类型;<% }) %>
+<% api.req_params.map(query => { %><%= query.name %>: 请手动修改此类型;<% }) %>
+}
+<% } %>
+<% if (requestBodyType) { %>
+<%= requestBodyType %>
+<% } %>
+
+/**
+* <%= api.title %>
+* @author <%= api.username %>
+*
+<% if (api.req_query.length > 0 || api.req_params.length > 0) { -%>* @param {I<%= funcName.slice(0, 1).toUpperCase() + funcName.slice(1) %>Params} params<% } %>
+<% if (requestBodyType) { -%>* @param {I<%= funcName.slice(0, 1).toUpperCase() + funcName.slice(1) %>Data} data<% } %>
+* @returns
+*/
+export const <%= funcName %> = (
+<% if (api.req_query.length>0 || api.req_params.length > 0) { %>
+params: I<%= funcName.slice(0, 1).toUpperCase() + funcName.slice(1) %>Params,
+<% } _%>
+<% if (requestBodyType) { %>
+data: I<%= funcName.slice(0, 1).toUpperCase() + funcName.slice(1) %>Data
+<% } %>
+) => {
+return request<<%= typeName %>>(`/galaxy<%= api.query_path.path.replace(/\{/g,"${params.") %><% if(api.req_query.length>0) { %>?=<% api.req_query.map(query => { %><%= query.name %>=${params.<%= query.name %>}&<% }) %><% } %>`, {
+		method: '<%= api.method %>',
+<% if (requestBodyType) {%>data,<% } %>
+	})
+}
+```
+
+`umi useRequest by yapi.ejs`
+
+```js
+<%= type %>
+<% if (api.req_query.length > 0 || api.req_params.length > 0) { %>
+export interface I<%= funcName.slice(0, 1).toUpperCase() + funcName.slice(1) %>Params {
+<% api.req_query.map(query => { %><%= query.name %>: 请手动修改此类型;<% }) %>
+<% api.req_params.map(query => { %><%= query.name %>: 请手动修改此类型;<% }) %>
+}
+<% } %>
+<% if (requestBodyType) { %>
+<%= requestBodyType %>
+<% } %>
+
+/**
+* <%= api.title %>
+* @author <%= api.username %>
+*
+<% if (api.req_query.length > 0 || api.req_params.length > 0) { -%>* @param {I<%= funcName.slice(0, 1).toUpperCase() + funcName.slice(1) %>Params} params<% } %>
+<% if (requestBodyType) { -%>* @param {I<%= funcName.slice(0, 1).toUpperCase() + funcName.slice(1) %>Data} data<% } %>
+* @returns
+*/
+export const <%= funcName %> = (
+<% if (api.req_query.length>0 || api.req_params.length > 0) { %>
+params: I<%= funcName.slice(0, 1).toUpperCase() + funcName.slice(1) %>Params,
+<% } _%>
+<% if (requestBodyType) { %>
+data: I<%= funcName.slice(0, 1).toUpperCase() + funcName.slice(1) %>Data
+<% } %>
+) => {
+return {
+    url: `/galaxy<%= api.query_path.path.replace(/\{/g,"${params.") %><% if(api.req_query.length>0) { %>?=<% api.req_query.map(query => { %><%= query.name %>=${params.<%= query.name %>}&<% }) %><% } %>`,
+		method: '<%= api.method %>',
+<% if (requestBodyType) {%>data,<% } %>
+    }
+}
+```
+
 `mock yapi.ejs`
 
 ```js

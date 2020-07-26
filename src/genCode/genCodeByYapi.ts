@@ -35,6 +35,9 @@ export const genCodeByYapi = async (yapiId: string) => {
     return;
   }
   const selectInfo = getFuncNameAndTypeName();
+  const requestBodyTypeName =
+    selectInfo.funcName.slice(0, 1).toUpperCase() +
+    selectInfo.funcName.slice(1);
   const result = await window.showQuickPick(
     projectList.map((s) => s.name),
     { placeHolder: '请选择项目' },
@@ -57,15 +60,18 @@ export const genCodeByYapi = async (yapiId: string) => {
     const res = await fetchApiDetailInfo(domain, yapiId, project!.token);
     if (res.data.data.res_body_type === 'json') {
       const schema = JSON.parse(res.data.data.res_body);
+      delete schema.title;
       const ts = await compile(schema, selectInfo.typeName, {
         bannerComment: undefined,
       });
       const { mockCode, mockData } = formatSchema(schema);
       let requestBodyType = '';
       if (res.data.data.req_body_other) {
+        const reqBodyScheme = JSON.parse(res.data.data.req_body_other);
+        delete reqBodyScheme.title;
         requestBodyType = await compile(
-          JSON.parse(res.data.data.req_body_other),
-          'IRequestBody',
+          reqBodyScheme,
+          `I${requestBodyTypeName}Data`,
           {
             bannerComment: undefined,
           },
@@ -107,9 +113,11 @@ export const genCodeByYapi = async (yapiId: string) => {
       const { mockCode, mockData } = formatSchema(schema);
       let requestBodyType = '';
       if (res.data.data.req_body_other) {
+        const reqBodyScheme = JSON.parse(res.data.data.req_body_other);
+        delete reqBodyScheme.title;
         requestBodyType = await compile(
-          JSON.parse(res.data.data.req_body_other),
-          'IRequestBody',
+          reqBodyScheme,
+          `I${requestBodyTypeName}Data`,
           {
             bannerComment: undefined,
           },
