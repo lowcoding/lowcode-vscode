@@ -2,7 +2,7 @@
 
 根据 yapi 接口定义或 JSON 快速生成 Typescript 类型，以及 mock 数据，支持自定义模板（[handlebarsjs](https://handlebarsjs.com/zh/)，[ejs](https://ejs.bootcss.com/#promo)）。
 
-![U4j69U.gif](https://s1.ax1x.com/2020/07/20/U4j69U.gif)
+![a9emPf.gif](https://s1.ax1x.com/2020/07/26/a9emPf.gif)
 
 ![aSRAyT.gif](https://s1.ax1x.com/2020/07/25/aSRAyT.gif)
 
@@ -125,55 +125,6 @@ vscode 中光标定位到要生成代码的地方，然后右键选择 "YAPI->�
 `\n{{type}}\n{{index inputValues 0}}\n{{index inputValues 1}}`
 
 首图使用的模板：
-
-`umi request.hbs`
-
-```js
-{{type}}
-
-{{#if (notEmpty api.req_query)}}
-{{#if (eq api.method 'GET')}}
-export interface I{{firstUpperCase funcName}}Params {
-{{#each api.req_query}}
-	{{this.name}}:string,
-{{/each}}
-}
-{{else}}
-export interface I{{firstUpperCase funcName}}Data {
-{{#each api.req_query}}
-	{{this.name}}:string,
-{{/each}}
-}
-{{/if}}
-{{/if}}
-
-/**
-* {{api.title}}
-*
-{{#if (eq api.method 'GET')}}
-* @param {I{{firstUpperCase funcName}}Params} data
-{{else}}
-I{{firstUpperCase funcName}}Data} data
-{{/if}}
-* @returns
-*/
-export const {{funcName}} = (
-{{#if (notEmpty api.req_query)}}
-	data: {{#if (eq api.method 'GET')}}I{{firstUpperCase funcName}}Params{{else}}I{{firstUpperCase funcName}}Data{{/if}},
-{{/if}}
-  ) => {
-	return request<{{typeName}}>(\`{{api.query_path.path}}\`, {
-	  method: '{{api.method}}',
-{{#if (notEmpty api.req_query)}}
-{{#if (eq api.method 'GET')}}
-      params:data,
-{{else}}
-	  data,
-{{/if}}
-{{/if}}
-	});
-  };
-```
 
 `umi reqeust by yapi.ejs`
 
