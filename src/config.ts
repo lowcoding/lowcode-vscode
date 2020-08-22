@@ -85,3 +85,15 @@ export const getMockConfig = () => {
       .get<string>('yapi-code.mockString', 'Random.cword(5, 7)'),
   };
 };
+
+export const getMockKeyWordEqualConfig = () => {
+  return vscode.workspace
+    .getConfiguration()
+    .get<any>('yapi-code.mockKeyWordEqual', {});
+};
+
+export const getMockKeyWordLikeConfig = () => {
+  return vscode.workspace
+    .getConfiguration()
+    .get<any>('yapi-code.mockKeyWordLike', {});
+};

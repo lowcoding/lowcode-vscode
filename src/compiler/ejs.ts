@@ -12,6 +12,8 @@ export const compile = (
     api?: YapiInfo;
     mockCode: string;
     mockData: string;
+    jsonData: any;
+    jsonKeys?: string[];
   },
 ) => {
   return ejs.render(templateString, model);

@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { getClipboardText, isYapiId, jsonIsValid } from '../lib';
+import { getClipboardText, isYapiId, jsonIsValid, jsonToTs } from '../lib';
 import { genCodeByYapi } from '../genCode/genCodeByYapi';
 import { genCodeByJson } from '../genCode/genCodeByJson';
 
@@ -9,7 +9,22 @@ export const generateCode = () => {
   return vscode.commands.registerTextEditorCommand(
     'yapi-code.generateCode',
     async () => {
-      const clipboardText = getClipboardText().trim();
+      let clipboardText = getClipboardText().trim();
+      let func: any = function () {
+        return '';
+      };
+      if (
+        clipboardText.startsWith('var') ||
+        clipboardText.startsWith('let') ||
+        clipboardText.startsWith('const')
+      ) {
+        clipboardText = clipboardText.replace(/(var|let|const).*=/, '');
+      }
+      try {
+        func = new Function(`return ${clipboardText.trim()}`);
+      } catch (ex) {}
+
+      clipboardText = JSON.stringify(func());
 
       const validYapiId = isYapiId(clipboardText);
 

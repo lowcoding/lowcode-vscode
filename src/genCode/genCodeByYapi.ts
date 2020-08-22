@@ -31,7 +31,7 @@ export const genCodeByYapi = async (yapiId: string) => {
   //const templateList = getCodeTemplateList();
   const templateList = getCodeTemplateListFromFiles();
   if (templateList.length === 0) {
-    window.showErrorMessage('请配置模板1212');
+    window.showErrorMessage('请配置模板');
     return;
   }
   const selectInfo = getFuncNameAndTypeName();
@@ -61,9 +61,10 @@ export const genCodeByYapi = async (yapiId: string) => {
     if (res.data.data.res_body_type === 'json') {
       const schema = JSON.parse(res.data.data.res_body);
       delete schema.title;
-      const ts = await compile(schema, selectInfo.typeName, {
+      let ts = await compile(schema, selectInfo.typeName, {
         bannerComment: undefined,
       });
+      ts = strip(ts.replace(/(\[k: string\]: unknown;)|\?/g, ''));
       const { mockCode, mockData } = formatSchema(schema);
       let requestBodyType = '';
       if (res.data.data.req_body_other) {
@@ -80,7 +81,7 @@ export const genCodeByYapi = async (yapiId: string) => {
       const code =
         template?.type === 'hbs'
           ? compileHbs(template!.template, {
-              type: strip(ts.replace(/\[k: string\]: unknown;/g, '')),
+              type: ts,
               requestBodyType: strip(
                 requestBodyType.replace(/\[k: string\]: unknown;/g, ''),
               ),
@@ -90,9 +91,10 @@ export const genCodeByYapi = async (yapiId: string) => {
               inputValues: selectInfo.inputValues,
               mockCode,
               mockData,
+              jsonData: {},
             })
           : compileEjs(template!.template, {
-              type: strip(ts.replace(/\[k: string\]: unknown;/g, '')),
+              type: ts,
               requestBodyType: strip(
                 requestBodyType.replace(/\[k: string\]: unknown;/g, ''),
               ),
@@ -102,14 +104,17 @@ export const genCodeByYapi = async (yapiId: string) => {
               inputValues: selectInfo.inputValues,
               mockCode,
               mockData,
+              jsonData: {},
             });
       pasteToMarker(code);
     } else {
-      const ts = await jsonToTs(selectInfo.typeName, res.data.data.res_body);
-      const schema = GenerateSchema.json(
-        'Schema',
-        JSON.parse(res.data.data.res_body),
-      );
+      //const ts = await jsonToTs(selectInfo.typeName, res.data.data.res_body);
+      const resBodyJson = JSON.parse(res.data.data.res_body);
+      const schema = GenerateSchema.json('Schema', resBodyJson);
+      let ts = await compile(schema, selectInfo.typeName, {
+        bannerComment: undefined,
+      });
+      ts = strip(ts.replace(/(\[k: string\]: unknown;)|\?/g, ''));
       const { mockCode, mockData } = formatSchema(schema);
       let requestBodyType = '';
       if (res.data.data.req_body_other) {
@@ -136,6 +141,7 @@ export const genCodeByYapi = async (yapiId: string) => {
               inputValues: selectInfo.inputValues,
               mockCode,
               mockData,
+              jsonData: resBodyJson,
             })
           : compileEjs(template!.template, {
               type: ts,
@@ -148,6 +154,7 @@ export const genCodeByYapi = async (yapiId: string) => {
               inputValues: selectInfo.inputValues,
               mockCode,
               mockData,
+              jsonData: resBodyJson,
             });
       pasteToMarker(code);
     }

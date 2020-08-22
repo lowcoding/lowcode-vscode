@@ -1,4 +1,5 @@
 import { window } from 'vscode';
+import { compile } from 'json-schema-to-typescript';
 import { getCodeTemplateListFromFiles } from '../config';
 import {
   getFuncNameAndTypeName,
@@ -9,6 +10,7 @@ import {
 import { compile as compileHbs } from '../compiler/hbs';
 import { compile as compileEjs } from '../compiler/ejs';
 const GenerateSchema = require('generate-schema');
+const strip = require('strip-comments');
 
 export const genCodeByJson = async (jsonString: string) => {
   // const templateList = getCodeTemplateList();
@@ -28,8 +30,13 @@ export const genCodeByJson = async (jsonString: string) => {
   }
   const template = templateList.find((s) => s.name === templateResult);
   try {
-    const ts = await jsonToTs(selectInfo.typeName, jsonString);
-    const schema = GenerateSchema.json('Schema', JSON.parse(jsonString));
+    //const ts = await jsonToTs(selectInfo.typeName, jsonString);
+    const json = JSON.parse(jsonString);
+    const schema = GenerateSchema.json('Schema', json);
+    let ts = await compile(schema, selectInfo.typeName, {
+      bannerComment: undefined,
+    });
+    ts = strip(ts.replace(/(\[k: string\]: unknown;)|\?/g, ''));
     const { mockCode, mockData } = formatSchema(schema);
     const code =
       template?.type === 'hbs'
@@ -40,6 +47,8 @@ export const genCodeByJson = async (jsonString: string) => {
             inputValues: selectInfo.inputValues,
             mockCode,
             mockData,
+            jsonData: json,
+            jsonKeys: Object.keys(json),
           })
         : compileEjs(template!.template, {
             type: ts,
@@ -48,6 +57,8 @@ export const genCodeByJson = async (jsonString: string) => {
             inputValues: selectInfo.inputValues,
             mockCode,
             mockData,
+            jsonData: json,
+            jsonKeys: Object.keys(json),
           });
     pasteToMarker(code);
   } catch (e) {

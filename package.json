@@ -69,6 +69,16 @@
           "type": "string",
           "default": "Random.cword(5, 7)",
           "description": "模拟string数据"
+        },
+        "yapi-code.mockKeyWordEqual": {
+          "type": "object",
+          "default": {},
+          "description": "模拟关键词-全等匹配"
+        },
+        "yapi-code.mockKeyWordLike": {
+          "type": "object",
+          "default": {},
+          "description": "模拟关键词-相似匹配"
         }
       }
     }

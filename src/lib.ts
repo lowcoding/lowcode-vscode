@@ -1,7 +1,11 @@
 import { window, Range } from 'vscode';
 import * as copyPaste from 'copy-paste';
 import * as quicktypeCore from 'quicktype-core';
-import { getMockConfig } from './config';
+import {
+  getMockConfig,
+  getMockKeyWordEqualConfig,
+  getMockKeyWordLikeConfig,
+} from './config';
 
 export const getClipboardText = () => {
   return copyPaste.paste();
@@ -93,7 +97,52 @@ export const isYapiId = (value: string) => {
 export const formatSchema = (schema: any) => {
   let listIndex = 1;
   const mockConfig = getMockConfig();
-  const formatProperty = (property: any, key?: string) => {
+
+  const getMockValue = (key: string, defaultValue: string, type = 'number') => {
+    let value = defaultValue;
+    const mockKeyWordEqualConfig = getMockKeyWordEqualConfig();
+    const equalKeys = Object.keys(mockKeyWordEqualConfig);
+    for (let i = 0; i < equalKeys.length; i++) {
+      if (key.toUpperCase() === equalKeys[i].toUpperCase()) {
+        if (typeof mockKeyWordEqualConfig[equalKeys[i]] === 'string') {
+          const array = (mockKeyWordEqualConfig[equalKeys[i]] as string).split(
+            '&&',
+          );
+          if (array.length > 1) {
+            if (type === array[1]) {
+              return array[0];
+            } else {
+              return value;
+            }
+          }
+        }
+        return mockKeyWordEqualConfig[equalKeys[i]];
+      }
+    }
+    const mockKeyWordLikeConfig = getMockKeyWordLikeConfig();
+    const likeKeys = Object.keys(mockKeyWordLikeConfig);
+    for (let i = 0; i < likeKeys.length; i++) {
+      if (key.toUpperCase().indexOf(likeKeys[i].toUpperCase()) > -1) {
+        if (typeof mockKeyWordLikeConfig[likeKeys[i]] === 'string') {
+          const array = (mockKeyWordLikeConfig[likeKeys[i]] as string).split(
+            '&&',
+          );
+          if (array.length > 1) {
+            if (type === array[1]) {
+              return array[0];
+            } else {
+              return value;
+            }
+          }
+        }
+        return mockKeyWordLikeConfig[likeKeys[i]];
+      }
+    }
+
+    return value;
+  };
+
+  const formatProperty = (property: any, key: string = '') => {
     let jsonStr = '';
     let listStr: string[] = [];
     if (property.type === 'object') {
@@ -131,9 +180,9 @@ export const formatSchema = (schema: any) => {
           itemStr = itemStr + `})}`;
         } else {
           if (property.items.type === 'string') {
-            itemStr = itemStr + mockConfig.string;
+            itemStr = itemStr + getMockValue(key, mockConfig.string, 'string');
           } else {
-            itemStr = itemStr + mockConfig.number;
+            itemStr = itemStr + getMockValue(key, mockConfig.number);
           }
           itemStr = itemStr + `)}`;
         }
@@ -143,11 +192,14 @@ export const formatSchema = (schema: any) => {
         jsonStr = jsonStr + `${key}: [],`;
       }
     } else if (property.type === 'number') {
-      jsonStr = jsonStr + `${key}: ${mockConfig.number},`;
+      jsonStr = jsonStr + `${key}: ${getMockValue(key, mockConfig.number)},`;
     } else if (property.type === 'boolean') {
-      jsonStr = jsonStr + `${key}: ${mockConfig.boolean},`;
+      jsonStr =
+        jsonStr +
+        `${key}: ${getMockValue(key, mockConfig.boolean, 'boolean')},`;
     } else if (property.type === 'string') {
-      jsonStr = jsonStr + `${key}: ${mockConfig.string},`;
+      jsonStr =
+        jsonStr + `${key}: ${getMockValue(key, mockConfig.string, 'string')},`;
     }
     return {
       jsonStr,

@@ -32,6 +32,8 @@ export const compile = (
     api?: YapiInfo;
     mockCode: string;
     mockData: string;
+    jsonData: any;
+    jsonKeys?: string[];
   },
 ) => {
   const template = c(templateString);
