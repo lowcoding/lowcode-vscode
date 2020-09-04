@@ -26,13 +26,20 @@
     "commands": [
       {
         "command": "yapi-code.generateCode",
-        "title": "YAPI-CODE->生成代码"
+        "title": "LOW-CODE->生成代码"
+      },
+      {
+        "command": "yapi-code.generateCodeByWebview",
+        "title": "LOW-CODE->可视化生成代码"
       }
     ],
     "menus": {
       "editor/context": [
         {
           "command": "yapi-code.generateCode"
+        },
+        {
+          "command": "yapi-code.generateCodeByWebview"
         }
       ]
     },

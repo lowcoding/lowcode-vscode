@@ -75,6 +75,8 @@
 	inputValues: string[]; // vscode 代码编辑器选中的文本通过空格' '分割后的数组，第一个元素就是`funcName`，第二个为 `typeName`
 	mockCode：string; // 生成的 mock 代码，主要是 数组类型数据的生成代码
 	mockData: string; // 生成的 mock 数据
+	rawSelectedText: string; //编辑器中选中的原始文本
+    rawClipboardText: string; //系统剪切板中的原始文本
 }
 ```
 
@@ -211,6 +213,13 @@ return {
 ```
 
 # Change Log
+
+## 0.0.13
+
+- 如果通过 vs 编辑器中选中的文本无法解析出 `typeName`，通过 `funcName` 拼凑出 `typeName`，比如 `funcName` 为 `fetch`，则 `typeName` 为 `IFetchResult`。
+- 输出变量 `rawSelectedText`，方便在模板中取到 vs 编辑器中选中的原始文本。
+- 输出变量 `rawClipboardText`，方便在模板中取到系统剪切板中的原始文本。
+- 编辑器右键菜单插件标题由 `YAPI-CODE->生成代码` 改为 `LOW-CODE->生成代码`。
 
 ## 0.0.12
 

@@ -9,10 +9,14 @@ import {
 } from '../lib';
 import { compile as compileHbs } from '../compiler/hbs';
 import { compile as compileEjs } from '../compiler/ejs';
+import { Model } from '../compiler/type';
 const GenerateSchema = require('generate-schema');
 const strip = require('strip-comments');
 
-export const genCodeByJson = async (jsonString: string) => {
+export const genCodeByJson = async (
+  jsonString: string,
+  rawClipboardText: string,
+) => {
   // const templateList = getCodeTemplateList();
   const templateList = getCodeTemplateListFromFiles();
   if (templateList.length === 0) {
@@ -38,28 +42,22 @@ export const genCodeByJson = async (jsonString: string) => {
     });
     ts = strip(ts.replace(/(\[k: string\]: unknown;)|\?/g, ''));
     const { mockCode, mockData } = formatSchema(schema);
+    const model: Model = {
+      type: ts,
+      funcName: selectInfo.funcName,
+      typeName: selectInfo.typeName,
+      inputValues: selectInfo.inputValues,
+      mockCode,
+      mockData,
+      jsonData: json,
+      jsonKeys: Object.keys(json),
+      rawSelectedText: selectInfo.rawSelectedText,
+      rawClipboardText: rawClipboardText,
+    };
     const code =
       template?.type === 'hbs'
-        ? compileHbs(template!.template, {
-            type: ts,
-            funcName: selectInfo.funcName,
-            typeName: selectInfo.typeName,
-            inputValues: selectInfo.inputValues,
-            mockCode,
-            mockData,
-            jsonData: json,
-            jsonKeys: Object.keys(json),
-          })
-        : compileEjs(template!.template, {
-            type: ts,
-            funcName: selectInfo.funcName,
-            typeName: selectInfo.typeName,
-            inputValues: selectInfo.inputValues,
-            mockCode,
-            mockData,
-            jsonData: json,
-            jsonKeys: Object.keys(json),
-          });
+        ? compileHbs(template!.template, model)
+        : compileEjs(template!.template, model);
     pasteToMarker(code);
   } catch (e) {
     window.showErrorMessage(e.toString());

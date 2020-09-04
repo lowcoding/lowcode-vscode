@@ -14,10 +14,14 @@ import {
   formatSchema,
 } from '../lib';
 import { fetchApiDetailInfo } from '../service';
+import { Model } from '../compiler/type';
 const strip = require('strip-comments');
 const GenerateSchema = require('generate-schema');
 
-export const genCodeByYapi = async (yapiId: string) => {
+export const genCodeByYapi = async (
+  yapiId: string,
+  rawClipboardText: string,
+) => {
   const domain = getDomain();
   if (!domain.trim()) {
     window.showErrorMessage('请配置yapi域名');
@@ -78,34 +82,25 @@ export const genCodeByYapi = async (yapiId: string) => {
           },
         );
       }
+      const model: Model = {
+        type: ts,
+        requestBodyType: strip(
+          requestBodyType.replace(/\[k: string\]: unknown;/g, ''),
+        ),
+        funcName: selectInfo.funcName,
+        typeName: selectInfo.typeName,
+        api: res.data.data,
+        inputValues: selectInfo.inputValues,
+        mockCode,
+        mockData,
+        jsonData: {},
+        rawSelectedText: selectInfo.rawSelectedText,
+        rawClipboardText: rawClipboardText,
+      };
       const code =
         template?.type === 'hbs'
-          ? compileHbs(template!.template, {
-              type: ts,
-              requestBodyType: strip(
-                requestBodyType.replace(/\[k: string\]: unknown;/g, ''),
-              ),
-              funcName: selectInfo.funcName,
-              typeName: selectInfo.typeName,
-              api: res.data.data,
-              inputValues: selectInfo.inputValues,
-              mockCode,
-              mockData,
-              jsonData: {},
-            })
-          : compileEjs(template!.template, {
-              type: ts,
-              requestBodyType: strip(
-                requestBodyType.replace(/\[k: string\]: unknown;/g, ''),
-              ),
-              funcName: selectInfo.funcName,
-              typeName: selectInfo.typeName,
-              api: res.data.data,
-              inputValues: selectInfo.inputValues,
-              mockCode,
-              mockData,
-              jsonData: {},
-            });
+          ? compileHbs(template!.template, model)
+          : compileEjs(template!.template, model);
       pasteToMarker(code);
     } else {
       //const ts = await jsonToTs(selectInfo.typeName, res.data.data.res_body);
@@ -128,34 +123,25 @@ export const genCodeByYapi = async (yapiId: string) => {
           },
         );
       }
+      const model: Model = {
+        type: ts,
+        requestBodyType: strip(
+          requestBodyType.replace(/\[k: string\]: unknown;/g, ''),
+        ),
+        funcName: selectInfo.funcName,
+        typeName: selectInfo.typeName,
+        api: res.data.data,
+        inputValues: selectInfo.inputValues,
+        mockCode,
+        mockData,
+        jsonData: resBodyJson,
+        rawClipboardText: rawClipboardText,
+        rawSelectedText: selectInfo.rawSelectedText,
+      };
       const code =
         template?.type === 'hbs'
-          ? compileHbs(template!.template, {
-              type: ts,
-              requestBodyType: strip(
-                requestBodyType.replace(/\[k: string\]: unknown;/g, ''),
-              ),
-              funcName: selectInfo.funcName,
-              typeName: selectInfo.typeName,
-              api: res.data.data,
-              inputValues: selectInfo.inputValues,
-              mockCode,
-              mockData,
-              jsonData: resBodyJson,
-            })
-          : compileEjs(template!.template, {
-              type: ts,
-              requestBodyType: strip(
-                requestBodyType.replace(/\[k: string\]: unknown;/g, ''),
-              ),
-              funcName: selectInfo.funcName,
-              typeName: selectInfo.typeName,
-              api: res.data.data,
-              inputValues: selectInfo.inputValues,
-              mockCode,
-              mockData,
-              jsonData: resBodyJson,
-            });
+          ? compileHbs(template!.template, model)
+          : compileEjs(template!.template, model);
       pasteToMarker(code);
     }
   } catch (e) {

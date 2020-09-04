@@ -41,14 +41,19 @@ export const getFuncNameAndTypeName = () => {
   if (selectedText) {
     const splitValue = selectedText.split(' ');
     funcName = splitValue[0] || funcName;
-    if (splitValue.length > 1) {
-      typeName = splitValue[1] || typeName;
+    if (splitValue.length > 1 && splitValue[1]) {
+      typeName = splitValue[1];
+    } else {
+      typeName = `I${
+        funcName.charAt(0).toUpperCase() + funcName.slice(1)
+      }Result`;
     }
   }
   return {
     funcName,
     typeName,
     inputValues: selectedText.split(' '),
+    rawSelectedText: selectedText,
   };
 };
 
@@ -92,6 +97,23 @@ export const jsonIsValid = (jsonString: string) => {
 
 export const isYapiId = (value: string) => {
   return /^[0-9]{1,}$/g.test(value);
+};
+
+export const jsonParse = (clipboardText: string) => {
+  let func: any = function () {
+    return '';
+  };
+  if (
+    clipboardText.startsWith('var') ||
+    clipboardText.startsWith('let') ||
+    clipboardText.startsWith('const')
+  ) {
+    clipboardText = clipboardText.replace(/(var|let|const).*=/, '');
+  }
+  try {
+    func = new Function(`return ${clipboardText.trim()}`);
+  } catch (ex) {}
+  return func();
 };
 
 export const formatSchema = (schema: any) => {

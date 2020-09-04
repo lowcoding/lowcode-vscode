@@ -7,7 +7,7 @@ export function activate(context: vscode.ExtensionContext) {
 
   context.subscriptions.push(
     vscode.commands.registerTextEditorCommand(
-      'yapi-code.generateMockCode',
+      'yapi-code.generateCodeByWebview',
       () => {
         vscode.window.showInformationMessage('敬请期待');
       },

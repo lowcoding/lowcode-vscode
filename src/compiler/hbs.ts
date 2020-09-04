@@ -1,5 +1,5 @@
 import { compile as c, registerHelper } from 'handlebars';
-import { YapiInfo } from './type';
+import { YapiInfo, Model } from './type';
 
 registerHelper('notEmpty', (array: []) => {
   return array.length > 0;
@@ -21,21 +21,7 @@ registerHelper('index', (array: any[], index: number) => {
   return array[index];
 });
 
-export const compile = (
-  templateString: string,
-  model: {
-    type: string;
-    requestBodyType?: string;
-    funcName: string;
-    typeName: string;
-    inputValues: string[];
-    api?: YapiInfo;
-    mockCode: string;
-    mockData: string;
-    jsonData: any;
-    jsonKeys?: string[];
-  },
-) => {
+export const compile = (templateString: string, model: Model) => {
   const template = c(templateString);
   return template(model);
 };

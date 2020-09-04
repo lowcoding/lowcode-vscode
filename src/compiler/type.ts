@@ -13,3 +13,18 @@ export type YapiInfo = {
   res_body: string;
   username: string;
 };
+
+export type Model = {
+  type: string;
+  requestBodyType?: string;
+  funcName: string;
+  typeName: string;
+  inputValues: string[];
+  api?: YapiInfo;
+  mockCode: string;
+  mockData: string;
+  jsonData: any;
+  jsonKeys?: string[];
+  rawSelectedText: string; //编辑器中选中的原始文本
+  rawClipboardText: string; //系统剪切板中的原始文本
+};
