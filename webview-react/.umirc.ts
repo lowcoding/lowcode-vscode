@@ -6,7 +6,7 @@ export default defineConfig({
   },
   routes: [{ path: '/', component: '@/pages/index' }],
   outputPath: '../webview-dist',
-  mpa: { path: '/', component: '@/pages/index' },
+  //mpa: { path: '/', component: '@/pages/index' },
   chunks: ['main'],
   styleLoader: {},
   plugins: [path.join(__dirname, 'plugin')],

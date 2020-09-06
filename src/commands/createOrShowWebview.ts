@@ -132,7 +132,6 @@ class ReactPanel {
 			</head>
 			<body>
 				<div id="root"></div>
-				<div>12121212121</div>
 				<script src="${scriptUri}"></script>
 			</body>
 		</html>
