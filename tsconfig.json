@@ -17,6 +17,8 @@
 	"exclude": [
 		"node_modules",
 		".vscode-test",
-		"webview"
+		"webview-vue",
+		"webview-react",
+		"webview-dist"
 	]
 }

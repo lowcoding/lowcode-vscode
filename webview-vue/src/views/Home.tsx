@@ -4,7 +4,7 @@ import { useStore } from 'vuex';
 export default defineComponent({
   name: 'App',
   setup() {
-    const store = useStore()
+    const store = useStore();
 
     return () => (
       <>
@@ -12,5 +12,5 @@ export default defineComponent({
         <h1>{store.state.title}</h1>
       </>
     );
-  }
+  },
 });

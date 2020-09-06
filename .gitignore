@@ -1,4 +1,5 @@
 out
+webview-dist
 node_modules
 .vscode-test/
 *.vsix

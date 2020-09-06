@@ -6,6 +6,19 @@
   "version": "0.0.15",
   "icon": "asset/icon.png",
   "publisher": "wjkang",
+  "main": "./out/extension.js",
+  "scripts": {
+    "vscode:prepublish": "yarn run compile",
+    "compile": "tsc -p ./",
+    "webview:dev-vue": "yarn --cwd \"webview-vue\" dev",
+    "webview:build-vue": "yarn --cwd \"webview-vue\" build",
+    "webview:dev-react": "yarn --cwd \"webview-react\" dev",
+    "webview:build-react": "yarn --cwd \"webview-react\" build",
+    "lint": "eslint src --ext ts",
+    "watch": "tsc -watch -p ./",
+    "pretest": "yarn run compile && yarn run lint",
+    "test": "node ./out/test/runTest.js"
+  },
   "engines": {
     "vscode": "^1.42.0"
   },
@@ -19,9 +32,9 @@
     "json"
   ],
   "activationEvents": [
-    "onCommand:yapi-code.generateCode"
+    "onCommand:yapi-code.generateCode",
+    "onCommand:yapi-code.generateCodeByWebview"
   ],
-  "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
@@ -89,14 +102,6 @@
         }
       }
     }
-  },
-  "scripts": {
-    "vscode:prepublish": "yarn run compile",
-    "compile": "tsc -p ./",
-    "lint": "eslint src --ext ts",
-    "watch": "tsc -watch -p ./",
-    "pretest": "yarn run compile && yarn run lint",
-    "test": "node ./out/test/runTest.js"
   },
   "devDependencies": {
     "@types/copy-paste": "^1.1.30",

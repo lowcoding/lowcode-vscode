@@ -2,7 +2,8 @@
 .vscode-test/**
 out/test/**
 src/**
-webview/**
+webview-vue/**
+webview-react/**
 .gitignore
 vsc-extension-quickstart.md
 **/tsconfig.json

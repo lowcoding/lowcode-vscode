@@ -1,17 +1,10 @@
 import * as vscode from 'vscode';
 import { generateCode } from './commands/generateCode';
-import { getCodeTemplateListFromFiles } from './config';
+import { createOrShowWebview } from './commands/createOrShowWebview';
 
 export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(generateCode());
 
-  context.subscriptions.push(
-    vscode.commands.registerTextEditorCommand(
-      'yapi-code.generateCodeByWebview',
-      () => {
-        vscode.window.showInformationMessage('敬请期待');
-      },
-    ),
-  );
+  context.subscriptions.push(createOrShowWebview(context));
 }
 export function deactivate() {}
