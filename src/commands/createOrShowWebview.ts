@@ -57,6 +57,7 @@ class ReactPanel {
         localResourceRoots: [
           vscode.Uri.file(path.join(this._extensionPath, 'webview-dist')),
         ],
+        retainContextWhenHidden: true, // webview被隐藏时保持状态，避免被重置
       },
     );
 

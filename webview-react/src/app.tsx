@@ -1,5 +1,6 @@
 import { history } from 'umi';
+import './app.less';
 export function render(oldRender: () => {}) {
-  history.push('/');
+  history.push('/index');
   oldRender();
 }

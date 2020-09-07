@@ -4,7 +4,18 @@ export default defineConfig({
   nodeModulesTransform: {
     type: 'none',
   },
-  routes: [{ path: '/', component: '@/pages/index' }],
+  routes: [
+    {
+      path: '/',
+      component: '@/layout/index',
+      routes: [
+        {
+          path: '/index',
+          component: '@/pages/index',
+        },
+      ],
+    },
+  ],
   outputPath: '../webview-dist',
   //mpa: { path: '/', component: '@/pages/index' },
   chunks: ['main'],
