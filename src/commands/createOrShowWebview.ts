@@ -1,5 +1,7 @@
 import * as path from 'path';
 import * as vscode from 'vscode';
+import { getSelectedText } from '../lib';
+import messageHandler from '../webviewMessageHandler';
 
 export const createOrShowWebview = (context: vscode.ExtensionContext) => {
   return vscode.commands.registerTextEditorCommand(
@@ -26,6 +28,9 @@ class ReactPanel {
   private _disposables: vscode.Disposable[] = [];
 
   public static createOrShow(extensionPath: string) {
+    setInterval(() => {
+      console.log(getSelectedText(), 12121);
+    }, 500);
     const column = vscode.window.activeTextEditor
       ? vscode.window.activeTextEditor.viewColumn
       : undefined;
@@ -37,7 +42,7 @@ class ReactPanel {
     } else {
       ReactPanel.currentPanel = new ReactPanel(
         extensionPath,
-        column || vscode.ViewColumn.One,
+        column || vscode.ViewColumn.Seven,
       );
     }
   }
@@ -64,22 +69,23 @@ class ReactPanel {
     // Set the webview's initial html content
     this._panel.webview.html = this._getHtmlForWebview();
 
-    // Listen for when the panel is disposed
-    // This happens when the user closes the panel or when the panel is closed programatically
-    this._panel.onDidDispose(() => this.dispose(), null, this._disposables);
-
-    // Handle messages from the webview
     this._panel.webview.onDidReceiveMessage(
-      (message) => {
-        switch (message.command) {
-          case 'alert':
-            vscode.window.showErrorMessage(message.text);
-            return;
+      (message: { cmd: string; cbid: string; data: any }) => {
+        if (messageHandler[message.cmd]) {
+          messageHandler[message.cmd](this._panel, message);
+        } else {
+          vscode.window.showWarningMessage(
+            `未找到名为 ${message.cmd} 回调方法!`,
+          );
         }
       },
       null,
       this._disposables,
     );
+
+    // Listen for when the panel is disposed
+    // This happens when the user closes the panel or when the panel is closed programatically
+    this._panel.onDidDispose(() => this.dispose(), null, this._disposables);
   }
 
   public doRefactor() {
