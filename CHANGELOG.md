@@ -1,6 +1,10 @@
 # Change Log
 
-## 0.0.13
+## 0.0.16
+
+- 支持直接在 `package.json` 中配置，优先级比 `settings.json` 高
+
+## 0.0.15
 
 - 如果通过 vs 编辑器中选中的文本无法解析出 `typeName`，通过 `funcName` 拼凑出 `typeName`，比如 `funcName` 为 `fetch`，则 `typeName` 为 `IFetchResult`。
 - 输出变量 `rawSelectedText`，方便在模板中取到 vs 编辑器中选中的原始文本。

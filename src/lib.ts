@@ -1,6 +1,8 @@
-import { window, Range } from 'vscode';
+import { window, Range, workspace } from 'vscode';
 import * as copyPaste from 'copy-paste';
 import * as quicktypeCore from 'quicktype-core';
+import * as path from 'path';
+import * as fs from 'fs';
 import {
   getMockConfig,
   getMockKeyWordEqualConfig,
@@ -233,4 +235,16 @@ export const formatSchema = (schema: any) => {
     mockCode: listStr.join('\n'),
     mockData: `{${jsonStr}}`,
   };
+};
+
+export const getFileContent = (filePath: string) => {
+  let fileContent = '';
+  if (workspace.rootPath) {
+    const fileFullPath = path.join(workspace.rootPath, filePath);
+    try {
+      const fileBuffer = fs.readFileSync(fileFullPath);
+      fileContent = fileBuffer.toString();
+    } catch (error) {}
+  }
+  return fileContent;
 };

@@ -2,13 +2,30 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs';
 
+const getFileContent = (filePath: string) => {
+  let fileContent = '';
+  if (vscode.workspace.rootPath) {
+    const fileFullPath = path.join(vscode.workspace.rootPath, filePath);
+    try {
+      const fileBuffer = fs.readFileSync(fileFullPath);
+      fileContent = fileBuffer.toString();
+    } catch (error) {}
+  }
+  return fileContent;
+};
+
+const pkg = JSON.parse(getFileContent('package.json'));
+
 /**
  * 获取域名
  *
  * @returns
  */
 export const getDomain = () => {
-  return vscode.workspace.getConfiguration().get('yapi-code.domain', '');
+  return (
+    (pkg['yapi-code.domain'] as string) ||
+    vscode.workspace.getConfiguration().get('yapi-code.domain', '')
+  );
 };
 
 /**
@@ -17,12 +34,19 @@ export const getDomain = () => {
  * @returns
  */
 export const getProjectList = () => {
-  return vscode.workspace
-    .getConfiguration()
-    .get<{ name: string; token: string; domain: string }[]>(
-      'yapi-code.project',
-      [],
-    );
+  return (
+    (pkg['yapi-code.project'] as {
+      name: string;
+      token: string;
+      domain: string;
+    }[]) ||
+    vscode.workspace
+      .getConfiguration()
+      .get<{ name: string; token: string; domain: string }[]>(
+        'yapi-code.project',
+        [],
+      )
+  );
 };
 
 /**
@@ -31,9 +55,12 @@ export const getProjectList = () => {
  * @returns
  */
 export const getCodeTemplateList = () => {
-  return vscode.workspace
-    .getConfiguration()
-    .get<{ name: string; template: string }[]>('yapi-code.codeTemplate', []);
+  return (
+    (pkg['yapi-code.codeTemplate'] as { name: string; template: string }[]) ||
+    vscode.workspace
+      .getConfiguration()
+      .get<{ name: string; template: string }[]>('yapi-code.codeTemplate', [])
+  );
 };
 
 /**
@@ -42,9 +69,12 @@ export const getCodeTemplateList = () => {
  * @returns
  */
 export const getTemplateFilePath = () => {
-  return vscode.workspace
-    .getConfiguration()
-    .get<string>('yapi-code.templatePath', 'codeTemplate');
+  return (
+    (pkg['yapi-code.templatePath'] as string) ||
+    vscode.workspace
+      .getConfiguration()
+      .get<string>('yapi-code.templatePath', 'codeTemplate')
+  );
 };
 
 export const getCodeTemplateListFromFiles = () => {
@@ -74,26 +104,38 @@ export const getCodeTemplateListFromFiles = () => {
 
 export const getMockConfig = () => {
   return {
-    number: vscode.workspace
-      .getConfiguration()
-      .get<string>('yapi-code.mockNumber', 'Random.natural(1000,1000)'),
-    boolean: vscode.workspace
-      .getConfiguration()
-      .get<string>('yapi-code.mockBoolean', 'false'),
-    string: vscode.workspace
-      .getConfiguration()
-      .get<string>('yapi-code.mockString', 'Random.cword(5, 7)'),
+    number:
+      (pkg['yapi-code.mockNumber'] as string) ||
+      vscode.workspace
+        .getConfiguration()
+        .get<string>('yapi-code.mockNumber', 'Random.natural(1000,1000)'),
+    boolean:
+      (pkg['yapi-code.mockBoolean'] as string) ||
+      vscode.workspace
+        .getConfiguration()
+        .get<string>('yapi-code.mockBoolean', 'false'),
+    string:
+      (pkg['yapi-code.mockString'] as string) ||
+      vscode.workspace
+        .getConfiguration()
+        .get<string>('yapi-code.mockString', 'Random.cword(5, 7)'),
   };
 };
 
 export const getMockKeyWordEqualConfig = () => {
-  return vscode.workspace
-    .getConfiguration()
-    .get<any>('yapi-code.mockKeyWordEqual', {});
+  return (
+    pkg['yapi-code.mockKeyWordEqual'] ||
+    vscode.workspace
+      .getConfiguration()
+      .get<any>('yapi-code.mockKeyWordEqual', {})
+  );
 };
 
 export const getMockKeyWordLikeConfig = () => {
-  return vscode.workspace
-    .getConfiguration()
-    .get<any>('yapi-code.mockKeyWordLike', {});
+  return (
+    pkg['yapi-code.mockKeyWordLike'] ||
+    vscode.workspace
+      .getConfiguration()
+      .get<any>('yapi-code.mockKeyWordLike', {})
+  );
 };

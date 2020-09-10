@@ -6,6 +6,33 @@
 
 ![aSRAyT.gif](https://s1.ax1x.com/2020/07/25/aSRAyT.gif)
 
+## 配置
+
+`0.0.16` 版本之后支持直接在 `package.json` 中配置，优先级比 `settings.json` 高：
+
+```js
+// package.json
+"yapi-code.project": [
+    {
+      "name": "价值一个亿的项目",
+      "token": "baf6748bf45cd1b924a03d56b8a74e3fb13e744bdxxxxxxxx"
+    }
+  ],
+  "yapi-code.domain": "https://www.google.com",
+  "yapi-code.mockKeyWordLike": {
+    "icon": "Random.image('48x48')",
+    "img": "Random.image('48x48')",
+    "image": "Random.image('48x48')",
+    "code": "200&&number",
+  },
+  "yapi-code.mockKeyWordEqual": {
+    "total": 200
+  },
+  "yapi-code.mockString": "Random.cword(5, 6)",
+  "yapi-code.mockBoolean": "Random.boolean()",
+  "yapi-code.mockNumber": "Random.natural(100,1000)"
+```
+
 ## 根据 yapi 接口定义生成代码
 
 ### 配置 yapi 接口文档域名
@@ -214,7 +241,11 @@ return {
 
 # Change Log
 
-## 0.0.13
+## 0.0.16
+
+- 支持直接在 `package.json` 中配置，优先级比 `settings.json` 高
+
+## 0.0.15
 
 - 如果通过 vs 编辑器中选中的文本无法解析出 `typeName`，通过 `funcName` 拼凑出 `typeName`，比如 `funcName` 为 `fetch`，则 `typeName` 为 `IFetchResult`。
 - 输出变量 `rawSelectedText`，方便在模板中取到 vs 编辑器中选中的原始文本。
