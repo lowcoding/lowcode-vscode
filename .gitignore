@@ -1,4 +1,5 @@
 out
+build
 webview-dist
 node_modules
 .vscode-test/

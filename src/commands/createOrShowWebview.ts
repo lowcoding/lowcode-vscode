@@ -28,9 +28,6 @@ class ReactPanel {
   private _disposables: vscode.Disposable[] = [];
 
   public static createOrShow(extensionPath: string) {
-    setInterval(() => {
-      console.log(getSelectedText(), 12121);
-    }, 500);
     const column = vscode.window.activeTextEditor
       ? vscode.window.activeTextEditor.viewColumn
       : undefined;
