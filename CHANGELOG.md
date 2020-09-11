@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.0.17
+
+- 改用 `webpack` 打包，减小插件包大小
+
 ## 0.0.16
 
 - 支持直接在 `package.json` 中配置，优先级比 `settings.json` 高
