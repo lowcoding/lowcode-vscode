@@ -11,6 +11,7 @@ vsc-extension-quickstart.md
 **/*.map
 **/*.ts
 *.lock
+webpack.config.js
 
 node_modules
 !node_modules/prettier
