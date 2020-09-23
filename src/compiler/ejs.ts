@@ -1,19 +1,19 @@
 import * as ejs from 'ejs';
-import { YapiInfo, Model } from './type';
+import * as fse from 'fs-extra';
+import * as path from 'path';
+import * as glob from 'glob';
+import * as util from 'util';
+import * as prettier from 'prettier';
+import { Model } from './type';
 
 export const compile = (templateString: string, model: Model) => {
   return ejs.render(templateString, model);
 };
 
-import * as _ from 'lodash';
-import * as fse from 'fs-extra';
-import * as path from 'path';
-import * as glob from 'glob';
-import * as ejs from 'ejs';
-import * as util from 'util';
-import * as prettier from 'prettier';
-
-export default async function renderEjsTemplates(templateData: object, templateDir: string) {
+export async function renderEjsTemplates(
+  templateData: object,
+  templateDir: string,
+) {
   return new Promise((resolve, reject) => {
     glob(
       '**',
@@ -32,11 +32,11 @@ export default async function renderEjsTemplates(templateData: object, templateD
           files.map((file) => {
             const filepath = path.join(templateDir, file);
             return renderFile(filepath, templateData);
-          })
+          }),
         )
           .then(() => resolve())
           .catch(reject);
-      }
+      },
     );
   });
 }
@@ -48,7 +48,10 @@ async function renderFile(templateFilepath: string, data: any) {
     const targetFilePath = templateFilepath.replace(/\.ejs$/, '');
     if (targetFilePath.match(/tsx$|jsx$/)) {
       // TODO: 需要对换行进行进一步的处理。
-      content = prettier.format(content, { singleQuote: true, filepath: targetFilePath });
+      content = prettier.format(content, {
+        singleQuote: true,
+        filepath: targetFilePath,
+      });
     }
     await fse.rename(templateFilepath, targetFilePath);
     await fse.writeFile(targetFilePath, content);
@@ -56,4 +59,3 @@ async function renderFile(templateFilepath: string, data: any) {
     console.log('RenderErr', err);
   }
 }
-

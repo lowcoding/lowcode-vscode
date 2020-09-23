@@ -1,10 +1,14 @@
 import * as path from 'path';
 import * as util from 'util';
 import * as fs from 'fs-extra';
-import isObject from 'is-plain-object';
-import globby from 'globby';
+import * as isObject from 'is-plain-object';
+import * as globby from 'globby';
 
-type Rename = (name: string, extension: string) => void;
+type Rename = (name: string, extension: string) => string;
+
+function stringify(value: any) {
+  return util.inspect(value, { breakLength: Infinity });
+}
 
 async function isFile(filePath: string) {
   const fileStats = await fs.stat(filePath);
@@ -21,7 +25,15 @@ function renameTarget(target: string, rename: string | Rename) {
 async function generateCopyTarget(
   src: string,
   dest: string,
-  { flatten, rename: string, transform },
+  {
+    flatten,
+    rename,
+    transform,
+  }: {
+    flatten?: boolean;
+    rename?: string | Rename;
+    transform?: (content: Buffer) => void;
+  },
 ) {
   if (transform && !(await isFile(src))) {
     throw new Error(
@@ -45,123 +57,85 @@ async function generateCopyTarget(
   };
 }
 
-export default function copy(options = {}) {
-  const {
-    copyOnce = false,
-    flatten = true,
-    hook = 'buildEnd',
-    targets = [],
-    verbose = false,
-    ...restPluginOptions
-  } = options;
+export default async function copy(options: {
+  flatten?: boolean;
+  targets: {
+    src: string | string[];
+    dest: string | string[];
+    rename?: string | Rename;
+    transform?: (content: Buffer) => void;
+  }[];
+}) {
+  const { flatten = true, targets = [] } = options;
 
-  let copied = false;
+  const copyTargets = [];
 
-  return {
-    name: 'copy',
-    [hook]: async () => {
-      if (copyOnce && copied) {
-        return;
+  if (Array.isArray(targets) && targets.length) {
+    for (const target of targets) {
+      if (!isObject(target)) {
+        throw new Error(`${stringify(target)} target must be an object`);
       }
 
-      const copyTargets = [];
+      const { dest, rename, src, transform } = target;
 
-      if (Array.isArray(targets) && targets.length) {
-        for (const target of targets) {
-          if (!isObject(target)) {
-            throw new Error(`${stringify(target)} target must be an object`);
-          }
-
-          const { dest, rename, src, transform, ...restTargetOptions } = target;
-
-          if (!src || !dest) {
-            throw new Error(
-              `${stringify(
-                target,
-              )} target must have "src" and "dest" properties`,
-            );
-          }
-
-          if (
-            rename &&
-            typeof rename !== 'string' &&
-            typeof rename !== 'function'
-          ) {
-            throw new Error(
-              `${stringify(
-                target,
-              )} target's "rename" property must be a string or a function`,
-            );
-          }
-
-          const matchedPaths = await globby(src, {
-            expandDirectories: false,
-            onlyFiles: false,
-            ...restPluginOptions,
-            ...restTargetOptions,
-          });
-
-          if (matchedPaths.length) {
-            for (const matchedPath of matchedPaths) {
-              const generatedCopyTargets = Array.isArray(dest)
-                ? await Promise.all(
-                    dest.map((destination) =>
-                      generateCopyTarget(matchedPath, destination, {
-                        flatten,
-                        rename,
-                        transform,
-                      }),
-                    ),
-                  )
-                : [
-                    await generateCopyTarget(matchedPath, dest, {
-                      flatten,
-                      rename,
-                      transform,
-                    }),
-                  ];
-
-              copyTargets.push(...generatedCopyTargets);
-            }
-          }
-        }
+      if (!src || !dest) {
+        throw new Error(
+          `${stringify(target)} target must have "src" and "dest" properties`,
+        );
       }
 
-      if (copyTargets.length) {
-        if (verbose) {
-          console.log(green('copied:'));
-        }
+      if (
+        rename &&
+        typeof rename !== 'string' &&
+        typeof rename !== 'function'
+      ) {
+        throw new Error(
+          `${stringify(
+            target,
+          )} target's "rename" property must be a string or a function`,
+        );
+      }
 
-        for (const copyTarget of copyTargets) {
-          const { contents, dest, src, transformed } = copyTarget;
+      const matchedPaths = await globby(src, {
+        expandDirectories: false,
+        onlyFiles: false,
+      });
 
-          if (transformed) {
-            await fs.outputFile(dest, contents, restPluginOptions);
-          } else {
-            await fs.copy(src, dest, restPluginOptions);
-          }
-
-          if (verbose) {
-            let message = green(`  ${bold(src)} → ${bold(dest)}`);
-            const flags = Object.entries(copyTarget)
-              .filter(
-                ([key, value]) =>
-                  ['renamed', 'transformed'].includes(key) && value,
+      if (matchedPaths.length) {
+        for (const matchedPath of matchedPaths) {
+          const generatedCopyTargets = Array.isArray(dest)
+            ? await Promise.all(
+                dest.map((destination) =>
+                  generateCopyTarget(matchedPath, destination, {
+                    flatten,
+                    rename,
+                    transform,
+                  }),
+                ),
               )
-              .map(([key]) => key.charAt(0).toUpperCase());
+            : [
+                await generateCopyTarget(matchedPath, dest, {
+                  flatten,
+                  rename,
+                  transform,
+                }),
+              ];
 
-            if (flags.length) {
-              message = `${message} ${yellow(`[${flags.join(', ')}]`)}`;
-            }
-
-            console.log(message);
-          }
+          copyTargets.push(...generatedCopyTargets);
         }
-      } else if (verbose) {
-        console.log(yellow('no items to copy'));
       }
+    }
+  }
 
-      copied = true;
-    },
-  };
+  if (copyTargets.length) {
+    for (const copyTarget of copyTargets) {
+      const { contents, dest, src, transformed } = copyTarget;
+
+      if (transformed) {
+        await fs.outputFile(dest, contents);
+      } else {
+        await fs.copy(src, dest);
+      }
+    }
+  }
 }
