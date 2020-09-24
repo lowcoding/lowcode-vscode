@@ -41,10 +41,9 @@ export async function renderEjsTemplates(
   });
 }
 
-async function renderFile(templateFilepath: string, data: any) {
-  const asyncRenderFile = util.promisify(ejs.renderFile);
+async function renderFile(templateFilepath: string, data: ejs.Data) {
   try {
-    let content = await asyncRenderFile(templateFilepath, data);
+    let content = await ejs.renderFile(templateFilepath, data);
     const targetFilePath = templateFilepath.replace(/\.ejs$/, '');
     if (targetFilePath.match(/tsx$|jsx$/)) {
       // TODO: 需要对换行进行进一步的处理。
@@ -53,8 +52,8 @@ async function renderFile(templateFilepath: string, data: any) {
         filepath: targetFilePath,
       });
     }
-    await fse.rename(templateFilepath, targetFilePath);
-    await fse.writeFile(targetFilePath, content);
+    await fse.rename(templateFilepath, targetFilePath); // 去掉模板文件后缀
+    await fse.writeFile(targetFilePath, content); // render 后的内容重新写入文件
   } catch (err) {
     console.log('RenderErr', err);
   }
