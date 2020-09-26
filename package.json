@@ -10,7 +10,7 @@
   "scripts": {
     "vscode:prepublish": "yarn run compile",
     "compile": "webpack --mode production",
-    "tsc": "tsc -p ./src",
+    "compile:tsc": "tsc -p ./",
     "webview:dev-vue": "yarn --cwd \"webview-vue\" dev",
     "webview:build-vue": "yarn --cwd \"webview-vue\" build",
     "webview:dev-react": "yarn --cwd \"webview-react\" dev",
