@@ -2,7 +2,6 @@ import * as ejs from 'ejs';
 import * as fse from 'fs-extra';
 import * as path from 'path';
 import * as glob from 'glob';
-import * as util from 'util';
 import * as prettier from 'prettier';
 import { Model } from './type';
 
