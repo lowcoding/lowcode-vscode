@@ -1,4 +1,5 @@
-import { WebviewPanel, window } from 'vscode';
+import { WebviewPanel, window, workspace } from 'vscode';
+import * as dirTree from 'directory-tree';
 
 interface IMessage {
   cmd: string;
@@ -20,6 +21,12 @@ const messageHandler: {
   alert(pandel: WebviewPanel, message: IMessage) {
     window.showErrorMessage(message.data);
     invokeCallback(pandel, message.cbid, '来自vscode的回复');
+  },
+  getDirectoryTree(pandel: WebviewPanel, message: IMessage) {
+    const filteredTree = dirTree(workspace.rootPath!, {
+      exclude: /node_modules|\.umi/,
+    });
+    invokeCallback(pandel, message.cbid, filteredTree);
   },
 };
 
