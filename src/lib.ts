@@ -237,14 +237,14 @@ export const formatSchema = (schema: any) => {
   };
 };
 
-export const getFileContent = (filePath: string) => {
+export const getFileContent = (filePath: string, fullPath = false) => {
   let fileContent = '';
-  if (workspace.rootPath) {
-    const fileFullPath = path.join(workspace.rootPath, filePath);
-    try {
-      const fileBuffer = fs.readFileSync(fileFullPath);
-      fileContent = fileBuffer.toString();
-    } catch (error) {}
-  }
+  const fileFullPath = fullPath
+    ? filePath
+    : path.join(workspace.rootPath!, filePath);
+  try {
+    const fileBuffer = fs.readFileSync(fileFullPath);
+    fileContent = fileBuffer.toString();
+  } catch (error) {}
   return fileContent;
 };

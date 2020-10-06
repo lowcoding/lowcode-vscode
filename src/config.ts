@@ -2,15 +2,15 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs';
 
-const getFileContent = (filePath: string) => {
+export const getFileContent = (filePath: string, fullPath = false) => {
   let fileContent = '';
-  if (vscode.workspace.rootPath) {
-    const fileFullPath = path.join(vscode.workspace.rootPath, filePath);
-    try {
-      const fileBuffer = fs.readFileSync(fileFullPath);
-      fileContent = fileBuffer.toString();
-    } catch (error) {}
-  }
+  const fileFullPath = fullPath
+    ? filePath
+    : path.join(vscode.workspace.rootPath!, filePath);
+  try {
+    const fileBuffer = fs.readFileSync(fileFullPath);
+    fileContent = fileBuffer.toString();
+  } catch (error) {}
   return fileContent;
 };
 
@@ -138,4 +138,29 @@ export const getMockKeyWordLikeConfig = () => {
       .getConfiguration()
       .get<any>('yapi-code.mockKeyWordLike', {})
   );
+};
+
+/**
+ * 获取本地 物料模板
+ *
+ * @param {('blocks' | 'snippets')} type
+ */
+export const getLocalMaterials = (type: 'blocks' | 'snippets') => {
+  const materialsPath = path.join(
+    vscode.workspace.rootPath!,
+    'materials',
+    type,
+  );
+  return fs.readdirSync(materialsPath).map((s) => {
+    const fullPath = path.join(materialsPath, s);
+    return {
+      path: fullPath,
+      name: s,
+      model: getFileContent(path.join(fullPath, 'config', 'model.json'), true),
+      schema: getFileContent(
+        path.join(fullPath, 'config', 'schema.json'),
+        true,
+      ),
+    };
+  });
 };

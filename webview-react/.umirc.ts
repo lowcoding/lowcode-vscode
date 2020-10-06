@@ -13,6 +13,14 @@ export default defineConfig({
           path: '/index',
           component: '@/pages/index',
         },
+        {
+          path: '/blocks',
+          component: '@/pages/blocks',
+        },
+        {
+          path: '/snippets',
+          component: '@/pages/snippets',
+        },
       ],
     },
   ],
@@ -21,4 +29,7 @@ export default defineConfig({
   chunks: ['main'],
   styleLoader: {},
   plugins: [path.join(__dirname, 'plugin')],
+  antd: {
+    // dark: true,
+  },
 });

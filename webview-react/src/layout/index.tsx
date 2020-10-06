@@ -1,5 +1,6 @@
 import React from 'react';
 import { Layout, Menu } from 'antd';
+import { history } from 'umi';
 import {
   UserOutlined,
   VideoCameraOutlined,
@@ -14,15 +15,18 @@ const LayoutC: React.FC = ({ children }) => {
     <Layout className="base-layout">
       <Sider trigger={null} collapsible>
         <div className="logo" />
-        <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
-          <Menu.Item key="1" icon={<UserOutlined />}>
-            nav 1
+        <Menu
+          theme="dark"
+          mode="inline"
+          onSelect={({ key }) => {
+            history.push(key);
+          }}
+        >
+          <Menu.Item key="/blocks" icon={<UserOutlined />}>
+            区块模板
           </Menu.Item>
-          <Menu.Item key="2" icon={<VideoCameraOutlined />}>
-            nav 2
-          </Menu.Item>
-          <Menu.Item key="3" icon={<UploadOutlined />}>
-            nav 3
+          <Menu.Item key="/snippets" icon={<VideoCameraOutlined />}>
+            代码片段
           </Menu.Item>
         </Menu>
       </Sider>
@@ -30,7 +34,7 @@ const LayoutC: React.FC = ({ children }) => {
         <Content
           className="site-layout-background"
           style={{
-            padding: 24,
+            padding: '24px',
             minHeight: 280,
           }}
         >

@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "start": "umi dev",
+    "dev": "umi dev",
     "build": "umi build",
     "postinstall": "umi generate tmp",
     "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
@@ -23,11 +23,18 @@
     "@ant-design/pro-layout": "^5.0.12",
     "@umijs/preset-react": "1.x",
     "@umijs/test": "^3.2.19",
+    "codemirror": "^5.58.1",
+    "form-render": "^0.8.7",
+    "jsonlint": "^1.6.3",
     "lint-staged": "^10.0.7",
     "prettier": "^1.19.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "umi": "^3.2.19",
     "yorkie": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/codemirror": "^0.0.98",
+    "script-loader": "^0.7.2"
   }
 }

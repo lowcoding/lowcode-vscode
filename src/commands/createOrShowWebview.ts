@@ -134,7 +134,7 @@ class ReactPanel {
                    window.g_path = "/";
 				</script>
 				<script>
-                    const vscode = acquireVsCodeApi();
+				   window.vscode = acquireVsCodeApi();
                 </script>
 			</head>
 			<body>

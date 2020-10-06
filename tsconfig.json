@@ -19,6 +19,7 @@
 		".vscode-test",
 		"webview-vue",
 		"webview-react",
-		"webview-dist"
+		"webview-dist",
+		"test"
 	]
 }

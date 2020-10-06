@@ -61,91 +61,109 @@ export const genCodeByYapi = async (
   const project = projectList.find((s) => s.name === result);
   const template = templateList.find((s) => s.name === templateResult);
   try {
-    const res = await fetchApiDetailInfo(domain, yapiId, project!.token);
-    if (res.data.data.res_body_type === 'json') {
-      const schema = JSON.parse(res.data.data.res_body);
-      delete schema.title;
-      let ts = await compile(schema, selectInfo.typeName, {
-        bannerComment: undefined,
-      });
-      ts = strip(ts.replace(/(\[k: string\]: unknown;)|\?/g, ''));
-      const { mockCode, mockData } = formatSchema(schema);
-      let requestBodyType = '';
-      if (res.data.data.req_body_other) {
-        const reqBodyScheme = JSON.parse(res.data.data.req_body_other);
-        delete reqBodyScheme.title;
-        requestBodyType = await compile(
-          reqBodyScheme,
-          `I${requestBodyTypeName}Data`,
-          {
-            bannerComment: undefined,
-          },
-        );
-      }
-      const model: Model = {
-        type: ts,
-        requestBodyType: strip(
-          requestBodyType.replace(/\[k: string\]: unknown;/g, ''),
-        ),
-        funcName: selectInfo.funcName,
-        typeName: selectInfo.typeName,
-        api: res.data.data,
-        inputValues: selectInfo.inputValues,
-        mockCode,
-        mockData,
-        jsonData: {},
-        rawSelectedText: selectInfo.rawSelectedText,
-        rawClipboardText: rawClipboardText,
-      };
-      const code =
-        template?.type === 'hbs'
-          ? compileHbs(template!.template, model)
-          : compileEjs(template!.template, model);
-      pasteToMarker(code);
-    } else {
-      //const ts = await jsonToTs(selectInfo.typeName, res.data.data.res_body);
-      const resBodyJson = JSON.parse(res.data.data.res_body);
-      const schema = GenerateSchema.json('Schema', resBodyJson);
-      let ts = await compile(schema, selectInfo.typeName, {
-        bannerComment: undefined,
-      });
-      ts = strip(ts.replace(/(\[k: string\]: unknown;)|\?/g, ''));
-      const { mockCode, mockData } = formatSchema(schema);
-      let requestBodyType = '';
-      if (res.data.data.req_body_other) {
-        const reqBodyScheme = JSON.parse(res.data.data.req_body_other);
-        delete reqBodyScheme.title;
-        requestBodyType = await compile(
-          reqBodyScheme,
-          `I${requestBodyTypeName}Data`,
-          {
-            bannerComment: undefined,
-          },
-        );
-      }
-      const model: Model = {
-        type: ts,
-        requestBodyType: strip(
-          requestBodyType.replace(/\[k: string\]: unknown;/g, ''),
-        ),
-        funcName: selectInfo.funcName,
-        typeName: selectInfo.typeName,
-        api: res.data.data,
-        inputValues: selectInfo.inputValues,
-        mockCode,
-        mockData,
-        jsonData: resBodyJson,
-        rawClipboardText: rawClipboardText,
-        rawSelectedText: selectInfo.rawSelectedText,
-      };
-      const code =
-        template?.type === 'hbs'
-          ? compileHbs(template!.template, model)
-          : compileEjs(template!.template, model);
-      pasteToMarker(code);
-    }
+    const model = await genTemplateModelByYapi(
+      domain,
+      yapiId,
+      project!.token,
+      selectInfo.typeName,
+      selectInfo.funcName,
+    );
+    model.inputValues = selectInfo.inputValues;
+    model.rawSelectedText = selectInfo.rawSelectedText;
+    model.rawClipboardText = rawClipboardText;
+    const code =
+      template?.type === 'hbs'
+        ? compileHbs(template!.template, model)
+        : compileEjs(template!.template, model);
+    pasteToMarker(code);
   } catch (e) {
     window.showErrorMessage(e.toString());
     return;
+  }
+};
+
+export const genTemplateModelByYapi = async (
+  domain: string,
+  yapiId: string,
+  token: string,
+  typeName: string = 'IYapiRequestResult',
+  funcName: string = 'fetch',
+) => {
+  const res = await fetchApiDetailInfo(domain, yapiId, token);
+  const requestBodyTypeName =
+    funcName.slice(0, 1).toUpperCase() + funcName.slice(1);
+  if (res.data.data.res_body_type === 'json') {
+    const schema = JSON.parse(res.data.data.res_body);
+    delete schema.title;
+    let ts = await compile(schema, typeName, {
+      bannerComment: undefined,
+    });
+    ts = strip(ts.replace(/(\[k: string\]: unknown;)|\?/g, ''));
+    const { mockCode, mockData } = formatSchema(schema);
+    let requestBodyType = '';
+    if (res.data.data.req_body_other) {
+      const reqBodyScheme = JSON.parse(res.data.data.req_body_other);
+      delete reqBodyScheme.title;
+      requestBodyType = await compile(
+        reqBodyScheme,
+        `I${requestBodyTypeName}Data`,
+        {
+          bannerComment: undefined,
+        },
+      );
+    }
+    const model: Model = {
+      type: ts,
+      requestBodyType: strip(
+        requestBodyType.replace(/\[k: string\]: unknown;/g, ''),
+      ),
+      funcName: funcName,
+      typeName: typeName,
+      api: res.data.data,
+      inputValues: [],
+      mockCode,
+      mockData,
+      jsonData: {},
+      rawSelectedText: '',
+      rawClipboardText: '',
+    };
+    return model;
+  } else {
+    //const ts = await jsonToTs(selectInfo.typeName, res.data.data.res_body);
+    const resBodyJson = JSON.parse(res.data.data.res_body);
+    const schema = GenerateSchema.json('Schema', resBodyJson);
+    let ts = await compile(schema, typeName, {
+      bannerComment: undefined,
+    });
+    ts = strip(ts.replace(/(\[k: string\]: unknown;)|\?/g, ''));
+    const { mockCode, mockData } = formatSchema(schema);
+    let requestBodyType = '';
+    if (res.data.data.req_body_other) {
+      const reqBodyScheme = JSON.parse(res.data.data.req_body_other);
+      delete reqBodyScheme.title;
+      requestBodyType = await compile(
+        reqBodyScheme,
+        `I${requestBodyTypeName}Data`,
+        {
+          bannerComment: undefined,
+        },
+      );
+    }
+    const model: Model = {
+      type: ts,
+      requestBodyType: strip(
+        requestBodyType.replace(/\[k: string\]: unknown;/g, ''),
+      ),
+      funcName: funcName,
+      typeName: typeName,
+      api: res.data.data,
+      inputValues: [],
+      mockCode,
+      mockData,
+      jsonData: resBodyJson,
+      rawClipboardText: '',
+      rawSelectedText: '',
+    };
+    return model;
   }
 };
