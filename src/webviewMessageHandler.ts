@@ -4,7 +4,8 @@ import * as fs from 'fs-extra';
 import * as dirTree from 'directory-tree';
 import { getDomain, getLocalMaterials, getProjectList } from './config';
 import { genTemplateModelByYapi } from './genCode/genCodeByYapi';
-import { renderEjsTemplates } from './compiler/ejs';
+import { renderEjsTemplates, compile as compileEjs } from './compiler/ejs';
+import { pasteToMarker } from './lib';
 
 interface IMessage<T = any> {
   cmd: string;
@@ -38,6 +39,9 @@ const messageHandler: {
   [propName: string]: (pandel: WebviewPanel, message: IMessage) => void;
 } = {
   alert(pandel: WebviewPanel, message: IMessage) {
+    console.log(
+      JSON.stringify(window.visibleTextEditors.map((s: any) => s.id)),
+    );
     window.showErrorMessage(message.data);
     invokeCallback(pandel, message.cbid, '来自vscode的回复');
   },
@@ -110,6 +114,21 @@ const messageHandler: {
       );
       fs.removeSync(tempWordDir);
       invokeCallback(pandel, message.cbid, '成功');
+    } catch (ex) {
+      invokeErrorCallback(pandel, message.cbid, {
+        title: '生成失败',
+        message: ex.toString(),
+      });
+    }
+  },
+  async genCodeBySnippetMaterial(
+    pandel: WebviewPanel,
+    message: IMessage<{ model: any; template: string }>,
+  ) {
+    try {
+      const code = compileEjs(message.data.template, message.data.model);
+      pasteToMarker(code);
+      invokeCallback(pandel, message.cbid, code);
     } catch (ex) {
       invokeErrorCallback(pandel, message.cbid, {
         title: '生成失败',

@@ -19,7 +19,7 @@ export const getSelectedText = () => {
 };
 
 export const pasteToMarker = (content: string) => {
-  const { activeTextEditor } = window;
+  const activeTextEditor = window.activeTextEditor || getLastAcitveTextEditor();
   return activeTextEditor?.edit((editBuilder) => {
     //editBuilder.replace(activeTextEditor.selection, content);
     if (activeTextEditor.selection.isEmpty) {
@@ -247,4 +247,16 @@ export const getFileContent = (filePath: string, fullPath = false) => {
     fileContent = fileBuffer.toString();
   } catch (error) {}
   return fileContent;
+};
+
+let activeTextEditorId: string;
+export const getLastAcitveTextEditor = () => {
+  const { visibleTextEditors } = window;
+  const activeTextEditor = visibleTextEditors.find(
+    (item: any) => item.id === activeTextEditorId,
+  );
+  return activeTextEditor;
+};
+export const setLastActiveTextEditorId = (id: string) => {
+  activeTextEditorId = id;
 };

@@ -1,11 +1,7 @@
 import React from 'react';
-import { Layout, Menu } from 'antd';
+import { Layout, Radio } from 'antd';
 import { history } from 'umi';
-import {
-  UserOutlined,
-  VideoCameraOutlined,
-  UploadOutlined,
-} from '@ant-design/icons';
+import { AppstoreFilled, BugFilled } from '@ant-design/icons';
 import './index.less';
 
 const { Sider, Content } = Layout;
@@ -13,7 +9,7 @@ const { Sider, Content } = Layout;
 const LayoutC: React.FC = ({ children }) => {
   return (
     <Layout className="base-layout">
-      <Sider trigger={null} collapsible>
+      {/* <Sider trigger={null} collapsible>
         <div className="logo" />
         <Menu
           theme="dark"
@@ -22,15 +18,29 @@ const LayoutC: React.FC = ({ children }) => {
             history.push(key);
           }}
         >
-          <Menu.Item key="/blocks" icon={<UserOutlined />}>
+          <Menu.Item key="/blocks" icon={<AppstoreFilled />}>
             区块模板
           </Menu.Item>
-          <Menu.Item key="/snippets" icon={<VideoCameraOutlined />}>
+          <Menu.Item key="/snippets" icon={<BugFilled />}>
             代码片段
           </Menu.Item>
         </Menu>
-      </Sider>
+      </Sider> */}
       <Layout className="site-layout">
+        <div style={{ textAlign: 'center', marginTop: '20px' }}>
+          <Radio.Group
+            defaultValue="/snippets"
+            onChange={e => {
+              const { value } = e.target;
+              history.push(value);
+            }}
+            buttonStyle="solid"
+          >
+            <Radio.Button value="/snippets">代码片段</Radio.Button>
+            <Radio.Button value="/blocks">区块</Radio.Button>
+			<Radio.Button value="/index">插件配置</Radio.Button>
+          </Radio.Group>
+        </div>
         <Content
           className="site-layout-background"
           style={{

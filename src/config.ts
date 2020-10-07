@@ -151,16 +151,46 @@ export const getLocalMaterials = (type: 'blocks' | 'snippets') => {
     'materials',
     type,
   );
-  return fs.readdirSync(materialsPath).map((s) => {
-    const fullPath = path.join(materialsPath, s);
-    return {
-      path: fullPath,
-      name: s,
-      model: getFileContent(path.join(fullPath, 'config', 'model.json'), true),
-      schema: getFileContent(
-        path.join(fullPath, 'config', 'schema.json'),
-        true,
-      ),
-    };
-  });
+  let materials: any[] = [];
+  try {
+    materials = fs.readdirSync(materialsPath).map((s) => {
+      const fullPath = path.join(materialsPath, s);
+      let model = {};
+      let schema = {};
+      let preview = {};
+      let template = '';
+      try {
+        model = JSON.parse(
+          getFileContent(path.join(fullPath, 'config', 'model.json'), true),
+        );
+      } catch {}
+      try {
+        schema = JSON.parse(
+          getFileContent(path.join(fullPath, 'config', 'schema.json'), true),
+        );
+      } catch {}
+      try {
+        preview = JSON.parse(
+          getFileContent(path.join(fullPath, 'config', 'preview.json'), true),
+        );
+      } catch {}
+      if (type === 'snippets') {
+        try {
+          template = getFileContent(
+            path.join(fullPath, 'src', 'template.ejs'),
+            true,
+          );
+        } catch {}
+      }
+      return {
+        path: fullPath,
+        name: s,
+        model: model,
+        schema: schema,
+        preview: preview,
+        template: template,
+      };
+    });
+  } catch {}
+  return materials;
 };

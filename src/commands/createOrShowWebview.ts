@@ -1,6 +1,6 @@
 import * as path from 'path';
 import * as vscode from 'vscode';
-import { getSelectedText } from '../lib';
+import { getSelectedText, setLastActiveTextEditorId } from '../lib';
 import messageHandler from '../webviewMessageHandler';
 
 export const createOrShowWebview = (context: vscode.ExtensionContext) => {
@@ -28,18 +28,18 @@ class ReactPanel {
   private _disposables: vscode.Disposable[] = [];
 
   public static createOrShow(extensionPath: string) {
-    const column = vscode.window.activeTextEditor
-      ? vscode.window.activeTextEditor.viewColumn
-      : undefined;
-
     // If we already have a panel, show it.
     // Otherwise, create a new panel.
     if (ReactPanel.currentPanel) {
-      ReactPanel.currentPanel._panel.reveal(column);
+      ReactPanel.currentPanel._panel.reveal();
     } else {
+      // 创建 webview 的时候，设置之前 focus 的 activeTextEditor
+      if (vscode.window.activeTextEditor) {
+        setLastActiveTextEditorId((vscode.window.activeTextEditor as any).id);
+      }
       ReactPanel.currentPanel = new ReactPanel(
         extensionPath,
-        column || vscode.ViewColumn.Seven,
+        vscode.ViewColumn.Two,
       );
     }
   }
@@ -51,7 +51,7 @@ class ReactPanel {
     this._panel = vscode.window.createWebviewPanel(
       ReactPanel.viewType,
       'LOW-CODE可视化',
-      column,
+      { viewColumn: column, preserveFocus: true },
       {
         // Enable javascript in the webview
         enableScripts: true,

@@ -18,8 +18,16 @@ export default defineConfig({
           component: '@/pages/blocks',
         },
         {
+          path: '/blocks/detail/:name',
+          component: '@/pages/blocks/Detail',
+        },
+        {
           path: '/snippets',
           component: '@/pages/snippets',
+        },
+        {
+          path: '/snippets/detail/:name',
+          component: '@/pages/snippets/Detail',
         },
       ],
     },

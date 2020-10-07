@@ -83,7 +83,6 @@ const SelectDirectory: React.FC<Iprops> = ({ visible, onOk, onCancel }) => {
           <TreeSelect
             treeData={tree}
             placeholder="选择"
-            treeDefaultExpandAll
             showSearch
             treeNodeLabelProp="value"
             value={formData.path}
