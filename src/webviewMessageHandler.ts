@@ -5,7 +5,7 @@ import * as dirTree from 'directory-tree';
 import { getDomain, getLocalMaterials, getProjectList } from './config';
 import { genTemplateModelByYapi } from './genCode/genCodeByYapi';
 import { renderEjsTemplates, compile as compileEjs } from './compiler/ejs';
-import { pasteToMarker } from './lib';
+import { downloadMaterialsFromGit, pasteToMarker } from './lib';
 
 interface IMessage<T = any> {
   cmd: string;
@@ -142,6 +142,27 @@ const messageHandler: {
     } catch (ex) {
       invokeErrorCallback(pandel, message.cbid, {
         title: '添加失败',
+        message: ex.toString(),
+      });
+    }
+  },
+  downloadMaterials(
+    pandel: WebviewPanel,
+    message: IMessage<{ type: 'git' | 'npm'; url: string }>,
+  ) {
+    if (message.data.type === 'npm') {
+      invokeErrorCallback(pandel, message.cbid, {
+        title: '下载失败',
+        message: '功能开发中',
+      });
+      return;
+    }
+    try {
+      downloadMaterialsFromGit(message.data.url);
+      invokeCallback(pandel, message.cbid, '下载成功');
+    } catch (ex) {
+      invokeErrorCallback(pandel, message.cbid, {
+        title: '下载',
         message: ex.toString(),
       });
     }

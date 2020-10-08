@@ -2,7 +2,8 @@ import { window, Range, workspace } from 'vscode';
 import * as copyPaste from 'copy-paste';
 import * as quicktypeCore from 'quicktype-core';
 import * as path from 'path';
-import * as fs from 'fs';
+import * as fs from 'fs-extra';
+import * as execa from 'execa';
 import {
   getMockConfig,
   getMockKeyWordEqualConfig,
@@ -259,4 +260,12 @@ export const getLastAcitveTextEditor = () => {
 };
 export const setLastActiveTextEditorId = (id: string) => {
   activeTextEditorId = id;
+};
+
+export const downloadMaterialsFromGit = (remote: string) => {
+  const tempWordDir = path.join(workspace.rootPath!, '.lowcode');
+  const materialsDir = path.join(workspace.rootPath!, 'materials');
+  execa.sync('git', ['clone', remote, tempWordDir]);
+  fs.copySync(path.join(tempWordDir, 'materials'), path.join(materialsDir));
+  fs.removeSync(tempWordDir);
 };

@@ -6,7 +6,7 @@
 		"lib": [
 			"es6"
 		],
-		"sourceMap": true,
+		"sourceMap": false,
 		"rootDir": "src",
 		"strict": true /* enable all strict type-checking options */
 		/* Additional Checks */

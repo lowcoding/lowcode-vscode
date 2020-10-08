@@ -1,5 +1,6 @@
 import { notification } from 'antd';
 const callbacks: { [propName: string]: (data: any) => void } = {};
+const errorCallbacks: { [propName: string]: (data: any) => void } = {};
 if (process.env.NODE_ENV !== 'production') {
   (window as any).vscode = (window as any).vscode
     ? vscode
@@ -14,6 +15,7 @@ if (process.env.NODE_ENV !== 'production') {
 export function callVscode(
   data: { cmd: string; data?: any },
   cb?: (data: any) => void,
+  errorCb?: (data: any) => void,
 ) {
   if (cb) {
     const cbid = Date.now() + '' + Math.round(Math.random() * 100000);
@@ -22,6 +24,9 @@ export function callVscode(
       ...data,
       cbid,
     });
+    if (errorCb) {
+      errorCallbacks[cbid] = errorCb;
+    }
   } else {
     vscode.postMessage(data);
   }
@@ -38,9 +43,12 @@ window.addEventListener('message', event => {
         notification.error({
           message: message.data.title,
           description: message.data.message,
+          placement: 'bottomRight',
         });
+        (errorCallbacks[message.cbid] || function() {})(message.data);
       }
       delete callbacks[message.cbid]; // 执行完回调删除
+      delete errorCallbacks[message.cbid]; // 执行完回调删除
       break;
     default:
       break;

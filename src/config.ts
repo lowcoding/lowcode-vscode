@@ -14,7 +14,7 @@ export const getFileContent = (filePath: string, fullPath = false) => {
   return fileContent;
 };
 
-const pkg = JSON.parse(getFileContent('package.json'));
+const pkg = JSON.parse(getFileContent('package.json') || '{}');
 
 /**
  * 获取域名

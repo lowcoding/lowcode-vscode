@@ -3,6 +3,7 @@ import { Layout, Radio } from 'antd';
 import { history } from 'umi';
 import { AppstoreFilled, BugFilled } from '@ant-design/icons';
 import './index.less';
+import HeaderControl from '@/components/HeaderControl';
 
 const { Sider, Content } = Layout;
 
@@ -27,20 +28,7 @@ const LayoutC: React.FC = ({ children }) => {
         </Menu>
       </Sider> */}
       <Layout className="site-layout">
-        <div style={{ textAlign: 'center', marginTop: '20px' }}>
-          <Radio.Group
-            defaultValue="/snippets"
-            onChange={e => {
-              const { value } = e.target;
-              history.push(value);
-            }}
-            buttonStyle="solid"
-          >
-            <Radio.Button value="/snippets">代码片段</Radio.Button>
-            <Radio.Button value="/blocks">区块</Radio.Button>
-			<Radio.Button value="/index">插件配置</Radio.Button>
-          </Radio.Group>
-        </div>
+        <HeaderControl />
         <Content
           className="site-layout-background"
           style={{
