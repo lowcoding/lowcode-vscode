@@ -136,6 +136,16 @@ const messageHandler: {
       });
     }
   },
+  insertSnippet(pandel: WebviewPanel, message: IMessage<{ template: string }>) {
+    try {
+      pasteToMarker(message.data.template);
+    } catch (ex) {
+      invokeErrorCallback(pandel, message.cbid, {
+        title: '添加失败',
+        message: ex.toString(),
+      });
+    }
+  },
 };
 
 export default messageHandler;

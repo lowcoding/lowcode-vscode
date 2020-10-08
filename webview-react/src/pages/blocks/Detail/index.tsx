@@ -12,21 +12,10 @@ import {
 import { DownOutlined, LoadingOutlined } from '@ant-design/icons';
 import FormRender from 'form-render/lib/antd';
 import { history, useParams } from 'umi';
-import * as codemirror from 'codemirror';
-require('script-loader!jsonlint');
-require('codemirror/mode/javascript/javascript.js');
-require('codemirror/addon/lint/lint.js');
-//require('codemirror/addon/lint/javascript-lint.js');
-require('codemirror/addon/lint/json-lint.js');
-require('codemirror/lib/codemirror.css');
-require('codemirror/theme/monokai.css');
-require('codemirror/addon/lint/lint.css');
 import { callVscode } from '@/webview';
 import YapiModal from '@/components/YapiModal';
 import SelectDirectory from '@/components/SelectDirectory';
-
-let schemaCodeMirror: CodeMirror.EditorFromTextArea,
-  modelCodeMirror: CodeMirror.EditorFromTextArea;
+import CodeMirror from '@/components/CodeMirror';
 
 export default () => {
   const [selectedMaterial, setSelectedMaterial] = useState<{
@@ -34,34 +23,19 @@ export default () => {
     name: string;
     model: object;
     schema: object;
-    preview: object;
-  }>({} as any);
+    preview: {
+      title: string;
+      description: string;
+      img: string;
+    };
+    template: string;
+  }>({ schema: {}, model: {} } as any);
   const [materials, setMaterials] = useState<typeof selectedMaterial[]>([]);
   const [formData, setData] = useState({});
   const [yapiModalVsible, setYapiModalVsible] = useState(false);
   const [directoryModalVsible, setDirectoryModalVsible] = useState(false);
   const params = useParams<{ name: string }>();
   useEffect(() => {
-    schemaCodeMirror = codemirror.fromTextArea(
-      document.getElementById('schemaCodeMirror') as any,
-      {
-        //lineNumbers: true,
-        mode: 'application/json',
-        // gutters: ['CodeMirror-lint-markers'],
-        lint: true,
-        theme: 'monokai',
-      },
-    );
-    modelCodeMirror = codemirror.fromTextArea(
-      document.getElementById('modelCodeMirror') as any,
-      {
-        //lineNumbers: true,
-        mode: 'application/json',
-        // gutters: ['CodeMirror-lint-markers'],
-        lint: true,
-        theme: 'monokai',
-      },
-    );
     callVscode({ cmd: 'getLocalMaterials', data: 'blocks' }, data => {
       setMaterials(data);
       if (data.length) {
@@ -71,15 +45,13 @@ export default () => {
     });
   }, []);
   useEffect(() => {
-    if (selectedMaterial.schema) {
-      schemaCodeMirror.setValue(
-        JSON.stringify(selectedMaterial.schema, null, 2),
-      );
-    }
-    if (selectedMaterial.model) {
-      modelCodeMirror.setValue(JSON.stringify(selectedMaterial.model, null, 2));
-    }
-  }, [selectedMaterial]);
+    setSelectedMaterial(s => {
+      return {
+        ...s,
+        model: { ...s.model, ...formData },
+      };
+    });
+  }, [formData]);
 
   const menu = (
     <Menu>
@@ -106,31 +78,21 @@ export default () => {
           label="模板 Schema"
           style={{ display: selectedMaterial.path ? 'flex' : 'none' }}
         >
-          <textarea id="schemaCodeMirror"></textarea>
-          <br></br>
-          <Button
-            type="primary"
-            size="small"
-            onClick={() => {
-              const schemaStr = schemaCodeMirror.getValue();
-              try {
-                const schema = JSON.parse(schemaStr);
-                setSelectedMaterial(s => {
-                  return {
-                    ...s,
-                    schema: schema,
-                  };
-                });
-              } catch {
-                message.error('schema 格式不对');
-              }
-              setData({});
+          <CodeMirror
+            domId="schemaCodeMirror"
+            lint
+            value={JSON.stringify(selectedMaterial.schema, null, 2)}
+            onChange={value => {
+              setSelectedMaterial(s => {
+                return {
+                  ...s,
+                  schema: JSON.parse(value),
+                };
+              });
             }}
-          >
-            重新构建 Schema 表单
-          </Button>
+          />
         </Form.Item>
-        {selectedMaterial.schema && (
+        {Object.keys(selectedMaterial.schema).length > 0 && (
           <Form.Item label="Schema 表单">
             <div style={{ padding: '24px' }}>
               <FormRender
@@ -153,27 +115,7 @@ export default () => {
                     });
                   }}
                 >
-                  生成模板数据
-                </Button>
-                <Button
-                  type="primary"
-                  size="small"
-                  onClick={() => {
-                    const modelStr = modelCodeMirror.getValue();
-                    try {
-                      const model = JSON.parse(modelStr);
-                      setSelectedMaterial(s => {
-                        return {
-                          ...s,
-                          model: { ...model, ...formData },
-                        };
-                      });
-                    } catch {
-                      message.error('model 格式不对');
-                    }
-                  }}
-                >
-                  追加模板数据
+                  重新生成模板数据
                 </Button>
               </Space>
             </div>
@@ -183,7 +125,19 @@ export default () => {
           label="模板数据"
           style={{ display: selectedMaterial.path ? 'flex' : 'none' }}
         >
-          <textarea id="modelCodeMirror"></textarea>
+          <CodeMirror
+            domId="modelCodeMirror"
+            lint
+            value={JSON.stringify(selectedMaterial.model, null, 2)}
+            onChange={value => {
+              setSelectedMaterial(s => {
+                return {
+                  ...s,
+                  model: JSON.parse(value),
+                };
+              });
+            }}
+          />
           <br></br>
           <Space>
             <Dropdown overlay={menu}>
@@ -220,19 +174,13 @@ export default () => {
       <YapiModal
         visible={yapiModalVsible}
         onOk={model => {
-          const modelStr = modelCodeMirror.getValue();
-          try {
-            const oriModel = JSON.parse(modelStr);
-            setSelectedMaterial(s => {
-              return {
-                ...s,
-                model: { ...oriModel, ...model },
-              };
-            });
-            setYapiModalVsible(false);
-          } catch {
-            message.error('model 格式不对');
-          }
+          setSelectedMaterial(s => {
+            return {
+              ...s,
+              model: { ...selectedMaterial.model, ...model },
+            };
+          });
+          setYapiModalVsible(false);
         }}
         onCancel={() => {
           setYapiModalVsible(false);
@@ -263,7 +211,7 @@ export default () => {
               cmd: 'genCodeByBlockMaterial',
               data: {
                 material: selectedMaterial.name,
-                model: JSON.parse(modelCodeMirror.getValue()),
+                model: selectedMaterial.model,
                 path: path,
                 createPath: createPath,
               },

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Input, Row, Col, Tooltip, Button, Space } from 'antd';
+import { Input, Row, Col, Tooltip, Button, Space, notification } from 'antd';
 import { history } from 'umi';
 import { callVscode } from '@/webview';
 import './index.less';
@@ -18,6 +18,7 @@ export default () => {
         description?: string;
         img?: string;
       };
+      template: string;
     }[]
   >([]);
   const [oriMaterials, setOriMaterials] = useState<typeof materials>([]);
@@ -68,6 +69,27 @@ export default () => {
                     <Button
                       type="primary"
                       style={{ width: '33.33%', borderRadius: 'none' }}
+                      onClick={() => {
+                        if (!s.template) {
+                          notification.error({
+                            message: '添加失败',
+                            description: '模板为空',
+                          });
+                          return;
+                        }
+                        callVscode(
+                          {
+                            cmd: 'insertSnippet',
+                            data: { template: s.template },
+                          },
+                          () => {
+                            notification.success({
+                              message: '添加成功',
+                              description: '添加成功',
+                            });
+                          },
+                        );
+                      }}
                     >
                       直接添加
                     </Button>

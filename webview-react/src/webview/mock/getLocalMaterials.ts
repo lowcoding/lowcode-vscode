@@ -34,7 +34,7 @@ export default [
       description: 'ksjfdfhdfhdkfjd',
       img: 'https://s1.ax1x.com/2020/10/06/0UYjmV.md.jpg',
     },
-    template: '',
+    template: '1212121',
   },
   {
     path: '2',
