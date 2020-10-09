@@ -3,7 +3,7 @@
   "displayName": "yapi-code",
   "description": "根据 yapi 接口定义或 JSON 快速生成 Typescript 类型，支持自定义模板。",
   "author": "wjkang <ruoxieme@gmail.com>",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "icon": "asset/icon.png",
   "publisher": "wjkang",
   "main": "./build/extension.js",
@@ -34,7 +34,8 @@
   ],
   "activationEvents": [
     "onCommand:yapi-code.generateCode",
-    "onCommand:yapi-code.generateCodeByWebview"
+    "onCommand:yapi-code.generateCodeByWebview",
+    "onCommand:yapi-code.addSnippet"
   ],
   "contributes": {
     "commands": [
@@ -45,6 +46,10 @@
       {
         "command": "yapi-code.generateCodeByWebview",
         "title": "LOW-CODE->可视化生成代码"
+      },
+      {
+        "command": "yapi-code.addSnippet",
+        "title": "LOW-CODE->添加代码片段"
       }
     ],
     "menus": {
@@ -54,6 +59,9 @@
         },
         {
           "command": "yapi-code.generateCodeByWebview"
+        },
+        {
+          "command": "yapi-code.addSnippet"
         }
       ]
     },

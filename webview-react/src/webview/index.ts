@@ -1,4 +1,5 @@
 import { notification } from 'antd';
+import { history } from 'umi';
 const callbacks: { [propName: string]: (data: any) => void } = {};
 const errorCallbacks: { [propName: string]: (data: any) => void } = {};
 if (process.env.NODE_ENV !== 'production') {
@@ -50,6 +51,17 @@ window.addEventListener('message', event => {
       delete callbacks[message.cbid]; // 执行完回调删除
       delete errorCallbacks[message.cbid]; // 执行完回调删除
       break;
+    // vscode推送任务
+    case 'vscodePushTask': {
+      if (message.task === 'addSnippets') {
+        // notification.info({
+        //   message: '',
+        //   description: JSON.stringify(message.data),
+        // });
+        localStorage.setItem('addSnippets', message.data.content || '');
+        history.push(`/snippets/add/${new Date().getTime()}`);
+      }
+    }
     default:
       break;
   }

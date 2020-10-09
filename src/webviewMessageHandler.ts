@@ -162,7 +162,48 @@ const messageHandler: {
       invokeCallback(pandel, message.cbid, '下载成功');
     } catch (ex) {
       invokeErrorCallback(pandel, message.cbid, {
-        title: '下载',
+        title: '下载失败',
+        message: ex.toString(),
+      });
+    }
+  },
+  addSnippets(
+    pandel: WebviewPanel,
+    message: IMessage<{
+      name: string;
+      template: string;
+      model: string;
+      schema: string;
+      preview: string;
+    }>,
+  ) {
+    const snippetPath = path.join(
+      workspace.rootPath!,
+      'materials',
+      'snippets',
+      message.data.name,
+    );
+    try {
+      fs.outputFileSync(
+        path.join(snippetPath, 'src', 'template.ejs'),
+        message.data.template,
+      );
+      fs.outputFileSync(
+        path.join(snippetPath, 'config', 'model.json'),
+        message.data.model,
+      );
+      fs.outputFileSync(
+        path.join(snippetPath, 'config', 'schema.json'),
+        message.data.schema,
+      );
+      fs.outputFileSync(
+        path.join(snippetPath, 'config', 'preview.json'),
+        message.data.preview,
+      );
+      invokeCallback(pandel, message.cbid, '添加成功');
+    } catch (ex) {
+      invokeErrorCallback(pandel, message.cbid, {
+        title: '添加失败',
         message: ex.toString(),
       });
     }

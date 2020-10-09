@@ -26,6 +26,10 @@ export default defineConfig({
           component: '@/pages/snippets',
         },
         {
+          path: '/snippets/add/:time',
+          component: '@/pages/snippets/AddSnippet',
+        },
+        {
           path: '/snippets/detail/:name',
           component: '@/pages/snippets/Detail',
         },

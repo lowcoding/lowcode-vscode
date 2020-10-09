@@ -7,7 +7,7 @@ export const createOrShowWebview = (context: vscode.ExtensionContext) => {
   return vscode.commands.registerTextEditorCommand(
     'yapi-code.generateCodeByWebview',
     () => {
-      ReactPanel.createOrShow(context.extensionPath);
+      WebView.createOrShow(context.extensionPath);
     },
   );
 };
@@ -15,11 +15,11 @@ export const createOrShowWebview = (context: vscode.ExtensionContext) => {
 /**
  * Manages react webview panels
  */
-class ReactPanel {
+export class WebView {
   /**
    * Track the currently panel. Only allow a single panel to exist at a time.
    */
-  public static currentPanel: ReactPanel | undefined;
+  public static currentPanel: WebView | undefined;
 
   private static readonly viewType = 'react';
 
@@ -30,17 +30,26 @@ class ReactPanel {
   public static createOrShow(extensionPath: string) {
     // If we already have a panel, show it.
     // Otherwise, create a new panel.
-    if (ReactPanel.currentPanel) {
-      ReactPanel.currentPanel._panel.reveal();
+    if (WebView.currentPanel) {
+      WebView.currentPanel._panel.reveal();
     } else {
       // 创建 webview 的时候，设置之前 focus 的 activeTextEditor
       if (vscode.window.activeTextEditor) {
         setLastActiveTextEditorId((vscode.window.activeTextEditor as any).id);
       }
-      ReactPanel.currentPanel = new ReactPanel(
-        extensionPath,
-        vscode.ViewColumn.Two,
-      );
+      WebView.currentPanel = new WebView(extensionPath, vscode.ViewColumn.Two);
+    }
+  }
+
+  public static pushTask(task: { task: string; data: any }) {
+    if (WebView.currentPanel) {
+      WebView.currentPanel!._panel.webview.postMessage({
+        cmd: 'vscodePushTask',
+        task: task.task,
+        data: task.data,
+      });
+    } else {
+      vscode.window.showErrorMessage('webview暂未初始化');
     }
   }
 
@@ -49,7 +58,7 @@ class ReactPanel {
 
     // Create and show a new webview panel
     this._panel = vscode.window.createWebviewPanel(
-      ReactPanel.viewType,
+      WebView.viewType,
       'LOW-CODE可视化',
       { viewColumn: column, preserveFocus: true },
       {
@@ -85,14 +94,8 @@ class ReactPanel {
     this._panel.onDidDispose(() => this.dispose(), null, this._disposables);
   }
 
-  public doRefactor() {
-    // Send a message to the webview webview.
-    // You can send any JSON serializable data.
-    this._panel.webview.postMessage({ command: 'refactor' });
-  }
-
   public dispose() {
-    ReactPanel.currentPanel = undefined;
+    WebView.currentPanel = undefined;
 
     // Clean up our resources
     this._panel.dispose();

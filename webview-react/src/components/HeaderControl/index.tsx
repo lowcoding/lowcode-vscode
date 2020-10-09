@@ -17,6 +17,14 @@ export default () => {
       >
         下载物料
       </Menu.Item>
+      <Menu.Item
+        key="1"
+        onClick={() => {
+          history.push('/snippets/add/10086');
+        }}
+      >
+        添加代码片段
+      </Menu.Item>
     </Menu>
   );
   return (
