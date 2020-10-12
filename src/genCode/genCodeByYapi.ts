@@ -131,7 +131,7 @@ export const genTemplateModelByYapi = async (
   } else {
     //const ts = await jsonToTs(selectInfo.typeName, res.data.data.res_body);
     const resBodyJson = JSON.parse(res.data.data.res_body);
-    const schema = GenerateSchema.json('Schema', resBodyJson);
+    const schema = GenerateSchema.json(typeName || 'Schema', resBodyJson);
     let ts = await compile(schema, typeName, {
       bannerComment: undefined,
     });

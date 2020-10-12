@@ -2,6 +2,9 @@ import { WebviewPanel, window, workspace } from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs-extra';
 import * as dirTree from 'directory-tree';
+import { compile } from 'json-schema-to-typescript';
+const GenerateSchema = require('generate-schema');
+const strip = require('strip-comments');
 import { getDomain, getLocalMaterials, getProjectList } from './config';
 import { genTemplateModelByYapi } from './genCode/genCodeByYapi';
 import { renderEjsTemplates, compile as compileEjs } from './compiler/ejs';
@@ -204,6 +207,24 @@ const messageHandler: {
     } catch (ex) {
       invokeErrorCallback(pandel, message.cbid, {
         title: '添加失败',
+        message: ex.toString(),
+      });
+    }
+  },
+  async jsonToTs(
+    pandel: WebviewPanel,
+    message: IMessage<{ json: object; typeName: string }>,
+  ) {
+    try {
+      const schema = GenerateSchema.json(message.data.typeName||'DefaultType', message.data.json);
+      let ts = await compile(schema, message.data.typeName, {
+        bannerComment: undefined,
+      });
+      ts = strip(ts.replace(/(\[k: string\]: unknown;)|\?/g, ''));
+      invokeCallback(pandel, message.cbid, ts);
+    } catch (ex) {
+      invokeErrorCallback(pandel, message.cbid, {
+        title: '生成失败',
         message: ex.toString(),
       });
     }
