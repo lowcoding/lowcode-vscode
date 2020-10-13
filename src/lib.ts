@@ -269,3 +269,9 @@ export const downloadMaterialsFromGit = (remote: string) => {
   fs.copySync(path.join(tempWordDir, 'materials'), path.join(materialsDir));
   fs.removeSync(tempWordDir);
 };
+
+export const downloadMaterialsFromNpm = (packageName: string) => {
+	const result = execa.sync('npm', ['view', 'vue', 'dist.tarball']);
+	const tarball=result.stdout;
+	
+};

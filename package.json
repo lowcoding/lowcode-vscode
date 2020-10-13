@@ -148,6 +148,8 @@
     "is-url": "^1.2.4",
     "json-schema-to-typescript": "^9.1.1",
     "quicktype-core": "^6.0.66",
-    "strip-comments": "^2.0.1"
+    "strip-comments": "^2.0.1",
+    "tar": "^6.0.5",
+    "zlib": "^1.0.5"
   }
 }
