@@ -15,6 +15,7 @@ import FormRender from 'form-render/lib/antd';
 import { callVscode } from '@/webview';
 import YapiModal from '@/components/YapiModal';
 import CodeMirror from '@/components/CodeMirror';
+import JsonToTs from '@/components/JsonToTs';
 
 export default () => {
   const [selectedMaterial, setSelectedMaterial] = useState<{
@@ -33,6 +34,7 @@ export default () => {
   const [formData, setData] = useState({});
   const [yapiModalVsible, setYapiModalVsible] = useState(false);
   const [templateModalVisble, setTemplateModalVisble] = useState(false);
+  const [jsonToTsModalVisble, setJsonToTsModalVisble] = useState(false);
   const params = useParams<{ name: string }>();
   useEffect(() => {
     callVscode({ cmd: 'getLocalMaterials', data: 'snippets' }, data => {
@@ -56,6 +58,13 @@ export default () => {
 
   const menu = (
     <Menu>
+      <Menu.Item
+        onClick={() => {
+          setJsonToTsModalVisble(true);
+        }}
+      >
+        JSON TO TS
+      </Menu.Item>
       <Menu.Item
         onClick={() => {
           setYapiModalVsible(true);
@@ -226,6 +235,22 @@ export default () => {
         }}
         onCancel={() => {
           setYapiModalVsible(false);
+        }}
+      />
+      <JsonToTs
+        visible={jsonToTsModalVisble}
+        json={selectedMaterial.model}
+        onCancel={() => {
+          setJsonToTsModalVisble(false);
+        }}
+        onOk={type => {
+          setSelectedMaterial(s => {
+            return {
+              ...s,
+              model: { ...selectedMaterial.model, type: type },
+            };
+          });
+          setJsonToTsModalVisble(false);
         }}
       />
       <Modal

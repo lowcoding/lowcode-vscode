@@ -36,7 +36,7 @@ export const genCodeByJson = async (
   try {
     //const ts = await jsonToTs(selectInfo.typeName, jsonString);
     const json = JSON.parse(jsonString);
-    const schema = GenerateSchema.json('Schema', json);
+    const schema = GenerateSchema.json(selectInfo.typeName || 'Schema', json);
     let ts = await compile(schema, selectInfo.typeName, {
       bannerComment: undefined,
     });
