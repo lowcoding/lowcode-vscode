@@ -115,7 +115,9 @@ const DownloadMaterials: React.FC<IProps> = ({ visible, onCancel, onOk }) => {
                 </>
               )}
               {formData.type === 'npm' && (
-                <Select.Option value="locode">locode</Select.Option>
+                <Select.Option value="@lowcoding/materials-template">
+                  @lowcoding/materials-template
+                </Select.Option>
               )}
             </Select>
           </Form.Item>

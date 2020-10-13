@@ -4,11 +4,13 @@ import * as quicktypeCore from 'quicktype-core';
 import * as path from 'path';
 import * as fs from 'fs-extra';
 import * as execa from 'execa';
+const tar = require('tar');
 import {
   getMockConfig,
   getMockKeyWordEqualConfig,
   getMockKeyWordLikeConfig,
 } from './config';
+import { download } from './utils/download';
 
 export const getClipboardText = () => {
   return copyPaste.paste();
@@ -263,15 +265,24 @@ export const setLastActiveTextEditorId = (id: string) => {
 };
 
 export const downloadMaterialsFromGit = (remote: string) => {
-  const tempWordDir = path.join(workspace.rootPath!, '.lowcode');
+  const tempDir = path.join(workspace.rootPath!, '.lowcode');
   const materialsDir = path.join(workspace.rootPath!, 'materials');
-  execa.sync('git', ['clone', remote, tempWordDir]);
-  fs.copySync(path.join(tempWordDir, 'materials'), path.join(materialsDir));
-  fs.removeSync(tempWordDir);
+  execa.sync('git', ['clone', remote, tempDir]);
+  fs.copySync(path.join(tempDir, 'materials'), path.join(materialsDir));
+  fs.removeSync(tempDir);
 };
 
-export const downloadMaterialsFromNpm = (packageName: string) => {
-	const result = execa.sync('npm', ['view', 'vue', 'dist.tarball']);
-	const tarball=result.stdout;
-	
+export const downloadMaterialsFromNpm = async (packageName: string) => {
+  const result = execa.sync('npm', ['view', packageName, 'dist.tarball']);
+  const tarball = result.stdout;
+  const tempDir = path.join(workspace.rootPath!, '.lowcode');
+  await download(tarball, tempDir, `temp.tgz`);
+  await tar.x({
+    file: path.join(tempDir, `temp.tgz`),
+    C: tempDir,
+    strip: 1,
+  });
+  const materialsDir = path.join(workspace.rootPath!, 'materials');
+  fs.copySync(path.join(tempDir, 'materials'), materialsDir);
+  fs.removeSync(tempDir);
 };

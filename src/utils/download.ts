@@ -23,6 +23,8 @@ export function download(url: string, filePath: string, fileName: string) {
             reject(ex);
           });
       })
-      .catch((ex: any) => {});
+      .catch((ex: any) => {
+        reject(ex);
+      });
   });
 }
