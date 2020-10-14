@@ -5,7 +5,12 @@ import * as dirTree from 'directory-tree';
 import { compile } from 'json-schema-to-typescript';
 const GenerateSchema = require('generate-schema');
 const strip = require('strip-comments');
-import { getDomain, getLocalMaterials, getProjectList } from './config';
+import {
+  getAllConfig,
+  getDomain,
+  getLocalMaterials,
+  getProjectList,
+} from './config';
 import { genTemplateModelByYapi } from './genCode/genCodeByYapi';
 import { renderEjsTemplates, compile as compileEjs } from './compiler/ejs';
 import {
@@ -217,7 +222,10 @@ const messageHandler: {
     message: IMessage<{ json: object; typeName: string }>,
   ) {
     try {
-      const schema = GenerateSchema.json(message.data.typeName||'DefaultType', message.data.json);
+      const schema = GenerateSchema.json(
+        message.data.typeName || 'DefaultType',
+        message.data.json,
+      );
       let ts = await compile(schema, message.data.typeName, {
         bannerComment: undefined,
       });
@@ -230,6 +238,43 @@ const messageHandler: {
       });
     }
   },
+  getPluginConfig(pandel: WebviewPanel, message: IMessage) {
+    try {
+      invokeCallback(pandel, message.cbid, getAllConfig());
+    } catch (ex) {
+      invokeErrorCallback(pandel, message.cbid, {
+        title: '读取配置失败',
+        message: ex.toString(),
+      });
+    }
+  },
+  savePluginConfig(
+    panel: WebviewPanel,
+    message: IMessage<{
+      yapi: {
+        domain: string;
+        projects: {
+          name: string;
+          token: string;
+          domain: string;
+        }[];
+      };
+      mock: {
+        mockNumber: string;
+        mockBoolean: string;
+        mockString: string;
+        mockKeyWordEqual: {
+          key: string;
+          value: string;
+        }[];
+        mockKeyWordLike: {
+          key: string;
+          value: string;
+        }[];
+      };
+      saveOption: ['vscode', 'package'];
+    }>,
+  ) {},
 };
 
 export default messageHandler;

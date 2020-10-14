@@ -140,6 +140,35 @@ export const getMockKeyWordLikeConfig = () => {
   );
 };
 
+export const getAllConfig = () => {
+  const mockConfig = getMockConfig();
+  const mockKeyWordEqualConfig = getMockKeyWordEqualConfig();
+  const mockKeyWordLikeConfig = getMockKeyWordLikeConfig();
+  return {
+    yapi: {
+      domain: getDomain(),
+      projects: getProjectList(),
+    },
+    mock: {
+      mockNumber: mockConfig.number,
+      mockBoolean: mockConfig.boolean,
+      mockString: mockConfig.string,
+      mockKeyWordEqual: Object.keys(mockKeyWordEqualConfig).map((s) => {
+        return {
+          key: s,
+          value: mockKeyWordEqualConfig[s],
+        };
+      }),
+      mockKeyWordLike: Object.keys(mockKeyWordLikeConfig).map((s) => {
+        return {
+          key: s,
+          value: mockKeyWordLikeConfig[s],
+        };
+      }),
+    },
+  };
+};
+
 /**
  * 获取本地 物料模板
  *

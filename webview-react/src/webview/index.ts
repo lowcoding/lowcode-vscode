@@ -33,6 +33,20 @@ export function callVscode(
   }
 }
 
+export function callVscodePromise(cmd: string, data: any) {
+  return new Promise((resolve, reject) => {
+    callVscode(
+      { cmd: cmd, data: data },
+      res => {
+        resolve(res);
+      },
+      error => {
+        reject(error);
+      },
+    );
+  });
+}
+
 window.addEventListener('message', event => {
   const message = event.data;
   switch (message.cmd) {
