@@ -3,26 +3,26 @@ export default {
     domain: 'https://www.google.com',
     projects: [
       {
-        name: '',
-        token: '',
-        domain: '',
+        name: '121212',
+        token: '12121212',
+        domain: '333333333',
       },
     ],
   },
   mock: {
-    mockNumber: '',
-    mockBoolean: '',
-    mockString: '',
+    mockNumber: '1',
+    mockBoolean: '2',
+    mockString: '3',
     mockKeyWordEqual: [
       {
-        key: '',
-        value: '',
+        key: '1',
+        value: '2',
       },
     ],
     mockKeyWordLike: [
       {
-        key: '',
-        value: '',
+        key: '1',
+        value: '2',
       },
     ],
   },

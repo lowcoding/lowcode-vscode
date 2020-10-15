@@ -14,14 +14,13 @@ export const getFileContent = (filePath: string, fullPath = false) => {
   return fileContent;
 };
 
-const pkg = JSON.parse(getFileContent('package.json') || '{}');
-
 /**
  * 获取域名
  *
  * @returns
  */
 export const getDomain = () => {
+  const pkg = JSON.parse(getFileContent('package.json') || '{}');
   return (
     (pkg['yapi-code.domain'] as string) ||
     vscode.workspace.getConfiguration().get('yapi-code.domain', '')
@@ -34,6 +33,7 @@ export const getDomain = () => {
  * @returns
  */
 export const getProjectList = () => {
+  const pkg = JSON.parse(getFileContent('package.json') || '{}');
   return (
     (pkg['yapi-code.project'] as {
       name: string;
@@ -55,6 +55,7 @@ export const getProjectList = () => {
  * @returns
  */
 export const getCodeTemplateList = () => {
+  const pkg = JSON.parse(getFileContent('package.json') || '{}');
   return (
     (pkg['yapi-code.codeTemplate'] as { name: string; template: string }[]) ||
     vscode.workspace
@@ -69,6 +70,7 @@ export const getCodeTemplateList = () => {
  * @returns
  */
 export const getTemplateFilePath = () => {
+  const pkg = JSON.parse(getFileContent('package.json') || '{}');
   return (
     (pkg['yapi-code.templatePath'] as string) ||
     vscode.workspace
@@ -103,6 +105,7 @@ export const getCodeTemplateListFromFiles = () => {
 };
 
 export const getMockConfig = () => {
+  const pkg = JSON.parse(getFileContent('package.json') || '{}');
   return {
     number:
       (pkg['yapi-code.mockNumber'] as string) ||
@@ -123,6 +126,7 @@ export const getMockConfig = () => {
 };
 
 export const getMockKeyWordEqualConfig = () => {
+  const pkg = JSON.parse(getFileContent('package.json') || '{}');
   return (
     pkg['yapi-code.mockKeyWordEqual'] ||
     vscode.workspace
@@ -132,6 +136,7 @@ export const getMockKeyWordEqualConfig = () => {
 };
 
 export const getMockKeyWordLikeConfig = () => {
+  const pkg = JSON.parse(getFileContent('package.json') || '{}');
   return (
     pkg['yapi-code.mockKeyWordLike'] ||
     vscode.workspace
@@ -167,6 +172,46 @@ export const getAllConfig = () => {
       }),
     },
   };
+};
+
+export const saveAllConfig = (config: {
+  yapi: {
+    domain: string;
+    projects: {
+      name: string;
+      token: string;
+      domain: string;
+    }[];
+  };
+  mock: {
+    mockNumber: string;
+    mockBoolean: string;
+    mockString: string;
+    mockKeyWordEqual: { [k: string]: string };
+    mockKeyWordLike: { [k: string]: string };
+  };
+}) => {
+  vscode.workspace
+    .getConfiguration()
+    .update('yapi-code.domain', config.yapi.domain, true);
+  vscode.workspace
+    .getConfiguration()
+    .update('yapi-code.project', config.yapi.projects, true);
+  vscode.workspace
+    .getConfiguration()
+    .update('yapi-code.mockNumber', config.mock.mockNumber, true);
+  vscode.workspace
+    .getConfiguration()
+    .update('yapi-code.mockBoolean', config.mock.mockBoolean, true);
+  vscode.workspace
+    .getConfiguration()
+    .update('yapi-code.mockString', config.mock.mockString, true);
+  vscode.workspace
+    .getConfiguration()
+    .update('yapi-code.mockKeyWordEqual', config.mock.mockKeyWordEqual, true);
+  vscode.workspace
+    .getConfiguration()
+    .update('yapi-code.mockKeyWordLike', config.mock.mockKeyWordLike, true);
 };
 
 /**
