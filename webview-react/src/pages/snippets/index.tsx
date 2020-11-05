@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Input, Row, Col, Tooltip, Button, Space, notification } from 'antd';
+import { Input, Row, Col, Tooltip, Button, notification } from 'antd';
 import { history, useModel } from 'umi';
 import { callVscode } from '@/webview';
 import './index.less';

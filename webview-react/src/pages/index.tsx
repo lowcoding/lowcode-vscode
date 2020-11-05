@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, notification } from 'antd';
+import { Button, message } from 'antd';
 import FormRender from 'form-render/lib/antd';
 import { callVscode, callVscodePromise } from '@/webview';
 const schame = {
@@ -120,10 +120,7 @@ const schame = {
         type: 'string',
       },
       enum: ['package', 'vscode'],
-      enumNames: [
-        '当前项目package.json文件（建议）',
-        'vscode配置',
-      ],
+      enumNames: ['当前项目package.json文件（建议）', 'vscode配置'],
     },
   },
 };
@@ -181,11 +178,7 @@ export default () => {
           type="primary"
           onClick={() => {
             callVscodePromise('savePluginConfig', formData).then(() => {
-              notification.success({
-                message: '保存成功',
-                placement: 'bottomRight',
-                description: '',
-              });
+              message.success('保存成功');
             });
           }}
         >
