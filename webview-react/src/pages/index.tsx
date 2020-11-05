@@ -121,7 +121,7 @@ const schame = {
       },
       enum: ['package', 'vscode'],
       enumNames: [
-        '当前项目package.json文件（建议，读取优先级高）',
+        '当前项目package.json文件（建议）',
         'vscode配置',
       ],
     },

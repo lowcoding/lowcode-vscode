@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Row, Col, Tooltip, Input, Button } from 'antd';
-import { history } from 'umi';
+import { history, useModel } from 'umi';
 import { callVscode } from '@/webview';
 import './index.less';
 
 const { Search } = Input;
 
 export default () => {
+  const { refresh, setRefresh } = useModel('tab');
   const [materials, setMaterials] = useState<
     {
       path: string;
@@ -25,8 +26,24 @@ export default () => {
   useEffect(() => {
     callVscode({ cmd: 'getLocalMaterials', data: 'blocks' }, data => {
       setMaterials(data);
+      setOriMaterials(data);
     });
   }, []);
+  useEffect(() => {
+    if (refresh) {
+      callVscode(
+        { cmd: 'getLocalMaterials', data: 'blocks' },
+        data => {
+          setMaterials(data);
+          setOriMaterials(data);
+          setRefresh(false);
+        },
+        () => {
+          setRefresh(false);
+        },
+      );
+    }
+  }, [refresh]);
 
   return (
     <div className="snippets-materials">
@@ -58,6 +75,7 @@ export default () => {
               <div
                 style={{
                   backgroundImage: `url(${s.preview.img})`,
+                  backgroundPosition: 'center',
                 }}
                 className="snippets-materials-item"
               >

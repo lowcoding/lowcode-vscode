@@ -31,7 +31,8 @@
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "umi": "^3.2.19",
-    "yorkie": "^2.0.0"
+    "yorkie": "^2.0.0",
+    "hox": "^1.0.2"
   },
   "devDependencies": {
     "@types/codemirror": "^0.0.98",

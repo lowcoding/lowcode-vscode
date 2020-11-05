@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Form, Input, message, notification } from 'antd';
-import { history, useParams } from 'umi';
+import { Button, Form, Input, message } from 'antd';
+import { history, useParams, useModel } from 'umi';
 import { callVscode } from '@/webview';
 import CodeMirror from '@/components/CodeMirror';
 
 export default () => {
+  const { setTab } = useModel('tab');
   const [formData, setFormData] = useState<{
     name: string;
     template: string;
@@ -18,7 +19,8 @@ export default () => {
       {
         title: '',
         description: '',
-        img: 'https://s1.ax1x.com/2020/10/09/0rZdZF.png',
+        img:
+          'https://gitee.com/img-host/img-host/raw/master//2020/11/05/1604587962875.jpg',
       },
       null,
       2,
@@ -132,11 +134,7 @@ export default () => {
             callVscode(
               { cmd: 'addSnippets', data: formData },
               () => {
-                notification.success({
-                  message: '添加成功',
-                  description: '',
-                  placement: 'bottomRight',
-                });
+                message.success('添加成功');
               },
               () => {},
             );
@@ -148,6 +146,7 @@ export default () => {
         <Button
           shape="round"
           onClick={() => {
+            setTab('/snippets');
             history.push('/snippets');
           }}
           style={{ width: '50%' }}

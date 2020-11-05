@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { history } from 'umi';
+import { history, useModel } from 'umi';
 import { Radio, Menu, Dropdown } from 'antd';
 import DownloadMaterials from '../DownloadMaterials';
 
 export default () => {
+  const { tab, setTab } = useModel('tab');
   const [downloadMaterialsVisible, setDownloadMaterialsVisible] = useState(
     false,
   );
@@ -20,6 +21,7 @@ export default () => {
       <Menu.Item
         key="1"
         onClick={() => {
+          setTab('empty');
           history.push('/snippets/add/10086');
         }}
       >
@@ -30,11 +32,12 @@ export default () => {
   return (
     <div style={{ textAlign: 'center', marginTop: '20px' }}>
       <Radio.Group
-        defaultValue="/snippets"
+        value={tab}
         onChange={e => {
           const { value } = e.target;
           if (value !== 'more') {
             history.push(value);
+            setTab(value);
           }
         }}
         buttonStyle="solid"

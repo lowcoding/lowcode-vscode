@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Form, Select, message, notification } from 'antd';
+import { Modal, Form, Select, message } from 'antd';
+import { useModel, history } from 'umi';
 import { callVscode } from '@/webview';
 
 interface IProps {
@@ -8,6 +9,7 @@ interface IProps {
   onOk: () => void;
 }
 const DownloadMaterials: React.FC<IProps> = ({ visible, onCancel, onOk }) => {
+  const { tab, setRefresh } = useModel('tab');
   const [formData, setFormData] = useState<{
     type: 'git' | 'npm';
     url: string;
@@ -43,13 +45,12 @@ const DownloadMaterials: React.FC<IProps> = ({ visible, onCancel, onOk }) => {
             data: { type: formData.type, url: formData.url },
           },
           () => {
-            notification.success({
-              message: '下载成功',
-              description: '关闭当前标签后重新打开即可',
-              placement: 'bottomRight',
-            });
+            message.success('下载成功');
             setProcessing(false);
             onOk();
+            if (tab === '/snippets' || tab === '/blocks') {
+              setRefresh(true);
+            }
           },
           () => {
             setProcessing(false);
