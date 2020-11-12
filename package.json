@@ -1,11 +1,12 @@
 {
-  "name": "yapi-code",
-  "displayName": "yapi-code",
-  "description": "根据 yapi 接口定义或 JSON 快速生成 Typescript 类型，支持自定义模板。",
+  "name": "lowcode",
+  "displayName": "lowcode",
+  "description": "低代码工具",
   "author": "wjkang <ruoxieme@gmail.com>",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "icon": "asset/icon.png",
   "publisher": "wjkang",
+  "repository": "https://github.com/lowcoding/lowcode-vscode",
   "main": "./build/extension.js",
   "scripts": {
     "vscode:prepublish": "yarn run compile",
