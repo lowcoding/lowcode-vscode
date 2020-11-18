@@ -14,8 +14,11 @@ const config: UserConfig = {
   assetsInlineLimit: 40000,
   rollupOutputOptions: {
     entryFileNames: 'main.js',
+    assetFileNames: (info) => {
+      return 'main.css';
+    },
   },
-  cssCodeSplit: false,
+  cssCodeSplit: true,
 };
 
 module.exports = config;
