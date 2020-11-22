@@ -73,12 +73,7 @@ const SelectDirectory: React.FC<Iprops> = ({ visible, onOk, onCancel }) => {
         onOk(formData.path, formData.createPath);
       }}
     >
-      <Form
-        {...{
-          labelCol: { span: 4 },
-          wrapperCol: { span: 20 },
-        }}
-      >
+      <Form layout="vertical">
         <Form.Item label="选择目录" required>
           <TreeSelect
             treeData={tree}

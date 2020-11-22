@@ -30,7 +30,6 @@ export default () => {
     };
     template: string;
   }>({ schema: {}, model: {} } as any);
-  const [materials, setMaterials] = useState<typeof selectedMaterial[]>([]);
   const [formData, setData] = useState({});
   const [yapiModalVsible, setYapiModalVsible] = useState(false);
   const [templateModalVisble, setTemplateModalVisble] = useState(false);
@@ -38,7 +37,6 @@ export default () => {
   const params = useParams<{ name: string }>();
   useEffect(() => {
     callVscode({ cmd: 'getLocalMaterials', data: 'snippets' }, data => {
-      setMaterials(data);
       if (data.length) {
         const selected = data.find((s: any) => s.name === params.name);
         setSelectedMaterial(selected!);
@@ -85,10 +83,7 @@ export default () => {
   return (
     <div>
       <Form
-        {...{
-          labelCol: { span: 4 },
-          wrapperCol: { span: 14 },
-        }}
+        layout="vertical"
       >
         <Form.Item label="模板">{selectedMaterial.name}</Form.Item>
         <Form.Item

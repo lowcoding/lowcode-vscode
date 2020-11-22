@@ -2,13 +2,13 @@ import { UserConfig } from 'vite';
 import path from 'path';
 
 const pathResolve = (pathStr: string) => {
-  return path.resolve(__dirname, pathStr);
+  console.log(path.resolve(__dirname, '.', pathStr));
+  return path.resolve(__dirname, '.', pathStr);
 };
-
 const config: UserConfig = {
-  alias: {
-    '/@/': pathResolve('./src'),
-  },
+  //   alias: {
+  //     '@': pathResolve('src'),
+  //   },
   outDir: '../webview-dist',
   assetsDir: '',
   assetsInlineLimit: 40000,

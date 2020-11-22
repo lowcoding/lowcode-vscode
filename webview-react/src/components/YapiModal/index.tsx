@@ -61,12 +61,7 @@ const YapiModal: React.FC<IProps> = ({ visible, onCancel, onOk }) => {
         genModel();
       }}
     >
-      <Form
-        {...{
-          labelCol: { span: 4 },
-          wrapperCol: { span: 20 },
-        }}
-      >
+      <Form layout="vertical">
         <Form.Item label="项目" required>
           <Select
             placeholder="请选择项目"

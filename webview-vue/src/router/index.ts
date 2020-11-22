@@ -1,7 +1,9 @@
 import { RouteRecordRaw, createRouter, createWebHistory } from 'vue-router';
 import Layout from '../layout';
-import Home from '../views/Home';
-import About from '../views/About';
+import Snippet from '../views/snippet';
+import SnippetDetail from '../views/snippet/Detail';
+import Block from '../views/block';
+import Config from '../views/config';
 
 const routes: RouteRecordRaw[] = [
   {
@@ -9,17 +11,24 @@ const routes: RouteRecordRaw[] = [
     component: Layout,
     children: [
       {
-        path: '/',
-        name: 'Home',
-        component: Home,
+        path: '/snippets',
+        name: 'Snippet',
+        component: Snippet,
       },
       {
-        path: '/about',
-        name: 'About',
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
-        component: About,
+        path: '/blocks',
+        name: 'Block',
+        component: Block,
+      },
+      {
+        path: '/snippets/detail/:name',
+        name: 'SnippetDetail',
+        component: SnippetDetail,
+      },
+      {
+        path: '/config',
+        name: 'Config',
+        component: Config,
       },
     ],
   },

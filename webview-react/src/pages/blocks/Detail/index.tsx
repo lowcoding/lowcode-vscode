@@ -76,12 +76,7 @@ export default () => {
 
   return (
     <div>
-      <Form
-        {...{
-          labelCol: { span: 4 },
-          wrapperCol: { span: 14 },
-        }}
-      >
+      <Form layout="vertical">
         <Form.Item label="模板">{selectedMaterial.name}</Form.Item>
         <Form.Item
           label="模板 Schema"

@@ -1,14 +1,19 @@
-import { reactive } from 'vue';
+import { reactive, toRefs } from 'vue';
 
-const model = reactive({
+export const TabOptions = ['/snippets', '/blocks', '/config', 'more'] as const;
+
+export type Tab = typeof TabOptions[number];
+
+const model = reactive<{ tab: Tab }>({
   tab: '/snippets',
 });
 
 export default function useHeaderControlTab() {
-  const updateTab = (tab: string) => {
+  const updateTab = (tab: Tab) => {
     model.tab = tab;
   };
   return {
-
-  }
+    ...toRefs(model),
+    updateTab,
+  };
 }

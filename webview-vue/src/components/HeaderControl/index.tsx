@@ -1,13 +1,18 @@
 import { defineComponent } from 'vue';
+import { useRouter } from 'vue-router';
 import { Radio, Menu, Dropdown } from 'ant-design-vue';
+import useHeaderControlTab, { Tab, TabOptions } from '../../model/headerControlTab';
 
 export default defineComponent({
   name: 'HeaderControl',
   setup() {
+    const { tab, updateTab } = useHeaderControlTab();
+    const router = useRouter();
     const MenuList = (
       <Menu
-        onClick={({key}) => {
-          console.log(key);
+        onClick={({ key }) => {
+          if (key === '1') {
+          }
         }}
       >
         {() => (
@@ -20,15 +25,27 @@ export default defineComponent({
     );
     return () => (
       <div>
-        <Radio.Group buttonStyle="solid">
+        <Radio.Group
+          buttonStyle="solid"
+          value={tab}
+          onChange={(e) => {
+            const value = e.target.value as Tab;
+            if (value !== 'more') {
+              updateTab(value);
+              router.push({
+                path: value,
+              });
+            }
+          }}
+        >
           {() => (
             <>
-              <Radio.Button value="/snippets">{() => '代码片段'}</Radio.Button>
-              <Radio.Button value="/blocks">{() => '区块'}</Radio.Button>
-              <Radio.Button value="/index">{() => '插件配置'}</Radio.Button>
+              <Radio.Button value={TabOptions[0]}>{() => '代码片段'}</Radio.Button>
+              <Radio.Button value={TabOptions[1]}>{() => '区块'}</Radio.Button>
+              <Radio.Button value={TabOptions[2]}>{() => '插件配置'}</Radio.Button>
               <Dropdown>
                 {{
-                  default: () => <Radio.Button value="more">{() => '更多'}</Radio.Button>,
+                  default: () => <Radio.Button value={TabOptions[3]}>{() => '更多'}</Radio.Button>,
                   overlay: () => MenuList,
                 }}
               </Dropdown>
