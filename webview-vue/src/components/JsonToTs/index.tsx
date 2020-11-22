@@ -10,7 +10,7 @@ export default defineComponent({
       required: true,
     },
     json: {
-      type: Object,
+      type: String,
       required: true,
     },
     onCancel: {
@@ -25,7 +25,7 @@ export default defineComponent({
   emits: ['cancel', 'ok'],
   setup(props, context) {
     const formData = reactive<{ json: string; type: string; typeName: string }>({
-      json: JSON.stringify(props.json, null, 2),
+      json: props.json,
       type: '',
       typeName: '',
     });
@@ -33,7 +33,7 @@ export default defineComponent({
       () => props.visible,
       () => {
         if (props.visible) {
-          formData.json = JSON.stringify(props.json, null, 2);
+          formData.json = props.json;
         }
       },
     );
@@ -64,16 +64,9 @@ export default defineComponent({
               {() => (
                 <>
                   <Form.Item label="json" required>
-                    {() => (
-                      <CodeMirror
-                        domId="jsonCodeMirror"
-                        lint
-                        value={formData.json}
-                        onChange={(value) => {
-                          formData.json = value;
-                        }}
-                      />
-                    )}
+                    {() => {
+                      return <CodeMirror domId="jsonCodeMirror" lint value={formData.json} />;
+                    }}
                   </Form.Item>
                   <Form.Item label="类型名称">
                     {() => (

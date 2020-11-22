@@ -120,7 +120,7 @@ export default defineComponent({
         </div>
         <JsonToTs
           visible={dialogVisible.jsonToTs}
-          json={selectedMaterial.data.model}
+          json={JSON.stringify(selectedMaterial.data.model, null, 2)}
           onOk={(typeCode) => {}}
           onCancel={() => {
             dialogVisible.jsonToTs = false;
