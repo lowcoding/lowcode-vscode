@@ -1,9 +1,9 @@
-import { defineComponent, onMounted, reactive } from 'vue';
+import { computed, defineComponent, onMounted, reactive } from 'vue';
 import { useRoute } from 'vue-router';
-import { Form, Button, Menu, Dropdown } from 'ant-design-vue';
+import { Form, Button, Menu, Dropdown, message } from 'ant-design-vue';
 import { DownOutlined } from '@ant-design/icons-vue';
 import CodeMirror from '../../../components/CodeMirror';
-import { getLocalMaterials } from '../../../vscode/service';
+import { genCodeBySnippetMaterial, getLocalMaterials } from '../../../vscode/service';
 import router from '../../../router';
 import JsonToTs from '../../../components/JsonToTs';
 
@@ -28,6 +28,7 @@ export default defineComponent({
       jsonToTs: false,
       yapi: false,
     });
+    const modelJson = computed(() => JSON.stringify(selectedMaterial.data.model, null, 2));
     onMounted(() => {
       const name = route.params['name'];
       getLocalMaterials('snippets').then((res) => {
@@ -98,7 +99,18 @@ export default defineComponent({
                       )}
                     </Dropdown>
                     &nbsp;&nbsp;
-                    <Button type="primary" size="small">
+                    <Button
+                      type="primary"
+                      size="small"
+                      onClick={() => {
+                        genCodeBySnippetMaterial({
+                          model: selectedMaterial.data.model,
+                          template: selectedMaterial.data.template,
+                        }).then(() => {
+                          message.success('生成成功');
+                        });
+                      }}
+                    >
                       {() => '生成代码'}
                     </Button>
                   </>
@@ -120,8 +132,14 @@ export default defineComponent({
         </div>
         <JsonToTs
           visible={dialogVisible.jsonToTs}
-          json={JSON.stringify(selectedMaterial.data.model, null, 2)}
-          onOk={(typeCode) => {}}
+          json={modelJson.value}
+          onOk={(typeCode) => {
+            selectedMaterial.data.model = {
+              ...selectedMaterial.data.model,
+              type: typeCode,
+            };
+            dialogVisible.jsonToTs = false;
+          }}
           onCancel={() => {
             dialogVisible.jsonToTs = false;
           }}

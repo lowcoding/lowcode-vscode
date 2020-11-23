@@ -1,4 +1,4 @@
-import { defineComponent, PropType, reactive, watch } from 'vue';
+import { defineComponent, nextTick, onMounted, PropType, reactive, watch } from 'vue';
 import { Modal, Form, Input } from 'ant-design-vue';
 import CodeMirror from '../CodeMirror';
 import { jsonToTs } from '../../vscode/service';
@@ -25,7 +25,7 @@ export default defineComponent({
   emits: ['cancel', 'ok'],
   setup(props, context) {
     const formData = reactive<{ json: string; type: string; typeName: string }>({
-      json: props.json,
+      json: '',
       type: '',
       typeName: '',
     });
@@ -33,7 +33,10 @@ export default defineComponent({
       () => props.visible,
       () => {
         if (props.visible) {
-          formData.json = props.json;
+          // CodeMirror 中真实dom可能还未创建，赋值推迟到下一个 DOM 更新周期之后
+          nextTick(() => {
+            formData.json = props.json;
+          });
         }
       },
     );
@@ -65,7 +68,16 @@ export default defineComponent({
                 <>
                   <Form.Item label="json" required>
                     {() => {
-                      return <CodeMirror domId="jsonCodeMirror" lint value={formData.json} />;
+                      return (
+                        <CodeMirror
+                          domId="jsonCodeMirror"
+                          lint
+                          value={formData.json}
+                          onChange={(value) => {
+                            formData.json = value;
+                          }}
+                        />
+                      );
                     }}
                   </Form.Item>
                   <Form.Item label="类型名称">
@@ -81,7 +93,15 @@ export default defineComponent({
                     )}
                   </Form.Item>
                   <Form.Item label="TS 接口类型">
-                    {() => <CodeMirror domId="typeCodeMirror" value={formData.type} />}
+                    {() => (
+                      <CodeMirror
+                        domId="typeCodeMirror"
+                        value={formData.type}
+                        onChange={(value) => {
+                          formData.type = value;
+                        }}
+                      />
+                    )}
                   </Form.Item>
                 </>
               )}

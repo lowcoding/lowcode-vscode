@@ -32,3 +32,10 @@ export function jsonToTs(data: { json: Object; typeName: string }) {
     data: data,
   });
 }
+
+export function genCodeBySnippetMaterial(data: { model: object; template: string }) {
+  return request({
+    cmd: 'genCodeBySnippetMaterial',
+    data: data,
+  });
+}
