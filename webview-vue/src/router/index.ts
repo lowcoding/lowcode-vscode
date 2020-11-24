@@ -3,6 +3,7 @@ import Layout from '../layout';
 import Snippet from '../views/snippet';
 import SnippetDetail from '../views/snippet/Detail';
 import Block from '../views/block';
+import BlockDetail from '../views/block/Detail';
 import Config from '../views/config';
 
 const routes: RouteRecordRaw[] = [
@@ -24,6 +25,11 @@ const routes: RouteRecordRaw[] = [
         path: '/snippets/detail/:name',
         name: 'SnippetDetail',
         component: SnippetDetail,
+      },
+      {
+        path: '/blocks/detail/:name',
+        name: 'BlockDetail',
+        component: BlockDetail,
       },
       {
         path: '/config',

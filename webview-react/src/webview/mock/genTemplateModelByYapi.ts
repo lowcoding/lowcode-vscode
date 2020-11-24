@@ -72,7 +72,7 @@ export default {
     markdown: '',
     res_body:
       '{"type":"object","title":"empty object","properties":{"message":{"type":"string","description":"返回日志信息"},"code":{"type":"number","description":"状态码"},"result":{"type":"object","properties":{"records":{"type":"array","items":{"type":"object","properties":{"id":{"type":"number","description":"主键id"},"code":{"type":"string","description":"应用编码"},"name":{"type":"string","description":"名称"},"icon":{"type":"string","description":"图标地址"},"actived":{"type":"number","description":"可用状态. 0: 不可用, 1: 可用"}}},"description":"分页对象"},"total":{"type":"number","description":"总条数"},"size":{"type":"number","description":"每页大小"},"current":{"type":"number","description":"当前页"},"pages":{"type":"number","description":"总页数"}},"required":["id","code","name","icon","sort","actived","records","total","size","current","pages"]}},"required":["id","code","name","icon","sort","actived","message","code","result"]}',
-    username: '林钊星',
+    username: 'ruoxie',
   },
   inputValues: [],
   mockCode:

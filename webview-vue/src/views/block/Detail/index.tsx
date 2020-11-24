@@ -22,7 +22,6 @@ export default defineComponent({
           description?: string;
           img?: string;
         };
-        template: string;
       };
     }>({ data: { schema: {}, model: {} } } as any);
     const dialogVisible = reactive<{ jsonToTs: boolean; yapi: boolean }>({
@@ -32,7 +31,7 @@ export default defineComponent({
     const modelJson = computed(() => JSON.stringify(selectedMaterial.data.model, null, 2));
     onMounted(() => {
       const name = route.params['name'];
-      getLocalMaterials('snippets').then((res) => {
+      getLocalMaterials('blocks').then((res) => {
         if (res.length) {
           const selected = res.find((s) => s.name === name);
           if (selected) {
@@ -65,18 +64,6 @@ export default defineComponent({
         <Form layout="vertical">
           {() => (
             <>
-              <Form.Item label="模板">
-                {() => (
-                  <CodeMirror
-                    domId="template"
-                    lint
-                    value={selectedMaterial.data.template}
-                    onChange={(value) => {
-                      selectedMaterial.data.template = value;
-                    }}
-                  />
-                )}
-              </Form.Item>
               <Form.Item label="模板数据">
                 {() => (
                   <CodeMirror
@@ -106,7 +93,7 @@ export default defineComponent({
                       onClick={() => {
                         genCodeBySnippetMaterial({
                           model: selectedMaterial.data.model,
-                          template: selectedMaterial.data.template,
+                          template: '121212',
                         }).then(() => {
                           message.success('生成成功');
                         });
