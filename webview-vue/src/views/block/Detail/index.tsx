@@ -3,10 +3,11 @@ import { useRoute } from 'vue-router';
 import { Form, Button, Menu, Dropdown, message } from 'ant-design-vue';
 import { DownOutlined } from '@ant-design/icons-vue';
 import CodeMirror from '../../../components/CodeMirror';
-import { genCodeBySnippetMaterial, getLocalMaterials } from '../../../vscode/service';
+import { genCodeByBlockMaterial, getLocalMaterials } from '../../../vscode/service';
 import router from '../../../router';
 import JsonToTs from '../../../components/JsonToTs';
 import YapiModal from '../../../components/YapiModal';
+import SelectDirectory from '../../../components/SelectDirectory';
 
 export default defineComponent({
   setup() {
@@ -24,9 +25,10 @@ export default defineComponent({
         };
       };
     }>({ data: { schema: {}, model: {} } } as any);
-    const dialogVisible = reactive<{ jsonToTs: boolean; yapi: boolean }>({
+    const dialogVisible = reactive<{ jsonToTs: boolean; yapi: boolean; directory: boolean }>({
       jsonToTs: false,
       yapi: false,
+      directory: false,
     });
     const modelJson = computed(() => JSON.stringify(selectedMaterial.data.model, null, 2));
     onMounted(() => {
@@ -91,12 +93,7 @@ export default defineComponent({
                       type="primary"
                       size="small"
                       onClick={() => {
-                        genCodeBySnippetMaterial({
-                          model: selectedMaterial.data.model,
-                          template: '121212',
-                        }).then(() => {
-                          message.success('生成成功');
-                        });
+                        dialogVisible.directory = true;
                       }}
                     >
                       {() => '生成代码'}
@@ -111,7 +108,7 @@ export default defineComponent({
           <Button
             shape="round"
             onClick={() => {
-              router.push('/snippets');
+              router.push('/blocks');
             }}
             style={{ width: '50%' }}
           >
@@ -140,6 +137,23 @@ export default defineComponent({
           }}
           onCancel={() => {
             dialogVisible.yapi = false;
+          }}
+        />
+        <SelectDirectory
+          visible={dialogVisible.directory}
+          onCancel={() => {
+            dialogVisible.directory = false;
+          }}
+          onOk={(path, creatPath) => {
+            genCodeByBlockMaterial({
+              material: selectedMaterial.data.name,
+              model: selectedMaterial.data.model,
+              path: path,
+              createPath: creatPath,
+            }).then(() => {
+              message.success('生成成功');
+              dialogVisible.directory = false;
+            });
           }}
         />
       </div>

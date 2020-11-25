@@ -1,17 +1,20 @@
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { Radio, Menu, Dropdown } from 'ant-design-vue';
 import useHeaderControlTab, { Tab, TabOptions } from '../../model/headerControlTab';
+import DownloadMaterials from '../DownloadMaterials';
 
 export default defineComponent({
   name: 'HeaderControl',
   setup() {
     const { tab, updateTab } = useHeaderControlTab();
     const router = useRouter();
+    const downloadMaterialsVisible = ref(false);
     const MenuList = (
       <Menu
         onClick={({ key }) => {
-          if (key === '1') {
+          if (key === '0') {
+            downloadMaterialsVisible.value = true;
           }
         }}
       >
@@ -52,6 +55,15 @@ export default defineComponent({
             </>
           )}
         </Radio.Group>
+        <DownloadMaterials
+          visible={downloadMaterialsVisible.value}
+          onOk={() => {
+            downloadMaterialsVisible.value = false;
+          }}
+          onCancel={() => {
+            downloadMaterialsVisible.value = false;
+          }}
+        />
       </div>
     );
   },

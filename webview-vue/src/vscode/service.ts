@@ -112,3 +112,61 @@ export function genTemplateModelByYapi(data: {
     data: data,
   });
 }
+
+type DirectoryTreeNode = {
+  path: string;
+  name: string;
+  size: number;
+  extension: string;
+  type: 'file' | 'directory';
+  children?: DirectoryTreeNode[];
+};
+/**
+ * 获取当前项目目录结构
+ *
+ * @export
+ * @returns
+ */
+export function getDirectoryTree() {
+  return request<DirectoryTreeNode>({
+    cmd: 'getDirectoryTree',
+  });
+}
+
+/**
+ * 根据区块物料生成代码
+ *
+ * @export
+ * @param {{
+ *   material: string;
+ *   model: object;
+ *   path: string;
+ *   createPath: string[];
+ * }} data
+ * @returns
+ */
+export function genCodeByBlockMaterial(data: {
+  material: string;
+  model: object;
+  path: string;
+  createPath: string[];
+}) {
+  return request<string>({
+    cmd: 'genCodeByBlockMaterial',
+    data,
+  });
+}
+
+/**
+ * 下载物料
+ *
+ * @export
+ * @param {{ type: string; url: string }} data
+ * @returns
+ */
+export function downloadMaterials(data: { type: string; url: string }) {
+  return request<string>({
+    cmd: 'genCodeByBlockMaterial',
+    data,
+  });
+}

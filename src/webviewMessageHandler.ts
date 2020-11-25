@@ -97,10 +97,12 @@ const messageHandler: {
         message.data.typeName,
         message.data.funName,
       );
-      console.log(model);
       invokeCallback(panel, message.cbid, model);
-    } catch {
-      invokeCallback(panel, message.cbid, {});
+    } catch (ex) {
+      invokeErrorCallback(panel, message.cbid, {
+        title: '失败',
+        message: ex.toString(),
+      });
     }
   },
   async genCodeByBlockMaterial(
