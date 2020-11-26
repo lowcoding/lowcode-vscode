@@ -5,6 +5,7 @@ import SnippetDetail from '../views/snippet/Detail';
 import Block from '../views/block';
 import BlockDetail from '../views/block/Detail';
 import Config from '../views/config';
+import AddSnippet from '../views/snippet/AddSnippet';
 
 const routes: RouteRecordRaw[] = [
   {
@@ -35,6 +36,11 @@ const routes: RouteRecordRaw[] = [
         path: '/config',
         name: 'Config',
         component: Config,
+      },
+      {
+        path: '/snippets/add/:time',
+        name: 'AddSnippet',
+        component: AddSnippet,
       },
     ],
   },
