@@ -1,6 +1,6 @@
 import { window } from 'vscode';
 import { compile } from 'json-schema-to-typescript';
-import { getCodeTemplateListFromFiles } from '../config';
+import { getCodeTemplateListFromFiles, getSnippets } from '../config';
 import {
   getFuncNameAndTypeName,
   jsonToTs,
@@ -18,7 +18,8 @@ export const genCodeByJson = async (
   rawClipboardText: string,
 ) => {
   // const templateList = getCodeTemplateList();
-  const templateList = getCodeTemplateListFromFiles();
+  //const templateList = getCodeTemplateListFromFiles();
+  const templateList = getSnippets();
   if (templateList.length === 0) {
     window.showErrorMessage('请配置模板');
     return;
@@ -54,10 +55,7 @@ export const genCodeByJson = async (
       rawSelectedText: selectInfo.rawSelectedText,
       rawClipboardText: rawClipboardText,
     };
-    const code =
-      template?.type === 'hbs'
-        ? compileHbs(template!.template, model)
-        : compileEjs(template!.template, model);
+    const code = compileEjs(template!.template, model);
     pasteToMarker(code);
   } catch (e) {
     window.showErrorMessage(e.toString());

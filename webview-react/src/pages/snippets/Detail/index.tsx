@@ -85,7 +85,6 @@ export default () => {
       <Form
         layout="vertical"
       >
-        <Form.Item label="模板">{selectedMaterial.name}</Form.Item>
         <Form.Item
           label="模板 Schema"
           style={{ display: selectedMaterial.path ? 'flex' : 'none' }}

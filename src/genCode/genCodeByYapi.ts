@@ -2,10 +2,10 @@ import {
   getDomain,
   getProjectList,
   getCodeTemplateListFromFiles,
+  getSnippets,
 } from '../config';
 import { window } from 'vscode';
 import { compile } from 'json-schema-to-typescript';
-import { compile as compileHbs } from '../compiler/hbs';
 import { compile as compileEjs } from '../compiler/ejs';
 import {
   getFuncNameAndTypeName,
@@ -33,7 +33,8 @@ export const genCodeByYapi = async (
     return;
   }
   //const templateList = getCodeTemplateList();
-  const templateList = getCodeTemplateListFromFiles();
+  //const templateList = getCodeTemplateListFromFiles();
+  const templateList = getSnippets();
   if (templateList.length === 0) {
     window.showErrorMessage('请配置模板');
     return;
@@ -71,10 +72,7 @@ export const genCodeByYapi = async (
     model.inputValues = selectInfo.inputValues;
     model.rawSelectedText = selectInfo.rawSelectedText;
     model.rawClipboardText = rawClipboardText;
-    const code =
-      template?.type === 'hbs'
-        ? compileHbs(template!.template, model)
-        : compileEjs(template!.template, model);
+    const code = compileEjs(template!.template, model);
     pasteToMarker(code);
   } catch (e) {
     window.showErrorMessage(e.toString());

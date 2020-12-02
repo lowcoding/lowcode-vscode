@@ -225,7 +225,14 @@ export const getLocalMaterials = (type: 'blocks' | 'snippets') => {
     'materials',
     type,
   );
-  let materials: any[] = [];
+  let materials: {
+    path: string;
+    name: string;
+    model: {};
+    schema: {};
+    preview: {};
+    template: string;
+  }[] = [];
   try {
     materials = fs.readdirSync(materialsPath).map((s) => {
       const fullPath = path.join(materialsPath, s);
@@ -268,3 +275,30 @@ export const getLocalMaterials = (type: 'blocks' | 'snippets') => {
   } catch {}
   return materials;
 };
+
+/**
+ * 获取 codeTemplate 目录下ejs文件作为代码模板并且合并代码片段
+ *
+ * @export
+ * @returns
+ */
+export function getSnippets() {
+  const templates: {
+    path: string;
+    name: string;
+    model: {};
+    schema: {};
+    preview: {};
+    template: string;
+  }[] = getCodeTemplateListFromFiles().map((s) => {
+    return {
+      path: '',
+      name: s.name,
+      model: {},
+      schema: {},
+      preview: {},
+      template: s.template,
+    };
+  });
+  return templates.concat(getLocalMaterials('snippets'));
+}

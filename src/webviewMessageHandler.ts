@@ -10,6 +10,7 @@ import {
   getDomain,
   getLocalMaterials,
   getProjectList,
+  getSnippets,
   saveAllConfig,
 } from './config';
 import { genTemplateModelByYapi } from './genCode/genCodeByYapi';
@@ -68,8 +69,13 @@ const messageHandler: {
     panel: WebviewPanel,
     message: IMessage<'blocks' | 'snippets'>,
   ) {
-    const materials = getLocalMaterials(message.data);
-    invokeCallback(panel, message.cbid, materials);
+    if (message.data === 'blocks') {
+      const materials = getLocalMaterials(message.data);
+      invokeCallback(panel, message.cbid, materials);
+    } else {
+      const materials = getSnippets();
+      invokeCallback(panel, message.cbid, materials);
+    }
   },
   getYapiDomain(panel: WebviewPanel, message: IMessage) {
     const domian = getDomain();
