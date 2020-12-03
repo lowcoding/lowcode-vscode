@@ -13,7 +13,11 @@ async function main() {
     const extensionTestsPath = path.resolve(__dirname, './suite/index');
 
     // Download VS Code, unzip it and run the integration test
-    await runTests({ extensionDevelopmentPath, extensionTestsPath });
+    await runTests({
+      extensionDevelopmentPath,
+      extensionTestsPath,
+      launchArgs: [path.resolve('H:/Github/lowcode-materials-template')], // 以 cli 运行时传入打开的目录
+    });
   } catch (err) {
     console.error('Failed to run tests');
     process.exit(1);

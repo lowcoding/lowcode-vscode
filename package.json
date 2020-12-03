@@ -18,8 +18,9 @@
     "webview:build-react": "yarn --cwd \"webview-react\" build",
     "lint": "eslint src --ext ts",
     "watch": "webpack --mode development",
-    "pretest": "yarn run compile:tsc && yarn run lint",
-    "test": "node ./build/test/runTest.js"
+    "pretest1": "yarn run compile:tsc && yarn run lint",
+    "test:js": "node ./build/test/runTest.js",
+    "test": "ts-node ./src/test/runTest.ts"
   },
   "engines": {
     "vscode": "^1.42.0"
@@ -115,6 +116,7 @@
   },
   "devDependencies": {
     "@types/copy-paste": "^1.1.30",
+    "@types/debug": "^4.1.5",
     "@types/ejs": "^3.0.4",
     "@types/fs-extra": "^9.0.1",
     "@types/glob": "^7.1.1",
