@@ -3,7 +3,7 @@
   "displayName": "lowcode",
   "description": "低代码工具",
   "author": "wjkang <ruoxieme@gmail.com>",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "icon": "asset/icon.png",
   "publisher": "wjkang",
   "repository": "https://github.com/lowcoding/lowcode-vscode",
@@ -150,6 +150,7 @@
     "json-schema-to-typescript": "^9.1.1",
     "quicktype-core": "^6.0.66",
     "strip-comments": "^2.0.1",
+    "strip-json-comments": "^3.1.1",
     "tar": "^6.0.5"
   }
 }

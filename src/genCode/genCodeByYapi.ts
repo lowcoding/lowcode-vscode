@@ -16,6 +16,7 @@ import {
 import { fetchApiDetailInfo } from '../service';
 import { Model } from '../compiler/type';
 const strip = require('strip-comments');
+const stripJsonComments = require('strip-json-comments');
 const GenerateSchema = require('generate-schema');
 
 export const genCodeByYapi = async (
@@ -93,7 +94,7 @@ export const genTemplateModelByYapi = async (
   const requestBodyTypeName =
     funcName.slice(0, 1).toUpperCase() + funcName.slice(1);
   if (res.data.data.res_body_type === 'json') {
-    const schema = JSON.parse(res.data.data.res_body);
+    const schema = JSON.parse(stripJsonComments(res.data.data.res_body));
     delete schema.title;
     let ts = await compile(schema, typeName, {
       bannerComment: undefined,
@@ -102,7 +103,9 @@ export const genTemplateModelByYapi = async (
     const { mockCode, mockData } = formatSchema(schema);
     let requestBodyType = '';
     if (res.data.data.req_body_other) {
-      const reqBodyScheme = JSON.parse(res.data.data.req_body_other);
+      const reqBodyScheme = JSON.parse(
+        stripJsonComments(res.data.data.req_body_other),
+      );
       delete reqBodyScheme.title;
       requestBodyType = await compile(
         reqBodyScheme,
@@ -130,7 +133,7 @@ export const genTemplateModelByYapi = async (
     return model;
   } else {
     //const ts = await jsonToTs(selectInfo.typeName, res.data.data.res_body);
-    const resBodyJson = JSON.parse(res.data.data.res_body);
+    const resBodyJson = JSON.parse(stripJsonComments(res.data.data.res_body));
     const schema = GenerateSchema.json(typeName || 'Schema', resBodyJson);
     let ts = await compile(schema, typeName, {
       bannerComment: undefined,
@@ -139,7 +142,9 @@ export const genTemplateModelByYapi = async (
     const { mockCode, mockData } = formatSchema(schema);
     let requestBodyType = '';
     if (res.data.data.req_body_other) {
-      const reqBodyScheme = JSON.parse(res.data.data.req_body_other);
+      const reqBodyScheme = JSON.parse(
+        stripJsonComments(res.data.data.req_body_other),
+      );
       delete reqBodyScheme.title;
       requestBodyType = await compile(
         reqBodyScheme,
