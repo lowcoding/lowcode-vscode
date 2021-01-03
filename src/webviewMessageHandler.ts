@@ -20,6 +20,8 @@ import {
   downloadMaterialsFromNpm,
   pasteToMarker,
 } from './lib';
+import { getContext } from './extensionContext';
+import { registerCompletion } from './commands/registerCompletion';
 
 interface IMessage<T = any> {
   cmd: string;
@@ -53,9 +55,6 @@ const messageHandler: {
   [propName: string]: (panel: WebviewPanel, message: IMessage) => void;
 } = {
   alert(panel: WebviewPanel, message: IMessage) {
-    console.log(
-      JSON.stringify(window.visibleTextEditors.map((s: any) => s.id)),
-    );
     window.showErrorMessage(message.data);
     invokeCallback(panel, message.cbid, '来自vscode的回复');
   },
@@ -334,6 +333,18 @@ const messageHandler: {
       }
     }
     invokeCallback(panel, message.cbid, '保存成功');
+  },
+  refreshIntelliSense(panel: WebviewPanel, message: IMessage) {
+    const context = getContext();
+    if (context) {
+      registerCompletion(context);
+      invokeCallback(panel, message.cbid, '刷新成功');
+    } else {
+      invokeErrorCallback(panel, message.cbid, {
+        title: '刷新失败',
+        message: '',
+      });
+    }
   },
 };
 

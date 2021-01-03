@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { history, useModel } from 'umi';
-import { Radio, Menu, Dropdown } from 'antd';
+import { Radio, Menu, Dropdown, message } from 'antd';
 import DownloadMaterials from '../DownloadMaterials';
+import { refreshIntelliSense } from '@/webview/service';
 
 export default () => {
   const { tab, setTab } = useModel('tab');
@@ -26,6 +27,16 @@ export default () => {
         }}
       >
         添加代码片段
+      </Menu.Item>
+      <Menu.Item
+        key="2"
+        onClick={() => {
+          refreshIntelliSense().then(() => {
+            message.success('刷新成功');
+          });
+        }}
+      >
+        刷新代码智能提示
       </Menu.Item>
     </Menu>
   );

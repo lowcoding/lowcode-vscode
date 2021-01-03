@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs';
+import { Console } from 'console';
 
 export const getFileContent = (filePath: string, fullPath = false) => {
   let fileContent = '';
@@ -292,11 +293,14 @@ export function getSnippets() {
     template: string;
   }[] = getCodeTemplateListFromFiles().map((s) => {
     return {
-      path: '',
+      path: s.name,
       name: s.name,
       model: {},
       schema: {},
-      preview: {},
+      preview: {
+        img:
+          'https://gitee.com/img-host/img-host/raw/master//2020/11/05/1604587962875.jpg',
+      },
       template: s.template,
     };
   });

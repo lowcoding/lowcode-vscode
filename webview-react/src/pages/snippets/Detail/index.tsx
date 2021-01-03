@@ -82,9 +82,25 @@ export default () => {
 
   return (
     <div>
-      <Form
-        layout="vertical"
-      >
+      <Form layout="vertical">
+        <Form.Item
+          label="模板"
+          style={{ display: selectedMaterial.path ? 'flex' : 'none' }}
+        >
+          <CodeMirror
+            domId="templateCodeMirror"
+            lint={false}
+            value={selectedMaterial.template}
+            onChange={value => {
+              setSelectedMaterial(s => {
+                return {
+                  ...s,
+                  template: value,
+                };
+              });
+            }}
+          />
+        </Form.Item>
         <Form.Item
           label="模板 Schema"
           style={{ display: selectedMaterial.path ? 'flex' : 'none' }}
@@ -260,7 +276,7 @@ export default () => {
         }}
       >
         <CodeMirror
-          domId="templateCodeMirror"
+          domId="templateCodeMirrorDialog"
           lint={false}
           value={selectedMaterial.template}
           onChange={value => {

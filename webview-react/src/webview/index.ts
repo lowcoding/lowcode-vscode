@@ -47,6 +47,20 @@ export function callVscodePromise(cmd: string, data: any) {
   });
 }
 
+export function request<T = unknown>(params: { cmd: string; data?: any }) {
+  return new Promise<T>((resolve, reject) => {
+    callVscode(
+      { cmd: params.cmd, data: params.data },
+      res => {
+        resolve(res);
+      },
+      error => {
+        reject(error);
+      },
+    );
+  });
+}
+
 window.addEventListener('message', event => {
   const message = event.data;
   switch (message.cmd) {
@@ -74,6 +88,9 @@ window.addEventListener('message', event => {
         // });
         localStorage.setItem('addSnippets', message.data.content || '');
         history.push(`/snippets/add/${new Date().getTime()}`);
+      }
+      if (message.task === 'openSnippet') {
+        history.push(`/snippets/detail/${message.data.name}`);
       }
     }
     default:
