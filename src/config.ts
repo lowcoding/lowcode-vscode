@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs';
+import { Console } from 'console';
 
 export const getFileContent = (filePath: string, fullPath = false) => {
   let fileContent = '';
@@ -225,7 +226,14 @@ export const getLocalMaterials = (type: 'blocks' | 'snippets') => {
     'materials',
     type,
   );
-  let materials: any[] = [];
+  let materials: {
+    path: string;
+    name: string;
+    model: {};
+    schema: {};
+    preview: {};
+    template: string;
+  }[] = [];
   try {
     materials = fs.readdirSync(materialsPath).map((s) => {
       const fullPath = path.join(materialsPath, s);
@@ -268,3 +276,33 @@ export const getLocalMaterials = (type: 'blocks' | 'snippets') => {
   } catch {}
   return materials;
 };
+
+/**
+ * 获取 codeTemplate 目录下ejs文件作为代码模板并且合并代码片段
+ *
+ * @export
+ * @returns
+ */
+export function getSnippets() {
+  const templates: {
+    path: string;
+    name: string;
+    model: {};
+    schema: {};
+    preview: {};
+    template: string;
+  }[] = getCodeTemplateListFromFiles().map((s) => {
+    return {
+      path: s.name,
+      name: s.name,
+      model: {},
+      schema: {},
+      preview: {
+        img:
+          'https://gitee.com/img-host/img-host/raw/master//2020/11/05/1604587962875.jpg',
+      },
+      template: s.template,
+    };
+  });
+  return templates.concat(getLocalMaterials('snippets'));
+}

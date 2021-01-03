@@ -10,6 +10,7 @@ import {
   getDomain,
   getLocalMaterials,
   getProjectList,
+  getSnippets,
   saveAllConfig,
 } from './config';
 import { genTemplateModelByYapi } from './genCode/genCodeByYapi';
@@ -19,6 +20,8 @@ import {
   downloadMaterialsFromNpm,
   pasteToMarker,
 } from './lib';
+import { getContext } from './extensionContext';
+import { registerCompletion } from './commands/registerCompletion';
 
 interface IMessage<T = any> {
   cmd: string;
@@ -52,9 +55,6 @@ const messageHandler: {
   [propName: string]: (panel: WebviewPanel, message: IMessage) => void;
 } = {
   alert(panel: WebviewPanel, message: IMessage) {
-    console.log(
-      JSON.stringify(window.visibleTextEditors.map((s: any) => s.id)),
-    );
     window.showErrorMessage(message.data);
     invokeCallback(panel, message.cbid, '来自vscode的回复');
   },
@@ -68,8 +68,13 @@ const messageHandler: {
     panel: WebviewPanel,
     message: IMessage<'blocks' | 'snippets'>,
   ) {
-    const materials = getLocalMaterials(message.data);
-    invokeCallback(panel, message.cbid, materials);
+    if (message.data === 'blocks') {
+      const materials = getLocalMaterials(message.data);
+      invokeCallback(panel, message.cbid, materials);
+    } else {
+      const materials = getSnippets();
+      invokeCallback(panel, message.cbid, materials);
+    }
   },
   getYapiDomain(panel: WebviewPanel, message: IMessage) {
     const domian = getDomain();
@@ -97,10 +102,12 @@ const messageHandler: {
         message.data.typeName,
         message.data.funName,
       );
-      console.log(model);
       invokeCallback(panel, message.cbid, model);
-    } catch {
-      invokeCallback(panel, message.cbid, {});
+    } catch (ex) {
+      invokeErrorCallback(panel, message.cbid, {
+        title: '失败',
+        message: ex.toString(),
+      });
     }
   },
   async genCodeByBlockMaterial(
@@ -326,6 +333,18 @@ const messageHandler: {
       }
     }
     invokeCallback(panel, message.cbid, '保存成功');
+  },
+  refreshIntelliSense(panel: WebviewPanel, message: IMessage) {
+    const context = getContext();
+    if (context) {
+      registerCompletion(context);
+      invokeCallback(panel, message.cbid, '刷新成功');
+    } else {
+      invokeErrorCallback(panel, message.cbid, {
+        title: '刷新失败',
+        message: '',
+      });
+    }
   },
 };
 

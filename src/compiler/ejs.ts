@@ -44,7 +44,6 @@ async function renderFile(templateFilepath: string, data: ejs.Data) {
   let content = await ejs.renderFile(templateFilepath, data);
   const targetFilePath = templateFilepath.replace(/\.ejs$/, '');
   if (targetFilePath.match(/tsx$|jsx$/)) {
-    // TODO: 需要对换行进行进一步的处理。
     content = prettier.format(content, {
       singleQuote: true,
       filepath: targetFilePath,

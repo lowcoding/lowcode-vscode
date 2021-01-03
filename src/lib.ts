@@ -1,4 +1,4 @@
-import { window, Range, workspace } from 'vscode';
+import { window, Range, workspace, SnippetString } from 'vscode';
 import * as copyPaste from 'copy-paste';
 import * as quicktypeCore from 'quicktype-core';
 import * as path from 'path';
@@ -21,8 +21,14 @@ export const getSelectedText = () => {
   return document.getText(selection).trim();
 };
 
-export const pasteToMarker = (content: string) => {
+export const pasteToMarker = (content: string, isInsertSnippet = true) => {
+  if (isInsertSnippet) {
+    return insertSnippet(content);
+  }
   const activeTextEditor = window.activeTextEditor || getLastAcitveTextEditor();
+  if (activeTextEditor === undefined) {
+    throw new Error('无打开文件');
+  }
   return activeTextEditor?.edit((editBuilder) => {
     //editBuilder.replace(activeTextEditor.selection, content);
     if (activeTextEditor.selection.isEmpty) {
@@ -37,6 +43,14 @@ export const pasteToMarker = (content: string) => {
       );
     }
   });
+};
+
+export const insertSnippet = (content: string) => {
+  const activeTextEditor = window.activeTextEditor || getLastAcitveTextEditor();
+  if (activeTextEditor === undefined) {
+    throw new Error('无打开文件');
+  }
+  return activeTextEditor.insertSnippet(new SnippetString(content));
 };
 
 export const getFuncNameAndTypeName = () => {
@@ -105,6 +119,9 @@ export const isYapiId = (value: string) => {
 };
 
 export const jsonParse = (clipboardText: string) => {
+  if (typeof clipboardText !== 'string') {
+    return '';
+  }
   let func: any = function () {
     return '';
   };
@@ -117,8 +134,10 @@ export const jsonParse = (clipboardText: string) => {
   }
   try {
     func = new Function(`return ${clipboardText.trim()}`);
-  } catch (ex) {}
-  return func();
+    return func();
+  } catch (ex) {
+    return '';
+  }
 };
 
 export const formatSchema = (schema: any) => {

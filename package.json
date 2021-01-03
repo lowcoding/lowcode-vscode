@@ -18,8 +18,9 @@
     "webview:build-react": "yarn --cwd \"webview-react\" build",
     "lint": "eslint src --ext ts",
     "watch": "webpack --mode development",
-    "pretest": "yarn run compile && yarn run lint",
-    "test": "node ./out/test/runTest.js"
+    "pretest1": "yarn run compile:tsc && yarn run lint",
+    "test:js": "node ./build/test/runTest.js",
+    "test": "ts-node ./src/test/runTest.ts"
   },
   "engines": {
     "vscode": "^1.42.0"
@@ -36,36 +37,54 @@
   "activationEvents": [
     "onCommand:yapi-code.generateCode",
     "onCommand:yapi-code.generateCodeByWebview",
-    "onCommand:yapi-code.addSnippet"
+    "onCommand:yapi-code.addSnippet",
+    "*"
   ],
   "contributes": {
     "commands": [
       {
-        "command": "yapi-code.generateCode",
-        "title": "LOW-CODE->生成代码"
+        "command": "yapi-code.generateCodeByWebview",
+        "title": "可视化生成代码"
       },
       {
-        "command": "yapi-code.generateCodeByWebview",
-        "title": "LOW-CODE->可视化生成代码"
+        "command": "yapi-code.generateCode",
+        "title": "生成代码"
       },
       {
         "command": "yapi-code.addSnippet",
-        "title": "LOW-CODE->添加代码片段"
+        "title": "$(octoface) 添加代码片段",
+        "icon": "$(octoface)"
       }
     ],
     "menus": {
       "editor/context": [
         {
-          "command": "yapi-code.generateCode"
+          "submenu": "lowcode/editor/context",
+          "group": "1_lowcode@1"
+        }
+      ],
+      "lowcode/editor/context": [
+        {
+          "command": "yapi-code.generateCodeByWebview",
+          "group": "lowcode@1"
         },
         {
-          "command": "yapi-code.generateCodeByWebview"
+          "command": "yapi-code.generateCode",
+          "group": "lowcode@2"
         },
         {
-          "command": "yapi-code.addSnippet"
+          "command": "yapi-code.addSnippet",
+          "group": "lowcode@3"
         }
       ]
     },
+    "submenus": [
+      {
+        "id": "lowcode/editor/context",
+        "label": "$(octoface) Low Code",
+        "icon": "$(octoface)"
+      }
+    ],
     "configuration": {
       "type": "object",
       "title": "yapi-code 配置项",
@@ -115,6 +134,7 @@
   },
   "devDependencies": {
     "@types/copy-paste": "^1.1.30",
+    "@types/debug": "^4.1.5",
     "@types/ejs": "^3.0.4",
     "@types/fs-extra": "^9.0.1",
     "@types/glob": "^7.1.1",

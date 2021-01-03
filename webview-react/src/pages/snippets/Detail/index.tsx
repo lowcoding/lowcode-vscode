@@ -30,7 +30,6 @@ export default () => {
     };
     template: string;
   }>({ schema: {}, model: {} } as any);
-  const [materials, setMaterials] = useState<typeof selectedMaterial[]>([]);
   const [formData, setData] = useState({});
   const [yapiModalVsible, setYapiModalVsible] = useState(false);
   const [templateModalVisble, setTemplateModalVisble] = useState(false);
@@ -38,7 +37,6 @@ export default () => {
   const params = useParams<{ name: string }>();
   useEffect(() => {
     callVscode({ cmd: 'getLocalMaterials', data: 'snippets' }, data => {
-      setMaterials(data);
       if (data.length) {
         const selected = data.find((s: any) => s.name === params.name);
         setSelectedMaterial(selected!);
@@ -84,13 +82,25 @@ export default () => {
 
   return (
     <div>
-      <Form
-        {...{
-          labelCol: { span: 4 },
-          wrapperCol: { span: 14 },
-        }}
-      >
-        <Form.Item label="模板">{selectedMaterial.name}</Form.Item>
+      <Form layout="vertical">
+        <Form.Item
+          label="模板"
+          style={{ display: selectedMaterial.path ? 'flex' : 'none' }}
+        >
+          <CodeMirror
+            domId="templateCodeMirror"
+            lint={false}
+            value={selectedMaterial.template}
+            onChange={value => {
+              setSelectedMaterial(s => {
+                return {
+                  ...s,
+                  template: value,
+                };
+              });
+            }}
+          />
+        </Form.Item>
         <Form.Item
           label="模板 Schema"
           style={{ display: selectedMaterial.path ? 'flex' : 'none' }}
@@ -266,7 +276,7 @@ export default () => {
         }}
       >
         <CodeMirror
-          domId="templateCodeMirror"
+          domId="templateCodeMirrorDialog"
           lint={false}
           value={selectedMaterial.template}
           onChange={value => {

@@ -62,10 +62,7 @@ const DownloadMaterials: React.FC<IProps> = ({ visible, onCancel, onOk }) => {
       okButtonProps={{ disabled: processing, loading: processing }}
     >
       <Form
-        {...{
-          labelCol: { span: 4 },
-          wrapperCol: { span: 20 },
-        }}
+       layout="vertical"
       >
         <Form.Item label="类型" required>
           <Select

@@ -70,12 +70,7 @@ const JsonToTs: React.FC<IProps> = ({ visible, json, onCancel, onOk }) => {
       okText="确定"
       cancelText="取消"
     >
-      <Form
-        {...{
-          labelCol: { span: 4 },
-          wrapperCol: { span: 14 },
-        }}
-      >
+      <Form layout="vertical">
         <Form.Item label="json" required>
           <CodeMirror
             domId="jsonCodeMirror"
@@ -108,7 +103,18 @@ const JsonToTs: React.FC<IProps> = ({ visible, json, onCancel, onOk }) => {
         </Form.Item>
 
         <Form.Item label="TS 接口类型">
-          <CodeMirror domId="typeCodeMirror" value={formData.type} />
+          <CodeMirror
+            domId="typeCodeMirror"
+            value={formData.type}
+            onChange={value => {
+              setFormData(s => {
+                return {
+                  ...s,
+                  type: value,
+                };
+              });
+            }}
+          />
         </Form.Item>
       </Form>
     </Modal>
