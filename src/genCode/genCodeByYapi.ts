@@ -64,7 +64,7 @@ export const genCodeByYapi = async (
   const template = templateList.find((s) => s.name === templateResult);
   try {
     const model = await genTemplateModelByYapi(
-      domain,
+      project?.domain || domain,
       yapiId,
       project!.token,
       selectInfo.typeName,

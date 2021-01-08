@@ -22,8 +22,9 @@ export default defineComponent({
         token: string;
         id: string;
         typeName: string;
+        funcName: string;
       };
-    }>({ data: {} as any });
+    }>({ data: { typeName: 'IFetchResult', funcName: 'fetch' } as any });
 
     watch(
       () => props.visible,
@@ -52,7 +53,7 @@ export default defineComponent({
         id: formData.data.id,
         token: formData.data.token,
         typeName: formData.data.typeName ? formData.data.typeName : undefined,
-        funName: undefined,
+        funName: formData.data.funcName ? formData.data.funcName : undefined,
       }).then((model) => {
         formData.data = {} as any;
         context.emit('ok', model);
@@ -112,6 +113,26 @@ export default defineComponent({
                       onChange={(e) => {
                         const value = e.target.value;
                         formData.data.id = value;
+                      }}
+                    />
+                  )}
+                </Form.Item>
+                <Form.Item label="接口函数名称">
+                  {() => (
+                    <Input
+                      placeholder="输入生成的接口请求函数名称"
+                      value={formData.data.funcName}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        formData.data.funcName = value;
+                      }}
+                      onBlur={() => {
+                        if (formData.data.funcName && formData.data.funcName.length > 1) {
+                          formData.data.typeName = `I${
+                            formData.data.funcName.charAt(0).toUpperCase() +
+                            formData.data.funcName.slice(1)
+                          }Result`;
+                        }
                       }}
                     />
                   )}

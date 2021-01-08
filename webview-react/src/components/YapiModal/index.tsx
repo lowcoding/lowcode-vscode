@@ -16,8 +16,12 @@ const YapiModal: React.FC<IProps> = ({ visible, onCancel, onOk }) => {
   const [formData, setFormData] = useState<{
     token: string;
     id: string;
+    funName: string;
     typeName: string;
-  }>({} as any);
+  }>({
+    funName: 'fetch',
+    typeName: 'IFetchResult',
+  } as any);
   useEffect(() => {
     if (visible) {
       callVscode({ cmd: 'getYapiDomain' }, data => {
@@ -37,7 +41,7 @@ const YapiModal: React.FC<IProps> = ({ visible, onCancel, onOk }) => {
           id: formData.id,
           token: formData.token,
           typeName: formData.typeName ? formData.typeName : undefined,
-          funName: undefined,
+          funName: formData.funName ? formData.funName : undefined,
         },
       },
       model => {
@@ -100,6 +104,32 @@ const YapiModal: React.FC<IProps> = ({ visible, onCancel, onOk }) => {
                   id: value,
                 };
               });
+            }}
+          />
+        </Form.Item>
+        <Form.Item label="接口函数名称">
+          <Input
+            placeholder="输入生成的接口请求函数名称"
+            value={formData.funName}
+            onChange={e => {
+              const value = e.target.value;
+              setFormData(s => {
+                return {
+                  ...s,
+                  funName: value,
+                };
+              });
+            }}
+            onBlur={() => {
+              if (formData.funName && formData.funName.length > 1) {
+                setFormData(s => {
+                  return {
+                    ...s,
+                    typeName: `I${formData.funName.charAt(0).toUpperCase() +
+                      formData.funName.slice(1)}Result`,
+                  };
+                });
+              }
             }}
           />
         </Form.Item>
