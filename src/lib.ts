@@ -56,7 +56,7 @@ export const insertSnippet = (content: string) => {
 export const getFuncNameAndTypeName = () => {
   const selectedText = getSelectedText() || '';
   let funcName = 'fetch';
-  let typeName = 'IYapiRequestResult';
+  let typeName = 'IFetchResult';
   if (selectedText) {
     const splitValue = selectedText.split(' ');
     funcName = splitValue[0] || funcName;
