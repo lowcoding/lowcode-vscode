@@ -4,6 +4,7 @@ out/test/**
 src/**
 webview-vue/**
 webview-react/**
+webview-angular/**
 .gitignore
 vsc-extension-quickstart.md
 **/tsconfig.json
