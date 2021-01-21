@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "@ant-design/icons-vue": "^5.1.6",
-    "ant-design-vue": "2.0.0-rc.1",
+    "ant-design-vue": "^2.0.0-rc.8",
     "codemirror": "^5.58.3",
     "vue": "^3.0.2",
     "vue-router": "4.0.0-beta.7",
@@ -17,7 +17,9 @@
     "@types/codemirror": "^0.0.98",
     "@typescript-eslint/eslint-plugin": "^4.0.1",
     "@typescript-eslint/parser": "^4.0.1",
-    "@vue/compiler-sfc": "^3.0.2",
+    "@vitejs/plugin-vue": "^1.1.0",
+    "@vitejs/plugin-vue-jsx": "^1.0.2",
+    "@vue/compiler-sfc": "^3.0.5",
     "eslint": "^7.8.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.4",
@@ -25,7 +27,7 @@
     "prettier": "^2.1.1",
     "sass": "^1.26.10",
     "typescript": "^4.0.2",
-    "vite": "^1.0.0-rc.9",
+    "vite": "^2.0.0-beta.35",
     "vue-eslint-parser": "^7.1.0"
   }
 }

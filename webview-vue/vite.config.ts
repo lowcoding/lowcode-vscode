@@ -1,4 +1,6 @@
 import { UserConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
+import vueJsx from '@vitejs/plugin-vue-jsx';
 import path from 'path';
 
 const pathResolve = (pathStr: string) => {
@@ -9,16 +11,25 @@ const config: UserConfig = {
   //   alias: {
   //     '@': pathResolve('src'),
   //   },
-  outDir: '../webview-dist',
-  assetsDir: '',
-  assetsInlineLimit: 40000,
-  rollupOutputOptions: {
-    entryFileNames: 'main.js',
-    assetFileNames: (info) => {
-      return 'main.css';
-    },
+  plugins: [vue(), vueJsx()],
+  optimizeDeps: {
+	exclude:['tinycolor2']
   },
-  cssCodeSplit: true,
+  build: {
+    outDir: '../webview-dist',
+    assetsDir: '',
+    assetsInlineLimit: 40000,
+    rollupOptions: {
+      output: {
+        entryFileNames: 'main.js',
+        assetFileNames: (info) => {
+          return 'main.css';
+        },
+      },
+    },
+	cssCodeSplit: true,
+  },
+  logLevel:"silent"
 };
 
 module.exports = config;
