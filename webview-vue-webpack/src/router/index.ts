@@ -1,6 +1,6 @@
 import { RouteRecordRaw, createRouter, createWebHistory } from 'vue-router';
 import Layout from '../layout';
-import Snippet from '../views/snippet';
+import Snippet from '../views/snippet/List';
 import SnippetDetail from '../views/snippet/Detail';
 import Block from '../views/block';
 import BlockDetail from '../views/block/Detail';

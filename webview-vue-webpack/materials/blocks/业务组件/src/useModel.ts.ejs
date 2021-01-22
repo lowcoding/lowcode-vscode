@@ -1,0 +1,13 @@
+import { reactive } from 'vue';
+
+const useModel = () => {
+  const form = reactive<{
+    data: { name: string };
+  }>({ data: { name: '' } });
+
+  return {
+    form,
+  };
+};
+
+export default useModel;
