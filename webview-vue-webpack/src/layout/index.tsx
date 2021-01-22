@@ -15,14 +15,12 @@ export default defineComponent({
     });
     return () => (
       <Layout class="base-layout">
-        {() => (
-          <>
-            <div class="control-wrap">
-              <HeaderControl />
-            </div>
-            <Layout.Content style={{ padding: '24px' }}>{() => <RouterView />}</Layout.Content>
-          </>
-        )}
+        <div class="control-wrap">
+          <HeaderControl />
+        </div>
+        <Layout.Content style={{ padding: '24px' }}>
+          <RouterView />
+        </Layout.Content>
       </Layout>
     );
   },

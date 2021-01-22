@@ -32,18 +32,14 @@ const useController = () => {
         }
       }}
     >
-      {() => (
-        <>
-          <Menu.Item key="jsonToJs">{() => 'JSON TO TS'}</Menu.Item>
-          <Menu.Item key="yapi">{() => '根据 YAPI 接口追加模板数据'}</Menu.Item>
-        </>
-      )}
+      <Menu.Item key="jsonToJs">{() => 'JSON TO TS'}</Menu.Item>
+      <Menu.Item key="yapi">{() => '根据 YAPI 接口追加模板数据'}</Menu.Item>
     </Menu>
   );
 
   return {
-	service,
-	menu
+    service,
+    menu,
   };
 };
 

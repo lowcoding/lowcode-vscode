@@ -21,12 +21,8 @@ export default defineComponent({
           }
         }}
       >
-        {() => (
-          <>
-            <Menu.Item key="0">{() => '下载物料'}</Menu.Item>
-            <Menu.Item key="1">{() => '添加代码片段'}</Menu.Item>
-          </>
-        )}
+        <Menu.Item key="0">下载物料</Menu.Item>
+        <Menu.Item key="1">添加代码片段</Menu.Item>
       </Menu>
     );
     return () => (
@@ -44,27 +40,17 @@ export default defineComponent({
             }
           }}
         >
-          {() => (
-            <>
-              <Radio.Button value={TabOptions[0]}>
-                {() => '代码片段'}
-              </Radio.Button>
-              <Radio.Button value={TabOptions[1]}>{() => '区块'}</Radio.Button>
-              <Radio.Button value={TabOptions[2]}>
-                {() => '插件配置'}
-              </Radio.Button>
-              <Dropdown>
-                {{
-                  default: () => (
-                    <Radio.Button value={TabOptions[3]}>
-                      {() => '更多'}
-                    </Radio.Button>
-                  ),
-                  overlay: () => MenuList,
-                }}
-              </Dropdown>
-            </>
-          )}
+          <Radio.Button value={TabOptions[0]}>{() => '代码片段'}</Radio.Button>
+          <Radio.Button value={TabOptions[1]}>{() => '区块'}</Radio.Button>
+          <Radio.Button value={TabOptions[2]}>{() => '插件配置'}</Radio.Button>
+          <Dropdown>
+            {{
+              default: () => (
+                <Radio.Button value={TabOptions[3]}>更多</Radio.Button>
+              ),
+              overlay: () => MenuList,
+            }}
+          </Dropdown>
         </Radio.Group>
         <DownloadMaterials
           visible={downloadMaterialsVisible.value}

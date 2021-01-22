@@ -1,4 +1,11 @@
-import { defineComponent, nextTick, onMounted, PropType, reactive, watch } from 'vue';
+import {
+  defineComponent,
+  nextTick,
+  onMounted,
+  PropType,
+  reactive,
+  watch,
+} from 'vue';
 import { Modal, Form, Input } from 'ant-design-vue';
 import CodeMirror from '../CodeMirror';
 import { jsonToTs } from '../../vscode/service';
@@ -24,11 +31,13 @@ export default defineComponent({
   },
   emits: ['cancel', 'ok'],
   setup(props, context) {
-    const formData = reactive<{ json: string; type: string; typeName: string }>({
-      json: '',
-      type: '',
-      typeName: '',
-    });
+    const formData = reactive<{ json: string; type: string; typeName: string }>(
+      {
+        json: '',
+        type: '',
+        typeName: '',
+      },
+    );
     watch(
       () => props.visible,
       () => {
@@ -42,7 +51,10 @@ export default defineComponent({
     );
     watch([() => formData.json, () => formData.typeName], () => {
       if (formData.json && props.visible) {
-        jsonToTs({ json: JSON.parse(formData.json), typeName: formData.typeName }).then((res) => {
+        jsonToTs({
+          json: JSON.parse(formData.json),
+          typeName: formData.typeName,
+        }).then(res => {
           formData.type = res;
         });
       }
@@ -61,53 +73,37 @@ export default defineComponent({
         }}
         maskClosable={false}
       >
-        {() => {
-          return (
-            <Form layout="vertical">
-              {() => (
-                <>
-                  <Form.Item label="json" required>
-                    {() => {
-                      return (
-                        <CodeMirror
-                          domId="jsonCodeMirror"
-                          lint
-                          value={formData.json}
-                          onChange={(value) => {
-                            formData.json = value;
-                          }}
-                        />
-                      );
-                    }}
-                  </Form.Item>
-                  <Form.Item label="类型名称">
-                    {() => (
-                      <Input
-                        value={formData.typeName}
-                        placeholder="输入类型名称"
-                        onChange={(e) => {
-                          const { value } = e.target;
-                          formData.typeName = value;
-                        }}
-                      />
-                    )}
-                  </Form.Item>
-                  <Form.Item label="TS 接口类型">
-                    {() => (
-                      <CodeMirror
-                        domId="typeCodeMirror"
-                        value={formData.type}
-                        onChange={(value) => {
-                          formData.type = value;
-                        }}
-                      />
-                    )}
-                  </Form.Item>
-                </>
-              )}
-            </Form>
-          );
-        }}
+        <Form layout="vertical">
+          <Form.Item label="json" required>
+            <CodeMirror
+              domId="jsonCodeMirror"
+              lint
+              value={formData.json}
+              onChange={value => {
+                formData.json = value;
+              }}
+            />
+          </Form.Item>
+          <Form.Item label="类型名称">
+            <Input
+              value={formData.typeName}
+              placeholder="输入类型名称"
+              onChange={e => {
+                const { value } = e.target;
+                formData.typeName = value;
+              }}
+            />
+          </Form.Item>
+          <Form.Item label="TS 接口类型">
+            <CodeMirror
+              domId="typeCodeMirror"
+              value={formData.type}
+              onChange={value => {
+                formData.type = value;
+              }}
+            />
+          </Form.Item>
+        </Form>
       </Modal>
     );
   },

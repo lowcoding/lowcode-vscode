@@ -46,7 +46,10 @@ export default defineComponent({
             return;
           }
           processing.value = true;
-          downloadMaterials({ type: formData.data.type, url: formData.data.url })
+          downloadMaterials({
+            type: formData.data.type,
+            url: formData.data.url,
+          })
             .then(() => {
               message.success('下载成功');
               context.emit('ok');
@@ -60,76 +63,66 @@ export default defineComponent({
         }}
         okText="确定"
         cancelText="取消"
-        okButtonProps={{ disabled: processing.value, loading: processing.value } as any}
+        okButtonProps={
+          { disabled: processing.value, loading: processing.value } as any
+        }
       >
-        {() => (
-          <Form layout="vertical">
+        <Form layout="vertical">
+          <Form.Item label="类型" required>
             {() => (
-              <>
-                <Form.Item label="类型" required>
-                  {() => (
-                    <Select
-                      placeholder="请选择"
-                      value={formData.data.type}
-                      onChange={(value) => {
-                        formData.data.url = '';
-                        formData.data.type = value;
-                      }}
-                    >
-                      {() => (
-                        <>
-                          <Select.Option value="git">{() => 'git仓库'}</Select.Option>
-                          <Select.Option value="npm">{() => 'npm包'}</Select.Option>
-                        </>
-                      )}
-                    </Select>
-                  )}
-                </Form.Item>
-                {formData.data.type && (
-                  <Form.Item label={formData.data.type === 'git' ? '仓库地址' : '包名称'} required>
-                    {() => (
-                      <Select
-                        mode="tags"
-                        placeholder={`输入${
-                          formData.data.type === 'git' ? 'git仓库地址' : 'npm包名称'
-                        }或选择默认模板`}
-                        value={formData.data.url ? [formData.data.url] : undefined}
-                        onChange={(value) => {
-                          formData.data.url = value && value.length ? value[value.length - 1] : '';
-                        }}
-                      >
-                        {() => {
-                          if (formData.data.type === 'git') {
-                            return (
-                              <>
-                                <Select.Option value="https://gitee.com/lowcoding/lowcode-materials-template.git">
-                                  {() =>
-                                    'https://gitee.com/lowcoding/lowcode-materials-template.git(国内镜像)'
-                                  }
-                                </Select.Option>
-                                <Select.Option value="https://github.com/lowcoding/lowcode-materials-template.git">
-                                  {() =>
-                                    'https://github.com/lowcoding/lowcode-materials-template.git'
-                                  }
-                                </Select.Option>
-                              </>
-                            );
-                          } else {
-                            return (
-                              <Select.Option value="@lowcoding/materials-template">
-                                {() => '@lowcoding/materials-template'}
-                              </Select.Option>
-                            );
-                          }
-                        }}
-                      </Select>
-                    )}
-                  </Form.Item>
-                )}
-              </>
+              <Select
+                placeholder="请选择"
+                value={formData.data.type}
+                onChange={value => {
+                  formData.data.url = '';
+                  formData.data.type = value;
+                }}
+              >
+                <Select.Option value="git">git仓库</Select.Option>
+                <Select.Option value="npm">npm包</Select.Option>
+              </Select>
             )}
-          </Form>
-        )}
+          </Form.Item>
+          {formData.data.type && (
+            <Form.Item
+              label={formData.data.type === 'git' ? '仓库地址' : '包名称'}
+              required
+            >
+              <Select
+                mode="tags"
+                placeholder={`输入${
+                  formData.data.type === 'git' ? 'git仓库地址' : 'npm包名称'
+                }或选择默认模板`}
+                value={formData.data.url ? [formData.data.url] : undefined}
+                onChange={value => {
+                  formData.data.url =
+                    value && value.length ? value[value.length - 1] : '';
+                }}
+              >
+                {() => {
+                  if (formData.data.type === 'git') {
+                    return (
+                      <>
+                        <Select.Option value="https://gitee.com/lowcoding/lowcode-materials-template.git">
+                          https://gitee.com/lowcoding/lowcode-materials-template.git(国内镜像)
+                        </Select.Option>
+                        <Select.Option value="https://github.com/lowcoding/lowcode-materials-template.git">
+                          https://github.com/lowcoding/lowcode-materials-template.git
+                        </Select.Option>
+                      </>
+                    );
+                  } else {
+                    return (
+                      <Select.Option value="@lowcoding/materials-template">
+                        @lowcoding/materials-template
+                      </Select.Option>
+                    );
+                  }
+                }}
+              </Select>
+            </Form.Item>
+          )}
+        </Form>
       </Modal>
     );
   },

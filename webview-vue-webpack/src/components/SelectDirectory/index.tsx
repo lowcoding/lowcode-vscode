@@ -18,13 +18,13 @@ type OriDirectoryTreeNode = {
 };
 
 const formatTreeData = (node: OriDirectoryTreeNode) => {
-  let formatedNode: DirectoryTreeNode = {
+  const formatedNode: DirectoryTreeNode = {
     title: node.name,
     value: node.path,
   };
   formatedNode.children = node.children
-    ?.filter((s) => s.type === 'directory')
-    .map((s) => {
+    ?.filter(s => s.type === 'directory')
+    .map(s => {
       return formatTreeData(s);
     });
   return formatedNode;
@@ -52,10 +52,10 @@ export default defineComponent({
       () => props.visible,
       () => {
         if (props.visible) {
-          getDirectoryTree().then((res) => {
+          getDirectoryTree().then(res => {
             const formatedTree = res.children
-              ?.filter((s) => s.type === 'directory')
-              .map((s) => {
+              ?.filter(s => s.type === 'directory')
+              .map(s => {
                 return formatTreeData(s);
               });
             tree.data = formatedTree || [];
@@ -83,42 +83,32 @@ export default defineComponent({
           context.emit('ok', formData.data.path, formData.data.createPath);
         }}
       >
-        {() => (
-          <Form layout="vertical">
-            {() => (
-              <>
-                <Form.Item label="选择目录" required>
-                  {() => (
-                    <TreeSelect
-                      treeData={tree.data}
-                      placeholder="选择"
-                      showSearch
-                      treeNodeLabelProp="value"
-                      value={formData.data.path}
-                      onSelect={(value) => {
-                        formData.data.path = value;
-                      }}
-                    />
-                  )}
-                </Form.Item>
-                <Form.Item label="区块名称">
-                  {() => (
-                    <Select
-                      mode="tags"
-                      style={{ width: '100%' }}
-                      value={formData.data.createPath}
-                      placeholder="与上面选择的目录合成最终生成代码的目录，输入多个则生成层级目录"
-                      onChange={(value) => {
-                        formData.data.createPath = value;
-                      }}
-                      notFoundContent={null}
-                    />
-                  )}
-                </Form.Item>
-              </>
-            )}
-          </Form>
-        )}
+        <Form layout="vertical">
+          <Form.Item label="选择目录" required>
+            <TreeSelect
+              treeData={tree.data}
+              placeholder="选择"
+              showSearch
+              treeNodeLabelProp="value"
+              value={formData.data.path}
+              onSelect={value => {
+                formData.data.path = value;
+              }}
+            />
+          </Form.Item>
+          <Form.Item label="区块名称">
+            <Select
+              mode="tags"
+              style={{ width: '100%' }}
+              value={formData.data.createPath}
+              placeholder="与上面选择的目录合成最终生成代码的目录，输入多个则生成层级目录"
+              onChange={value => {
+                formData.data.createPath = value;
+              }}
+              notFoundContent={null}
+            />
+          </Form.Item>
+        </Form>
       </Modal>
     );
   },
