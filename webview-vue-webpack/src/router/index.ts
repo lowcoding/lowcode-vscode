@@ -1,28 +1,48 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
-import Home from '../views/Home.vue';
+import { RouteRecordRaw, createRouter, createWebHistory } from 'vue-router';
+import Layout from '../layout';
+import Snippet from '../views/snippet';
+import SnippetDetail from '../views/snippet/Detail';
+import Block from '../views/block';
+import BlockDetail from '../views/block/Detail';
+import Config from '../views/config';
+import AddSnippet from '../views/snippet/AddSnippet';
 
-const routes: Array<RouteRecordRaw> = [
+const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    name: 'Home',
-    component: Home,
-  },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ '../views/About.vue'),
-  },
-  {
-    path: '/test',
-    name: 'Test',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/Test'),
+    component: Layout,
+    children: [
+      {
+        path: '/snippets',
+        name: 'Snippet',
+        component: Snippet,
+      },
+      {
+        path: '/blocks',
+        name: 'Block',
+        component: Block,
+      },
+      {
+        path: '/snippets/detail/:name',
+        name: 'SnippetDetail',
+        component: SnippetDetail,
+      },
+      {
+        path: '/blocks/detail/:name',
+        name: 'BlockDetail',
+        component: BlockDetail,
+      },
+      {
+        path: '/config',
+        name: 'Config',
+        component: Config,
+      },
+      {
+        path: '/snippets/add/:time',
+        name: 'AddSnippet',
+        component: AddSnippet,
+      },
+    ],
   },
 ];
 
