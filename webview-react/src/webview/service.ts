@@ -2,11 +2,11 @@ import { request } from './index';
 export interface IGetLocalMaterialsResult {
   path: string;
   name: string;
-  model: object;
-  schema: object;
+  model: any;
+  schema: any;
   preview: {
-    title?: string;
-    description?: string;
+    title: string;
+    description: string;
     img?: string;
   };
   template: string;

@@ -10,8 +10,8 @@ export default defineConfig({
       component: '@/layout/index',
       routes: [
         {
-          path: '/index',
-          component: '@/pages/index',
+          path: '/config',
+          component: '@/pages/config',
         },
         {
           path: '/blocks',
@@ -23,7 +23,7 @@ export default defineConfig({
         },
         {
           path: '/snippets',
-          component: '@/pages/snippets',
+          component: '@/pages/snippets/List',
         },
         {
           path: '/snippets/add/:time',

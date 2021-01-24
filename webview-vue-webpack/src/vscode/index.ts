@@ -7,8 +7,14 @@ if (process.env.NODE_ENV !== 'production') {
     ? vscode
     : {
         postMessage: (message: { cmd: string; data: any; cbid: string }) => {
-          import(`./mock`).then((data) => {
-            (callbacks[message.cbid] || function () {})(data.default[message.cmd]);
+          notification.success({
+            message: 'call vscode',
+            description: `cmd: ${message.cmd}`,
+          });
+          import(`./mock`).then(data => {
+            (callbacks[message.cbid] || function() {})(
+              data.default[message.cmd],
+            );
           });
         },
       };
@@ -37,30 +43,30 @@ export function request<T = unknown>(params: { cmd: string; data?: any }) {
   return new Promise<T>((resolve, reject) => {
     callVscode(
       { cmd: params.cmd, data: params.data },
-      (res) => {
+      res => {
         resolve(res);
       },
-      (error) => {
+      error => {
         reject(error);
       },
     );
   });
 }
 
-window.addEventListener('message', (event) => {
+window.addEventListener('message', event => {
   const message = event.data;
   switch (message.cmd) {
     // 来自vscode的回调
     case 'vscodeCallback':
       if (message.code === 200) {
-        (callbacks[message.cbid] || function () {})(message.data);
+        (callbacks[message.cbid] || function() {})(message.data);
       } else {
         notification.error({
           message: message.data.title,
           description: message.data.message,
           placement: 'bottomRight',
         });
-        (errorCallbacks[message.cbid] || function () {})(message.data);
+        (errorCallbacks[message.cbid] || function() {})(message.data);
       }
       delete callbacks[message.cbid]; // 执行完回调删除
       delete errorCallbacks[message.cbid]; // 执行完回调删除
@@ -75,6 +81,7 @@ window.addEventListener('message', (event) => {
         localStorage.setItem('addSnippets', message.data.content || '');
         router.push(`/snippets/add/${new Date().getTime()}`);
       }
+      break;
     }
     default:
       break;

@@ -1,0 +1,14 @@
+import React from 'react';
+import useController from './useController';
+
+const View = defineComponent({
+  setup() {
+    const controller = useController();
+    const { service } = controller;
+    const { model } = service;
+
+    return () => <div></div>;
+  },
+});
+
+export default View;

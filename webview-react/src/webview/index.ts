@@ -7,6 +7,10 @@ if (process.env.NODE_ENV !== 'production') {
     ? vscode
     : {
         postMessage: (message: { cmd: string; data: any; cbid: string }) => {
+          notification.success({
+            message: 'call vscode',
+            description: `cmd: ${message.cmd}`,
+          });
           (callbacks[message.cbid] || function() {})(
             require(`./mock/${message.cmd}`).default,
           );
