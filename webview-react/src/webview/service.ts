@@ -184,3 +184,92 @@ export function refreshIntelliSense() {
     cmd: 'refreshIntelliSense',
   });
 }
+/**
+ * 快速添加代码片段
+ *
+ * @export
+ * @param {{
+ *   name: string;
+ *   template: string;
+ *   model: string;
+ *   schema: string;
+ *   preview: string;
+ * }} data
+ * @returns
+ */
+export function addSnippets(data: {
+  name: string;
+  template: string;
+  model: string;
+  schema: string;
+  preview: string;
+}) {
+  return request<string>({
+    cmd: 'addSnippets',
+    data,
+  });
+}
+/**
+ * 获取插件配置
+ *
+ * @export
+ * @returns
+ */
+export function getPluginConfig() {
+  return request<{
+    yapi: {
+      domain: string;
+      projects: {
+        name: string;
+        token: string;
+        domain: string;
+      }[];
+    };
+    mock: {
+      mockNumber: string;
+      mockBoolean: string;
+      mockString: string;
+      mockKeyWordEqual: {
+        key: string;
+        value: string;
+      }[];
+      mockKeyWordLike: {
+        key: string;
+        value: string;
+      }[];
+    };
+    saveOption: string[];
+  }>({
+    cmd: 'getPluginConfig',
+  });
+}
+
+export function savePluginConfig(data: {
+  yapi: {
+    domain: string;
+    projects: {
+      name: string;
+      token: string;
+      domain: string;
+    }[];
+  };
+  mock: {
+    mockNumber: string;
+    mockBoolean: string;
+    mockString: string;
+    mockKeyWordEqual: {
+      key: string;
+      value: string;
+    }[];
+    mockKeyWordLike: {
+      key: string;
+      value: string;
+    }[];
+  };
+  saveOption: string[];
+}) {
+  return request({
+    cmd: 'savePluginConfig',
+    data,
+  });
+}

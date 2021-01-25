@@ -1,42 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Button, Form, Input, message } from 'antd';
-import { history, useParams, useModel } from 'umi';
-import { callVscode } from '@/webview';
+import { history, useModel } from 'umi';
 import CodeMirror from '@/components/CodeMirror';
+import useController from './useController';
+import { addSnippets } from '@/webview/service';
 
 export default () => {
   const { setTab } = useModel('tab');
-  const [formData, setFormData] = useState<{
-    name: string;
-    template: string;
-    model: string;
-    schema: string;
-    preview: string;
-  }>({
-    model: '{}',
-    schema: '{}',
-    preview: JSON.stringify(
-      {
-        title: '',
-        description: '',
-        img:
-          'https://gitee.com/img-host/img-host/raw/master//2020/11/05/1604587962875.jpg',
-      },
-      null,
-      2,
-    ),
-  } as any);
-
-  const params = useParams<{ time: string }>();
-
-  useEffect(() => {
-    setFormData(s => {
-      return {
-        ...s,
-        template: localStorage.getItem('addSnippets') || '',
-      };
-    });
-  }, [params.time]);
+  const controller = useController();
+  const { service } = controller;
+  const { model } = service;
 
   return (
     <div>
@@ -48,11 +21,11 @@ export default () => {
       >
         <Form.Item label="名称" required>
           <Input
-            value={formData.name}
+            value={model.formData.name}
             placeholder="输入名称"
             onChange={e => {
               const { value } = e.target;
-              setFormData(s => {
+              model.setFormData(s => {
                 return {
                   ...s,
                   name: value,
@@ -65,9 +38,9 @@ export default () => {
           <CodeMirror
             domId="codeMirror"
             lint={false}
-            value={formData.template}
+            value={model.formData.template}
             onChange={value => {
-              setFormData(s => {
+              model.setFormData(s => {
                 return {
                   ...s,
                   template: value,
@@ -80,9 +53,9 @@ export default () => {
           <CodeMirror
             domId="modelCodeMirror"
             lint
-            value={formData.model}
+            value={model.formData.model}
             onChange={value => {
-              setFormData(s => {
+              model.setFormData(s => {
                 return {
                   ...s,
                   model: value,
@@ -95,9 +68,9 @@ export default () => {
           <CodeMirror
             domId="schemaCodeMirror"
             lint
-            value={formData.schema}
+            value={model.formData.schema}
             onChange={value => {
-              setFormData(s => {
+              model.setFormData(s => {
                 return {
                   ...s,
                   schema: value,
@@ -110,9 +83,9 @@ export default () => {
           <CodeMirror
             domId="previewCodeMirror"
             lint
-            value={formData.preview}
+            value={model.formData.preview}
             onChange={value => {
-              setFormData(s => {
+              model.setFormData(s => {
                 return {
                   ...s,
                   preview: value,
@@ -127,17 +100,13 @@ export default () => {
           shape="round"
           type="primary"
           onClick={() => {
-            if (!formData.name || !formData.template) {
+            if (!model.formData.name || !model.formData.template) {
               message.error('请完善必填信息');
               return;
             }
-            callVscode(
-              { cmd: 'addSnippets', data: formData },
-              () => {
-                message.success('添加成功');
-              },
-              () => {},
-            );
+            addSnippets(model.formData).then(() => {
+              message.success('添加成功');
+            });
           }}
           style={{ width: '50%' }}
         >
