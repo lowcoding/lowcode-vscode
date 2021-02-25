@@ -15,7 +15,7 @@ export default defineConfig({
         },
         {
           path: '/blocks',
-          component: '@/pages/blocks',
+          component: '@/pages/blocks/List',
         },
         {
           path: '/blocks/detail/:name',

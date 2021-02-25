@@ -1,22 +1,6 @@
 import { useState } from '@/hooks/useImmer';
 
 const useModel = () => {
-  const [materials, setMaterials] = useState<
-    {
-      path: string;
-      name: string;
-      model: object;
-      schema: object;
-      preview: {
-        title?: string;
-        description?: string;
-        img?: string;
-      };
-      template: string;
-    }[]
-  >([]);
-  const [oriMaterials, setOriMaterials] = useState<typeof materials>([]);
-
   const [selectedMaterial, setSelectedMaterial] = useState<{
     path: string;
     name: string;
@@ -29,18 +13,24 @@ const useModel = () => {
     };
     template: string;
   }>({ schema: {}, model: {} } as any);
-
+  const [materials, setMaterials] = useState<typeof selectedMaterial[]>([]);
+  const [formData, setData] = useState({});
+  const [yapiModalVsible, setYapiModalVsible] = useState(false);
   const [directoryModalVsible, setDirectoryModalVsible] = useState(false);
-
+  const [jsonToTsModalVisble, setJsonToTsModalVisble] = useState(false);
   return {
-    materials,
-    setMaterials,
-    oriMaterials,
-    setOriMaterials,
     selectedMaterial,
     setSelectedMaterial,
+    materials,
+    setMaterials,
+    formData,
+    setData,
+    yapiModalVsible,
+    setYapiModalVsible,
     directoryModalVsible,
     setDirectoryModalVsible,
+    jsonToTsModalVisble,
+    setJsonToTsModalVisble,
   };
 };
 

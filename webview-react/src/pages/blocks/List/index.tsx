@@ -3,7 +3,8 @@ import { Input, Row, Col, Tooltip, Button, message } from 'antd';
 import { history } from 'umi';
 import './index.less';
 import useController from './useController';
-import { insertSnippet } from '@/webview/service';
+import { genCodeByBlockMaterial } from '@/webview/service';
+import SelectDirectory from '@/components/SelectDirectory';
 
 const Search = Input.Search;
 
@@ -41,38 +42,28 @@ export default () => {
                   <div className="control">
                     <Button
                       type="primary"
-                      style={{ width: '33.33%', borderRadius: 'none' }}
+                      style={{ width: '33.33%' }}
                       onClick={() => {
-                        if (!s.template) {
-                          message.error('添加失败，模板为空');
-                          return;
-                        }
-                        insertSnippet({
-                          template: s.template,
-                        }).then(() => {
-                          message.success('添加成功');
-                        });
+                        history.push(`/blocks/detail/${s.name}`);
                       }}
                     >
-                      直接添加
+                      添加
                     </Button>
                     <Button
                       type="primary"
-                      style={{ width: '33.33%', borderRadius: 'none' }}
+                      style={{ width: '33.33%' }}
                       onClick={() => {
-                        history.push(`/snippets/detail/${s.name}`);
+                        model.setDirectoryModalVsible(true);
+                        model.setSelectedMaterial(s);
                       }}
                     >
-                      使用模板
+                      使用默认数据
                     </Button>
                     <Tooltip
                       title={s.preview.description || s.preview.title || s.name}
                       placement="top"
                     >
-                      <Button
-                        type="primary"
-                        style={{ width: '33.33%', borderRadius: 'none' }}
-                      >
+                      <Button type="primary" style={{ width: '33.33%' }}>
                         详情
                       </Button>
                     </Tooltip>
@@ -83,6 +74,23 @@ export default () => {
           );
         })}
       </Row>
+      <SelectDirectory
+        visible={model.directoryModalVsible}
+        onCancel={() => {
+          model.setDirectoryModalVsible(false);
+        }}
+        onOk={(path, createPath = []) => {
+          model.setDirectoryModalVsible(false);
+          genCodeByBlockMaterial({
+            material: model.selectedMaterial.name,
+            model: model.selectedMaterial.model,
+            path: path,
+            createPath: createPath,
+          }).then(() => {
+            message.success('生成成功');
+          });
+        }}
+      />
     </div>
   );
 };

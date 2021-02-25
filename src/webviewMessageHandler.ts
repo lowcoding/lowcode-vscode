@@ -119,13 +119,13 @@ const messageHandler: {
       createPath: string[];
     }>,
   ) {
+    const tempWordDir = path.join(workspace.rootPath!, '.lowcode');
     try {
       const materialsPath = path.join(
         workspace.rootPath!,
         'materials/blocks',
         message.data.material,
       );
-      const tempWordDir = path.join(workspace.rootPath!, '.lowcode');
       fs.copySync(materialsPath, tempWordDir);
       await renderEjsTemplates(message.data.model, tempWordDir);
       fs.copySync(
@@ -135,6 +135,7 @@ const messageHandler: {
       fs.removeSync(tempWordDir);
       invokeCallback(panel, message.cbid, '成功');
     } catch (ex) {
+      fs.remove(tempWordDir);
       invokeErrorCallback(panel, message.cbid, {
         title: '生成失败',
         message: ex.toString(),

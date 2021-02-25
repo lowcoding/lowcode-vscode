@@ -19,7 +19,7 @@ const useController = () => {
   }, [refresh]);
 
   const getList = () => {
-    getLocalMaterials('snippets')
+    getLocalMaterials('blocks')
       .then(data => {
         model.setMaterials(data);
         model.setOriMaterials(data);
