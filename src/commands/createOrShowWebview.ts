@@ -1,17 +1,13 @@
 import * as path from 'path';
 import * as vscode from 'vscode';
-import { TextEditor, TextEditorEdit } from 'vscode';
 import { getSelectedText, setLastActiveTextEditorId } from '../lib';
 import messageHandler from '../webviewMessageHandler';
 
 export const createOrShowWebview = (context: vscode.ExtensionContext) => {
   context.subscriptions.push(
-    vscode.commands.registerTextEditorCommand(
-      'yapi-code.generateCodeByWebview',
-      (textEditor: TextEditor, edit: TextEditorEdit, ...args: any[]) => {
-        WebView.createOrShow(context.extensionPath);
-      },
-    ),
+    vscode.commands.registerCommand('yapi-code.generateCodeByWebview', () => {
+      WebView.createOrShow(context.extensionPath);
+    }),
   );
 };
 

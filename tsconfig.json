@@ -20,6 +20,7 @@
 		"webview-vue",
 		"webview-react",
 		"webview-dist",
+		"webview-vue-webpack",
 		"test"
 	]
 }

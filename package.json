@@ -1,176 +1,199 @@
 {
-  "name": "lowcode",
-  "displayName": "lowcode",
-  "description": "低代码工具",
-  "author": "wjkang <ruoxieme@gmail.com>",
-  "version": "1.0.3",
-  "icon": "asset/icon.png",
-  "publisher": "wjkang",
-  "repository": "https://github.com/lowcoding/lowcode-vscode",
-  "main": "./build/extension.js",
-  "scripts": {
-    "vscode:prepublish": "yarn run compile",
-    "compile": "webpack --mode production",
-    "compile:tsc": "tsc -p ./",
-    "webview:dev-vue": "yarn --cwd \"webview-vue\" dev",
-    "webview:build-vue": "yarn --cwd \"webview-vue\" build",
-    "webview:dev-react": "yarn --cwd \"webview-react\" dev",
-    "webview:build-react": "yarn --cwd \"webview-react\" build",
-    "lint": "eslint src --ext ts",
-    "watch": "webpack --mode development",
-    "pretest1": "yarn run compile:tsc && yarn run lint",
-    "test:js": "node ./build/test/runTest.js",
-    "test": "ts-node ./src/test/runTest.ts"
-  },
-  "engines": {
-    "vscode": "^1.42.0"
-  },
-  "categories": [
-    "Other"
-  ],
-  "keywords": [
-    "yapi",
-    "typescript",
-    "generate code",
-    "json"
-  ],
-  "activationEvents": [
-    "onCommand:yapi-code.generateCode",
-    "onCommand:yapi-code.generateCodeByWebview",
-    "onCommand:yapi-code.addSnippet",
-    "*"
-  ],
-  "contributes": {
-    "commands": [
-      {
-        "command": "yapi-code.generateCodeByWebview",
-        "title": "可视化生成代码"
-      },
-      {
-        "command": "yapi-code.generateCode",
-        "title": "生成代码"
-      },
-      {
-        "command": "yapi-code.addSnippet",
-        "title": "$(octoface) 添加代码片段",
-        "icon": "$(octoface)"
-      }
-    ],
-    "menus": {
-      "editor/context": [
-        {
-          "submenu": "lowcode/editor/context",
-          "group": "1_lowcode@1"
-        }
-      ],
-      "lowcode/editor/context": [
-        {
-          "command": "yapi-code.generateCodeByWebview",
-          "group": "lowcode@1"
-        },
-        {
-          "command": "yapi-code.generateCode",
-          "group": "lowcode@2"
-        },
-        {
-          "command": "yapi-code.addSnippet",
-          "group": "lowcode@3"
-        }
-      ]
-    },
-    "submenus": [
-      {
-        "id": "lowcode/editor/context",
-        "label": "$(octoface) Low Code",
-        "icon": "$(octoface)"
-      }
-    ],
-    "configuration": {
-      "type": "object",
-      "title": "yapi-code 配置项",
-      "properties": {
-        "yapi-code.domain": {
-          "type": "string",
-          "default": "",
-          "description": "域名"
-        },
-        "yapi-code.project": {
-          "type": "array",
-          "default": [],
-          "description": "项目列表。eg.[{\"name\": \"项目\",\"token\": \"token\"}]"
-        },
-        "yapi-code.templatePath": {
-          "type": "string",
-          "default": "codeTemplate/",
-          "description": "模板存放路径"
-        },
-        "yapi-code.mockNumber": {
-          "type": "string",
-          "default": "Random.natural(1000,1000)",
-          "description": "模拟number数据"
-        },
-        "yapi-code.mockBoolean": {
-          "type": "string",
-          "default": "false",
-          "description": "模拟boolean数据"
-        },
-        "yapi-code.mockString": {
-          "type": "string",
-          "default": "Random.cword(5, 7)",
-          "description": "模拟string数据"
-        },
-        "yapi-code.mockKeyWordEqual": {
-          "type": "object",
-          "default": {},
-          "description": "模拟关键词-全等匹配"
-        },
-        "yapi-code.mockKeyWordLike": {
-          "type": "object",
-          "default": {},
-          "description": "模拟关键词-相似匹配"
-        }
-      }
-    }
-  },
-  "devDependencies": {
-    "@types/copy-paste": "^1.1.30",
-    "@types/debug": "^4.1.5",
-    "@types/ejs": "^3.0.4",
-    "@types/fs-extra": "^9.0.1",
-    "@types/glob": "^7.1.1",
-    "@types/mocha": "^7.0.2",
-    "@types/node": "^13.11.0",
-    "@types/prettier": "^2.0.2",
-    "@types/readable-stream": "^2.3.9",
-    "@types/urijs": "^1.19.9",
-    "@types/vscode": "1.42.0",
-    "@typescript-eslint/eslint-plugin": "^2.30.0",
-    "@typescript-eslint/parser": "^2.30.0",
-    "eslint": "^6.8.0",
-    "glob": "^7.1.6",
-    "mocha": "^7.1.2",
-    "ts-loader": "^8.0.3",
-    "typescript": "^3.8.3",
-    "vscode-test": "^1.3.0",
-    "webpack": "^4.44.1",
-    "webpack-cli": "^3.3.12"
-  },
-  "dependencies": {
-    "axios": "^0.19.2",
-    "copy-paste": "^1.3.0",
-    "directory-tree": "^2.2.4",
-    "ejs": "^3.1.3",
-    "execa": "^4.0.3",
-    "fs-extra": "^9.0.1",
-    "generate-schema": "^2.6.0",
-    "globby": "^11.0.1",
-    "handlebars": "^4.7.6",
-    "ice-npm-utils": "^2.0.1",
-    "is-url": "^1.2.4",
-    "json-schema-to-typescript": "^9.1.1",
-    "quicktype-core": "^6.0.66",
-    "strip-comments": "^2.0.1",
-    "strip-json-comments": "^3.1.1",
-    "tar": "^6.0.5"
-  }
+	"name": "lowcode",
+	"displayName": "lowcode",
+	"description": "低代码工具",
+	"author": "wjkang <ruoxieme@gmail.com>",
+	"version": "1.0.3",
+	"icon": "asset/icon.png",
+	"publisher": "wjkang",
+	"repository": "https://github.com/lowcoding/lowcode-vscode",
+	"main": "./build/extension.js",
+	"scripts": {
+		"vscode:prepublish": "yarn run compile",
+		"compile": "webpack --mode production",
+		"compile:tsc": "tsc -p ./",
+		"webview:dev-vue": "yarn --cwd \"webview-vue\" dev",
+		"webview:build-vue": "yarn --cwd \"webview-vue\" build",
+		"webview:dev-react": "yarn --cwd \"webview-react\" dev",
+		"webview:build-react": "yarn --cwd \"webview-react\" build",
+		"lint": "eslint src --ext ts",
+		"watch": "webpack --mode development",
+		"pretest1": "yarn run compile:tsc && yarn run lint",
+		"test:js": "node ./build/test/runTest.js",
+		"test": "ts-node ./src/test/runTest.ts"
+	},
+	"engines": {
+		"vscode": "^1.42.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"keywords": [
+		"yapi",
+		"typescript",
+		"generate code",
+		"json"
+	],
+	"activationEvents": [
+		"onCommand:yapi-code.generateCode",
+		"onCommand:yapi-code.generateCodeByWebview",
+		"onCommand:yapi-code.addSnippet",
+		"*"
+	],
+	"contributes": {
+		"commands": [
+			{
+				"command": "yapi-code.generateCodeByWebview",
+				"title": "可视化生成代码"
+			},
+			{
+				"command": "yapi-code.generateCode",
+				"title": "生成代码"
+			},
+			{
+				"command": "yapi-code.addSnippet",
+				"title": "$(octoface) 添加代码片段",
+				"icon": "$(octoface)"
+			}
+		],
+		"menus": {
+			"editor/context": [
+				{
+					"submenu": "lowcode/editor/context",
+					"group": "1_lowcode@1"
+				}
+			],
+			"lowcode/editor/context": [
+				{
+					"command": "yapi-code.generateCodeByWebview",
+					"group": "lowcode@1"
+				},
+				{
+					"command": "yapi-code.generateCode",
+					"group": "lowcode@2"
+				},
+				{
+					"command": "yapi-code.addSnippet",
+					"group": "lowcode@3"
+				}
+			]
+		},
+		"submenus": [
+			{
+				"id": "lowcode/editor/context",
+				"label": "$(octoface) Low Code",
+				"icon": "$(octoface)"
+			}
+		],
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "lowcodeApp",
+					"title": "lowcode",
+					"icon": "asset/activitybar.svg"
+				}
+			]
+		},
+		"views": {
+			"lowcodeApp": [
+				{
+					"id": "lowcode.welcome",
+					"name": "Welcome"
+				}
+			]
+		},
+		"viewsWelcome": [
+			{
+				"view": "lowcode.welcome",
+				"contents": "[打开文件夹](command:vscode.openFolder)\n[脚手架](command:iceworks-project-creator.start)\n[设置](command:iceworksApp.configHelper.start)\n查看[文档](https://lowcoding.gitee.io)以学习如何在 VS Code 中如何使用 lowcode。"
+			}
+		],
+		"configuration": {
+			"type": "object",
+			"title": "yapi-code 配置项",
+			"properties": {
+				"yapi-code.domain": {
+					"type": "string",
+					"default": "",
+					"description": "域名"
+				},
+				"yapi-code.project": {
+					"type": "array",
+					"default": [],
+					"description": "项目列表。eg.[{\"name\": \"项目\",\"token\": \"token\"}]"
+				},
+				"yapi-code.templatePath": {
+					"type": "string",
+					"default": "codeTemplate/",
+					"description": "模板存放路径"
+				},
+				"yapi-code.mockNumber": {
+					"type": "string",
+					"default": "Random.natural(1000,1000)",
+					"description": "模拟number数据"
+				},
+				"yapi-code.mockBoolean": {
+					"type": "string",
+					"default": "false",
+					"description": "模拟boolean数据"
+				},
+				"yapi-code.mockString": {
+					"type": "string",
+					"default": "Random.cword(5, 7)",
+					"description": "模拟string数据"
+				},
+				"yapi-code.mockKeyWordEqual": {
+					"type": "object",
+					"default": {},
+					"description": "模拟关键词-全等匹配"
+				},
+				"yapi-code.mockKeyWordLike": {
+					"type": "object",
+					"default": {},
+					"description": "模拟关键词-相似匹配"
+				}
+			}
+		}
+	},
+	"devDependencies": {
+		"@types/copy-paste": "^1.1.30",
+		"@types/debug": "^4.1.5",
+		"@types/ejs": "^3.0.4",
+		"@types/fs-extra": "^9.0.1",
+		"@types/glob": "^7.1.1",
+		"@types/mocha": "^7.0.2",
+		"@types/node": "^13.11.0",
+		"@types/prettier": "^2.0.2",
+		"@types/readable-stream": "^2.3.9",
+		"@types/urijs": "^1.19.9",
+		"@types/vscode": "1.42.0",
+		"@typescript-eslint/eslint-plugin": "^2.30.0",
+		"@typescript-eslint/parser": "^2.30.0",
+		"eslint": "^6.8.0",
+		"glob": "^7.1.6",
+		"mocha": "^7.1.2",
+		"ts-loader": "^8.0.3",
+		"typescript": "^3.8.3",
+		"vscode-test": "^1.3.0",
+		"webpack": "^4.44.1",
+		"webpack-cli": "^3.3.12"
+	},
+	"dependencies": {
+		"axios": "^0.19.2",
+		"copy-paste": "^1.3.0",
+		"directory-tree": "^2.2.4",
+		"ejs": "^3.1.3",
+		"execa": "^4.0.3",
+		"fs-extra": "^9.0.1",
+		"generate-schema": "^2.6.0",
+		"globby": "^11.0.1",
+		"handlebars": "^4.7.6",
+		"ice-npm-utils": "^2.0.1",
+		"is-url": "^1.2.4",
+		"json-schema-to-typescript": "^9.1.1",
+		"quicktype-core": "^6.0.66",
+		"strip-comments": "^2.0.1",
+		"strip-json-comments": "^3.1.1",
+		"tar": "^6.0.5"
+	}
 }
