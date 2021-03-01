@@ -105,7 +105,7 @@
 		"viewsWelcome": [
 			{
 				"view": "lowcode.welcome",
-				"contents": "[打开文件夹](command:vscode.openFolder)\n[脚手架](command:iceworks-project-creator.start)\n[设置](command:iceworksApp.configHelper.start)\n查看[文档](https://lowcoding.gitee.io)以学习如何在 VS Code 中如何使用 lowcode。"
+				"contents": "[打开文件夹](command:lowcode.openFolderForceNewWindow)\n[脚手架](command:iceworks-project-creator.start)\n[设置](command:iceworksApp.configHelper.start)\n查看[文档](https://lowcoding.gitee.io)以学习如何在 VS Code 中如何使用 lowcode。"
 			}
 		],
 		"configuration": {
