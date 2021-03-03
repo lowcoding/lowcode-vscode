@@ -96,6 +96,9 @@ window.addEventListener('message', event => {
       if (message.task === 'openSnippet') {
         history.push(`/snippets/detail/${message.data.name}`);
       }
+      if (message.task === 'route') {
+        history.push(message.data.path);
+      }
     }
     default:
       break;

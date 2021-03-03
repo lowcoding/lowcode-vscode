@@ -6,6 +6,10 @@ export default defineConfig({
   },
   routes: [
     {
+      path: '/scaffold',
+      component: '@/pages/scaffold',
+    },
+    {
       path: '/',
       component: '@/layout/index',
       routes: [
