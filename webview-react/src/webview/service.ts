@@ -273,3 +273,27 @@ export function savePluginConfig(data: {
     data,
   });
 }
+
+/**
+ * 获取脚手架列表
+ *
+ * @export
+ * @param {string} [url]
+ */
+export function getScaffolds(url?: string) {
+  return request<
+    {
+      category: string;
+      icon: string;
+      scaffolds: {
+        title: string;
+        description: string;
+        screenshot: string;
+        repository: string;
+        repositoryType: 'git' | 'npm';
+      }[];
+    }[]
+  >({
+    cmd: 'getScaffolds',
+  });
+}

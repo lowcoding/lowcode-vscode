@@ -46,6 +46,6 @@ export default defineConfig({
   styleLoader: {},
   plugins: [path.join(__dirname, 'plugin')],
   antd: {
-    // dark: true,
+    dark: false,
   },
 });

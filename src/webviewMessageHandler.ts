@@ -22,6 +22,7 @@ import {
 } from './lib';
 import { getContext } from './extensionContext';
 import { registerCompletion } from './commands/registerCompletion';
+import { fetchScaffolds } from './service';
 
 interface IMessage<T = any> {
   cmd: string;
@@ -346,6 +347,19 @@ const messageHandler: {
         message: '',
       });
     }
+  },
+  getScaffolds(panel: WebviewPanel, message: IMessage<{ url: string }>) {
+    fetchScaffolds(message.data.url)
+      .then((res) => {
+        console.log(res);
+        invokeCallback(panel, message.cbid, res);
+      })
+      .catch((ex) => {
+        invokeErrorCallback(panel, message.cbid, {
+          title: '请求失败',
+          message: ex.toString(),
+        });
+      });
   },
 };
 

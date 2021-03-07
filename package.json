@@ -32,7 +32,8 @@
 		"yapi",
 		"typescript",
 		"generate code",
-		"json"
+		"json",
+		"lowcode"
 	],
 	"activationEvents": [
 		"onCommand:yapi-code.generateCode",

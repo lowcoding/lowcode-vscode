@@ -1,0 +1,68 @@
+.scaffold {
+  height: 100vh;
+  .header {
+    height: 70px;
+    line-height: 70px;
+    text-align: left;
+    margin-right: 50px;
+    margin-left: 50px;
+    font-weight: bold;
+    font-size: 20px;
+    .control {
+      text-align: right;
+    }
+  }
+  .content {
+    padding: 0px 50px;
+    .category {
+      border-right: 2px solid #4494f9;
+      min-width: 200px;
+      min-height: 500px;
+      max-height: 900px;
+      overflow: auto;
+      margin-right: 20px;
+      padding-right: 10px;
+      .category-item {
+        position: relative;
+        display: flex;
+        height: 36px;
+        line-height: 36px;
+        margin-top: 10px;
+        border: 1px solid #474959;
+        border-radius: 5px;
+        padding: 5px 10px;
+        box-sizing: content-box;
+        cursor: pointer;
+        img {
+          height: 36px;
+          width: 36px;
+        }
+        .title {
+          font-weight: bold;
+          margin-left: 5px;
+        }
+        .badge {
+          position: absolute;
+          right: 4px;
+          top: 4px;
+          width: 0px;
+          height: 0px;
+          border-width: 0px 28px 28px 0px;
+          border-style: solid;
+          border-color: transparent #4494f9;
+          .tick {
+            position: absolute;
+            color: white;
+            top: -9px;
+            right: -25px;
+            font-size: 15px;
+          }
+        }
+      }
+      .checked-item,
+      .category-item:hover {
+        border: 1px solid #4494f9;
+      }
+    }
+  }
+}
