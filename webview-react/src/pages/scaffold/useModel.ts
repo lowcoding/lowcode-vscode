@@ -29,7 +29,9 @@ const useModel = () => {
 
   const [currentCategory, setCurrentCategory] = useState('');
 
-  const [loading, setLoading] = useState<{ fetch: boolean }>({ fetch: false });
+  const [loading, setLoading] = useState<{ fetch: boolean; download: boolean }>(
+    { fetch: false, download: false },
+  );
   return {
     loading,
     setLoading,

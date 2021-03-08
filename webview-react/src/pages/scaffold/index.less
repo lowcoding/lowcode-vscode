@@ -1,5 +1,5 @@
 .scaffold {
-  height: 100vh;
+  height: 100vh-300px;
   .header {
     height: 70px;
     line-height: 70px;
@@ -20,8 +20,8 @@
       min-height: 500px;
       max-height: 900px;
       overflow: auto;
-      margin-right: 20px;
-      padding-right: 10px;
+      margin-right: 10px;
+      padding-right: 20px;
       .category-item {
         position: relative;
         display: flex;
@@ -61,6 +61,40 @@
       }
       .checked-item,
       .category-item:hover {
+        border: 1px solid #4494f9;
+      }
+    }
+    .scaffold {
+      display: flex;
+      flex-wrap: wrap;
+      max-width: 1000px;
+      margin-top: 10px;
+      .scaffold-item {
+        width: 210px;
+        height: 250px;
+        margin: 0px 10px 20px 10px;
+        padding: 10px;
+        border: 1px solid #474959;
+        border-radius: 5px;
+        cursor: pointer;
+        overflow: auto;
+        .screenshot {
+          img {
+            width: 100%;
+            height: 120px;
+          }
+        }
+        .title {
+          font-weight: bold;
+          line-height: 35px;
+          font-size: 16px;
+        }
+        .description {
+          font-weight: 14px;
+          color: #474959;
+        }
+      }
+      .scaffold-item:hover {
         border: 1px solid #4494f9;
       }
     }

@@ -297,3 +297,13 @@ export function getScaffolds(url?: string) {
     cmd: 'getScaffolds',
   });
 }
+
+export function downloadScaffoldByVsCode(data: {
+  type: 'git' | 'npm';
+  repository: string;
+}) {
+  return request<{ schema: any; scaffoldPath: string }>({
+    cmd: 'downloadScaffold',
+    data: data,
+  });
+}

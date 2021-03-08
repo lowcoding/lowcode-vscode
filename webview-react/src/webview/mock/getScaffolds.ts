@@ -5,8 +5,44 @@ export default [
     scaffolds: [
       {
         title: 'vue-typescript-stater',
-        description: '',
-        screenshot: '',
+        description: 'vue-typescript-stater',
+        screenshot:
+          'https://gitee.com/img-host/img-host/raw/master/2020/11/05/1604587962875.jpg',
+        repository: '',
+      },
+      {
+        title: 'vue-typescript-stater1',
+        description: 'vue-typescript-stater',
+        screenshot:
+          'https://gitee.com/img-host/img-host/raw/master/2020/11/05/1604587962875.jpg',
+        repository: '',
+      },
+      {
+        title: 'vue-typescript-stater2',
+        description: 'vue-typescript-stater',
+        screenshot:
+          'https://gitee.com/img-host/img-host/raw/master/2020/11/05/1604587962875.jpg',
+        repository: '',
+      },
+      {
+        title: 'vue-typescript-stater3',
+        description: 'vue-typescript-stater',
+        screenshot:
+          'https://gitee.com/img-host/img-host/raw/master/2020/11/05/1604587962875.jpg',
+        repository: '',
+      },
+      {
+        title: 'vue-typescript-stater4',
+        description: 'vue-typescript-stater',
+        screenshot:
+          'https://gitee.com/img-host/img-host/raw/master/2020/11/05/1604587962875.jpg',
+        repository: '',
+      },
+      {
+        title: 'vue-typescript-stater5',
+        description: 'vue-typescript-stater',
+        screenshot:
+          'https://gitee.com/img-host/img-host/raw/master/2020/11/05/1604587962875.jpg',
         repository: '',
       },
     ],
@@ -18,7 +54,8 @@ export default [
       {
         title: 'vue-typescript-stater',
         description: '',
-        screenshot: '',
+        screenshot:
+          'https://gitee.com/img-host/img-host/raw/master/2020/11/05/1604587962875.jpg',
         repository: '',
       },
     ],

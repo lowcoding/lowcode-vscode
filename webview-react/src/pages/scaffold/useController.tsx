@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useMount } from 'ahooks';
 import useService from './useService';
-import { getScaffolds } from '@/webview/service';
+import { downloadScaffoldByVsCode, getScaffolds } from '@/webview/service';
 
 const useController = () => {
   const service = useService();
@@ -65,10 +65,27 @@ const useController = () => {
     model.setCurrentCategory(name);
   };
 
+  const downloadScaffold = (config: typeof model.scaffolds[0]) => {
+    model.setLoading(s => {
+      s.download = true;
+    });
+    downloadScaffoldByVsCode({
+      repository: config.repositoryType,
+      type: config.repositoryType,
+    })
+      .then(res => {})
+      .finally(() => {
+        model.setLoading(s => {
+          s.download = false;
+        });
+      });
+  };
+
   return {
     service,
     fetchScaffolds,
     changeCategory,
+    downloadScaffold,
   };
 };
 

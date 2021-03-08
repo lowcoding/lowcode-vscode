@@ -10,7 +10,7 @@ const View = () => {
   const { model } = service;
 
   return (
-    <Spin spinning={model.loading.fetch}>
+    <Spin spinning={model.loading.fetch || model.loading.download}>
       <div className="scaffold">
         <Row className="header">
           <Col span={20}>选择模板创建应用</Col>
@@ -54,11 +54,23 @@ const View = () => {
           <Col>
             <div className="scaffold">
               <Row>
-                {model.scaffolds
-                  .map(s => {
-                    return <Col>
-					</Col>;
-                  })}
+                {model.scaffolds.map(s => {
+                  return (
+                    <div
+                      key={s.title}
+                      className="scaffold-item"
+                      onClick={() => {
+                        controller.downloadScaffold(s);
+                      }}
+                    >
+                      <div className="screenshot">
+                        <img src={s.screenshot} />
+                      </div>
+                      <div className="title">{s.title}</div>
+                      <div className="description">{s.description}</div>
+                    </div>
+                  );
+                })}
               </Row>
             </div>
           </Col>
