@@ -18,7 +18,7 @@
 		"webview:build-react": "yarn --cwd \"webview-react\" build",
 		"lint": "eslint src --ext ts",
 		"watch": "webpack --mode development",
-		"pretest1": "yarn run compile:tsc && yarn run lint",
+		"pretest": "yarn run compile:tsc",
 		"test:js": "node ./build/test/runTest.js",
 		"test": "ts-node ./src/test/runTest.ts"
 	},

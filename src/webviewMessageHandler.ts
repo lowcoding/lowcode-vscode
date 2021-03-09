@@ -361,6 +361,12 @@ const messageHandler: {
         });
       });
   },
+  downloadScaffold(panel: WebviewPanel, message: IMessage<{
+	type: 'git' | 'npm';
+	repository: string;
+  }>) {
+	  
+  },
 };
 
 export default messageHandler;

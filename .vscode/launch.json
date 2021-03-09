@@ -25,7 +25,7 @@
 			"request": "launch",
 			"runtimeExecutable": "${execPath}",
 			"args": [
-				"H:/Github/lowcode-materials-template",
+				"D:/VankeService/galaxy",
 				"--disable-extensions",
 				"--extensionDevelopmentPath=${workspaceRoot}",
 				"--extensionTestsPath=${workspaceFolder}/build/test/suite/index"

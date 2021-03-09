@@ -1,4 +1,5 @@
 import { window, Range, workspace, SnippetString } from 'vscode';
+import * as os from 'os';
 import * as copyPaste from 'copy-paste';
 import * as quicktypeCore from 'quicktype-core';
 import * as path from 'path';
@@ -304,4 +305,10 @@ export const downloadMaterialsFromNpm = async (packageName: string) => {
   const materialsDir = path.join(workspace.rootPath!, 'materials');
   fs.copySync(path.join(tempDir, 'materials'), materialsDir);
   fs.removeSync(tempDir);
+};
+
+export const downloadScaffoldFromGit = (remote: string) => {
+  const tempDir = path.join(os.homedir(), '.lowcode');
+  console.log(tempDir,33333);
+  execa.sync('git', ['clone', remote, tempDir]);
 };

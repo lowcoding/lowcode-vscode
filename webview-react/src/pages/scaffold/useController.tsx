@@ -70,7 +70,7 @@ const useController = () => {
       s.download = true;
     });
     downloadScaffoldByVsCode({
-      repository: config.repositoryType,
+      repository: config.repository,
       type: config.repositoryType,
     })
       .then(res => {})
