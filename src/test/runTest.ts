@@ -16,7 +16,10 @@ async function main() {
     await runTests({
       extensionDevelopmentPath,
       extensionTestsPath,
-      launchArgs: [path.resolve('H:/Github/lowcode-materials-template')], // 以 cli 运行时传入打开的目录
+      launchArgs: [
+        path.resolve('H:/Github/lowcode-materials-template'),
+        '--disable-extensions',
+      ], // 以 cli 运行时传入打开的目录
     });
   } catch (err) {
     console.error('Failed to run tests');

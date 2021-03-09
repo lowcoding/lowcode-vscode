@@ -20,7 +20,7 @@
 		"watch": "webpack --mode development",
 		"pretest": "yarn run compile:tsc",
 		"test:js": "node ./build/test/runTest.js",
-		"test": "ts-node ./src/test/runTest.ts"
+		"test": "node ./build/test/runTest.js"
 	},
 	"engines": {
 		"vscode": "^1.42.0"

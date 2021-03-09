@@ -4,6 +4,6 @@ import { getSnippets } from '../../config';
 // import * as myExtension from '../../extension';
 suite('Config Test Suite', () => {
   test('getSnippets test', () => {
-	console.log(getSnippets(),12121212);
+    // console.log(getSnippets(),12121212);
   });
 });

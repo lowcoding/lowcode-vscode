@@ -18,9 +18,9 @@
 		},
 		{
 			"type": "npm",
-			"script": "test",
+			"script": "pretest",
 			"problemMatcher": "$tsc-watch",
-			"isBackground": true,
+			"isBackground": false,
 			"presentation": {
 				"reveal": "never"
 			},
@@ -28,7 +28,7 @@
 				"kind": "test",
 				"isDefault": true
 			},
-			"label": "test"
+			"label": "pretest"
 		}
 	]
 }

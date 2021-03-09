@@ -12,6 +12,7 @@ import {
   getMockKeyWordLikeConfig,
 } from './config';
 import { download } from './utils/download';
+import { renderEjsTemplates } from './compiler/ejs';
 
 export const getClipboardText = () => {
   return copyPaste.paste();
@@ -287,6 +288,7 @@ export const setLastActiveTextEditorId = (id: string) => {
 export const downloadMaterialsFromGit = (remote: string) => {
   const tempDir = path.join(workspace.rootPath!, '.lowcode');
   const materialsDir = path.join(workspace.rootPath!, 'materials');
+  fs.removeSync(tempDir);
   execa.sync('git', ['clone', remote, tempDir]);
   fs.copySync(path.join(tempDir, 'materials'), path.join(materialsDir));
   fs.removeSync(tempDir);
@@ -296,6 +298,7 @@ export const downloadMaterialsFromNpm = async (packageName: string) => {
   const result = execa.sync('npm', ['view', packageName, 'dist.tarball']);
   const tarball = result.stdout;
   const tempDir = path.join(workspace.rootPath!, '.lowcode');
+  fs.removeSync(tempDir);
   await download(tarball, tempDir, `temp.tgz`);
   await tar.x({
     file: path.join(tempDir, `temp.tgz`),
@@ -308,7 +311,18 @@ export const downloadMaterialsFromNpm = async (packageName: string) => {
 };
 
 export const downloadScaffoldFromGit = (remote: string) => {
-  const tempDir = path.join(os.homedir(), '.lowcode');
-  console.log(tempDir,33333);
+  const tempDir = path.join(os.homedir(), '.lowcode/scaffold');
+  fs.removeSync(tempDir);
   execa.sync('git', ['clone', remote, tempDir]);
+  fs.removeSync(path.join(tempDir, '.git'));
+  return fs.readJSONSync(path.join(tempDir, 'lowcode.scaffold.config.json'));
+};
+
+export const compileScaffold = async (model: any) => {
+  const tempDir = path.join(os.homedir(), '.lowcode/scaffold');
+  const config = fs.readJSONSync(
+    path.join(tempDir, 'lowcode.scaffold.config.json'),
+  );
+  await renderEjsTemplates(model, tempDir, config.excludeCompile);
+  fs.removeSync(path.join(tempDir, 'lowcode.scaffold.config.json'));
 };
