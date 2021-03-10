@@ -8,7 +8,7 @@ interface IProps {
   config: {
     formSchema?: { schema?: object; formData?: object; [key: string]: any };
   };
-  onClose: () => void;
+  onClose: (ok?: boolean) => void;
 }
 
 const View: React.FC<IProps> = ({ visible, config, onClose }) => {

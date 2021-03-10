@@ -9,7 +9,7 @@ const useController = (props: {
   config: {
     formSchema?: { schema?: object; formData?: object; [key: string]: any };
   };
-  onClose: () => void;
+  onClose: (ok?: boolean) => void;
 }) => {
   const service = useService();
   const { model } = service;
@@ -48,7 +48,7 @@ const useController = (props: {
       createDir: `${model.config.createDir}/${model.config.projectName}`,
     }).then(() => {
       message.success('创建成功');
-      props.onClose();
+      props.onClose(true);
     });
   };
 

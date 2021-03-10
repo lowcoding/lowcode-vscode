@@ -36,6 +36,8 @@ const useModel = () => {
     },
   );
 
+  const [downloadVisible, setDownloadVisible] = useState(false);
+
   const [loading, setLoading] = useState<{ fetch: boolean; download: boolean }>(
     { fetch: false, download: false },
   );
@@ -52,6 +54,8 @@ const useModel = () => {
     setCurrentCategory,
     formModal,
     setFormModal,
+    downloadVisible,
+    setDownloadVisible,
   };
 };
 

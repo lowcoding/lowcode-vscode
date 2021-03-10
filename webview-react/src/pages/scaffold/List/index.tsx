@@ -1,9 +1,10 @@
 import React from 'react';
-import { Row, Col, Spin } from 'antd';
-import { SyncOutlined } from '@ant-design/icons';
+import { Row, Col, Spin, Button } from 'antd';
+import { SyncOutlined, PlusOutlined } from '@ant-design/icons';
 import useController from './useController';
 import './index.less';
 import FormModal from '../FormModal';
+import DownloadModal from '../DownloadModal';
 
 const View = () => {
   const controller = useController();
@@ -54,6 +55,14 @@ const View = () => {
                 );
               })}
             </div>
+            <Button
+              style={{ width: '80%' }}
+              type="primary"
+              icon={<PlusOutlined />}
+              onClick={() => {
+                model.setDownloadVisible(true);
+              }}
+            ></Button>
           </Col>
           <Col>
             <div className="scaffold">
@@ -87,6 +96,12 @@ const View = () => {
           model.setFormModal(s => {
             s.visible = false;
           });
+        }}
+      />
+      <DownloadModal
+        visible={model.downloadVisible}
+        onClose={() => {
+          model.setDownloadVisible(false);
         }}
       />
     </Spin>
