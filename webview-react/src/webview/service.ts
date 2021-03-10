@@ -298,12 +298,56 @@ export function getScaffolds(url?: string) {
   });
 }
 
+/**
+ * 下载脚手架
+ *
+ * @export
+ * @param {({
+ *   type: 'git' | 'npm';
+ *   repository: string;
+ * })} data
+ * @returns
+ */
 export function downloadScaffoldByVsCode(data: {
   type: 'git' | 'npm';
   repository: string;
 }) {
-  return request<{ schema: any; scaffoldPath: string }>({
+  return request<{ config: any }>({
     cmd: 'downloadScaffold',
+    data: data,
+  });
+}
+
+/**
+ * 选择目录
+ *
+ * @export
+ * @returns
+ */
+export function selectDirectory() {
+  return request<string>({
+    cmd: 'selectDirectory',
+  });
+}
+
+/**
+ * 创建项目
+ *
+ * @export
+ * @param {{
+ *   model: any;
+ *   createDir: string;
+ *   immediateOpen: boolean;
+ * }} data
+ * @returns
+ */
+export function createProject(data: {
+  model: any;
+  createDir: string;
+  immediateOpen: boolean;
+}) {
+  return request<string>({
+    cmd: 'createProject',
     data: data,
   });
 }

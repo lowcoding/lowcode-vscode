@@ -1,4 +1,10 @@
-import { window, Range, workspace, SnippetString } from 'vscode';
+import {
+  window,
+  Range,
+  workspace,
+  SnippetString,
+  OpenDialogOptions,
+} from 'vscode';
 import * as os from 'os';
 import * as copyPaste from 'copy-paste';
 import * as quicktypeCore from 'quicktype-core';
@@ -318,11 +324,54 @@ export const downloadScaffoldFromGit = (remote: string) => {
   return fs.readJSONSync(path.join(tempDir, 'lowcode.scaffold.config.json'));
 };
 
-export const compileScaffold = async (model: any) => {
+export const compileScaffold = async (model: any, createDir: string) => {
   const tempDir = path.join(os.homedir(), '.lowcode/scaffold');
+  // lowcode.scaffold.config.json
+  //   {
+  // 	"schema": {},
+  // 	"excludeCompile": ["codeTemplate/", "materials/"],
+  // 	"conditionFiles": {
+  // 		"name": {
+  // 			"value": "1",
+  // 			"exclude": []
+  // 		},
+  // 		"noREADME": {
+  // 			"value": true,
+  // 			"exclude": ["README.md.ejs"]
+  // 		}
+  // 	}
+  // }
   const config = fs.readJSONSync(
     path.join(tempDir, 'lowcode.scaffold.config.json'),
   );
-  await renderEjsTemplates(model, tempDir, config.excludeCompile);
+  const excludeCompile: string[] = config.excludeCompile || [];
+  if (config.conditionFiles) {
+    Object.keys(model).map((key) => {
+      if (
+        config.conditionFiles[key] &&
+        config.conditionFiles[key]['value'] === model[key] &&
+        Array.isArray(config.conditionFiles[key]['exclude'])
+      ) {
+        config.conditionFiles[key]['exclude'].map((exclude: string) => {
+          fs.removeSync(path.join(tempDir, exclude));
+        });
+      }
+    });
+  }
+  await renderEjsTemplates(model, tempDir, excludeCompile);
   fs.removeSync(path.join(tempDir, 'lowcode.scaffold.config.json'));
+  fs.copySync(tempDir, createDir);
+};
+
+export const selectDirectory = async () => {
+  const options: OpenDialogOptions = {
+    canSelectFolders: true,
+    canSelectFiles: false,
+    canSelectMany: false,
+    openLabel: 'Open',
+  };
+  const selectFolderUri = await window.showOpenDialog(options);
+  if (selectFolderUri && selectFolderUri.length > 0) {
+    return selectFolderUri[0].fsPath;
+  }
 };

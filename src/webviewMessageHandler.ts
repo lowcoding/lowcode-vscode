@@ -1,4 +1,4 @@
-import { WebviewPanel, window, workspace } from 'vscode';
+import { commands, Uri, WebviewPanel, window, workspace } from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs-extra';
 import * as dirTree from 'directory-tree';
@@ -16,9 +16,12 @@ import {
 import { genTemplateModelByYapi } from './genCode/genCodeByYapi';
 import { renderEjsTemplates, compile as compileEjs } from './compiler/ejs';
 import {
+  compileScaffold,
   downloadMaterialsFromGit,
   downloadMaterialsFromNpm,
+  downloadScaffoldFromGit,
   pasteToMarker,
+  selectDirectory,
 } from './lib';
 import { getContext } from './extensionContext';
 import { registerCompletion } from './commands/registerCompletion';
@@ -351,7 +354,6 @@ const messageHandler: {
   getScaffolds(panel: WebviewPanel, message: IMessage<{ url: string }>) {
     fetchScaffolds(message.data.url)
       .then((res) => {
-        console.log(res);
         invokeCallback(panel, message.cbid, res);
       })
       .catch((ex) => {
@@ -361,11 +363,61 @@ const messageHandler: {
         });
       });
   },
-  downloadScaffold(panel: WebviewPanel, message: IMessage<{
-	type: 'git' | 'npm';
-	repository: string;
-  }>) {
-	  
+  downloadScaffold(
+    panel: WebviewPanel,
+    message: IMessage<{
+      type: 'git' | 'npm';
+      repository: string;
+    }>,
+  ) {
+    if (message.data.type === 'git') {
+      try {
+        const config = downloadScaffoldFromGit(message.data.repository);
+        invokeCallback(panel, message.cbid, config);
+      } catch (ex) {
+        invokeErrorCallback(panel, message.cbid, {
+          title: '发生异常',
+          message: ex.toString(),
+        });
+      }
+    }
+  },
+  selectDirectory(panel: WebviewPanel, message: IMessage) {
+    selectDirectory()
+      .then((dir) => {
+        invokeCallback(panel, message.cbid, dir);
+      })
+      .catch((ex) => {
+        invokeErrorCallback(panel, message.cbid, {
+          title: '发生异常',
+          message: ex.toString(),
+        });
+      });
+  },
+  async createProject(
+    panel: WebviewPanel,
+    message: IMessage<{
+      model: any;
+      createDir: string;
+      immediateOpen: boolean;
+    }>,
+  ) {
+    try {
+      await compileScaffold(message.data.model, message.data.createDir);
+      invokeCallback(panel, message.cbid, '创建项目成功');
+      if (message.data.immediateOpen) {
+        commands.executeCommand(
+          'vscode.openFolder',
+          Uri.file(message.data.createDir),
+          true,
+        );
+      }
+    } catch (ex) {
+      invokeErrorCallback(panel, message.cbid, {
+        title: '发生异常',
+        message: ex.toString(),
+      });
+    }
   },
 };
 

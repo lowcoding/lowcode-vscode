@@ -23,7 +23,9 @@ const useController = () => {
     model.setLoading(s => {
       s.fetch = true;
     });
-    getScaffolds()
+    getScaffolds(
+      'https://raw.githubusercontent.com/lowcoding/scaffold/master/index.json',
+    )
       .then(res => {
         model.setCategories(
           res.map(s => {
@@ -73,7 +75,9 @@ const useController = () => {
       repository: config.repository,
       type: config.repositoryType,
     })
-      .then(res => {})
+      .then(res => {
+        console.log(res);
+      })
       .finally(() => {
         model.setLoading(s => {
           s.download = false;
