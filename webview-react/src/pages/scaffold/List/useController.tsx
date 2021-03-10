@@ -23,9 +23,7 @@ const useController = () => {
     model.setLoading(s => {
       s.fetch = true;
     });
-    getScaffolds(
-      'https://raw.githubusercontent.com/lowcoding/scaffold/master/index.json',
-    )
+    getScaffolds('https://gitee.com/lowcoding/scaffold/raw/master/index.json')
       .then(res => {
         model.setCategories(
           res.map(s => {
@@ -76,7 +74,10 @@ const useController = () => {
       type: config.repositoryType,
     })
       .then(res => {
-        console.log(res);
+        model.setFormModal(s => {
+          s.visible = true;
+          s.config = res;
+        });
       })
       .finally(() => {
         model.setLoading(s => {

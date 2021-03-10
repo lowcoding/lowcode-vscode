@@ -280,7 +280,7 @@ export function savePluginConfig(data: {
  * @export
  * @param {string} [url]
  */
-export function getScaffolds(url?: string) {
+export function getScaffolds(url: string) {
   return request<
     {
       category: string;
@@ -295,6 +295,9 @@ export function getScaffolds(url?: string) {
     }[]
   >({
     cmd: 'getScaffolds',
+    data: {
+      url,
+    },
   });
 }
 
@@ -312,7 +315,9 @@ export function downloadScaffoldByVsCode(data: {
   type: 'git' | 'npm';
   repository: string;
 }) {
-  return request<{ config: any }>({
+  return request<{
+    config: { formSchema?: { schema?: object; formData?: object } };
+  }>({
     cmd: 'downloadScaffold',
     data: data,
   });

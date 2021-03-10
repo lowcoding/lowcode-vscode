@@ -3,6 +3,7 @@ import { Row, Col, Spin } from 'antd';
 import { SyncOutlined } from '@ant-design/icons';
 import useController from './useController';
 import './index.less';
+import FormModal from '../FormModal';
 
 const View = () => {
   const controller = useController();
@@ -10,7 +11,10 @@ const View = () => {
   const { model } = service;
 
   return (
-    <Spin spinning={model.loading.fetch || model.loading.download}>
+    <Spin
+      spinning={model.loading.fetch || model.loading.download}
+      tip={model.loading.download ? '正在下载模板...' : undefined}
+    >
       <div className="scaffold">
         <Row className="header">
           <Col span={20}>选择模板创建应用</Col>
@@ -76,6 +80,15 @@ const View = () => {
           </Col>
         </Row>
       </div>
+      <FormModal
+        visible={model.formModal.visible}
+        config={model.formModal.config}
+        onClose={() => {
+          model.setFormModal(s => {
+            s.visible = false;
+          });
+        }}
+      />
     </Spin>
   );
 };

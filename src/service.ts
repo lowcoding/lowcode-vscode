@@ -30,17 +30,6 @@ export const fetchApiDetailInfo = (
   );
 };
 
-export interface IFetchScaffoldsResult {
-  category: string;
-  icon: string;
-  scaffolds: {
-    title: string;
-    description: string;
-    screenshot: string;
-    repository: string;
-  }[];
-}
-
 export const fetchScaffolds = (url: string) => {
-  return axios.get<IFetchScaffoldsResult>(url);
+  return axios.get(url);
 };

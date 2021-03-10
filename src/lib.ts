@@ -328,7 +328,7 @@ export const compileScaffold = async (model: any, createDir: string) => {
   const tempDir = path.join(os.homedir(), '.lowcode/scaffold');
   // lowcode.scaffold.config.json
   //   {
-  // 	"schema": {},
+  // 	"formSchema": {},
   // 	"excludeCompile": ["codeTemplate/", "materials/"],
   // 	"conditionFiles": {
   // 		"name": {

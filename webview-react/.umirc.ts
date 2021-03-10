@@ -7,7 +7,7 @@ export default defineConfig({
   routes: [
     {
       path: '/scaffold',
-      component: '@/pages/scaffold',
+      component: '@/pages/scaffold/List',
     },
     {
       path: '/',
