@@ -352,7 +352,6 @@ const messageHandler: {
     }
   },
   getScaffolds(panel: WebviewPanel, message: IMessage<{ url: string }>) {
-    console.log(message);
     fetchScaffolds(message.data.url)
       .then((res) => {
         invokeCallback(panel, message.cbid, res.data);

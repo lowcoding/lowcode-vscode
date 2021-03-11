@@ -19,6 +19,7 @@ import {
 } from './config';
 import { download } from './utils/download';
 import { renderEjsTemplates } from './compiler/ejs';
+import Axios from 'axios';
 
 export const getClipboardText = () => {
   return copyPaste.paste();
@@ -374,4 +375,14 @@ export const selectDirectory = async () => {
   if (selectFolderUri && selectFolderUri.length > 0) {
     return selectFolderUri[0].fsPath;
   }
+};
+
+export const checkVankeInternal = () => {
+  return Axios.get('https://npm.bu6.io')
+    .then((res) => {
+      return true;
+    })
+    .catch(() => {
+      return false;
+    });
 };

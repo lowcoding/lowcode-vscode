@@ -16,7 +16,6 @@ const useController = (props: {
 
   useEffect(() => {
     if (props.visible) {
-      console.log(props.config.formSchema?.formData);
       model.setFormData(props.config.formSchema?.formData || {});
       model.setConfig(defaultConfig);
     }

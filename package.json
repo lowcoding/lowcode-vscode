@@ -106,7 +106,7 @@
 		"viewsWelcome": [
 			{
 				"view": "lowcode.welcome",
-				"contents": "[打开文件夹](command:lowcode.openFolderForceNewWindow)\n[脚手架](command:lowcode.openScaffold)\n[设置](command:lowcode.openConfig)\n查看[文档](https://lowcoding.gitee.io)以学习如何在 VS Code 中如何使用 lowcode。"
+				"contents": "[打开文件夹](command:lowcode.openFolderForceNewWindow)\n[创建应用](command:lowcode.openScaffold)\n[设置](command:lowcode.openConfig)\n查看[文档](https://lowcoding.gitee.io)以学习如何在 VS Code 中如何使用 lowcode。"
 			}
 		],
 		"configuration": {
