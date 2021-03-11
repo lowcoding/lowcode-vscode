@@ -322,7 +322,11 @@ export const downloadScaffoldFromGit = (remote: string) => {
   fs.removeSync(tempDir);
   execa.sync('git', ['clone', remote, tempDir]);
   fs.removeSync(path.join(tempDir, '.git'));
-  return fs.readJSONSync(path.join(tempDir, 'lowcode.scaffold.config.json'));
+  if (fs.existsSync(path.join(tempDir, 'lowcode.scaffold.config.json'))) {
+    return fs.readJSONSync(path.join(tempDir, 'lowcode.scaffold.config.json'));
+  } else {
+    return {};
+  }
 };
 
 export const compileScaffold = async (model: any, createDir: string) => {
@@ -342,25 +346,27 @@ export const compileScaffold = async (model: any, createDir: string) => {
   // 		}
   // 	}
   // }
-  const config = fs.readJSONSync(
-    path.join(tempDir, 'lowcode.scaffold.config.json'),
-  );
-  const excludeCompile: string[] = config.excludeCompile || [];
-  if (config.conditionFiles) {
-    Object.keys(model).map((key) => {
-      if (
-        config.conditionFiles[key] &&
-        config.conditionFiles[key]['value'] === model[key] &&
-        Array.isArray(config.conditionFiles[key]['exclude'])
-      ) {
-        config.conditionFiles[key]['exclude'].map((exclude: string) => {
-          fs.removeSync(path.join(tempDir, exclude));
-        });
-      }
-    });
+  if (fs.existsSync(path.join(tempDir, 'lowcode.scaffold.config.json'))) {
+    const config = fs.readJSONSync(
+      path.join(tempDir, 'lowcode.scaffold.config.json'),
+    );
+    const excludeCompile: string[] = config.excludeCompile || [];
+    if (config.conditionFiles) {
+      Object.keys(model).map((key) => {
+        if (
+          config.conditionFiles[key] &&
+          config.conditionFiles[key]['value'] === model[key] &&
+          Array.isArray(config.conditionFiles[key]['exclude'])
+        ) {
+          config.conditionFiles[key]['exclude'].map((exclude: string) => {
+            fs.removeSync(path.join(tempDir, exclude));
+          });
+        }
+      });
+    }
+    await renderEjsTemplates(model, tempDir, excludeCompile);
+    fs.removeSync(path.join(tempDir, 'lowcode.scaffold.config.json'));
   }
-  await renderEjsTemplates(model, tempDir, excludeCompile);
-  fs.removeSync(path.join(tempDir, 'lowcode.scaffold.config.json'));
   fs.copySync(tempDir, createDir);
 };
 

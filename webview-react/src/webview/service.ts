@@ -285,12 +285,14 @@ export function getScaffolds(url: string) {
     {
       category: string;
       icon: string;
+      uuid: string;
       scaffolds: {
         title: string;
         description: string;
         screenshot: string;
         repository: string;
         repositoryType: 'git' | 'npm';
+        uuid: string;
       }[];
     }[]
   >({

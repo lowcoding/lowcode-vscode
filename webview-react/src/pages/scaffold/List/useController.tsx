@@ -2,14 +2,18 @@ import React, { useEffect } from 'react';
 import { useMount } from 'ahooks';
 import useService from './useService';
 import { downloadScaffoldByVsCode, getScaffolds } from '@/webview/service';
+import useCheckVankeInternal from '@/hooks/useCheckVankeInternal';
 
 const useController = () => {
   const service = useService();
   const { model } = service;
+  const isVankeInternal = useCheckVankeInternal();
 
-  useMount(() => {
-    fetchScaffolds();
-  });
+  useEffect(() => {
+    if (isVankeInternal !== undefined) {
+      fetchScaffolds();
+    }
+  }, [isVankeInternal]);
 
   useEffect(() => {
     if (model.currentCategory) {
@@ -23,13 +27,27 @@ const useController = () => {
     model.setLoading(s => {
       s.fetch = true;
     });
-    getScaffolds('https://gitee.com/lowcoding/scaffold/raw/master/index.json')
-      .then(res => {
+    const promises: ReturnType<typeof getScaffolds>[] = [
+      getScaffolds(
+        'https://gitee.com/lowcoding/scaffold/raw/master/index.json',
+      ),
+    ];
+    if (isVankeInternal) {
+      promises.push(
+        getScaffolds(
+          'https://git.vankeservice.com/v0417672/lowcode-scaffolds/raw/master/index.json',
+        ),
+      );
+    }
+    Promise.all(promises)
+      .then(allRes => {
+        const res = allRes.flat();
         model.setCategories(
           res.map(s => {
             return {
               name: s.category,
               icon: s.icon,
+              uuid: s.uuid,
             };
           }),
         );
@@ -37,18 +55,19 @@ const useController = () => {
         res.map(r => {
           r.scaffolds.map(s => {
             scaffolds.push({
-              category: r.category,
+              category: r.uuid,
               title: s.title,
               description: s.description,
               screenshot: s.screenshot,
               repository: s.repository,
               repositoryType: s.repositoryType,
+              uuid: s.uuid,
             });
           });
         });
         model.setAllScaffolds(scaffolds);
         if (res.length > 0) {
-          model.setCurrentCategory(res[0].category);
+          model.setCurrentCategory(res[0].uuid);
         }
       })
       .finally(() => {
@@ -58,11 +77,11 @@ const useController = () => {
       });
   };
 
-  const changeCategory = (name: string) => {
-    if (name === model.currentCategory) {
+  const changeCategory = (uuid: string) => {
+    if (uuid === model.currentCategory) {
       return;
     }
-    model.setCurrentCategory(name);
+    model.setCurrentCategory(uuid);
   };
 
   const downloadScaffold = (config: typeof model.scaffolds[0]) => {

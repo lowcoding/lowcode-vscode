@@ -35,18 +35,18 @@ const View = () => {
                 return (
                   <div
                     className={`category-item ${
-                      model.currentCategory === item.name ? 'checked-item' : ''
+                      model.currentCategory === item.uuid ? 'checked-item' : ''
                     }`}
-                    key={item.name}
+                    key={item.uuid}
                     onClick={() => {
-                      controller.changeCategory(item.name);
+                      controller.changeCategory(item.uuid);
                     }}
                   >
                     <div className="icon">
                       <img src={item.icon} />
                     </div>
                     <div className="title">{item.name}</div>
-                    {model.currentCategory === item.name && (
+                    {model.currentCategory === item.uuid && (
                       <div className="badge">
                         <span className="tick">✓</span>
                       </div>
@@ -70,7 +70,7 @@ const View = () => {
                 {model.scaffolds.map(s => {
                   return (
                     <div
-                      key={s.title}
+                      key={s.uuid}
                       className="scaffold-item"
                       onClick={() => {
                         controller.downloadScaffold(s);

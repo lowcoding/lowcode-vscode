@@ -2,7 +2,7 @@ import { useState } from '@/hooks/useImmer';
 
 const useModel = () => {
   const [categories, setCategories] = useState<
-    { name: string; icon: string }[]
+    { name: string; icon: string; uuid: string }[]
   >([]);
 
   const [allScaffolds, setAllScaffolds] = useState<
@@ -13,6 +13,7 @@ const useModel = () => {
       screenshot: string;
       repository: string;
       repositoryType: 'git' | 'npm';
+      uuid: string;
     }[]
   >([]);
 
@@ -24,6 +25,7 @@ const useModel = () => {
       screenshot: string;
       repository: string;
       repositoryType: 'git' | 'npm';
+      uuid: string;
     }[]
   >([]);
 
