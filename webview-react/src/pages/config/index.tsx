@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Button, message } from 'antd';
 import FormRender from 'form-render/lib/antd';
-import { callVscode, callVscodePromise } from '@/webview';
+import useController from './useController';
+import { savePluginConfig } from '@/webview/service';
 const schame = {
   type: 'object',
   properties: {
@@ -125,41 +126,10 @@ const schame = {
   },
 };
 export default () => {
-  const [formData, setFormDate] = useState({
-    yapi: {
-      domain: '',
-      projects: [
-        {
-          name: '',
-          token: '',
-          domain: '',
-        },
-      ],
-    },
-    mock: {
-      mockNumber: '',
-      mockBoolean: '',
-      mockString: '',
-      mockKeyWordEqual: [
-        {
-          key: '',
-          value: '',
-        },
-      ],
-      mockKeyWordLike: [
-        {
-          key: '',
-          value: '',
-        },
-      ],
-    },
-    saveOption: ['package'],
-  });
-  useEffect(() => {
-    callVscode({ cmd: 'getPluginConfig' }, (data: typeof formData) => {
-      setFormDate({ ...data, saveOption: ['package'] });
-    });
-  }, []);
+  const controller = useController();
+  const { service } = controller;
+  const { model } = service;
+
   return (
     <div>
       <FormRender
@@ -168,8 +138,8 @@ export default () => {
         labelWidth={170}
         column={1}
         schema={schame}
-        formData={formData}
-        onChange={setFormDate}
+        formData={model.formData}
+        onChange={model.setFormDate}
         showValidate={false}
       />
       <div style={{ textAlign: 'center' }}>
@@ -177,7 +147,7 @@ export default () => {
           shape="round"
           type="primary"
           onClick={() => {
-            callVscodePromise('savePluginConfig', formData).then(() => {
+            savePluginConfig(model.formData).then(() => {
               message.success('保存成功');
             });
           }}

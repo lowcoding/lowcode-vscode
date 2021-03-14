@@ -6,16 +6,20 @@ export default defineConfig({
   },
   routes: [
     {
+      path: '/scaffold',
+      component: '@/pages/scaffold/List',
+    },
+    {
       path: '/',
       component: '@/layout/index',
       routes: [
         {
-          path: '/index',
-          component: '@/pages/index',
+          path: '/config',
+          component: '@/pages/config',
         },
         {
           path: '/blocks',
-          component: '@/pages/blocks',
+          component: '@/pages/blocks/List',
         },
         {
           path: '/blocks/detail/:name',
@@ -23,7 +27,7 @@ export default defineConfig({
         },
         {
           path: '/snippets',
-          component: '@/pages/snippets',
+          component: '@/pages/snippets/List',
         },
         {
           path: '/snippets/add/:time',
@@ -42,6 +46,6 @@ export default defineConfig({
   styleLoader: {},
   plugins: [path.join(__dirname, 'plugin')],
   antd: {
-    // dark: true,
+    dark: false,
   },
 });

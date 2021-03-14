@@ -1,4 +1,5 @@
 import * as path from 'path';
+import * as os from 'os';
 
 import { runTests } from 'vscode-test';
 
@@ -16,7 +17,7 @@ async function main() {
     await runTests({
       extensionDevelopmentPath,
       extensionTestsPath,
-      launchArgs: [path.resolve('H:/Github/lowcode-materials-template')], // 以 cli 运行时传入打开的目录
+      launchArgs: [path.resolve(os.homedir()), '--disable-extensions'], // 以 cli 运行时传入打开的目录
     });
   } catch (err) {
     console.error('Failed to run tests');

@@ -33,7 +33,7 @@
 			"outFiles": [
 				"${workspaceFolder}/build/test/**/*.js"
 			],
-			"preLaunchTask": "test"
+			"preLaunchTask": "pretest"
 		}
 	]
 }

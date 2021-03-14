@@ -2,11 +2,11 @@ import { request } from './index';
 export interface IGetLocalMaterialsResult {
   path: string;
   name: string;
-  model: object;
-  schema: object;
+  model: any;
+  schema: any;
   preview: {
-    title?: string;
-    description?: string;
+    title: string;
+    description: string;
     img?: string;
   };
   template: string;
@@ -182,5 +182,179 @@ export function downloadMaterials(data: { type: string; url: string }) {
 export function refreshIntelliSense() {
   return request<string>({
     cmd: 'refreshIntelliSense',
+  });
+}
+/**
+ * 快速添加代码片段
+ *
+ * @export
+ * @param {{
+ *   name: string;
+ *   template: string;
+ *   model: string;
+ *   schema: string;
+ *   preview: string;
+ * }} data
+ * @returns
+ */
+export function addSnippets(data: {
+  name: string;
+  template: string;
+  model: string;
+  schema: string;
+  preview: string;
+}) {
+  return request<string>({
+    cmd: 'addSnippets',
+    data,
+  });
+}
+/**
+ * 获取插件配置
+ *
+ * @export
+ * @returns
+ */
+export function getPluginConfig() {
+  return request<{
+    yapi: {
+      domain: string;
+      projects: {
+        name: string;
+        token: string;
+        domain: string;
+      }[];
+    };
+    mock: {
+      mockNumber: string;
+      mockBoolean: string;
+      mockString: string;
+      mockKeyWordEqual: {
+        key: string;
+        value: string;
+      }[];
+      mockKeyWordLike: {
+        key: string;
+        value: string;
+      }[];
+    };
+    saveOption: string[];
+  }>({
+    cmd: 'getPluginConfig',
+  });
+}
+
+export function savePluginConfig(data: {
+  yapi: {
+    domain: string;
+    projects: {
+      name: string;
+      token: string;
+      domain: string;
+    }[];
+  };
+  mock: {
+    mockNumber: string;
+    mockBoolean: string;
+    mockString: string;
+    mockKeyWordEqual: {
+      key: string;
+      value: string;
+    }[];
+    mockKeyWordLike: {
+      key: string;
+      value: string;
+    }[];
+  };
+  saveOption: string[];
+}) {
+  return request({
+    cmd: 'savePluginConfig',
+    data,
+  });
+}
+
+/**
+ * 获取脚手架列表
+ *
+ * @export
+ * @param {string} [url]
+ */
+export function getScaffolds(url: string) {
+  return request<
+    {
+      category: string;
+      icon: string;
+      uuid: string;
+      scaffolds: {
+        title: string;
+        description: string;
+        screenshot: string;
+        repository: string;
+        repositoryType: 'git' | 'npm';
+        uuid: string;
+      }[];
+    }[]
+  >({
+    cmd: 'getScaffolds',
+    data: {
+      url,
+    },
+  });
+}
+
+/**
+ * 下载脚手架
+ *
+ * @export
+ * @param {({
+ *   type: 'git' | 'npm';
+ *   repository: string;
+ * })} data
+ * @returns
+ */
+export function downloadScaffoldByVsCode(data: {
+  type: 'git' | 'npm';
+  repository: string;
+}) {
+  return request<{
+    config: { formSchema?: { schema?: object; formData?: object } };
+  }>({
+    cmd: 'downloadScaffold',
+    data: data,
+  });
+}
+
+/**
+ * 选择目录
+ *
+ * @export
+ * @returns
+ */
+export function selectDirectory() {
+  return request<string>({
+    cmd: 'selectDirectory',
+  });
+}
+
+/**
+ * 创建项目
+ *
+ * @export
+ * @param {{
+ *   model: any;
+ *   createDir: string;
+ *   immediateOpen: boolean;
+ * }} data
+ * @returns
+ */
+export function createProject(data: {
+  model: any;
+  createDir: string;
+  immediateOpen: boolean;
+}) {
+  return request<string>({
+    cmd: 'createProject',
+    data: data,
   });
 }

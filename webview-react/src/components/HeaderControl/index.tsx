@@ -55,7 +55,7 @@ export default () => {
       >
         <Radio.Button value="/snippets">代码片段</Radio.Button>
         <Radio.Button value="/blocks">区块</Radio.Button>
-        <Radio.Button value="/index">插件配置</Radio.Button>
+        <Radio.Button value="/config">插件配置</Radio.Button>
         <Dropdown overlay={menu}>
           <Radio.Button value="more">更多</Radio.Button>
         </Dropdown>

@@ -6,6 +6,7 @@ import { setLastActiveTextEditorId } from './lib';
 import { registerCompletion } from './commands/registerCompletion';
 import { openSnippet } from './commands/openSnippet';
 import { setContext } from './extensionContext';
+import { CommonCommands } from './commands/common';
 
 export function activate(context: vscode.ExtensionContext) {
   vscode.window.onDidChangeActiveTextEditor(
@@ -39,5 +40,7 @@ export function activate(context: vscode.ExtensionContext) {
   statusBarItem.text = '$(octoface) Low Code';
   statusBarItem.tooltip = '可视化生成代码';
   statusBarItem.show();
+
+  CommonCommands(context);
 }
 export function deactivate() {}

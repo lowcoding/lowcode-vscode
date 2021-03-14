@@ -4,10 +4,14 @@ import { history } from 'umi';
 import { AppstoreFilled, BugFilled } from '@ant-design/icons';
 import './index.less';
 import HeaderControl from '@/components/HeaderControl';
+import { useMount } from 'ahooks';
 
 const { Sider, Content } = Layout;
 
 const LayoutC: React.FC = ({ children }) => {
+  useMount(() => {
+    history.push('/snippets');
+  });
   return (
     <Layout className="base-layout">
       {/* <Sider trigger={null} collapsible>

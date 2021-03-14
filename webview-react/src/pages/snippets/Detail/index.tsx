@@ -1,98 +1,32 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Button,
-  Form,
-  Space,
-  Dropdown,
-  Menu,
-  notification,
-  Progress,
-  Modal,
-} from 'antd';
-import { DownOutlined, LoadingOutlined } from '@ant-design/icons';
-import { history, useParams } from 'umi';
+import { Button, Form, Space, Dropdown, message, Modal } from 'antd';
+import { DownOutlined } from '@ant-design/icons';
+import { history } from 'umi';
 import FormRender from 'form-render/lib/antd';
-import { callVscode } from '@/webview';
 import YapiModal from '@/components/YapiModal';
 import CodeMirror from '@/components/CodeMirror';
 import JsonToTs from '@/components/JsonToTs';
+import useController from './useController';
+import { genCodeBySnippetMaterial } from '@/webview/service';
 
 export default () => {
-  const [selectedMaterial, setSelectedMaterial] = useState<{
-    path: string;
-    name: string;
-    model: object;
-    schema: object;
-    preview: {
-      title: string;
-      description: string;
-      img: string;
-    };
-    template: string;
-  }>({ schema: {}, model: {} } as any);
-  const [formData, setData] = useState({});
-  const [yapiModalVsible, setYapiModalVsible] = useState(false);
-  const [templateModalVisble, setTemplateModalVisble] = useState(false);
-  const [jsonToTsModalVisble, setJsonToTsModalVisble] = useState(false);
-  const params = useParams<{ name: string }>();
-  useEffect(() => {
-    callVscode({ cmd: 'getLocalMaterials', data: 'snippets' }, data => {
-      if (data.length) {
-        const selected = data.find((s: any) => s.name === params.name);
-        setSelectedMaterial(selected!);
-        setData(selectedMaterial.model);
-      }
-    });
-  }, []);
-
-  useEffect(() => {
-    setSelectedMaterial(s => {
-      return {
-        ...s,
-        model: { ...s.model, ...formData },
-      };
-    });
-  }, [formData]);
-
-  const menu = (
-    <Menu>
-      <Menu.Item
-        onClick={() => {
-          setJsonToTsModalVisble(true);
-        }}
-      >
-        JSON TO TS
-      </Menu.Item>
-      <Menu.Item
-        onClick={() => {
-          setYapiModalVsible(true);
-        }}
-      >
-        根据 YAPI 接口追加模板数据
-      </Menu.Item>
-      <Menu.Item
-        onClick={() => {
-          setTemplateModalVisble(true);
-        }}
-      >
-        编辑模板
-      </Menu.Item>
-    </Menu>
-  );
+  const controller = useController();
+  const { service } = controller;
+  const { model } = service;
 
   return (
     <div>
       <Form layout="vertical">
         <Form.Item
           label="模板"
-          style={{ display: selectedMaterial.path ? 'flex' : 'none' }}
+          style={{ display: model.selectedMaterial.path ? 'flex' : 'none' }}
         >
           <CodeMirror
             domId="templateCodeMirror"
             lint={false}
-            value={selectedMaterial.template}
+            value={model.selectedMaterial.template}
             onChange={value => {
-              setSelectedMaterial(s => {
+              model.setSelectedMaterial(s => {
                 return {
                   ...s,
                   template: value,
@@ -103,14 +37,14 @@ export default () => {
         </Form.Item>
         <Form.Item
           label="模板 Schema"
-          style={{ display: selectedMaterial.path ? 'flex' : 'none' }}
+          style={{ display: model.selectedMaterial.path ? 'flex' : 'none' }}
         >
           <CodeMirror
             domId="schemaCodeMirror"
             lint
-            value={JSON.stringify(selectedMaterial.schema, null, 2)}
+            value={JSON.stringify(model.selectedMaterial.schema, null, 2)}
             onChange={value => {
-              setSelectedMaterial(s => {
+              model.setSelectedMaterial(s => {
                 return {
                   ...s,
                   schema: JSON.parse(value),
@@ -119,13 +53,13 @@ export default () => {
             }}
           />
         </Form.Item>
-        {Object.keys(selectedMaterial.schema).length > 0 && (
+        {Object.keys(model.selectedMaterial.schema).length > 0 && (
           <Form.Item label="Schema 表单">
             <div style={{ padding: '24px' }}>
               <FormRender
-                schema={selectedMaterial.schema}
-                formData={formData}
-                onChange={setData}
+                schema={model.selectedMaterial.schema}
+                formData={model.formData}
+                onChange={model.setFormData}
                 showValidate={false}
               />
               <br></br>
@@ -134,10 +68,10 @@ export default () => {
                   type="primary"
                   size="small"
                   onClick={() => {
-                    setSelectedMaterial(s => {
+                    model.setSelectedMaterial(s => {
                       return {
                         ...s,
-                        model: formData,
+                        model: model.formData,
                       };
                     });
                   }}
@@ -150,14 +84,14 @@ export default () => {
         )}
         <Form.Item
           label="模板数据"
-          style={{ display: selectedMaterial.path ? 'flex' : 'none' }}
+          style={{ display: model.selectedMaterial.path ? 'flex' : 'none' }}
         >
           <CodeMirror
             domId="modelCodeMirror"
             lint
-            value={JSON.stringify(selectedMaterial.model, null, 2)}
+            value={JSON.stringify(model.selectedMaterial.model, null, 2)}
             onChange={value => {
-              setSelectedMaterial(s => {
+              model.setSelectedMaterial(s => {
                 return {
                   ...s,
                   model: JSON.parse(value),
@@ -167,7 +101,7 @@ export default () => {
           />
           <br></br>
           <Space>
-            <Dropdown overlay={menu}>
+            <Dropdown overlay={controller.menu}>
               <a
                 className="ant-dropdown-link"
                 onClick={e => e.preventDefault()}
@@ -179,41 +113,12 @@ export default () => {
               type="primary"
               size="small"
               onClick={() => {
-                notification.open({
-                  key: selectedMaterial.name,
-                  message: '正在生成',
-                  description: (
-                    <div style={{ textAlign: 'center' }}>
-                      <LoadingOutlined
-                        style={{ fontSize: '40px', color: '#1890ff' }}
-                      />
-                    </div>
-                  ),
-                  duration: 0,
-                  placement: 'bottomRight',
+                genCodeBySnippetMaterial({
+                  model: model.selectedMaterial.model,
+                  template: model.selectedMaterial.template,
+                }).then(() => {
+                  message.success('生成成功');
                 });
-                callVscode(
-                  {
-                    cmd: 'genCodeBySnippetMaterial',
-                    data: {
-                      model: selectedMaterial.model,
-                      template: selectedMaterial.template,
-                    },
-                  },
-                  data => {
-                    notification.open({
-                      key: selectedMaterial.name,
-                      message: '生成成功',
-                      description: (
-                        <div style={{ textAlign: 'center' }}>
-                          <Progress type="circle" percent={100} width={40} />
-                        </div>
-                      ),
-                      duration: 4.5,
-                      placement: 'bottomRight',
-                    });
-                  },
-                );
               }}
             >
               生成代码
@@ -233,54 +138,54 @@ export default () => {
         </Button>
       </div>
       <YapiModal
-        visible={yapiModalVsible}
-        onOk={model => {
-          setSelectedMaterial(s => {
+        visible={model.yapiModalVsible}
+        onOk={m => {
+          model.setSelectedMaterial(s => {
             return {
               ...s,
-              model: { ...selectedMaterial.model, ...model },
+              model: { ...model.selectedMaterial.model, ...m },
             };
           });
-          setYapiModalVsible(false);
+          model.setYapiModalVsible(false);
         }}
         onCancel={() => {
-          setYapiModalVsible(false);
+          model.setYapiModalVsible(false);
         }}
       />
       <JsonToTs
-        visible={jsonToTsModalVisble}
-        json={selectedMaterial.model}
+        visible={model.jsonToTsModalVisble}
+        json={model.selectedMaterial.model}
         onCancel={() => {
-          setJsonToTsModalVisble(false);
+          model.setJsonToTsModalVisble(false);
         }}
         onOk={type => {
-          setSelectedMaterial(s => {
+          model.setSelectedMaterial(s => {
             return {
               ...s,
-              model: { ...selectedMaterial.model, type: type },
+              model: { ...model.selectedMaterial.model, type: type },
             };
           });
-          setJsonToTsModalVisble(false);
+          model.setJsonToTsModalVisble(false);
         }}
       />
       <Modal
-        visible={templateModalVisble}
+        visible={model.templateModalVisble}
         title="编辑模板"
         okText="确定"
         cancelText="取消"
         onCancel={() => {
-          setTemplateModalVisble(false);
+          model.setTemplateModalVisble(false);
         }}
         onOk={() => {
-          setTemplateModalVisble(false);
+          model.setTemplateModalVisble(false);
         }}
       >
         <CodeMirror
           domId="templateCodeMirrorDialog"
           lint={false}
-          value={selectedMaterial.template}
+          value={model.selectedMaterial.template}
           onChange={value => {
-            setSelectedMaterial(s => {
+            model.setSelectedMaterial(s => {
               return {
                 ...s,
                 template: value,

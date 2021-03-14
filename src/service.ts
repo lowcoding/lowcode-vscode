@@ -29,3 +29,7 @@ export const fetchApiDetailInfo = (
     `${domain}/api/interface/get?id=${id}&token=${token}`,
   );
 };
+
+export const fetchScaffolds = (url: string) => {
+  return axios.get(url);
+};

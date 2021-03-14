@@ -1,4 +1,11 @@
-import { window, Range, workspace, SnippetString } from 'vscode';
+import {
+  window,
+  Range,
+  workspace,
+  SnippetString,
+  OpenDialogOptions,
+} from 'vscode';
+import * as os from 'os';
 import * as copyPaste from 'copy-paste';
 import * as quicktypeCore from 'quicktype-core';
 import * as path from 'path';
@@ -11,6 +18,8 @@ import {
   getMockKeyWordLikeConfig,
 } from './config';
 import { download } from './utils/download';
+import { renderEjsTemplates } from './compiler/ejs';
+import Axios from 'axios';
 
 export const getClipboardText = () => {
   return copyPaste.paste();
@@ -286,6 +295,7 @@ export const setLastActiveTextEditorId = (id: string) => {
 export const downloadMaterialsFromGit = (remote: string) => {
   const tempDir = path.join(workspace.rootPath!, '.lowcode');
   const materialsDir = path.join(workspace.rootPath!, 'materials');
+  fs.removeSync(tempDir);
   execa.sync('git', ['clone', remote, tempDir]);
   fs.copySync(path.join(tempDir, 'materials'), path.join(materialsDir));
   fs.removeSync(tempDir);
@@ -295,6 +305,7 @@ export const downloadMaterialsFromNpm = async (packageName: string) => {
   const result = execa.sync('npm', ['view', packageName, 'dist.tarball']);
   const tarball = result.stdout;
   const tempDir = path.join(workspace.rootPath!, '.lowcode');
+  fs.removeSync(tempDir);
   await download(tarball, tempDir, `temp.tgz`);
   await tar.x({
     file: path.join(tempDir, `temp.tgz`),
@@ -304,4 +315,80 @@ export const downloadMaterialsFromNpm = async (packageName: string) => {
   const materialsDir = path.join(workspace.rootPath!, 'materials');
   fs.copySync(path.join(tempDir, 'materials'), materialsDir);
   fs.removeSync(tempDir);
+};
+
+export const downloadScaffoldFromGit = (remote: string) => {
+  const tempDir = path.join(os.homedir(), '.lowcode/scaffold');
+  fs.removeSync(tempDir);
+  execa.sync('git', ['clone', remote, tempDir]);
+  fs.removeSync(path.join(tempDir, '.git'));
+  if (fs.existsSync(path.join(tempDir, 'lowcode.scaffold.config.json'))) {
+    return fs.readJSONSync(path.join(tempDir, 'lowcode.scaffold.config.json'));
+  } else {
+    return {};
+  }
+};
+
+export const compileScaffold = async (model: any, createDir: string) => {
+  const tempDir = path.join(os.homedir(), '.lowcode/scaffold');
+  // lowcode.scaffold.config.json
+  //   {
+  // 	"formSchema": {},
+  // 	"excludeCompile": ["codeTemplate/", "materials/"],
+  // 	"conditionFiles": {
+  // 		"name": {
+  // 			"value": "1",
+  // 			"exclude": []
+  // 		},
+  // 		"noREADME": {
+  // 			"value": true,
+  // 			"exclude": ["README.md.ejs"]
+  // 		}
+  // 	}
+  // }
+  if (fs.existsSync(path.join(tempDir, 'lowcode.scaffold.config.json'))) {
+    const config = fs.readJSONSync(
+      path.join(tempDir, 'lowcode.scaffold.config.json'),
+    );
+    const excludeCompile: string[] = config.excludeCompile || [];
+    if (config.conditionFiles) {
+      Object.keys(model).map((key) => {
+        if (
+          config.conditionFiles[key] &&
+          config.conditionFiles[key]['value'] === model[key] &&
+          Array.isArray(config.conditionFiles[key]['exclude'])
+        ) {
+          config.conditionFiles[key]['exclude'].map((exclude: string) => {
+            fs.removeSync(path.join(tempDir, exclude));
+          });
+        }
+      });
+    }
+    await renderEjsTemplates(model, tempDir, excludeCompile);
+    fs.removeSync(path.join(tempDir, 'lowcode.scaffold.config.json'));
+  }
+  fs.copySync(tempDir, createDir);
+};
+
+export const selectDirectory = async () => {
+  const options: OpenDialogOptions = {
+    canSelectFolders: true,
+    canSelectFiles: false,
+    canSelectMany: false,
+    openLabel: 'Open',
+  };
+  const selectFolderUri = await window.showOpenDialog(options);
+  if (selectFolderUri && selectFolderUri.length > 0) {
+    return selectFolderUri[0].fsPath;
+  }
+};
+
+export const checkVankeInternal = () => {
+  return Axios.get('https://npm.bu6.io')
+    .then((res) => {
+      return true;
+    })
+    .catch(() => {
+      return false;
+    });
 };
