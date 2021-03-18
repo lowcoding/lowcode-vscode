@@ -331,21 +331,6 @@ export const downloadScaffoldFromGit = (remote: string) => {
 
 export const compileScaffold = async (model: any, createDir: string) => {
   const tempDir = path.join(os.homedir(), '.lowcode/scaffold');
-  // lowcode.scaffold.config.json
-  //   {
-  // 	"formSchema": {},
-  // 	"excludeCompile": ["codeTemplate/", "materials/"],
-  // 	"conditionFiles": {
-  // 		"name": {
-  // 			"value": "1",
-  // 			"exclude": []
-  // 		},
-  // 		"noREADME": {
-  // 			"value": true,
-  // 			"exclude": ["README.md.ejs"]
-  // 		}
-  // 	}
-  // }
   if (fs.existsSync(path.join(tempDir, 'lowcode.scaffold.config.json'))) {
     const config = fs.readJSONSync(
       path.join(tempDir, 'lowcode.scaffold.config.json'),

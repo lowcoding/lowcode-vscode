@@ -236,8 +236,8 @@ export const getLocalMaterials = (type: 'blocks' | 'snippets') => {
   try {
     materials = fs.readdirSync(materialsPath).map((s) => {
       const fullPath = path.join(materialsPath, s);
-      let model = {};
-      let schema = {};
+      let model = {} as any;
+      let schema = {} as any;
       let preview = {};
       let template = '';
       try {
@@ -262,6 +262,12 @@ export const getLocalMaterials = (type: 'blocks' | 'snippets') => {
             true,
           );
         } catch {}
+      }
+      if (schema.formSchema) {
+        if (schema.formSchema.formData) {
+          model = schema.formSchema.formData;
+        }
+        schema = schema.formSchema.schema;
       }
       return {
         path: fullPath,

@@ -35,7 +35,7 @@ export default () => {
             }}
           />
         </Form.Item>
-        <Form.Item
+        {/* <Form.Item
           label="模板 Schema"
           style={{ display: model.selectedMaterial.path ? 'flex' : 'none' }}
         >
@@ -52,7 +52,7 @@ export default () => {
               });
             }}
           />
-        </Form.Item>
+        </Form.Item> */}
         {Object.keys(model.selectedMaterial.schema).length > 0 && (
           <Form.Item label="Schema 表单">
             <div style={{ padding: '24px' }}>
