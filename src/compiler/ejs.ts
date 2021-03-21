@@ -57,6 +57,12 @@ export async function renderEjsTemplates(
 async function renderFile(templateFilepath: string, data: ejs.Data) {
   let content = await ejs.renderFile(templateFilepath, data);
   const targetFilePath = templateFilepath.replace(/\.ejs$/, '');
-  await fse.rename(templateFilepath, targetFilePath); // 去掉模板文件后缀
-  await fse.writeFile(targetFilePath, content); // render 后的内容重新写入文件
+  try {
+    content = prettier.format(content, {
+      singleQuote: true,
+      filepath: targetFilePath,
+    });
+  } catch {}
+  await fse.rename(templateFilepath, targetFilePath);
+  await fse.writeFile(targetFilePath, content);
 }
