@@ -15,7 +15,7 @@ const useController = () => {
       if (data.length) {
         const selected = data.find((s: any) => s.name === params.name);
         model.setSelectedMaterial(selected!);
-        model.setFormData(model.selectedMaterial.model);
+        model.setFormData(selected?.model);
       }
     });
   }, []);

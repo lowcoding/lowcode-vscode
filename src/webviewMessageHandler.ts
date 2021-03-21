@@ -130,8 +130,29 @@ const messageHandler: {
         'materials/blocks',
         message.data.material,
       );
+      const schemaFile = path.join(materialsPath, 'config/schema.json');
+      const schama = fs.readJSONSync(schemaFile);
       fs.copySync(materialsPath, tempWordDir);
-      await renderEjsTemplates(message.data.model, tempWordDir);
+      let excludeCompile: string[] = [];
+      if (schama.excludeCompile) {
+        excludeCompile = schama.excludeCompile;
+      }
+      if (schama.conditionFiles) {
+        Object.keys(message.data.model).map((key) => {
+          if (
+            schama.conditionFiles[key] &&
+            schama.conditionFiles[key]['value'] ===
+              (message.data.model as any)[key] &&
+            Array.isArray(schama.conditionFiles[key]['exclude'])
+          ) {
+            schama.conditionFiles[key]['exclude'].map((exclude: string) => {
+              fs.removeSync(path.join(tempWordDir, 'src', exclude));
+              fs.removeSync(path.join(tempWordDir, exclude));
+            });
+          }
+        });
+      }
+      await renderEjsTemplates(message.data.model, tempWordDir, excludeCompile);
       fs.copySync(
         path.join(tempWordDir, 'src'),
         path.join(message.data.path, ...message.data.createPath),
