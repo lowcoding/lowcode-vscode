@@ -149,7 +149,7 @@ export default () => {
       />
       <JsonToTs
         visible={model.jsonToTsModalVisble}
-        json={model.selectedMaterial}
+        json={model.selectedMaterial.model}
         onCancel={() => {
           model.setJsonToTsModalVisble(false);
         }}
