@@ -30,7 +30,7 @@ export const generateCode = (context: vscode.ExtensionContext) => {
           return;
         }
         try {
-          await genCodeByTypescript(clipboardText, rawClipboardText);
+          await genCodeByTypescript(rawClipboardText, rawClipboardText);
         } catch {
           window.showErrorMessage('请复制Yapi接口ID或JSON字符串或TS类型');
           return;

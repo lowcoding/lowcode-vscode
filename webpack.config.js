@@ -15,7 +15,7 @@ const config = {
     vscode: 'commonjs vscode',
     prettier: 'commonjs prettier',
     'copy-paste': 'commonjs copy-paste',
-    //'typescript-json-schema': 'commonjs typescript-json-schema',
+    'typescript-json-schema': 'commonjs2 typescript-json-schema',
     //'ts-json-schema-generator': 'cmmonjs ts-json-schema-generator'
     //handlebars: 'commonjs handlebars',
     // axios: 'commonjs axios',

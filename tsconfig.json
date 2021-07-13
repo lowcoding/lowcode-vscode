@@ -1,10 +1,12 @@
 {
 	"compilerOptions": {
+		"moduleResolution": "Node",
 		"module": "commonjs",
-		"target": "ES6",
+		"target": "ES5",
 		"outDir": "build",
+		"allowSyntheticDefaultImports": true,
 		"lib": [
-			"ES6"
+			"ES5"
 		],
 		"sourceMap": true,
 		"rootDir": "src",
