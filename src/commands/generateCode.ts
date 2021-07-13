@@ -1,13 +1,8 @@
 import * as vscode from 'vscode';
-import {
-  getClipboardText,
-  isYapiId,
-  jsonIsValid,
-  jsonToTs,
-  jsonParse,
-} from '../lib';
+import { getClipboardText, isYapiId, jsonIsValid, jsonParse } from '../lib';
 import { genCodeByYapi } from '../genCode/genCodeByYapi';
 import { genCodeByJson } from '../genCode/genCodeByJson';
+import { genCodeByTypescript } from '../genCode/genCodeByTypescript';
 
 const { window } = vscode;
 
@@ -25,15 +20,20 @@ export const generateCode = (context: vscode.ExtensionContext) => {
 
         const validJson = jsonIsValid(clipboardText);
 
-        if (!validYapiId && !validJson) {
-          window.showErrorMessage('请复制Yapi接口ID或JSON字符串');
+        let valid = validJson || validYapiId;
+        if (valid) {
+          if (validYapiId) {
+            await genCodeByYapi(clipboardText, rawClipboardText);
+          } else {
+            await genCodeByJson(clipboardText, rawClipboardText);
+          }
           return;
         }
-
-        if (validYapiId) {
-          await genCodeByYapi(clipboardText, rawClipboardText);
-        } else {
-          await genCodeByJson(clipboardText, rawClipboardText);
+        try {
+          await genCodeByTypescript(clipboardText, rawClipboardText);
+        } catch {
+          window.showErrorMessage('请复制Yapi接口ID或JSON字符串或TS类型');
+          return;
         }
       },
     ),

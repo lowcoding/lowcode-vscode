@@ -174,7 +174,7 @@
 		"glob": "^7.1.6",
 		"mocha": "^7.1.2",
 		"ts-loader": "^8.0.3",
-		"typescript": "^3.8.3",
+		"typescript": "^4.3.5",
 		"vscode-test": "^1.3.0",
 		"webpack": "^4.44.1",
 		"webpack-cli": "^3.3.12"
@@ -195,6 +195,8 @@
 		"quicktype-core": "^6.0.66",
 		"strip-comments": "^2.0.1",
 		"strip-json-comments": "^3.1.1",
-		"tar": "^6.0.5"
+		"tar": "^6.0.5",
+		"ts-json-schema-generator": "^0.94.1",
+		"typescript-json-schema": "^0.50.1"
 	}
 }

@@ -14,7 +14,7 @@ export function download(url: string, filePath: string, fileName: string) {
           .then((response) => {
             response.data
               .pipe(file)
-              .on('finish', () => resolve())
+              .on('finish', () => resolve(0))
               .on('error', (err: any) => {
                 fs.unlink(filePath, () => reject(err));
               });

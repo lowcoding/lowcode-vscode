@@ -11,6 +11,9 @@ import * as quicktypeCore from 'quicktype-core';
 import * as path from 'path';
 import * as fs from 'fs-extra';
 import * as execa from 'execa';
+import * as tsj from 'ts-json-schema-generator';
+import { Config } from 'ts-json-schema-generator';
+import * as TJS from 'typescript-json-schema';
 const tar = require('tar');
 import {
   getMockConfig,
@@ -20,6 +23,7 @@ import {
 import { download } from './utils/download';
 import { renderEjsTemplates } from './compiler/ejs';
 import Axios from 'axios';
+import { resolve } from 'path';
 
 export const getClipboardText = () => {
   return copyPaste.paste();
@@ -225,10 +229,8 @@ export const formatSchema = (schema: any) => {
           itemStr = itemStr + '{';
           Object.keys(property.items.properties).map((itemPropertyKey) => {
             const itemProperty = property.items.properties[itemPropertyKey];
-            const {
-              jsonStr: itemJsonStr,
-              listStr: itemListStr,
-            } = formatProperty(itemProperty, itemPropertyKey);
+            const { jsonStr: itemJsonStr, listStr: itemListStr } =
+              formatProperty(itemProperty, itemPropertyKey);
             itemStr = itemStr + itemJsonStr;
             listStr = listStr.concat(itemListStr);
           });
@@ -376,4 +378,75 @@ export const checkVankeInternal = () => {
     .catch(() => {
       return false;
     });
+};
+
+export const typescriptToJson = (type1: string) => {
+  const tempDir = path.join(os.homedir(), '.lowcode/temp');
+  const filePath = path.join(tempDir, 'ts.ts');
+  if (!fs.existsSync(filePath)) {
+    fs.createFileSync(filePath);
+  }
+  const type = `{
+	code: number;
+	message: string;
+	result: {
+	  houses: {
+		recordTime: string;
+		status: 1 | 2;
+		houseName: string;
+		houseCode: string;
+		startTime: string;
+		endTime: string;
+		company: string;
+		foreman: string;
+		mobile: string;
+		WorkerApplication: {
+		  name: string;
+		  startTime: string;
+		  endTime: string;
+		  typeName: string;
+		  typeId: number;
+		  workerStatus: 1 | 2;
+		  passStatus: 1 | 2 | 3 | 4 | 5;
+		}[];
+		WorkerApplicationNumber: number;
+		validity: number;
+		reasonType: number;
+		reasonContent: string;
+		inspectionStatus: number;
+		presentWorkerNumber: number;
+		recordId: string;
+		// 前端用
+		imgStatus?: string;
+	  }[];
+	};
+  }`;
+  fs.writeFileSync(filePath, `export interface TempType ${type}`, {
+    encoding: 'utf-8',
+  });
+
+  const config: Config = {
+    path: filePath,
+    topRef: true,
+    expose: 'all',
+    jsDoc: 'extended',
+    type: '*',
+  };
+
+  const schema = tsj.createGenerator(config).createSchema(config.type) as any;
+  return formatSchema(schema.definitions.TempType);
+  //   const settings: TJS.PartialArgs = {
+  //     required: true,
+  //   };
+
+  //   // optionally pass ts compiler options
+  //   const compilerOptions: TJS.CompilerOptions = {
+  //     strictNullChecks: true,
+  //   };
+  //   const program = TJS.getProgramFromFiles([resolve(filePath)], compilerOptions);
+  //   const schema = TJS.generateSchema(program, 'TempType', settings) as any;
+  //   if (schema === null) {
+  //     throw 'jkjkj';
+  //   }
+  //   return formatSchema(schema);
 };
