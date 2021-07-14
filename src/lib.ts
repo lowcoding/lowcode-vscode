@@ -297,7 +297,7 @@ export const downloadMaterialsFromGit = (remote: string) => {
   const tempDir = path.join(workspace.rootPath!, '.lowcode');
   const materialsDir = path.join(workspace.rootPath!, 'materials');
   fs.removeSync(tempDir);
-  execa.sync('git', ['clone', ...remote.split(" "), tempDir]);
+  execa.sync('git', ['clone', ...remote.split(' '), tempDir]);
   fs.copySync(path.join(tempDir, 'materials'), path.join(materialsDir));
   fs.removeSync(tempDir);
 };
@@ -321,7 +321,7 @@ export const downloadMaterialsFromNpm = async (packageName: string) => {
 export const downloadScaffoldFromGit = (remote: string) => {
   const tempDir = path.join(os.homedir(), '.lowcode/scaffold');
   fs.removeSync(tempDir);
-  execa.sync('git', ['clone', ...remote.split(" "), tempDir]);
+  execa.sync('git', ['clone', ...remote.split(' '), tempDir]);
   fs.removeSync(path.join(tempDir, '.git'));
   if (fs.existsSync(path.join(tempDir, 'lowcode.scaffold.config.json'))) {
     return fs.readJSONSync(path.join(tempDir, 'lowcode.scaffold.config.json'));
@@ -379,11 +379,17 @@ export const checkVankeInternal = () => {
     });
 };
 
-export const typescriptToJson = (type: string) => {
+export const typescriptToJson = (oriType: string) => {
+  let type = oriType;
   const tempDir = path.join(os.homedir(), '.lowcode/temp');
   const filePath = path.join(tempDir, 'ts.ts');
   if (!fs.existsSync(filePath)) {
     fs.createFileSync(filePath);
+  }
+
+  // 处理最外层是数组类型的场景
+  if (!type.trim().endsWith('}')) {
+    type = `{ result: ${type} }`;
   }
   fs.writeFileSync(filePath, `export interface TempType ${type}`, {
     encoding: 'utf-8',
@@ -394,5 +400,9 @@ export const typescriptToJson = (type: string) => {
   if (schema === null) {
     throw new Error('根据TS类型生成JSON Schema失败');
   }
-  return formatSchema(schema);
+  const { mockCode, mockData } = formatSchema(schema);
+  return {
+    mockCode,
+    mockData: !oriType.trim().endsWith('}') ? 'list1' : mockData,
+  };
 };
