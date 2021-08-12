@@ -66,25 +66,23 @@ const View = () => {
           </Col>
           <Col>
             <div className="scaffold">
-              <Row>
-                {model.scaffolds.map(s => {
-                  return (
-                    <div
-                      key={s.uuid}
-                      className="scaffold-item"
-                      onClick={() => {
-                        controller.downloadScaffold(s);
-                      }}
-                    >
-                      <div className="screenshot">
-                        <img src={s.screenshot} />
-                      </div>
-                      <div className="title">{s.title}</div>
-                      <div className="description">{s.description}</div>
+              {model.scaffolds.map(s => {
+                return (
+                  <div
+                    key={s.uuid}
+                    className="scaffold-item"
+                    onClick={() => {
+                      controller.downloadScaffold(s);
+                    }}
+                  >
+                    <div className="screenshot">
+                      <img src={s.screenshot} />
                     </div>
-                  );
-                })}
-              </Row>
+                    <div className="title">{s.title}</div>
+                    <div className="description">{s.description}</div>
+                  </div>
+                );
+              })}
             </div>
           </Col>
         </Row>
