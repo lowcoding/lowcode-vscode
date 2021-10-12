@@ -1,4 +1,11 @@
 import axios from 'axios';
+const https = require('https');
+
+const agent = new https.Agent({
+  rejectUnauthorized: true,
+});
+
+https.globalAgent.options.rejectUnauthorized = false;
 
 interface IApiDetailInfo {
   data: {
@@ -27,6 +34,7 @@ export const fetchApiDetailInfo = (
 ) => {
   return axios.get<IApiDetailInfo>(
     `${domain}/api/interface/get?id=${id}&token=${token}`,
+    { httpsAgent: agent },
   );
 };
 
