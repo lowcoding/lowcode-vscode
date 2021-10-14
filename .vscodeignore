@@ -34,3 +34,4 @@ node_modules
 !node_modules/wrappy
 !node_modules/once
 !node_modules/json-stable-stringify
+!node_modules/typescript
