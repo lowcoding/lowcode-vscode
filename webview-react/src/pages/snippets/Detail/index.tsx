@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Form, Space, Dropdown, message, Modal } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import { history } from 'umi';
-import FormRender from 'form-render/lib/antd';
+import FormRender from 'form-render';
 import YapiModal from '@/components/YapiModal';
 import CodeMirror from '@/components/CodeMirror';
 import JsonToTs from '@/components/JsonToTs';
@@ -58,9 +58,8 @@ export default () => {
             <div style={{ padding: '24px' }}>
               <FormRender
                 schema={model.selectedMaterial.schema}
-                formData={model.formData}
-                onChange={model.setFormData}
-                showValidate={false}
+                form={controller.form}
+                watch={controller.watch}
               />
               <br></br>
               <Space>

@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { message } from 'antd';
 import { defaultConfig } from './useModel';
 import useService from './useService';
+import { useForm } from 'form-render';
 
 const useController = (props: {
   visible: boolean;
@@ -13,13 +14,21 @@ const useController = (props: {
 }) => {
   const service = useService();
   const { model } = service;
+  const form = useForm();
 
   useEffect(() => {
     if (props.visible) {
       model.setFormData(props.config.formSchema?.formData || {});
+      form.setValues(props.config.formSchema?.formData || {});
       model.setConfig(defaultConfig);
     }
   }, [props.visible]);
+
+  const watch = {
+    '#': (val: any) => {
+      model.setFormData(val);
+    },
+  };
 
   const selectDirectoryByVsCode = () => {
     selectDirectory().then(res => {
@@ -55,6 +64,8 @@ const useController = (props: {
     service,
     selectDirectoryByVsCode,
     createProjectByVsCode,
+    form,
+    watch,
   };
 };
 

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Button, message } from 'antd';
-import FormRender from 'form-render/lib/antd';
+import FormRender from 'form-render';
 import useController from './useController';
 import { savePluginConfig } from '@/webview/service';
-const schame = {
+const schame: any = {
   type: 'object',
   properties: {
     yapi: {
@@ -133,14 +133,13 @@ export default () => {
   return (
     <div>
       <FormRender
+        form={controller.form}
         displayType="column"
-        showDescIcon={true}
+        // showDescIcon={true}
         labelWidth={170}
         column={1}
         schema={schame}
-        formData={model.formData}
-        onChange={model.setFormDate}
-        showValidate={false}
+        watch={controller.watch}
       />
       <div style={{ textAlign: 'center' }}>
         <Button

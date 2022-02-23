@@ -4,11 +4,13 @@ import { useEffect } from 'react';
 import { useParams } from 'umi';
 import { Menu } from 'antd';
 import useService from './useService';
+import { useForm } from 'form-render';
 
 const useController = () => {
   const params = useParams<{ name: string }>();
   const service = useService();
   const { model } = service;
+  const form = useForm();
 
   useEffect(() => {
     getLocalMaterials('snippets').then(data => {
@@ -16,6 +18,7 @@ const useController = () => {
         const selected = data.find((s: any) => s.name === params.name);
         model.setSelectedMaterial(selected!);
         model.setFormData(selected?.model);
+        form.setValues(selected?.model);
       }
     });
   }, []);
@@ -28,6 +31,12 @@ const useController = () => {
       };
     });
   }, [model.formData]);
+
+  const watch = {
+    '#': (val: any) => {
+      model.setFormData(val);
+    },
+  };
 
   const menu = (
     <Menu>
@@ -58,6 +67,8 @@ const useController = () => {
   return {
     service,
     menu,
+    form,
+    watch,
   };
 };
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal, Form, Input, Checkbox } from 'antd';
 import useController from './useController';
-import FormRender from 'form-render/lib/antd';
+import FormRender from 'form-render';
 
 interface IProps {
   visible: boolean;
@@ -31,13 +31,11 @@ const View: React.FC<IProps> = ({ visible, config, onClose }) => {
     >
       {config.formSchema && (
         <FormRender
-          schema={config.formSchema?.schema}
+          form={controller.form}
+          schema={config.formSchema?.schema || {}}
           displayType="column"
-          showDescIcon={config.formSchema?.showDescIcon}
           labelWidth={config.formSchema?.labelWidth}
-          formData={model.formData}
-          onChange={model.setFormData}
-          showValidate={false}
+          watch={controller.watch}
         />
       )}
       <Form layout="vertical">

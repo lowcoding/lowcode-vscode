@@ -23,7 +23,7 @@ export default {
     showDescIcon: true,
     labelWidth: 158,
     formData: {
-      noREADME: false,
+      noREADME: true,
       emptyREADME: false,
     },
   },

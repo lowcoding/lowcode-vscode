@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, message, Form, Space, Dropdown } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
-import FormRender from 'form-render/lib/antd';
+import FormRender, { useForm } from 'form-render';
 import { history } from 'umi';
 import YapiModal from '@/components/YapiModal';
 import SelectDirectory from '@/components/SelectDirectory';
@@ -40,10 +40,9 @@ export default () => {
           <Form.Item label="Schema 表单">
             <div style={{ padding: '24px' }}>
               <FormRender
+                form={controller.form}
                 schema={model.selectedMaterial.schema}
-                formData={model.formData}
-                onChange={model.setData}
-                showValidate={false}
+                watch={controller.watch}
               />
               <br></br>
               <Space>

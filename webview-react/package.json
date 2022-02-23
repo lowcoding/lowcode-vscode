@@ -25,7 +25,7 @@
     "@umijs/test": "^3.2.19",
     "ahooks": "^2.9.4",
     "codemirror": "^5.58.1",
-    "form-render": "^0.8.7",
+    "form-render": "^1.9.2",
     "hox": "1.0.2",
     "immer": "^8.0.1",
     "jsonlint": "^1.6.3",
