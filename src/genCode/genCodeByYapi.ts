@@ -95,9 +95,9 @@ export const genTemplateModelByYapi = async (
     const schema = JSON.parse(stripJsonComments(res.data.data.res_body));
     delete schema.title;
     let ts = await compile(schema, typeName, {
-      bannerComment: undefined,
+      bannerComment: '',
     });
-    ts = strip(ts.replace(/(\[k: string\]: unknown;)|\?/g, ''));
+    ts = ts.replace(/(\[k: string\]: unknown;)|\?/g, '');
     const { mockCode, mockData } = formatSchema(schema);
     let requestBodyType = '';
     if (res.data.data.req_body_other) {
@@ -109,15 +109,13 @@ export const genTemplateModelByYapi = async (
         reqBodyScheme,
         `I${requestBodyTypeName}Data`,
         {
-          bannerComment: undefined,
+          bannerComment: '',
         },
       );
     }
     const model: Model = {
       type: ts,
-      requestBodyType: strip(
-        requestBodyType.replace(/\[k: string\]: unknown;/g, ''),
-      ),
+      requestBodyType: requestBodyType.replace(/\[k: string\]: unknown;/g, ''),
       funcName: funcName,
       typeName: typeName,
       api: res.data.data,
@@ -134,7 +132,7 @@ export const genTemplateModelByYapi = async (
     const resBodyJson = JSON.parse(stripJsonComments(res.data.data.res_body));
     const schema = GenerateSchema.json(typeName || 'Schema', resBodyJson);
     let ts = await compile(schema, typeName, {
-      bannerComment: undefined,
+      bannerComment: '',
     });
     ts = strip(ts.replace(/(\[k: string\]: unknown;)|\?/g, ''));
     const { mockCode, mockData } = formatSchema(schema);
@@ -148,15 +146,13 @@ export const genTemplateModelByYapi = async (
         reqBodyScheme,
         `I${requestBodyTypeName}Data`,
         {
-          bannerComment: undefined,
+          bannerComment: '',
         },
       );
     }
     const model: Model = {
       type: ts,
-      requestBodyType: strip(
-        requestBodyType.replace(/\[k: string\]: unknown;/g, ''),
-      ),
+      requestBodyType: requestBodyType.replace(/\[k: string\]: unknown;/g, ''),
       funcName: funcName,
       typeName: typeName,
       api: res.data.data,

@@ -32,10 +32,10 @@ export const fetchApiDetailInfo = (
   id: string,
   token: string,
 ) => {
-  return axios.get<IApiDetailInfo>(
-    `${domain}/api/interface/get?id=${id}&token=${token}`,
-    { httpsAgent: agent },
-  );
+  let url = domain.endsWith('/')
+    ? `${domain}api/interface/get?id=${id}&token=${token}`
+    : `${domain}/api/interface/get?id=${id}&token=${token}`;
+  return axios.get<IApiDetailInfo>(url, { httpsAgent: agent });
 };
 
 export const fetchScaffolds = (url: string) => {
