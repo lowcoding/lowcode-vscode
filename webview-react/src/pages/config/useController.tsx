@@ -17,7 +17,7 @@ const useController = () => {
 
   const watch = {
     '#': (val: any) => {
-      model.setFormDate(val);
+      model.setFormDate(JSON.parse(JSON.stringify(val)));
     },
   };
 

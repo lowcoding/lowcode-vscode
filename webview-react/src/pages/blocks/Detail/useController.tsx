@@ -33,7 +33,7 @@ const useController = () => {
 
   const watch = {
     '#': (val: any) => {
-      model.setData(val);
+      model.setData(JSON.parse(JSON.stringify(val)));
     },
   };
 
