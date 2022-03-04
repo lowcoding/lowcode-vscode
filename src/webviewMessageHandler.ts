@@ -1,4 +1,5 @@
 import { commands, Uri, WebviewPanel, window, workspace } from 'vscode';
+import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs-extra';
 import * as dirTree from 'directory-tree';
@@ -107,7 +108,7 @@ const messageHandler: {
         message.data.funName,
       );
       invokeCallback(panel, message.cbid, model);
-    } catch (ex) {
+    } catch (ex: any) {
       invokeErrorCallback(panel, message.cbid, {
         title: '失败',
         message: ex.toString(),
@@ -152,14 +153,42 @@ const messageHandler: {
           }
         });
       }
+      const scriptFile = path.join(tempWordDir, 'script/index.js');
+      const hook = {
+        beforeCompile: (context: any) => Promise.resolve(undefined),
+        afterCompile: (context: any) => Promise.resolve(undefined),
+      };
+      if (fs.existsSync(scriptFile)) {
+        delete require.cache[require.resolve(scriptFile)];
+        const script = require(scriptFile);
+        if (script.beforeCompile) {
+          hook.beforeCompile = script.beforeCompile;
+        }
+        if (script.afterCompile) {
+          hook.afterCompile = script.afterCompile;
+        }
+      }
+      const context = {
+        model: message.data.model,
+        vscode: vscode,
+        workspaceRootPath: workspace.rootPath,
+      };
+      const extendModel = await hook.beforeCompile(context);
+      if (extendModel) {
+        message.data.model = {
+          ...message.data.model,
+          ...{ extendModel },
+        };
+      }
       await renderEjsTemplates(message.data.model, tempWordDir, excludeCompile);
+      await hook.afterCompile(context);
       fs.copySync(
         path.join(tempWordDir, 'src'),
         path.join(message.data.path, ...message.data.createPath),
       );
       fs.removeSync(tempWordDir);
       invokeCallback(panel, message.cbid, '成功');
-    } catch (ex) {
+    } catch (ex: any) {
       fs.remove(tempWordDir);
       invokeErrorCallback(panel, message.cbid, {
         title: '生成失败',
@@ -175,7 +204,7 @@ const messageHandler: {
       const code = compileEjs(message.data.template, message.data.model);
       pasteToMarker(code);
       invokeCallback(panel, message.cbid, code);
-    } catch (ex) {
+    } catch (ex: any) {
       invokeErrorCallback(panel, message.cbid, {
         title: '生成失败',
         message: ex.toString(),
@@ -185,7 +214,7 @@ const messageHandler: {
   insertSnippet(panel: WebviewPanel, message: IMessage<{ template: string }>) {
     try {
       pasteToMarker(message.data.template);
-    } catch (ex) {
+    } catch (ex: any) {
       invokeErrorCallback(panel, message.cbid, {
         title: '添加失败',
         message: ex.toString(),
@@ -203,7 +232,7 @@ const messageHandler: {
         downloadMaterialsFromGit(message.data.url);
       }
       invokeCallback(panel, message.cbid, '下载成功');
-    } catch (ex) {
+    } catch (ex: any) {
       invokeErrorCallback(panel, message.cbid, {
         title: '下载失败',
         message: ex.toString(),
@@ -244,7 +273,7 @@ const messageHandler: {
         message.data.preview,
       );
       invokeCallback(panel, message.cbid, '添加成功');
-    } catch (ex) {
+    } catch (ex: any) {
       invokeErrorCallback(panel, message.cbid, {
         title: '添加失败',
         message: ex.toString(),
@@ -265,7 +294,7 @@ const messageHandler: {
       });
       ts = strip(ts.replace(/(\[k: string\]: unknown;)|\?/g, ''));
       invokeCallback(panel, message.cbid, ts);
-    } catch (ex) {
+    } catch (ex: any) {
       invokeErrorCallback(panel, message.cbid, {
         title: '生成失败',
         message: ex.toString(),
@@ -275,7 +304,7 @@ const messageHandler: {
   getPluginConfig(panel: WebviewPanel, message: IMessage) {
     try {
       invokeCallback(panel, message.cbid, getAllConfig());
-    } catch (ex) {
+    } catch (ex: any) {
       invokeErrorCallback(panel, message.cbid, {
         title: '读取配置失败',
         message: ex.toString(),
@@ -323,7 +352,7 @@ const messageHandler: {
           yapi: { ...message.data.yapi },
           mock: { ...message.data.mock, mockKeyWordEqual, mockKeyWordLike },
         });
-      } catch (ex) {
+      } catch (ex: any) {
         invokeErrorCallback(panel, message.cbid, {
           title: '保存失败',
           message: ex.toString(),
@@ -350,7 +379,7 @@ const messageHandler: {
           path.join(workspace.rootPath!, 'package.json'),
           JSON.stringify(newPackageObj, null, 2),
         );
-      } catch (ex) {
+      } catch (ex: any) {
         invokeErrorCallback(panel, message.cbid, {
           title: '保存失败',
           message: ex.toString(),
@@ -377,7 +406,7 @@ const messageHandler: {
       .then((res) => {
         invokeCallback(panel, message.cbid, res.data);
       })
-      .catch((ex) => {
+      .catch((ex: any) => {
         invokeErrorCallback(panel, message.cbid, {
           title: '请求失败',
           message: ex.toString(),
@@ -395,7 +424,7 @@ const messageHandler: {
       try {
         const config = downloadScaffoldFromGit(message.data.repository);
         invokeCallback(panel, message.cbid, config);
-      } catch (ex) {
+      } catch (ex: any) {
         invokeErrorCallback(panel, message.cbid, {
           title: '发生异常',
           message: ex.toString(),
@@ -408,7 +437,7 @@ const messageHandler: {
       .then((dir) => {
         invokeCallback(panel, message.cbid, dir);
       })
-      .catch((ex) => {
+      .catch((ex: any) => {
         invokeErrorCallback(panel, message.cbid, {
           title: '发生异常',
           message: ex.toString(),
@@ -433,7 +462,7 @@ const messageHandler: {
           true,
         );
       }
-    } catch (ex) {
+    } catch (ex: any) {
       invokeErrorCallback(panel, message.cbid, {
         title: '发生异常',
         message: ex.toString(),
