@@ -5,9 +5,12 @@ import messageHandler from '../webviewMessageHandler';
 
 export const createOrShowWebview = (context: vscode.ExtensionContext) => {
   context.subscriptions.push(
-    vscode.commands.registerCommand('yapi-code.generateCodeByWebview', () => {
-      WebView.createOrShow(context.extensionPath);
-    }),
+    vscode.commands.registerCommand(
+      'yapi-code.generateCodeByWebview',
+      (args) => {
+        WebView.createOrShow(context.extensionPath);
+      },
+    ),
   );
 };
 

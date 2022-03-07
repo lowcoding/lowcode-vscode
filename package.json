@@ -64,6 +64,13 @@
 					"group": "1_lowcode@1"
 				}
 			],
+			"explorer/context": [
+				{
+					"submenu": "lowcode/editor/context",
+					"group": "2_lowcode@1",
+					"when": "explorerResourceIsFolder"
+				}
+			],
 			"lowcode/editor/context": [
 				{
 					"command": "yapi-code.generateCodeByWebview",

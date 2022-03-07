@@ -5,6 +5,9 @@ import { compile as compileEjs } from '../compiler/ejs';
 let provider: vscode.Disposable;
 
 export const registerCompletion = (context: vscode.ExtensionContext) => {
+  if (!vscode.workspace.rootPath) {
+    return;
+  }
   if (provider) {
     provider.dispose();
   }
