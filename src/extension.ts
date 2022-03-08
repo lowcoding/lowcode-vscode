@@ -2,11 +2,10 @@ import * as vscode from 'vscode';
 import { generateCode } from './commands/generateCode';
 import { createOrShowWebview } from './commands/createOrShowWebview';
 import { createOrShowWebview as createOrShowAddSnippetWebview } from './commands/addSnippet';
-import { setLastActiveTextEditorId } from './lib';
 import { registerCompletion } from './commands/registerCompletion';
 import { openSnippet } from './commands/openSnippet';
-import { setContext } from './extensionContext';
 import { CommonCommands } from './commands/common';
+import { init, setLastActiveTextEditorId } from './context';
 
 export function activate(context: vscode.ExtensionContext) {
   vscode.window.onDidChangeActiveTextEditor(
@@ -20,7 +19,7 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions,
   );
 
-  setContext(context);
+  init({ extensionContext: context });
 
   generateCode(context);
 

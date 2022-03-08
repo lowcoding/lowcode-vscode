@@ -80,7 +80,7 @@ export const getTemplateFilePath = () => {
 };
 
 export const getCodeTemplateListFromFiles = () => {
-  const list: { name: string; template: string; type: 'ejs' | 'hbs' }[] = [];
+  const list: { name: string; template: string; type: 'ejs' }[] = [];
   if (vscode.workspace.rootPath) {
     const templateFullPath = path.join(
       vscode.workspace.rootPath,
@@ -89,14 +89,14 @@ export const getCodeTemplateListFromFiles = () => {
     try {
       const templateFiles = fs
         .readdirSync(templateFullPath)
-        .filter((s) => s.indexOf('.ejs') > -1 || s.indexOf('.hbs') > -1);
+        .filter((s) => s.indexOf('.ejs') > -1);
       templateFiles.map((s) => {
         const fileBuffer = fs.readFileSync(path.join(templateFullPath, s));
         const fileContent = fileBuffer.toString();
         list.push({
           name: s,
           template: fileContent,
-          type: s.indexOf('ejs') > -1 ? 'ejs' : 'hbs',
+          type: 'ejs',
         });
       });
     } catch (error) {}
@@ -303,8 +303,7 @@ export function getSnippets() {
       model: {},
       schema: {},
       preview: {
-        img:
-          'https://gitee.com/img-host/img-host/raw/master//2020/11/05/1604587962875.jpg',
+        img: 'https://gitee.com/img-host/img-host/raw/master//2020/11/05/1604587962875.jpg',
       },
       template: s.template,
     };

@@ -21,6 +21,7 @@ import {
 import { download } from './utils/download';
 import { renderEjsTemplates } from './compiler/ejs';
 import Axios from 'axios';
+import { getLastAcitveTextEditor } from './context';
 
 export const getClipboardText = () => {
   return copyPaste.paste();
@@ -35,7 +36,7 @@ export const pasteToMarker = (content: string, isInsertSnippet = true) => {
   if (isInsertSnippet) {
     return insertSnippet(content);
   }
-  const activeTextEditor = window.activeTextEditor || getLastAcitveTextEditor();
+  const activeTextEditor = getLastAcitveTextEditor();
   if (activeTextEditor === undefined) {
     throw new Error('无打开文件');
   }
@@ -279,18 +280,6 @@ export const getFileContent = (filePath: string, fullPath = false) => {
     fileContent = fileBuffer.toString();
   } catch (error) {}
   return fileContent;
-};
-
-let activeTextEditorId: string;
-export const getLastAcitveTextEditor = () => {
-  const { visibleTextEditors } = window;
-  const activeTextEditor = visibleTextEditors.find(
-    (item: any) => item.id === activeTextEditorId,
-  );
-  return activeTextEditor;
-};
-export const setLastActiveTextEditorId = (id: string) => {
-  activeTextEditorId = id;
 };
 
 export const downloadMaterialsFromGit = (remote: string) => {

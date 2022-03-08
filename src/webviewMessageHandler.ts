@@ -24,9 +24,9 @@ import {
   pasteToMarker,
   selectDirectory,
 } from './lib';
-import { getContext } from './extensionContext';
 import { registerCompletion } from './commands/registerCompletion';
 import { fetchScaffolds } from './service';
+import { getExtensionContext } from './context';
 
 interface IMessage<T = any> {
   cmd: string;
@@ -390,7 +390,7 @@ const messageHandler: {
     invokeCallback(panel, message.cbid, '保存成功');
   },
   refreshIntelliSense(panel: WebviewPanel, message: IMessage) {
-    const context = getContext();
+    const context = getExtensionContext();
     if (context) {
       registerCompletion(context);
       invokeCallback(panel, message.cbid, '刷新成功');

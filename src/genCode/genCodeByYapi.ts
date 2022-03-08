@@ -75,7 +75,7 @@ export const genCodeByYapi = async (
     model.rawClipboardText = rawClipboardText;
     const code = compileEjs(template!.template, model);
     pasteToMarker(code);
-  } catch (e) {
+  } catch (e: any) {
     window.showErrorMessage(e.toString());
     return;
   }

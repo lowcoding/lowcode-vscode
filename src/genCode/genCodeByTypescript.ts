@@ -44,7 +44,7 @@ export const genCodeByTypescript = async (
     };
     const code = compileEjs(template!.template, model);
     pasteToMarker(code);
-  } catch (e) {
+  } catch (e: any) {
     window.showErrorMessage(e.toString());
     return;
   }

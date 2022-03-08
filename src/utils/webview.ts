@@ -112,13 +112,6 @@ export class WebView {
       path.join(this._extensionPath, 'webview-dist', 'main.js'),
     );
     const scriptUri = this._panel.webview.asWebviewUri(scriptPathOnDisk);
-    // const stylePathOnDisk = vscode.Uri.file(
-    //   path.join(this._extensionPath, 'webview-dist', 'main.css'),
-    // );
-    // const styleUri = this._panel.webview.asWebviewUri(stylePathOnDisk);
-
-    // Use a nonce to whitelist which scripts can be run
-    const nonce = getNonce();
 
     return `
 			<!DOCTYPE html>
@@ -146,14 +139,4 @@ export class WebView {
 		</html>
 `;
   }
-}
-
-function getNonce() {
-  let text = '';
-  const possible =
-    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  for (let i = 0; i < 32; i++) {
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
-  }
-  return text;
 }

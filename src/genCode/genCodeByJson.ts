@@ -7,7 +7,6 @@ import {
   pasteToMarker,
   formatSchema,
 } from '../lib';
-import { compile as compileHbs } from '../compiler/hbs';
 import { compile as compileEjs } from '../compiler/ejs';
 import { Model } from '../compiler/type';
 const GenerateSchema = require('generate-schema');
@@ -57,7 +56,7 @@ export const genCodeByJson = async (
     };
     const code = compileEjs(template!.template, model);
     pasteToMarker(code);
-  } catch (e) {
+  } catch (e: any) {
     window.showErrorMessage(e.toString());
     return;
   }
