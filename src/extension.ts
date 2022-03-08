@@ -19,7 +19,7 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions,
   );
 
-  init({ extensionContext: context });
+  init({ extensionContext: context, extensionPath: context.extensionPath });
 
   generateCode(context);
 
