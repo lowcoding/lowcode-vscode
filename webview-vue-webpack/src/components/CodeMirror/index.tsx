@@ -52,8 +52,8 @@ export default defineComponent({
             JSON.parse(value);
             context.emit('change', value);
           } catch (ex) {
-			  console.error(ex)
-		  }
+            console.error(ex);
+          }
         } else {
           context.emit('change', value);
         }

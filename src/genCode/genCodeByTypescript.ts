@@ -13,7 +13,7 @@ export const genCodeByTypescript = async (
   rawClipboardText: string,
 ) => {
   // const templateList = getCodeTemplateList();
-  //const templateList = getCodeTemplateListFromFiles();
+  // const templateList = getCodeTemplateListFromFiles();
   const templateList = getSnippets();
   if (templateList.length === 0) {
     window.showErrorMessage('请配置模板');
@@ -40,12 +40,11 @@ export const genCodeByTypescript = async (
       mockData,
       jsonData: '',
       rawSelectedText: selectInfo.rawSelectedText,
-      rawClipboardText: rawClipboardText,
+      rawClipboardText,
     };
     const code = compileEjs(template!.template, model);
     pasteToMarker(code);
   } catch (e: any) {
     window.showErrorMessage(e.toString());
-    return;
   }
 };

@@ -23,14 +23,12 @@ export default () => {
           <Input
             value={model.formData.name}
             placeholder="输入名称"
-            onChange={e => {
+            onChange={(e) => {
               const { value } = e.target;
-              model.setFormData(s => {
-                return {
-                  ...s,
-                  name: value,
-                };
-              });
+              model.setFormData((s) => ({
+                ...s,
+                name: value,
+              }));
             }}
           />
         </Form.Item>
@@ -39,13 +37,11 @@ export default () => {
             domId="codeMirror"
             lint={false}
             value={model.formData.template}
-            onChange={value => {
-              model.setFormData(s => {
-                return {
-                  ...s,
-                  template: value,
-                };
-              });
+            onChange={(value) => {
+              model.setFormData((s) => ({
+                ...s,
+                template: value,
+              }));
             }}
           />
         </Form.Item>
@@ -54,13 +50,11 @@ export default () => {
             domId="modelCodeMirror"
             lint
             value={model.formData.model}
-            onChange={value => {
-              model.setFormData(s => {
-                return {
-                  ...s,
-                  model: value,
-                };
-              });
+            onChange={(value) => {
+              model.setFormData((s) => ({
+                ...s,
+                model: value,
+              }));
             }}
           />
         </Form.Item>
@@ -69,13 +63,11 @@ export default () => {
             domId="schemaCodeMirror"
             lint
             value={model.formData.schema}
-            onChange={value => {
-              model.setFormData(s => {
-                return {
-                  ...s,
-                  schema: value,
-                };
-              });
+            onChange={(value) => {
+              model.setFormData((s) => ({
+                ...s,
+                schema: value,
+              }));
             }}
           />
         </Form.Item>
@@ -84,13 +76,11 @@ export default () => {
             domId="previewCodeMirror"
             lint
             value={model.formData.preview}
-            onChange={value => {
-              model.setFormData(s => {
-                return {
-                  ...s,
-                  preview: value,
-                };
-              });
+            onChange={(value) => {
+              model.setFormData((s) => ({
+                ...s,
+                preview: value,
+              }));
             }}
           />
         </Form.Item>

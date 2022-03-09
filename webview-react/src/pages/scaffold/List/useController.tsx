@@ -18,13 +18,13 @@ const useController = () => {
   useEffect(() => {
     if (model.currentCategory) {
       model.setScaffolds(
-        model.allScaffolds.filter(s => s.category === model.currentCategory),
+        model.allScaffolds.filter((s) => s.category === model.currentCategory),
       );
     }
   }, [model.currentCategory]);
 
   const fetchScaffolds = () => {
-    model.setLoading(s => {
+    model.setLoading((s) => {
       s.fetch = true;
     });
     const promises: ReturnType<typeof getScaffolds>[] = [
@@ -40,20 +40,18 @@ const useController = () => {
       );
     }
     Promise.all(promises)
-      .then(allRes => {
+      .then((allRes) => {
         const res = allRes.flat();
         model.setCategories(
-          res.map(s => {
-            return {
-              name: s.category,
-              icon: s.icon,
-              uuid: s.uuid,
-            };
-          }),
+          res.map((s) => ({
+            name: s.category,
+            icon: s.icon,
+            uuid: s.uuid,
+          })),
         );
         const scaffolds: typeof model.allScaffolds = [];
-        res.map(r => {
-          r.scaffolds.map(s => {
+        res.map((r) => {
+          r.scaffolds.map((s) => {
             scaffolds.push({
               category: r.uuid,
               title: s.title,
@@ -71,7 +69,7 @@ const useController = () => {
         }
       })
       .finally(() => {
-        model.setLoading(s => {
+        model.setLoading((s) => {
           s.fetch = false;
         });
       });
@@ -85,21 +83,21 @@ const useController = () => {
   };
 
   const downloadScaffold = (config: typeof model.scaffolds[0]) => {
-    model.setLoading(s => {
+    model.setLoading((s) => {
       s.download = true;
     });
     downloadScaffoldByVsCode({
       repository: config.repository,
       type: config.repositoryType,
     })
-      .then(res => {
-        model.setFormModal(s => {
+      .then((res) => {
+        model.setFormModal((s) => {
           s.visible = true;
           s.config = res;
         });
       })
       .finally(() => {
-        model.setLoading(s => {
+        model.setLoading((s) => {
           s.download = false;
         });
       });

@@ -9,7 +9,7 @@ webview-vue-webpack/**
 .gitignore
 vsc-extension-quickstart.md
 **/tsconfig.json
-**/.eslintrc.json
+**/.eslintrc.js
 **/*.map
 **/*.ts
 *.lock

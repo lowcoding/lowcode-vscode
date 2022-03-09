@@ -1,4 +1,5 @@
 import { request } from './index';
+
 export interface IGetLocalMaterialsResult {
   path: string;
   name: string;
@@ -47,7 +48,7 @@ export function insertSnippet(code: { template: string }) {
 export function jsonToTs(data: { json: Object; typeName: string }) {
   return request<string>({
     cmd: 'jsonToTs',
-    data: data,
+    data,
   });
 }
 /**
@@ -63,7 +64,7 @@ export function genCodeBySnippetMaterial(data: {
 }) {
   return request({
     cmd: 'genCodeBySnippetMaterial',
-    data: data,
+    data,
   });
 }
 /**
@@ -112,7 +113,7 @@ export function genTemplateModelByYapi(data: {
 }) {
   return request({
     cmd: 'genTemplateModelByYapi',
-    data: data,
+    data,
   });
 }
 
@@ -321,7 +322,7 @@ export function downloadScaffoldByVsCode(data: {
     config: { formSchema?: { schema?: object; formData?: object } };
   }>({
     cmd: 'downloadScaffold',
-    data: data,
+    data,
   });
 }
 
@@ -355,6 +356,6 @@ export function createProject(data: {
 }) {
   return request<string>({
     cmd: 'createProject',
-    data: data,
+    data,
   });
 }

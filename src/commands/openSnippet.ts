@@ -7,7 +7,8 @@ import {
   jsonParse,
   pasteToMarker,
 } from '../lib';
-import { WebView } from './createOrShowWebview';
+import { showWebView } from '../webview';
+
 export const openSnippet = (context: vscode.ExtensionContext) => {
   context.subscriptions.push(
     vscode.commands.registerTextEditorCommand(
@@ -26,17 +27,21 @@ export const openSnippet = (context: vscode.ExtensionContext) => {
             const code = compile(template, JSON.parse(clipboardText));
             pasteToMarker(code);
           } catch {
-            WebView.createOrShow(context.extensionPath);
-            WebView.pushTask({
-              task: 'openSnippet',
-              data: { name: name },
+            showWebView({
+              key: 'main',
+              task: {
+                task: 'openSnippet',
+                data: { name },
+              },
             });
           }
         } else {
-          WebView.createOrShow(context.extensionPath);
-          WebView.pushTask({
-            task: 'openSnippet',
-            data: { name: name },
+          showWebView({
+            key: 'main',
+            task: {
+              task: 'openSnippet',
+              data: { name },
+            },
           });
         }
       },

@@ -12,7 +12,7 @@ import * as path from 'path';
 import * as fs from 'fs-extra';
 import * as execa from 'execa';
 import * as TJS from 'typescript-json-schema';
-const tar = require('tar');
+import Axios from 'axios';
 import {
   getMockConfig,
   getMockKeyWordEqualConfig,
@@ -20,12 +20,11 @@ import {
 } from './config';
 import { download } from './utils/download';
 import { renderEjsTemplates } from './compiler/ejs';
-import Axios from 'axios';
 import { getLastAcitveTextEditor } from './context';
 
-export const getClipboardText = () => {
-  return copyPaste.paste();
-};
+const tar = require('tar');
+
+export const getClipboardText = () => copyPaste.paste();
 
 export const getSelectedText = () => {
   const { selection, document } = window.activeTextEditor!;
@@ -41,7 +40,7 @@ export const pasteToMarker = (content: string, isInsertSnippet = true) => {
     throw new Error('无打开文件');
   }
   return activeTextEditor?.edit((editBuilder) => {
-    //editBuilder.replace(activeTextEditor.selection, content);
+    // editBuilder.replace(activeTextEditor.selection, content);
     if (activeTextEditor.selection.isEmpty) {
       editBuilder.insert(activeTextEditor.selection.start, content);
     } else {
@@ -125,9 +124,7 @@ export const jsonIsValid = (jsonString: string) => {
   }
 };
 
-export const isYapiId = (value: string) => {
-  return /^[0-9]{1,}$/g.test(value);
-};
+export const isYapiId = (value: string) => /^[0-9]{1,}$/g.test(value);
 
 export const jsonParse = (clipboardText: string) => {
   if (typeof clipboardText !== 'string') {
@@ -156,7 +153,7 @@ export const formatSchema = (schema: any) => {
   const mockConfig = getMockConfig();
 
   const getMockValue = (key: string, defaultValue: string, type = 'number') => {
-    let value = defaultValue;
+    const value = defaultValue;
     const mockKeyWordEqualConfig = getMockKeyWordEqualConfig();
     const equalKeys = Object.keys(mockKeyWordEqualConfig);
     for (let i = 0; i < equalKeys.length; i++) {
@@ -168,9 +165,8 @@ export const formatSchema = (schema: any) => {
           if (array.length > 1) {
             if (type === array[1]) {
               return array[0];
-            } else {
-              return value;
             }
+            return value;
           }
         }
         return mockKeyWordEqualConfig[equalKeys[i]];
@@ -187,9 +183,8 @@ export const formatSchema = (schema: any) => {
           if (array.length > 1) {
             if (type === array[1]) {
               return array[0];
-            } else {
-              return value;
             }
+            return value;
           }
         }
         return mockKeyWordLikeConfig[likeKeys[i]];
@@ -203,17 +198,17 @@ export const formatSchema = (schema: any) => {
     let jsonStr = '';
     let listStr: string[] = [];
     if (property.type === 'object') {
-      jsonStr = jsonStr + `${key ? key + ': {' : ''}`;
+      jsonStr += `${key ? `${key}: {` : ''}`;
       Object.keys(property.properties).map((childPropertyKey) => {
         const childProperty = property.properties[childPropertyKey];
         const { jsonStr: childJsonStr, listStr: childListStr } = formatProperty(
           childProperty,
           childPropertyKey,
         );
-        jsonStr = jsonStr + childJsonStr;
+        jsonStr += childJsonStr;
         listStr = listStr.concat(childListStr);
       });
-      jsonStr = jsonStr + `${key ? '},' : ''}`;
+      jsonStr += `${key ? '},' : ''}`;
     } else if (property.type === 'array') {
       if (Object.keys(property.items).length > 0) {
         const index = listIndex;
@@ -224,39 +219,34 @@ export const formatSchema = (schema: any) => {
 			list${index}.push(
 		`;
         if (property.items.type === 'object') {
-          itemStr = itemStr + '{';
+          itemStr += '{';
           Object.keys(property.items.properties).map((itemPropertyKey) => {
             const itemProperty = property.items.properties[itemPropertyKey];
-            const {
-              jsonStr: itemJsonStr,
-              listStr: itemListStr,
-            } = formatProperty(itemProperty, itemPropertyKey);
-            itemStr = itemStr + itemJsonStr;
+            const { jsonStr: itemJsonStr, listStr: itemListStr } =
+              formatProperty(itemProperty, itemPropertyKey);
+            itemStr += itemJsonStr;
             listStr = listStr.concat(itemListStr);
           });
-          itemStr = itemStr + `})}`;
+          itemStr += `})}`;
         } else {
           if (property.items.type === 'string') {
-            itemStr = itemStr + getMockValue(key, mockConfig.string, 'string');
+            itemStr += getMockValue(key, mockConfig.string, 'string');
           } else {
-            itemStr = itemStr + getMockValue(key, mockConfig.number);
+            itemStr += getMockValue(key, mockConfig.number);
           }
-          itemStr = itemStr + `)}`;
+          itemStr += `)}`;
         }
         listStr.push(itemStr);
-        jsonStr = jsonStr + `${key}: list${index},`;
+        jsonStr += `${key}: list${index},`;
       } else {
-        jsonStr = jsonStr + `${key}: [],`;
+        jsonStr += `${key}: [],`;
       }
     } else if (property.type === 'number') {
-      jsonStr = jsonStr + `${key}: ${getMockValue(key, mockConfig.number)},`;
+      jsonStr += `${key}: ${getMockValue(key, mockConfig.number)},`;
     } else if (property.type === 'boolean') {
-      jsonStr =
-        jsonStr +
-        `${key}: ${getMockValue(key, mockConfig.boolean, 'boolean')},`;
+      jsonStr += `${key}: ${getMockValue(key, mockConfig.boolean, 'boolean')},`;
     } else if (property.type === 'string') {
-      jsonStr =
-        jsonStr + `${key}: ${getMockValue(key, mockConfig.string, 'string')},`;
+      jsonStr += `${key}: ${getMockValue(key, mockConfig.string, 'string')},`;
     }
     return {
       jsonStr,
@@ -314,9 +304,8 @@ export const downloadScaffoldFromGit = (remote: string) => {
   fs.removeSync(path.join(tempDir, '.git'));
   if (fs.existsSync(path.join(tempDir, 'lowcode.scaffold.config.json'))) {
     return fs.readJSONSync(path.join(tempDir, 'lowcode.scaffold.config.json'));
-  } else {
-    return {};
   }
+  return {};
 };
 
 export const compileScaffold = async (model: any, createDir: string) => {
@@ -330,10 +319,10 @@ export const compileScaffold = async (model: any, createDir: string) => {
       Object.keys(model).map((key) => {
         if (
           config.conditionFiles[key] &&
-          config.conditionFiles[key]['value'] === model[key] &&
-          Array.isArray(config.conditionFiles[key]['exclude'])
+          config.conditionFiles[key].value === model[key] &&
+          Array.isArray(config.conditionFiles[key].exclude)
         ) {
-          config.conditionFiles[key]['exclude'].map((exclude: string) => {
+          config.conditionFiles[key].exclude.map((exclude: string) => {
             fs.removeSync(path.join(tempDir, exclude));
           });
         }
@@ -358,15 +347,10 @@ export const selectDirectory = async () => {
   }
 };
 
-export const checkVankeInternal = () => {
-  return Axios.get('https://npm.bu6.io')
-    .then((res) => {
-      return true;
-    })
-    .catch(() => {
-      return false;
-    });
-};
+export const checkVankeInternal = () =>
+  Axios.get('https://npm.bu6.io')
+    .then((res) => true)
+    .catch(() => false);
 
 export const typescriptToJson = (oriType: string) => {
   let type = oriType;

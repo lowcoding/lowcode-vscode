@@ -1,10 +1,9 @@
-import React from 'react';
-import { getLocalMaterials } from '@/webview/service';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'umi';
 import { Menu } from 'antd';
-import useService from './useService';
 import { useForm } from 'form-render';
+import { getLocalMaterials } from '@/webview/service';
+import useService from './useService';
 
 const useController = () => {
   const params = useParams<{ name: string }>();
@@ -13,7 +12,7 @@ const useController = () => {
   const form = useForm();
 
   useEffect(() => {
-    getLocalMaterials('snippets').then(data => {
+    getLocalMaterials('snippets').then((data) => {
       if (data.length) {
         const selected = data.find((s: any) => s.name === params.name);
         model.setSelectedMaterial(selected!);
@@ -24,12 +23,10 @@ const useController = () => {
   }, []);
 
   useEffect(() => {
-    model.setSelectedMaterial(s => {
-      return {
-        ...s,
-        model: { ...s.model, ...model.formData },
-      };
-    });
+    model.setSelectedMaterial((s) => ({
+      ...s,
+      model: { ...s.model, ...model.formData },
+    }));
   }, [model.formData]);
 
   const watch = {

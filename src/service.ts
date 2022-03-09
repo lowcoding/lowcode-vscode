@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 const https = require('https');
 
 const agent = new https.Agent({
@@ -32,12 +33,10 @@ export const fetchApiDetailInfo = (
   id: string,
   token: string,
 ) => {
-  let url = domain.endsWith('/')
+  const url = domain.endsWith('/')
     ? `${domain}api/interface/get?id=${id}&token=${token}`
     : `${domain}/api/interface/get?id=${id}&token=${token}`;
   return axios.get<IApiDetailInfo>(url, { httpsAgent: agent });
 };
 
-export const fetchScaffolds = (url: string) => {
-  return axios.get(url);
-};
+export const fetchScaffolds = (url: string) => axios.get(url);

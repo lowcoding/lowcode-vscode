@@ -6,9 +6,8 @@ import { refreshIntelliSense } from '@/webview/service';
 
 export default () => {
   const { tab, setTab } = useModel('tab');
-  const [downloadMaterialsVisible, setDownloadMaterialsVisible] = useState(
-    false,
-  );
+  const [downloadMaterialsVisible, setDownloadMaterialsVisible] =
+    useState(false);
   const menu = (
     <Menu>
       <Menu.Item
@@ -44,7 +43,7 @@ export default () => {
     <div style={{ textAlign: 'center', marginTop: '20px' }}>
       <Radio.Group
         value={tab}
-        onChange={e => {
+        onChange={(e) => {
           const { value } = e.target;
           if (value !== 'more') {
             history.push(value);

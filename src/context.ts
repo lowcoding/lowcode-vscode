@@ -15,13 +15,9 @@ export const setExtensionContext = (extensionContext: ExtensionContext) => {
   data.extensionContext = extensionContext;
 };
 
-export const getExtensionContext = () => {
-  return data.extensionContext;
-};
+export const getExtensionContext = () => data.extensionContext;
 
-export const getRootPath = () => {
-  return data.rootPath;
-};
+export const getRootPath = () => data.rootPath;
 
 export const setRootPath = (rootPath: string) => {
   data.rootPath = rootPath;
@@ -43,9 +39,7 @@ export const getLastAcitveTextEditor = () => {
   return window.activeTextEditor || activeTextEditor;
 };
 
-export const getExtensionPath = () => {
-  return data.extensionPath;
-};
+export const getExtensionPath = () => data.extensionPath;
 
 export const init = (options: {
   extensionContext?: ExtensionContext;

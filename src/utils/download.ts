@@ -1,5 +1,6 @@
 import axios from 'axios';
 import * as path from 'path';
+
 const fs = require('fs-extra');
 
 export function download(url: string, filePath: string, fileName: string) {

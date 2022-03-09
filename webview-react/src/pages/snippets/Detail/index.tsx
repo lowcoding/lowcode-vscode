@@ -25,13 +25,11 @@ export default () => {
             domId="templateCodeMirror"
             lint={false}
             value={model.selectedMaterial.template}
-            onChange={value => {
-              model.setSelectedMaterial(s => {
-                return {
-                  ...s,
-                  template: value,
-                };
-              });
+            onChange={(value) => {
+              model.setSelectedMaterial((s) => ({
+                ...s,
+                template: value,
+              }));
             }}
           />
         </Form.Item>
@@ -67,12 +65,10 @@ export default () => {
                   type="primary"
                   size="small"
                   onClick={() => {
-                    model.setSelectedMaterial(s => {
-                      return {
-                        ...s,
-                        model: model.formData,
-                      };
-                    });
+                    model.setSelectedMaterial((s) => ({
+                      ...s,
+                      model: model.formData,
+                    }));
                   }}
                 >
                   重新生成模板数据
@@ -89,13 +85,11 @@ export default () => {
             domId="modelCodeMirror"
             lint
             value={JSON.stringify(model.selectedMaterial.model, null, 2)}
-            onChange={value => {
-              model.setSelectedMaterial(s => {
-                return {
-                  ...s,
-                  model: JSON.parse(value),
-                };
-              });
+            onChange={(value) => {
+              model.setSelectedMaterial((s) => ({
+                ...s,
+                model: JSON.parse(value),
+              }));
             }}
           />
           <br></br>
@@ -103,7 +97,7 @@ export default () => {
             <Dropdown overlay={controller.menu}>
               <a
                 className="ant-dropdown-link"
-                onClick={e => e.preventDefault()}
+                onClick={(e) => e.preventDefault()}
               >
                 更多功能 <DownOutlined />
               </a>
@@ -138,13 +132,11 @@ export default () => {
       </div>
       <YapiModal
         visible={model.yapiModalVsible}
-        onOk={m => {
-          model.setSelectedMaterial(s => {
-            return {
-              ...s,
-              model: { ...model.selectedMaterial.model, ...m },
-            };
-          });
+        onOk={(m) => {
+          model.setSelectedMaterial((s) => ({
+            ...s,
+            model: { ...model.selectedMaterial.model, ...m },
+          }));
           model.setYapiModalVsible(false);
         }}
         onCancel={() => {
@@ -157,13 +149,11 @@ export default () => {
         onCancel={() => {
           model.setJsonToTsModalVisble(false);
         }}
-        onOk={type => {
-          model.setSelectedMaterial(s => {
-            return {
-              ...s,
-              model: { ...model.selectedMaterial.model, type: type },
-            };
-          });
+        onOk={(type) => {
+          model.setSelectedMaterial((s) => ({
+            ...s,
+            model: { ...model.selectedMaterial.model, type },
+          }));
           model.setJsonToTsModalVisble(false);
         }}
       />
@@ -183,13 +173,11 @@ export default () => {
           domId="templateCodeMirrorDialog"
           lint={false}
           value={model.selectedMaterial.template}
-          onChange={value => {
-            model.setSelectedMaterial(s => {
-              return {
-                ...s,
-                template: value,
-              };
-            });
+          onChange={(value) => {
+            model.setSelectedMaterial((s) => ({
+              ...s,
+              template: value,
+            }));
           }}
         />
       </Modal>

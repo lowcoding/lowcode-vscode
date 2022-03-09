@@ -35,14 +35,12 @@ const View: React.FC<IProps> = ({ visible, onClose }) => {
           <Select
             placeholder="请选择"
             value={model.formData.type}
-            onChange={value => {
-              model.setFormData(s => {
-                return {
-                  ...s,
-                  url: '',
-                  type: value,
-                };
-              });
+            onChange={(value) => {
+              model.setFormData((s) => ({
+                ...s,
+                url: '',
+                type: value,
+              }));
             }}
           >
             <Select.Option value="git">git仓库</Select.Option>
@@ -61,14 +59,12 @@ const View: React.FC<IProps> = ({ visible, onClose }) => {
                 model.formData.type === 'git' ? 'git仓库地址' : 'npm包名称'
               }`}
               value={model.formData.url}
-              onChange={e => {
+              onChange={(e) => {
                 const { value } = e.target;
-                model.setFormData(s => {
-                  return {
-                    ...s,
-                    url: value,
-                  };
-                });
+                model.setFormData((s) => ({
+                  ...s,
+                  url: value,
+                }));
               }}
             />
           </Form.Item>
@@ -77,8 +73,8 @@ const View: React.FC<IProps> = ({ visible, onClose }) => {
       <FormModal
         visible={model.formModal.visible}
         config={model.formModal.config}
-        onClose={ok => {
-          model.setFormModal(s => {
+        onClose={(ok) => {
+          model.setFormModal((s) => {
             s.visible = false;
           });
           if (ok) {

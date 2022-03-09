@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal, Form, Input, Checkbox } from 'antd';
-import useController from './useController';
 import FormRender from 'form-render';
+import useController from './useController';
 
 interface IProps {
   visible: boolean;
@@ -42,9 +42,9 @@ const View: React.FC<IProps> = ({ visible, config, onClose }) => {
         <Form.Item label="项目名称" required>
           <Input
             value={model.config.projectName}
-            onChange={e => {
+            onChange={(e) => {
               const { value } = e.target;
-              model.setConfig(s => {
+              model.setConfig((s) => {
                 s.projectName = value;
               });
             }}
@@ -62,9 +62,9 @@ const View: React.FC<IProps> = ({ visible, config, onClose }) => {
         <Form.Item label="创建后立即打开">
           <Checkbox
             checked={model.config.immediateOpen}
-            onChange={e => {
+            onChange={(e) => {
               const { checked } = e.target;
-              model.setConfig(s => {
+              model.setConfig((s) => {
                 s.immediateOpen = checked;
               });
             }}

@@ -158,18 +158,14 @@ export const getAllConfig = () => {
       mockNumber: mockConfig.number,
       mockBoolean: mockConfig.boolean,
       mockString: mockConfig.string,
-      mockKeyWordEqual: Object.keys(mockKeyWordEqualConfig).map((s) => {
-        return {
-          key: s,
-          value: mockKeyWordEqualConfig[s],
-        };
-      }),
-      mockKeyWordLike: Object.keys(mockKeyWordLikeConfig).map((s) => {
-        return {
-          key: s,
-          value: mockKeyWordLikeConfig[s],
-        };
-      }),
+      mockKeyWordEqual: Object.keys(mockKeyWordEqualConfig).map((s) => ({
+        key: s,
+        value: mockKeyWordEqualConfig[s],
+      })),
+      mockKeyWordLike: Object.keys(mockKeyWordLikeConfig).map((s) => ({
+        key: s,
+        value: mockKeyWordLikeConfig[s],
+      })),
     },
   };
 };
@@ -272,10 +268,10 @@ export const getLocalMaterials = (type: 'blocks' | 'snippets') => {
       return {
         path: fullPath,
         name: s,
-        model: model,
-        schema: schema,
-        preview: preview,
-        template: template,
+        model,
+        schema,
+        preview,
+        template,
       };
     });
   } catch {}
@@ -296,17 +292,15 @@ export function getSnippets() {
     schema: {};
     preview: {};
     template: string;
-  }[] = getCodeTemplateListFromFiles().map((s) => {
-    return {
-      path: s.name,
-      name: s.name,
-      model: {},
-      schema: {},
-      preview: {
-        img: 'https://gitee.com/img-host/img-host/raw/master//2020/11/05/1604587962875.jpg',
-      },
-      template: s.template,
-    };
-  });
+  }[] = getCodeTemplateListFromFiles().map((s) => ({
+    path: s.name,
+    name: s.name,
+    model: {},
+    schema: {},
+    preview: {
+      img: 'https://gitee.com/img-host/img-host/raw/master//2020/11/05/1604587962875.jpg',
+    },
+    template: s.template,
+  }));
   return templates.concat(getLocalMaterials('snippets'));
 }

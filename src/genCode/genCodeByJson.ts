@@ -9,6 +9,7 @@ import {
 } from '../lib';
 import { compile as compileEjs } from '../compiler/ejs';
 import { Model } from '../compiler/type';
+
 const GenerateSchema = require('generate-schema');
 const strip = require('strip-comments');
 
@@ -17,7 +18,7 @@ export const genCodeByJson = async (
   rawClipboardText: string,
 ) => {
   // const templateList = getCodeTemplateList();
-  //const templateList = getCodeTemplateListFromFiles();
+  // const templateList = getCodeTemplateListFromFiles();
   const templateList = getSnippets();
   if (templateList.length === 0) {
     window.showErrorMessage('请配置模板');
@@ -34,7 +35,7 @@ export const genCodeByJson = async (
   }
   const template = templateList.find((s) => s.name === templateResult);
   try {
-    //const ts = await jsonToTs(selectInfo.typeName, jsonString);
+    // const ts = await jsonToTs(selectInfo.typeName, jsonString);
     const json = JSON.parse(jsonString);
     const schema = GenerateSchema.json(selectInfo.typeName || 'Schema', json);
     let ts = await compile(schema, selectInfo.typeName, {
@@ -52,12 +53,11 @@ export const genCodeByJson = async (
       jsonData: json,
       jsonKeys: Object.keys(json),
       rawSelectedText: selectInfo.rawSelectedText,
-      rawClipboardText: rawClipboardText,
+      rawClipboardText,
     };
     const code = compileEjs(template!.template, model);
     pasteToMarker(code);
   } catch (e: any) {
     window.showErrorMessage(e.toString());
-    return;
   }
 };

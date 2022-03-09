@@ -1,5 +1,6 @@
-import { notification } from 'antd';
-import { history } from 'umi';
+import { notification, message as antdMessage } from 'antd';
+import { taskHandler } from './handleTask';
+
 const callbacks: { [propName: string]: (data: any) => void } = {};
 const errorCallbacks: { [propName: string]: (data: any) => void } = {};
 if (process.env.NODE_ENV !== 'production') {
@@ -12,7 +13,7 @@ if (process.env.NODE_ENV !== 'production') {
               message: 'call vscode',
               description: `cmd: ${message.cmd}`,
             });
-            (callbacks[message.cbid] || function() {})(
+            (callbacks[message.cbid] || function () {})(
               require(`./mock/${message.cmd}`).default,
             );
           }, 1000);
@@ -25,7 +26,7 @@ export function callVscode(
   errorCb?: (data: any) => void,
 ) {
   if (cb) {
-    const cbid = Date.now() + '' + Math.round(Math.random() * 100000);
+    const cbid = `${Date.now()}${Math.round(Math.random() * 100000)}`;
     callbacks[cbid] = cb;
     vscode.postMessage({
       ...data,
@@ -42,11 +43,11 @@ export function callVscode(
 export function callVscodePromise(cmd: string, data: any) {
   return new Promise((resolve, reject) => {
     callVscode(
-      { cmd: cmd, data: data },
-      res => {
+      { cmd, data },
+      (res) => {
         resolve(res);
       },
-      error => {
+      (error) => {
         reject(error);
       },
     );
@@ -57,49 +58,40 @@ export function request<T = unknown>(params: { cmd: string; data?: any }) {
   return new Promise<T>((resolve, reject) => {
     callVscode(
       { cmd: params.cmd, data: params.data },
-      res => {
+      (res) => {
         resolve(res);
       },
-      error => {
+      (error) => {
         reject(error);
       },
     );
   });
 }
 
-window.addEventListener('message', event => {
+window.addEventListener('message', (event) => {
   const message = event.data;
   switch (message.cmd) {
     // 来自vscode的回调
     case 'vscodeCallback':
       if (message.code === 200) {
-        (callbacks[message.cbid] || function() {})(message.data);
+        (callbacks[message.cbid] || function () {})(message.data);
       } else {
         notification.error({
           message: message.data.title,
           description: message.data.message,
           placement: 'bottomRight',
         });
-        (errorCallbacks[message.cbid] || function() {})(message.data);
+        (errorCallbacks[message.cbid] || function () {})(message.data);
       }
       delete callbacks[message.cbid]; // 执行完回调删除
       delete errorCallbacks[message.cbid]; // 执行完回调删除
       break;
-    // vscode推送任务
+    // vscode推送task
     case 'vscodePushTask': {
-      if (message.task === 'addSnippets') {
-        // notification.info({
-        //   message: '',
-        //   description: JSON.stringify(message.data),
-        // });
-        localStorage.setItem('addSnippets', message.data.content || '');
-        history.push(`/snippets/add/${new Date().getTime()}`);
-      }
-      if (message.task === 'openSnippet') {
-        history.push(`/snippets/detail/${message.data.name}`);
-      }
-      if (message.task === 'route') {
-        history.push(message.data.path);
+      if (taskHandler[message.task]) {
+        taskHandler[message.task](message.data);
+      } else {
+        antdMessage.error(`未找到名为 ${message.task} 回调方法!`);
       }
     }
     default:

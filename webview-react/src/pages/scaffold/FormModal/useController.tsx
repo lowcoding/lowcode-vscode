@@ -1,9 +1,9 @@
-import { createProject, selectDirectory } from '@/webview/service';
 import React, { useEffect } from 'react';
 import { message } from 'antd';
+import { useForm } from 'form-render';
+import { createProject, selectDirectory } from '@/webview/service';
 import { defaultConfig } from './useModel';
 import useService from './useService';
-import { useForm } from 'form-render';
 
 const useController = (props: {
   visible: boolean;
@@ -31,8 +31,8 @@ const useController = (props: {
   };
 
   const selectDirectoryByVsCode = () => {
-    selectDirectory().then(res => {
-      model.setConfig(s => {
+    selectDirectory().then((res) => {
+      model.setConfig((s) => {
         s.createDir = res;
       });
     });

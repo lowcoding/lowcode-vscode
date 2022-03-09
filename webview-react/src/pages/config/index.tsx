@@ -3,6 +3,7 @@ import { Button, message } from 'antd';
 import FormRender from 'form-render';
 import useController from './useController';
 import { savePluginConfig } from '@/webview/service';
+
 const schame: any = {
   type: 'object',
   properties: {

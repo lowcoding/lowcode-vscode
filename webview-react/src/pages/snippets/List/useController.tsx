@@ -1,6 +1,6 @@
-import { getLocalMaterials } from '@/webview/service';
 import React, { useEffect } from 'react';
 import { useModel } from 'umi';
+import { getLocalMaterials } from '@/webview/service';
 import useService from './useService';
 
 const useController = () => {
@@ -20,7 +20,7 @@ const useController = () => {
 
   const getList = () => {
     getLocalMaterials('snippets')
-      .then(data => {
+      .then((data) => {
         model.setMaterials(data);
         model.setOriMaterials(data);
       })

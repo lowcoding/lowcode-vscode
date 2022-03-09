@@ -53,80 +53,70 @@ export default {
           name: 'hooks',
           children: [
             {
-              path:
-                'D:\\GithubProject\\yapi-code\\.git\\hooks\\applypatch-msg.sample',
+              path: 'D:\\GithubProject\\yapi-code\\.git\\hooks\\applypatch-msg.sample',
               name: 'applypatch-msg.sample',
               size: 478,
               extension: '.sample',
               type: 'file',
             },
             {
-              path:
-                'D:\\GithubProject\\yapi-code\\.git\\hooks\\commit-msg.sample',
+              path: 'D:\\GithubProject\\yapi-code\\.git\\hooks\\commit-msg.sample',
               name: 'commit-msg.sample',
               size: 896,
               extension: '.sample',
               type: 'file',
             },
             {
-              path:
-                'D:\\GithubProject\\yapi-code\\.git\\hooks\\fsmonitor-watchman.sample',
+              path: 'D:\\GithubProject\\yapi-code\\.git\\hooks\\fsmonitor-watchman.sample',
               name: 'fsmonitor-watchman.sample',
               size: 3327,
               extension: '.sample',
               type: 'file',
             },
             {
-              path:
-                'D:\\GithubProject\\yapi-code\\.git\\hooks\\post-update.sample',
+              path: 'D:\\GithubProject\\yapi-code\\.git\\hooks\\post-update.sample',
               name: 'post-update.sample',
               size: 189,
               extension: '.sample',
               type: 'file',
             },
             {
-              path:
-                'D:\\GithubProject\\yapi-code\\.git\\hooks\\pre-applypatch.sample',
+              path: 'D:\\GithubProject\\yapi-code\\.git\\hooks\\pre-applypatch.sample',
               name: 'pre-applypatch.sample',
               size: 424,
               extension: '.sample',
               type: 'file',
             },
             {
-              path:
-                'D:\\GithubProject\\yapi-code\\.git\\hooks\\pre-commit.sample',
+              path: 'D:\\GithubProject\\yapi-code\\.git\\hooks\\pre-commit.sample',
               name: 'pre-commit.sample',
               size: 1638,
               extension: '.sample',
               type: 'file',
             },
             {
-              path:
-                'D:\\GithubProject\\yapi-code\\.git\\hooks\\pre-push.sample',
+              path: 'D:\\GithubProject\\yapi-code\\.git\\hooks\\pre-push.sample',
               name: 'pre-push.sample',
               size: 1348,
               extension: '.sample',
               type: 'file',
             },
             {
-              path:
-                'D:\\GithubProject\\yapi-code\\.git\\hooks\\pre-rebase.sample',
+              path: 'D:\\GithubProject\\yapi-code\\.git\\hooks\\pre-rebase.sample',
               name: 'pre-rebase.sample',
               size: 4898,
               extension: '.sample',
               type: 'file',
             },
             {
-              path:
-                'D:\\GithubProject\\yapi-code\\.git\\hooks\\pre-receive.sample',
+              path: 'D:\\GithubProject\\yapi-code\\.git\\hooks\\pre-receive.sample',
               name: 'pre-receive.sample',
               size: 544,
               extension: '.sample',
               type: 'file',
             },
             {
-              path:
-                'D:\\GithubProject\\yapi-code\\.git\\hooks\\prepare-commit-msg.sample',
+              path: 'D:\\GithubProject\\yapi-code\\.git\\hooks\\prepare-commit-msg.sample',
               name: 'prepare-commit-msg.sample',
               size: 1492,
               extension: '.sample',
@@ -185,16 +175,14 @@ export default {
                   name: 'heads',
                   children: [
                     {
-                      path:
-                        'D:\\GithubProject\\yapi-code\\.git\\logs\\refs\\heads\\feat-webpack',
+                      path: 'D:\\GithubProject\\yapi-code\\.git\\logs\\refs\\heads\\feat-webpack',
                       name: 'feat-webpack',
                       size: 301,
                       extension: '',
                       type: 'file',
                     },
                     {
-                      path:
-                        'D:\\GithubProject\\yapi-code\\.git\\logs\\refs\\heads\\master',
+                      path: 'D:\\GithubProject\\yapi-code\\.git\\logs\\refs\\heads\\master',
                       name: 'master',
                       size: 513,
                       extension: '',
@@ -205,34 +193,29 @@ export default {
                   type: 'directory',
                 },
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\logs\\refs\\remotes',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\logs\\refs\\remotes',
                   name: 'remotes',
                   children: [
                     {
-                      path:
-                        'D:\\GithubProject\\yapi-code\\.git\\logs\\refs\\remotes\\origin',
+                      path: 'D:\\GithubProject\\yapi-code\\.git\\logs\\refs\\remotes\\origin',
                       name: 'origin',
                       children: [
                         {
-                          path:
-                            'D:\\GithubProject\\yapi-code\\.git\\logs\\refs\\remotes\\origin\\feat-webpack',
+                          path: 'D:\\GithubProject\\yapi-code\\.git\\logs\\refs\\remotes\\origin\\feat-webpack',
                           name: 'feat-webpack',
                           size: 147,
                           extension: '',
                           type: 'file',
                         },
                         {
-                          path:
-                            'D:\\GithubProject\\yapi-code\\.git\\logs\\refs\\remotes\\origin\\HEAD',
+                          path: 'D:\\GithubProject\\yapi-code\\.git\\logs\\refs\\remotes\\origin\\HEAD',
                           name: 'HEAD',
                           size: 179,
                           extension: '',
                           type: 'file',
                         },
                         {
-                          path:
-                            'D:\\GithubProject\\yapi-code\\.git\\logs\\refs\\remotes\\origin\\master',
+                          path: 'D:\\GithubProject\\yapi-code\\.git\\logs\\refs\\remotes\\origin\\master',
                           name: 'master',
                           size: 294,
                           extension: '',
@@ -263,8 +246,7 @@ export default {
               name: '01',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\01\\e26d4a2ca79ac194f5a55bfb001b7232c95d17',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\01\\e26d4a2ca79ac194f5a55bfb001b7232c95d17',
                   name: 'e26d4a2ca79ac194f5a55bfb001b7232c95d17',
                   size: 316,
                   extension: '',
@@ -279,8 +261,7 @@ export default {
               name: '04',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\04\\1aa9eb39d221bfb43a78438960ff192bb7ace3',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\04\\1aa9eb39d221bfb43a78438960ff192bb7ace3',
                   name: '1aa9eb39d221bfb43a78438960ff192bb7ace3',
                   size: 58,
                   extension: '',
@@ -295,8 +276,7 @@ export default {
               name: '06',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\06\\9816b8a0fd84d6c0cca39afde89019c43f2901',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\06\\9816b8a0fd84d6c0cca39afde89019c43f2901',
                   name: '9816b8a0fd84d6c0cca39afde89019c43f2901',
                   size: 745,
                   extension: '',
@@ -311,8 +291,7 @@ export default {
               name: '08',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\08\\0fd389e88a15e4ca4cbe552dad44810cf0d73b',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\08\\0fd389e88a15e4ca4cbe552dad44810cf0d73b',
                   name: '0fd389e88a15e4ca4cbe552dad44810cf0d73b',
                   size: 549,
                   extension: '',
@@ -327,16 +306,14 @@ export default {
               name: '17',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\17\\6b0193c850b8d0d1afac8fa34d4b7748a3330c',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\17\\6b0193c850b8d0d1afac8fa34d4b7748a3330c',
                   name: '6b0193c850b8d0d1afac8fa34d4b7748a3330c',
                   size: 346,
                   extension: '',
                   type: 'file',
                 },
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\17\\d7ae29a81121471490fb3039a494bf285665ec',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\17\\d7ae29a81121471490fb3039a494bf285665ec',
                   name: 'd7ae29a81121471490fb3039a494bf285665ec',
                   size: 454,
                   extension: '',
@@ -351,8 +328,7 @@ export default {
               name: '18',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\18\\083c0d47d72047ce75002b413013cab4e6a1ff',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\18\\083c0d47d72047ce75002b413013cab4e6a1ff',
                   name: '083c0d47d72047ce75002b413013cab4e6a1ff',
                   size: 549,
                   extension: '',
@@ -367,8 +343,7 @@ export default {
               name: '1a',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\1a\\08e9036f52e5978253e251fe0c10c0e3e0a73b',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\1a\\08e9036f52e5978253e251fe0c10c0e3e0a73b',
                   name: '08e9036f52e5978253e251fe0c10c0e3e0a73b',
                   size: 52,
                   extension: '',
@@ -383,8 +358,7 @@ export default {
               name: '1f',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\1f\\ec9d1be520c0e95be01a4133acf39948a04344',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\1f\\ec9d1be520c0e95be01a4133acf39948a04344',
                   name: 'ec9d1be520c0e95be01a4133acf39948a04344',
                   size: 152,
                   extension: '',
@@ -399,16 +373,14 @@ export default {
               name: '20',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\20\\530214420bd106458c2106530142a6fbf487d0',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\20\\530214420bd106458c2106530142a6fbf487d0',
                   name: '530214420bd106458c2106530142a6fbf487d0',
                   size: 300,
                   extension: '',
                   type: 'file',
                 },
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\20\\56e96e3086ecc91852a702d9f29c40c4867030',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\20\\56e96e3086ecc91852a702d9f29c40c4867030',
                   name: '56e96e3086ecc91852a702d9f29c40c4867030',
                   size: 1981,
                   extension: '',
@@ -423,8 +395,7 @@ export default {
               name: '25',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\25\\05d65396244e7f60b2de6e47d47944a95dc220',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\25\\05d65396244e7f60b2de6e47d47944a95dc220',
                   name: '05d65396244e7f60b2de6e47d47944a95dc220',
                   size: 1468,
                   extension: '',
@@ -439,8 +410,7 @@ export default {
               name: '2a',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\2a\\cb4fe1b9d15c4075cd032e4f521030eef0b2f9',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\2a\\cb4fe1b9d15c4075cd032e4f521030eef0b2f9',
                   name: 'cb4fe1b9d15c4075cd032e4f521030eef0b2f9',
                   size: 520,
                   extension: '',
@@ -455,8 +425,7 @@ export default {
               name: '2f',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\2f\\ca131b156bb950efbcfca706469c829f535c53',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\2f\\ca131b156bb950efbcfca706469c829f535c53',
                   name: 'ca131b156bb950efbcfca706469c829f535c53',
                   size: 345,
                   extension: '',
@@ -471,8 +440,7 @@ export default {
               name: '31',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\31\\d6fc257e838671ae18329cb25bb95aba7189f7',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\31\\d6fc257e838671ae18329cb25bb95aba7189f7',
                   name: 'd6fc257e838671ae18329cb25bb95aba7189f7',
                   size: 519,
                   extension: '',
@@ -487,8 +455,7 @@ export default {
               name: '32',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\32\\903a9e961684f8a47f7526e40f19a3c7734af6',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\32\\903a9e961684f8a47f7526e40f19a3c7734af6',
                   name: '903a9e961684f8a47f7526e40f19a3c7734af6',
                   size: 2998,
                   extension: '',
@@ -503,8 +470,7 @@ export default {
               name: '37',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\37\\36d04a8d27250332128a87ff11ed3d130ce9f7',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\37\\36d04a8d27250332128a87ff11ed3d130ce9f7',
                   name: '36d04a8d27250332128a87ff11ed3d130ce9f7',
                   size: 154,
                   extension: '',
@@ -519,8 +485,7 @@ export default {
               name: '38',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\38\\a455d2f4a9f69585deec567ab537dedd1b1812',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\38\\a455d2f4a9f69585deec567ab537dedd1b1812',
                   name: 'a455d2f4a9f69585deec567ab537dedd1b1812',
                   size: 436,
                   extension: '',
@@ -535,8 +500,7 @@ export default {
               name: '3a',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\3a\\4647bffd9e46b87db048e18d0d1b38d2cc7f81',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\3a\\4647bffd9e46b87db048e18d0d1b38d2cc7f81',
                   name: '4647bffd9e46b87db048e18d0d1b38d2cc7f81',
                   size: 599,
                   extension: '',
@@ -551,8 +515,7 @@ export default {
               name: '3f',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\3f\\c050e375c43c8c235c3f827d27f88d526908c9',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\3f\\c050e375c43c8c235c3f827d27f88d526908c9',
                   name: 'c050e375c43c8c235c3f827d27f88d526908c9',
                   size: 1493,
                   extension: '',
@@ -567,8 +530,7 @@ export default {
               name: '40',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\40\\38323684f6a85abc487fa31a651c5a584eed2e',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\40\\38323684f6a85abc487fa31a651c5a584eed2e',
                   name: '38323684f6a85abc487fa31a651c5a584eed2e',
                   size: 1516,
                   extension: '',
@@ -583,8 +545,7 @@ export default {
               name: '41',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\41\\dac1dd71616dcc05a483dc73a7aae542bbc08a',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\41\\dac1dd71616dcc05a483dc73a7aae542bbc08a',
                   name: 'dac1dd71616dcc05a483dc73a7aae542bbc08a',
                   size: 347,
                   extension: '',
@@ -599,8 +560,7 @@ export default {
               name: '42',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\42\\05d1faae807206e46fbb2b8852d96e06306224',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\42\\05d1faae807206e46fbb2b8852d96e06306224',
                   name: '05d1faae807206e46fbb2b8852d96e06306224',
                   size: 2391,
                   extension: '',
@@ -615,8 +575,7 @@ export default {
               name: '43',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\43\\88c8ecd8d999917b7ca40045b925791c449d3d',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\43\\88c8ecd8d999917b7ca40045b925791c449d3d',
                   name: '88c8ecd8d999917b7ca40045b925791c449d3d',
                   size: 155,
                   extension: '',
@@ -631,8 +590,7 @@ export default {
               name: '44',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\44\\6acc94b96ee924d18d40ff5e6959c71d5e0c85',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\44\\6acc94b96ee924d18d40ff5e6959c71d5e0c85',
                   name: '6acc94b96ee924d18d40ff5e6959c71d5e0c85',
                   size: 160,
                   extension: '',
@@ -647,8 +605,7 @@ export default {
               name: '4b',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\4b\\397f9158e00890accb68f095b79eef8205253b',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\4b\\397f9158e00890accb68f095b79eef8205253b',
                   name: '397f9158e00890accb68f095b79eef8205253b',
                   size: 151,
                   extension: '',
@@ -663,8 +620,7 @@ export default {
               name: '4c',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\4c\\f671487db3c4e558317419dfacabc8fdb9e8aa',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\4c\\f671487db3c4e558317419dfacabc8fdb9e8aa',
                   name: 'f671487db3c4e558317419dfacabc8fdb9e8aa',
                   size: 152,
                   extension: '',
@@ -679,8 +635,7 @@ export default {
               name: '4d',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\4d\\95ac53656f8b4432c328eae905d8d4514424c2',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\4d\\95ac53656f8b4432c328eae905d8d4514424c2',
                   name: '95ac53656f8b4432c328eae905d8d4514424c2',
                   size: 46,
                   extension: '',
@@ -695,8 +650,7 @@ export default {
               name: '52',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\52\\1c2ebc5c6d1d8db6073878f0b39f11dfe9d3d7',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\52\\1c2ebc5c6d1d8db6073878f0b39f11dfe9d3d7',
                   name: '1c2ebc5c6d1d8db6073878f0b39f11dfe9d3d7',
                   size: 635,
                   extension: '',
@@ -711,8 +665,7 @@ export default {
               name: '53',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\53\\236f84a21edec4f76a9ca5dd0d53879dd7eced',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\53\\236f84a21edec4f76a9ca5dd0d53879dd7eced',
                   name: '236f84a21edec4f76a9ca5dd0d53879dd7eced',
                   size: 102,
                   extension: '',
@@ -727,8 +680,7 @@ export default {
               name: '5c',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\5c\\858c0e3ef1b6da5fab30873ed8c4184ce04086',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\5c\\858c0e3ef1b6da5fab30873ed8c4184ce04086',
                   name: '858c0e3ef1b6da5fab30873ed8c4184ce04086',
                   size: 785,
                   extension: '',
@@ -743,8 +695,7 @@ export default {
               name: '5e',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\5e\\7d5a1cf45b99c56a92db91266efc6cf4109423',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\5e\\7d5a1cf45b99c56a92db91266efc6cf4109423',
                   name: '7d5a1cf45b99c56a92db91266efc6cf4109423',
                   size: 1279,
                   extension: '',
@@ -759,8 +710,7 @@ export default {
               name: '60',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\60\\83e0beded2d7c52a975910f768f69abb38cb61',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\60\\83e0beded2d7c52a975910f768f69abb38cb61',
                   name: '83e0beded2d7c52a975910f768f69abb38cb61',
                   size: 549,
                   extension: '',
@@ -775,8 +725,7 @@ export default {
               name: '61',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\61\\db2f7e5759e738f4d59e8bbe27863bbd1ce737',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\61\\db2f7e5759e738f4d59e8bbe27863bbd1ce737',
                   name: 'db2f7e5759e738f4d59e8bbe27863bbd1ce737',
                   size: 777,
                   extension: '',
@@ -791,8 +740,7 @@ export default {
               name: '65',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\65\\35eb90acd52242de04b21bfe119ef25c7c227a',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\65\\35eb90acd52242de04b21bfe119ef25c7c227a',
                   name: '35eb90acd52242de04b21bfe119ef25c7c227a',
                   size: 179,
                   extension: '',
@@ -807,8 +755,7 @@ export default {
               name: '66',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\66\\f24c9ba19052f8abd52b3999305af8d78b1a5b',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\66\\f24c9ba19052f8abd52b3999305af8d78b1a5b',
                   name: 'f24c9ba19052f8abd52b3999305af8d78b1a5b',
                   size: 112,
                   extension: '',
@@ -823,8 +770,7 @@ export default {
               name: '68',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\68\\9f6b3d02b1ea11a0ea7779f0f8539805732109',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\68\\9f6b3d02b1ea11a0ea7779f0f8539805732109',
                   name: '9f6b3d02b1ea11a0ea7779f0f8539805732109',
                   size: 49,
                   extension: '',
@@ -839,8 +785,7 @@ export default {
               name: '6b',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\6b\\63ca8ded0aa15f7e7ddf693605a448044a2b0c',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\6b\\63ca8ded0aa15f7e7ddf693605a448044a2b0c',
                   name: '63ca8ded0aa15f7e7ddf693605a448044a2b0c',
                   size: 257,
                   extension: '',
@@ -855,8 +800,7 @@ export default {
               name: '6f',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\6f\\bcc4839151b76b371250e2e4753e609693185e',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\6f\\bcc4839151b76b371250e2e4753e609693185e',
                   name: 'bcc4839151b76b371250e2e4753e609693185e',
                   size: 152,
                   extension: '',
@@ -871,8 +815,7 @@ export default {
               name: '72',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\72\\19730a3b8c380fb6e2b4de8df60f04cd371ec2',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\72\\19730a3b8c380fb6e2b4de8df60f04cd371ec2',
                   name: '19730a3b8c380fb6e2b4de8df60f04cd371ec2',
                   size: 74,
                   extension: '',
@@ -887,8 +830,7 @@ export default {
               name: '75',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\75\\e7582b197e175291f98033a635293a05470932',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\75\\e7582b197e175291f98033a635293a05470932',
                   name: 'e7582b197e175291f98033a635293a05470932',
                   size: 1507,
                   extension: '',
@@ -903,8 +845,7 @@ export default {
               name: '7f',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\7f\\426f123afb9dd99d2926c36d8188fe005bd29f',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\7f\\426f123afb9dd99d2926c36d8188fe005bd29f',
                   name: '426f123afb9dd99d2926c36d8188fe005bd29f',
                   size: 365,
                   extension: '',
@@ -919,8 +860,7 @@ export default {
               name: '82',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\82\\29b16dd9f8a71099db307db898ce4e1f194407',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\82\\29b16dd9f8a71099db307db898ce4e1f194407',
                   name: '29b16dd9f8a71099db307db898ce4e1f194407',
                   size: 28,
                   extension: '',
@@ -935,8 +875,7 @@ export default {
               name: '8d',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\8d\\80322c3d2988166b904f819f55c3bf565513fd',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\8d\\80322c3d2988166b904f819f55c3bf565513fd',
                   name: '80322c3d2988166b904f819f55c3bf565513fd',
                   size: 175,
                   extension: '',
@@ -951,8 +890,7 @@ export default {
               name: '8e',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\8e\\70a4fb796deb469467d004a7b0f2a64aa2dbec',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\8e\\70a4fb796deb469467d004a7b0f2a64aa2dbec',
                   name: '70a4fb796deb469467d004a7b0f2a64aa2dbec',
                   size: 156,
                   extension: '',
@@ -967,8 +905,7 @@ export default {
               name: '8f',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\8f\\50524dc8ee13cedf8e26c802f2ffda6567b30d',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\8f\\50524dc8ee13cedf8e26c802f2ffda6567b30d',
                   name: '50524dc8ee13cedf8e26c802f2ffda6567b30d',
                   size: 598,
                   extension: '',
@@ -983,8 +920,7 @@ export default {
               name: '92',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\92\\a9746174bc09cc9b31cca77451730a03158f26',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\92\\a9746174bc09cc9b31cca77451730a03158f26',
                   name: 'a9746174bc09cc9b31cca77451730a03158f26',
                   size: 345,
                   extension: '',
@@ -999,8 +935,7 @@ export default {
               name: '96',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\96\\77f2d352deddcab0c20d400b87f7a5624a3677',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\96\\77f2d352deddcab0c20d400b87f7a5624a3677',
                   name: '77f2d352deddcab0c20d400b87f7a5624a3677',
                   size: 66,
                   extension: '',
@@ -1015,8 +950,7 @@ export default {
               name: '97',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\97\\757f155ee79027c3d60dafdacf2929ccd078b9',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\97\\757f155ee79027c3d60dafdacf2929ccd078b9',
                   name: '757f155ee79027c3d60dafdacf2929ccd078b9',
                   size: 151,
                   extension: '',
@@ -1031,8 +965,7 @@ export default {
               name: '98',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\98\\028270b03f85dfd9cbe72b353e9a67ddeb94a6',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\98\\028270b03f85dfd9cbe72b353e9a67ddeb94a6',
                   name: '028270b03f85dfd9cbe72b353e9a67ddeb94a6',
                   size: 52,
                   extension: '',
@@ -1047,24 +980,21 @@ export default {
               name: '9a',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\9a\\25936fc7fa23e6e25b6a5246fefaa25e7eee8e',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\9a\\25936fc7fa23e6e25b6a5246fefaa25e7eee8e',
                   name: '25936fc7fa23e6e25b6a5246fefaa25e7eee8e',
                   size: 58,
                   extension: '',
                   type: 'file',
                 },
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\9a\\35d49f7c0f7cd30cefdd9499559d5d98efdf4e',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\9a\\35d49f7c0f7cd30cefdd9499559d5d98efdf4e',
                   name: '35d49f7c0f7cd30cefdd9499559d5d98efdf4e',
                   size: 441,
                   extension: '',
                   type: 'file',
                 },
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\9a\\54d6b9c5a7649a0ea27d12607da69487acd374',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\9a\\54d6b9c5a7649a0ea27d12607da69487acd374',
                   name: '54d6b9c5a7649a0ea27d12607da69487acd374',
                   size: 186,
                   extension: '',
@@ -1079,16 +1009,14 @@ export default {
               name: '9b',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\9b\\695124daf625c8de6f1eb9ae05edc9c46cc90a',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\9b\\695124daf625c8de6f1eb9ae05edc9c46cc90a',
                   name: '695124daf625c8de6f1eb9ae05edc9c46cc90a',
                   size: 550,
                   extension: '',
                   type: 'file',
                 },
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\9b\\fbdaa3888520ed96bca8567022d1dfd617a703',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\9b\\fbdaa3888520ed96bca8567022d1dfd617a703',
                   name: 'fbdaa3888520ed96bca8567022d1dfd617a703',
                   size: 157,
                   extension: '',
@@ -1103,8 +1031,7 @@ export default {
               name: '9d',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\9d\\e0b9987f1576a1ea822ea0b027f1cac1e56e2e',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\9d\\e0b9987f1576a1ea822ea0b027f1cac1e56e2e',
                   name: 'e0b9987f1576a1ea822ea0b027f1cac1e56e2e',
                   size: 108,
                   extension: '',
@@ -1119,8 +1046,7 @@ export default {
               name: 'a1',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\a1\\8794982efa57e2b5a7f549c90517367a4b3298',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\a1\\8794982efa57e2b5a7f549c90517367a4b3298',
                   name: '8794982efa57e2b5a7f549c90517367a4b3298',
                   size: 1456,
                   extension: '',
@@ -1135,8 +1061,7 @@ export default {
               name: 'a9',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\a9\\ff1b203fb8d71054a6ae00da48e77a663186ad',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\a9\\ff1b203fb8d71054a6ae00da48e77a663186ad',
                   name: 'ff1b203fb8d71054a6ae00da48e77a663186ad',
                   size: 108,
                   extension: '',
@@ -1151,8 +1076,7 @@ export default {
               name: 'ae',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\ae\\4355522e0eed868fad93d89de2c0eb48585eb8',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\ae\\4355522e0eed868fad93d89de2c0eb48585eb8',
                   name: '4355522e0eed868fad93d89de2c0eb48585eb8',
                   size: 152,
                   extension: '',
@@ -1167,8 +1091,7 @@ export default {
               name: 'af',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\af\\a19230fd526d3353f13ab8437648a305092447',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\af\\a19230fd526d3353f13ab8437648a305092447',
                   name: 'a19230fd526d3353f13ab8437648a305092447',
                   size: 108,
                   extension: '',
@@ -1183,8 +1106,7 @@ export default {
               name: 'b1',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\b1\\47948623e8ef7d2c658e7310b3fb25ffc434af',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\b1\\47948623e8ef7d2c658e7310b3fb25ffc434af',
                   name: '47948623e8ef7d2c658e7310b3fb25ffc434af',
                   size: 519,
                   extension: '',
@@ -1199,8 +1121,7 @@ export default {
               name: 'b3',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\b3\\257069901f4a9da37163b5443e7be383f73224',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\b3\\257069901f4a9da37163b5443e7be383f73224',
                   name: '257069901f4a9da37163b5443e7be383f73224',
                   size: 3105321,
                   extension: '',
@@ -1215,8 +1136,7 @@ export default {
               name: 'b5',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\b5\\7da8cc1a3cab8fede79555d09643b36ab8168d',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\b5\\7da8cc1a3cab8fede79555d09643b36ab8168d',
                   name: '7da8cc1a3cab8fede79555d09643b36ab8168d',
                   size: 290,
                   extension: '',
@@ -1231,8 +1151,7 @@ export default {
               name: 'b7',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\b7\\d1ab367ebb2570b28e58601018b019763d3f02',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\b7\\d1ab367ebb2570b28e58601018b019763d3f02',
                   name: 'd1ab367ebb2570b28e58601018b019763d3f02',
                   size: 66808,
                   extension: '',
@@ -1247,8 +1166,7 @@ export default {
               name: 'bb',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\bb\\588c258cff4a3b6be05ae84bd02a58301a2e66',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\bb\\588c258cff4a3b6be05ae84bd02a58301a2e66',
                   name: '588c258cff4a3b6be05ae84bd02a58301a2e66',
                   size: 94,
                   extension: '',
@@ -1263,8 +1181,7 @@ export default {
               name: 'c3',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\c3\\30c0f2f1b134e405e58bd25f814bfc27678ea4',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\c3\\30c0f2f1b134e405e58bd25f814bfc27678ea4',
                   name: '30c0f2f1b134e405e58bd25f814bfc27678ea4',
                   size: 1501,
                   extension: '',
@@ -1279,8 +1196,7 @@ export default {
               name: 'c7',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\c7\\68a8be701322415d555ab85034ca1c9bfa9483',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\c7\\68a8be701322415d555ab85034ca1c9bfa9483',
                   name: '68a8be701322415d555ab85034ca1c9bfa9483',
                   size: 52,
                   extension: '',
@@ -1295,8 +1211,7 @@ export default {
               name: 'ca',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\ca\\ddd1afbd9fb370b75e8b520ac5646f3f2a83b3',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\ca\\ddd1afbd9fb370b75e8b520ac5646f3f2a83b3',
                   name: 'ddd1afbd9fb370b75e8b520ac5646f3f2a83b3',
                   size: 103,
                   extension: '',
@@ -1311,8 +1226,7 @@ export default {
               name: 'cb',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\cb\\be129b2e93f7887accfe1f08a0791a1b037392',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\cb\\be129b2e93f7887accfe1f08a0791a1b037392',
                   name: 'be129b2e93f7887accfe1f08a0791a1b037392',
                   size: 609,
                   extension: '',
@@ -1327,8 +1241,7 @@ export default {
               name: 'd1',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\d1\\a993f830567f1a29e8217e82cd9b125d96f0e0',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\d1\\a993f830567f1a29e8217e82cd9b125d96f0e0',
                   name: 'a993f830567f1a29e8217e82cd9b125d96f0e0',
                   size: 75,
                   extension: '',
@@ -1343,8 +1256,7 @@ export default {
               name: 'd2',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\d2\\f3d23bf63fa73f376ffed8bee6c37d639c2b7e',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\d2\\f3d23bf63fa73f376ffed8bee6c37d639c2b7e',
                   name: 'f3d23bf63fa73f376ffed8bee6c37d639c2b7e',
                   size: 151,
                   extension: '',
@@ -1359,8 +1271,7 @@ export default {
               name: 'd9',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\d9\\1d8054a377da86790c4e77afafc43fae3e66e9',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\d9\\1d8054a377da86790c4e77afafc43fae3e66e9',
                   name: '1d8054a377da86790c4e77afafc43fae3e66e9',
                   size: 1460,
                   extension: '',
@@ -1375,8 +1286,7 @@ export default {
               name: 'da',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\da\\052e86c272345e4a60f38870ff95eff0885770',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\da\\052e86c272345e4a60f38870ff95eff0885770',
                   name: '052e86c272345e4a60f38870ff95eff0885770',
                   size: 153,
                   extension: '',
@@ -1391,8 +1301,7 @@ export default {
               name: 'de',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\de\\94ccc5845f35c6047305ea3fd794dc9438ed49',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\de\\94ccc5845f35c6047305ea3fd794dc9438ed49',
                   name: '94ccc5845f35c6047305ea3fd794dc9438ed49',
                   size: 315,
                   extension: '',
@@ -1407,8 +1316,7 @@ export default {
               name: 'e5',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\e5\\1ea0f7c04b1d42f1457c586f510ca95520a01d',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\e5\\1ea0f7c04b1d42f1457c586f510ca95520a01d',
                   name: '1ea0f7c04b1d42f1457c586f510ca95520a01d',
                   size: 1572,
                   extension: '',
@@ -1423,8 +1331,7 @@ export default {
               name: 'ee',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\ee\\d80825f3b64252841803aee0d98ba23ad32e0c',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\ee\\d80825f3b64252841803aee0d98ba23ad32e0c',
                   name: 'd80825f3b64252841803aee0d98ba23ad32e0c',
                   size: 609,
                   extension: '',
@@ -1439,8 +1346,7 @@ export default {
               name: 'f1',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\f1\\27d37e91c564ae12bd19fbefb2ca0ee4ff303d',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\f1\\27d37e91c564ae12bd19fbefb2ca0ee4ff303d',
                   name: '27d37e91c564ae12bd19fbefb2ca0ee4ff303d',
                   size: 346,
                   extension: '',
@@ -1455,8 +1361,7 @@ export default {
               name: 'f2',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\f2\\5185508370307252114cb0714638a06b7bff6d',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\f2\\5185508370307252114cb0714638a06b7bff6d',
                   name: '5185508370307252114cb0714638a06b7bff6d',
                   size: 549,
                   extension: '',
@@ -1471,8 +1376,7 @@ export default {
               name: 'f9',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\f9\\4c71be9791c9fbd8b8ed64a9d060675b71a999',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\f9\\4c71be9791c9fbd8b8ed64a9d060675b71a999',
                   name: '4c71be9791c9fbd8b8ed64a9d060675b71a999',
                   size: 772,
                   extension: '',
@@ -1487,16 +1391,14 @@ export default {
               name: 'fc',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\fc\\f17cecf5adfcccedae2b85dbdaac5c112dd9a7',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\fc\\f17cecf5adfcccedae2b85dbdaac5c112dd9a7',
                   name: 'f17cecf5adfcccedae2b85dbdaac5c112dd9a7',
                   size: 520,
                   extension: '',
                   type: 'file',
                 },
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\fc\\fbe1f228cbcf6e48e8f009bfa2ea9d49506dd5',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\fc\\fbe1f228cbcf6e48e8f009bfa2ea9d49506dd5',
                   name: 'fbe1f228cbcf6e48e8f009bfa2ea9d49506dd5',
                   size: 156,
                   extension: '',
@@ -1511,8 +1413,7 @@ export default {
               name: 'ff',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\ff\\7958933a9e6e2c4265314235611f31b45aa4d7',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\ff\\7958933a9e6e2c4265314235611f31b45aa4d7',
                   name: '7958933a9e6e2c4265314235611f31b45aa4d7',
                   size: 108,
                   extension: '',
@@ -1534,16 +1435,14 @@ export default {
               name: 'pack',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\pack\\pack-dfac5994884fcc626b377203ee58d35ae6b2fd9c.idx',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\pack\\pack-dfac5994884fcc626b377203ee58d35ae6b2fd9c.idx',
                   name: 'pack-dfac5994884fcc626b377203ee58d35ae6b2fd9c.idx',
                   size: 10508,
                   extension: '.idx',
                   type: 'file',
                 },
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\objects\\pack\\pack-dfac5994884fcc626b377203ee58d35ae6b2fd9c.pack',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\objects\\pack\\pack-dfac5994884fcc626b377203ee58d35ae6b2fd9c.pack',
                   name: 'pack-dfac5994884fcc626b377203ee58d35ae6b2fd9c.pack',
                   size: 88306,
                   extension: '.pack',
@@ -1580,16 +1479,14 @@ export default {
               name: 'heads',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\refs\\heads\\feat-webpack',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\refs\\heads\\feat-webpack',
                   name: 'feat-webpack',
                   size: 41,
                   extension: '',
                   type: 'file',
                 },
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\refs\\heads\\master',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\refs\\heads\\master',
                   name: 'master',
                   size: 41,
                   extension: '',
@@ -1604,29 +1501,25 @@ export default {
               name: 'remotes',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\.git\\refs\\remotes\\origin',
+                  path: 'D:\\GithubProject\\yapi-code\\.git\\refs\\remotes\\origin',
                   name: 'origin',
                   children: [
                     {
-                      path:
-                        'D:\\GithubProject\\yapi-code\\.git\\refs\\remotes\\origin\\feat-webpack',
+                      path: 'D:\\GithubProject\\yapi-code\\.git\\refs\\remotes\\origin\\feat-webpack',
                       name: 'feat-webpack',
                       size: 41,
                       extension: '',
                       type: 'file',
                     },
                     {
-                      path:
-                        'D:\\GithubProject\\yapi-code\\.git\\refs\\remotes\\origin\\HEAD',
+                      path: 'D:\\GithubProject\\yapi-code\\.git\\refs\\remotes\\origin\\HEAD',
                       name: 'HEAD',
                       size: 32,
                       extension: '',
                       type: 'file',
                     },
                     {
-                      path:
-                        'D:\\GithubProject\\yapi-code\\.git\\refs\\remotes\\origin\\master',
+                      path: 'D:\\GithubProject\\yapi-code\\.git\\refs\\remotes\\origin\\master',
                       name: 'master',
                       size: 41,
                       extension: '',
@@ -1743,32 +1636,28 @@ export default {
           name: 'commands',
           children: [
             {
-              path:
-                'D:\\GithubProject\\yapi-code\\build\\commands\\createOrShowWebview.js',
+              path: 'D:\\GithubProject\\yapi-code\\build\\commands\\createOrShowWebview.js',
               name: 'createOrShowWebview.js',
               size: 4446,
               extension: '.js',
               type: 'file',
             },
             {
-              path:
-                'D:\\GithubProject\\yapi-code\\build\\commands\\createOrShowWebview.js.map',
+              path: 'D:\\GithubProject\\yapi-code\\build\\commands\\createOrShowWebview.js.map',
               name: 'createOrShowWebview.js.map',
               size: 2882,
               extension: '.map',
               type: 'file',
             },
             {
-              path:
-                'D:\\GithubProject\\yapi-code\\build\\commands\\generateCode.js',
+              path: 'D:\\GithubProject\\yapi-code\\build\\commands\\generateCode.js',
               name: 'generateCode.js',
               size: 1937,
               extension: '.js',
               type: 'file',
             },
             {
-              path:
-                'D:\\GithubProject\\yapi-code\\build\\commands\\generateCode.js.map',
+              path: 'D:\\GithubProject\\yapi-code\\build\\commands\\generateCode.js.map',
               name: 'generateCode.js.map',
               size: 849,
               extension: '.map',
@@ -1818,8 +1707,7 @@ export default {
               type: 'file',
             },
             {
-              path:
-                'D:\\GithubProject\\yapi-code\\build\\compiler\\type.js.map',
+              path: 'D:\\GithubProject\\yapi-code\\build\\compiler\\type.js.map',
               name: 'type.js.map',
               size: 112,
               extension: '.map',
@@ -1862,32 +1750,28 @@ export default {
           name: 'genCode',
           children: [
             {
-              path:
-                'D:\\GithubProject\\yapi-code\\build\\genCode\\genCodeByJson.js',
+              path: 'D:\\GithubProject\\yapi-code\\build\\genCode\\genCodeByJson.js',
               name: 'genCodeByJson.js',
               size: 3126,
               extension: '.js',
               type: 'file',
             },
             {
-              path:
-                'D:\\GithubProject\\yapi-code\\build\\genCode\\genCodeByJson.js.map',
+              path: 'D:\\GithubProject\\yapi-code\\build\\genCode\\genCodeByJson.js.map',
               name: 'genCodeByJson.js.map',
               size: 1871,
               extension: '.map',
               type: 'file',
             },
             {
-              path:
-                'D:\\GithubProject\\yapi-code\\build\\genCode\\genCodeByYapi.js',
+              path: 'D:\\GithubProject\\yapi-code\\build\\genCode\\genCodeByYapi.js',
               name: 'genCodeByYapi.js',
               size: 6325,
               extension: '.js',
               type: 'file',
             },
             {
-              path:
-                'D:\\GithubProject\\yapi-code\\build\\genCode\\genCodeByYapi.js.map',
+              path: 'D:\\GithubProject\\yapi-code\\build\\genCode\\genCodeByYapi.js.map',
               name: 'genCodeByYapi.js.map',
               size: 4436,
               extension: '.map',
@@ -1948,32 +1832,28 @@ export default {
               name: 'suite',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\build\\test\\suite\\extension.test.js',
+                  path: 'D:\\GithubProject\\yapi-code\\build\\test\\suite\\extension.test.js',
                   name: 'extension.test.js',
                   size: 598,
                   extension: '.js',
                   type: 'file',
                 },
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\build\\test\\suite\\extension.test.js.map',
+                  path: 'D:\\GithubProject\\yapi-code\\build\\test\\suite\\extension.test.js.map',
                   name: 'extension.test.js.map',
                   size: 594,
                   extension: '.map',
                   type: 'file',
                 },
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\build\\test\\suite\\index.js',
+                  path: 'D:\\GithubProject\\yapi-code\\build\\test\\suite\\index.js',
                   name: 'index.js',
                   size: 1211,
                   extension: '.js',
                   type: 'file',
                 },
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\build\\test\\suite\\index.js.map',
+                  path: 'D:\\GithubProject\\yapi-code\\build\\test\\suite\\index.js.map',
                   name: 'index.js.map',
                   size: 1082,
                   extension: '.map',
@@ -2017,8 +1897,7 @@ export default {
           type: 'file',
         },
         {
-          path:
-            'D:\\GithubProject\\yapi-code\\build\\webviewMessageHandler.js.map',
+          path: 'D:\\GithubProject\\yapi-code\\build\\webviewMessageHandler.js.map',
           name: 'webviewMessageHandler.js.map',
           size: 914,
           extension: '.map',
@@ -2048,21 +1927,18 @@ export default {
               name: '列表页',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\materials\\blocks\\列表页\\config',
+                  path: 'D:\\GithubProject\\yapi-code\\materials\\blocks\\列表页\\config',
                   name: 'config',
                   children: [
                     {
-                      path:
-                        'D:\\GithubProject\\yapi-code\\materials\\blocks\\列表页\\config\\model.json',
+                      path: 'D:\\GithubProject\\yapi-code\\materials\\blocks\\列表页\\config\\model.json',
                       name: 'model.json',
                       size: 39,
                       extension: '.json',
                       type: 'file',
                     },
                     {
-                      path:
-                        'D:\\GithubProject\\yapi-code\\materials\\blocks\\列表页\\config\\schema.json',
+                      path: 'D:\\GithubProject\\yapi-code\\materials\\blocks\\列表页\\config\\schema.json',
                       name: 'schema.json',
                       size: 0,
                       extension: '.json',
@@ -2073,23 +1949,19 @@ export default {
                   type: 'directory',
                 },
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\materials\\blocks\\列表页\\src',
+                  path: 'D:\\GithubProject\\yapi-code\\materials\\blocks\\列表页\\src',
                   name: 'src',
                   children: [
                     {
-                      path:
-                        'D:\\GithubProject\\yapi-code\\materials\\blocks\\列表页\\src\\components',
+                      path: 'D:\\GithubProject\\yapi-code\\materials\\blocks\\列表页\\src\\components',
                       name: 'components',
                       children: [
                         {
-                          path:
-                            'D:\\GithubProject\\yapi-code\\materials\\blocks\\列表页\\src\\components\\Todo',
+                          path: 'D:\\GithubProject\\yapi-code\\materials\\blocks\\列表页\\src\\components\\Todo',
                           name: 'Todo',
                           children: [
                             {
-                              path:
-                                'D:\\GithubProject\\yapi-code\\materials\\blocks\\列表页\\src\\components\\Todo\\index.tsx.ejs',
+                              path: 'D:\\GithubProject\\yapi-code\\materials\\blocks\\列表页\\src\\components\\Todo\\index.tsx.ejs',
                               name: 'index.tsx.ejs',
                               size: 113,
                               extension: '.ejs',
@@ -2104,8 +1976,7 @@ export default {
                       type: 'directory',
                     },
                     {
-                      path:
-                        'D:\\GithubProject\\yapi-code\\materials\\blocks\\列表页\\src\\index.tsx.ejs',
+                      path: 'D:\\GithubProject\\yapi-code\\materials\\blocks\\列表页\\src\\index.tsx.ejs',
                       name: 'index.tsx.ejs',
                       size: 13,
                       extension: '.ejs',
@@ -2150,16 +2021,14 @@ export default {
           name: 'commands',
           children: [
             {
-              path:
-                'D:\\GithubProject\\yapi-code\\src\\commands\\createOrShowWebview.ts',
+              path: 'D:\\GithubProject\\yapi-code\\src\\commands\\createOrShowWebview.ts',
               name: 'createOrShowWebview.ts',
               size: 4633,
               extension: '.ts',
               type: 'file',
             },
             {
-              path:
-                'D:\\GithubProject\\yapi-code\\src\\commands\\generateCode.ts',
+              path: 'D:\\GithubProject\\yapi-code\\src\\commands\\generateCode.ts',
               name: 'generateCode.ts',
               size: 1051,
               extension: '.ts',
@@ -2217,16 +2086,14 @@ export default {
           name: 'genCode',
           children: [
             {
-              path:
-                'D:\\GithubProject\\yapi-code\\src\\genCode\\genCodeByJson.ts',
+              path: 'D:\\GithubProject\\yapi-code\\src\\genCode\\genCodeByJson.ts',
               name: 'genCodeByJson.ts',
               size: 2137,
               extension: '.ts',
               type: 'file',
             },
             {
-              path:
-                'D:\\GithubProject\\yapi-code\\src\\genCode\\genCodeByYapi.ts',
+              path: 'D:\\GithubProject\\yapi-code\\src\\genCode\\genCodeByYapi.ts',
               name: 'genCodeByYapi.ts',
               size: 5055,
               extension: '.ts',
@@ -2266,16 +2133,14 @@ export default {
               name: 'suite',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\src\\test\\suite\\extension.test.ts',
+                  path: 'D:\\GithubProject\\yapi-code\\src\\test\\suite\\extension.test.ts',
                   name: 'extension.test.ts',
                   size: 462,
                   extension: '.ts',
                   type: 'file',
                 },
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\src\\test\\suite\\index.ts',
+                  path: 'D:\\GithubProject\\yapi-code\\src\\test\\suite\\index.ts',
                   name: 'index.ts',
                   size: 882,
                   extension: '.ts',
@@ -2409,8 +2274,7 @@ export default {
           name: 'mock',
           children: [
             {
-              path:
-                'D:\\GithubProject\\yapi-code\\webview-react\\mock\\.gitkeep',
+              path: 'D:\\GithubProject\\yapi-code\\webview-react\\mock\\.gitkeep',
               name: '.gitkeep',
               size: 0,
               extension: '',
@@ -2446,8 +2310,7 @@ export default {
           name: 'src',
           children: [
             {
-              path:
-                'D:\\GithubProject\\yapi-code\\webview-react\\src\\app.less',
+              path: 'D:\\GithubProject\\yapi-code\\webview-react\\src\\app.less',
               name: 'app.less',
               size: 61,
               extension: '.less',
@@ -2461,18 +2324,15 @@ export default {
               type: 'file',
             },
             {
-              path:
-                'D:\\GithubProject\\yapi-code\\webview-react\\src\\components',
+              path: 'D:\\GithubProject\\yapi-code\\webview-react\\src\\components',
               name: 'components',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\webview-react\\src\\components\\SelectDirectory',
+                  path: 'D:\\GithubProject\\yapi-code\\webview-react\\src\\components\\SelectDirectory',
                   name: 'SelectDirectory',
                   children: [
                     {
-                      path:
-                        'D:\\GithubProject\\yapi-code\\webview-react\\src\\components\\SelectDirectory\\index.tsx',
+                      path: 'D:\\GithubProject\\yapi-code\\webview-react\\src\\components\\SelectDirectory\\index.tsx',
                       name: 'index.tsx',
                       size: 0,
                       extension: '.tsx',
@@ -2483,13 +2343,11 @@ export default {
                   type: 'directory',
                 },
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\webview-react\\src\\components\\YapiModal',
+                  path: 'D:\\GithubProject\\yapi-code\\webview-react\\src\\components\\YapiModal',
                   name: 'YapiModal',
                   children: [
                     {
-                      path:
-                        'D:\\GithubProject\\yapi-code\\webview-react\\src\\components\\YapiModal\\index.tsx',
+                      path: 'D:\\GithubProject\\yapi-code\\webview-react\\src\\components\\YapiModal\\index.tsx',
                       name: 'index.tsx',
                       size: 3332,
                       extension: '.tsx',
@@ -2508,16 +2366,14 @@ export default {
               name: 'layout',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\webview-react\\src\\layout\\index.less',
+                  path: 'D:\\GithubProject\\yapi-code\\webview-react\\src\\layout\\index.less',
                   name: 'index.less',
                   size: 100,
                   extension: '.less',
                   type: 'file',
                 },
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\webview-react\\src\\layout\\index.tsx',
+                  path: 'D:\\GithubProject\\yapi-code\\webview-react\\src\\layout\\index.tsx',
                   name: 'index.tsx',
                   size: 1172,
                   extension: '.tsx',
@@ -2532,13 +2388,11 @@ export default {
               name: 'pages',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\webview-react\\src\\pages\\blocks',
+                  path: 'D:\\GithubProject\\yapi-code\\webview-react\\src\\pages\\blocks',
                   name: 'blocks',
                   children: [
                     {
-                      path:
-                        'D:\\GithubProject\\yapi-code\\webview-react\\src\\pages\\blocks\\index.tsx',
+                      path: 'D:\\GithubProject\\yapi-code\\webview-react\\src\\pages\\blocks\\index.tsx',
                       name: 'index.tsx',
                       size: 7215,
                       extension: '.tsx',
@@ -2549,21 +2403,18 @@ export default {
                   type: 'directory',
                 },
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\webview-react\\src\\pages\\index.tsx',
+                  path: 'D:\\GithubProject\\yapi-code\\webview-react\\src\\pages\\index.tsx',
                   name: 'index.tsx',
                   size: 439,
                   extension: '.tsx',
                   type: 'file',
                 },
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\webview-react\\src\\pages\\snippets',
+                  path: 'D:\\GithubProject\\yapi-code\\webview-react\\src\\pages\\snippets',
                   name: 'snippets',
                   children: [
                     {
-                      path:
-                        'D:\\GithubProject\\yapi-code\\webview-react\\src\\pages\\snippets\\index.tsx',
+                      path: 'D:\\GithubProject\\yapi-code\\webview-react\\src\\pages\\snippets\\index.tsx',
                       name: 'index.tsx',
                       size: 419,
                       extension: '.tsx',
@@ -2582,53 +2433,46 @@ export default {
               name: 'webview',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\webview-react\\src\\webview\\index.ts',
+                  path: 'D:\\GithubProject\\yapi-code\\webview-react\\src\\webview\\index.ts',
                   name: 'index.ts',
                   size: 1089,
                   extension: '.ts',
                   type: 'file',
                 },
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\webview-react\\src\\webview\\mock',
+                  path: 'D:\\GithubProject\\yapi-code\\webview-react\\src\\webview\\mock',
                   name: 'mock',
                   children: [
                     {
-                      path:
-                        'D:\\GithubProject\\yapi-code\\webview-react\\src\\webview\\mock\\alert.ts',
+                      path: 'D:\\GithubProject\\yapi-code\\webview-react\\src\\webview\\mock\\alert.ts',
                       name: 'alert.ts',
                       size: 39,
                       extension: '.ts',
                       type: 'file',
                     },
                     {
-                      path:
-                        'D:\\GithubProject\\yapi-code\\webview-react\\src\\webview\\mock\\genTemplateModelByYapi.ts',
+                      path: 'D:\\GithubProject\\yapi-code\\webview-react\\src\\webview\\mock\\genTemplateModelByYapi.ts',
                       name: 'genTemplateModelByYapi.ts',
                       size: 3590,
                       extension: '.ts',
                       type: 'file',
                     },
                     {
-                      path:
-                        'D:\\GithubProject\\yapi-code\\webview-react\\src\\webview\\mock\\getLocalMaterials.ts',
+                      path: 'D:\\GithubProject\\yapi-code\\webview-react\\src\\webview\\mock\\getLocalMaterials.ts',
                       name: 'getLocalMaterials.ts',
                       size: 1047,
                       extension: '.ts',
                       type: 'file',
                     },
                     {
-                      path:
-                        'D:\\GithubProject\\yapi-code\\webview-react\\src\\webview\\mock\\getYapiDomain.ts',
+                      path: 'D:\\GithubProject\\yapi-code\\webview-react\\src\\webview\\mock\\getYapiDomain.ts',
                       name: 'getYapiDomain.ts',
                       size: 42,
                       extension: '.ts',
                       type: 'file',
                     },
                     {
-                      path:
-                        'D:\\GithubProject\\yapi-code\\webview-react\\src\\webview\\mock\\getYapiProjects.ts',
+                      path: 'D:\\GithubProject\\yapi-code\\webview-react\\src\\webview\\mock\\getYapiProjects.ts',
                       name: 'getYapiProjects.ts',
                       size: 146,
                       extension: '.ts',
@@ -2747,8 +2591,7 @@ export default {
               name: 'assets',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\webview-vue\\src\\assets\\logo.png',
+                  path: 'D:\\GithubProject\\yapi-code\\webview-vue\\src\\assets\\logo.png',
                   name: 'logo.png',
                   size: 6849,
                   extension: '.png',
@@ -2759,13 +2602,11 @@ export default {
               type: 'directory',
             },
             {
-              path:
-                'D:\\GithubProject\\yapi-code\\webview-vue\\src\\components',
+              path: 'D:\\GithubProject\\yapi-code\\webview-vue\\src\\components',
               name: 'components',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\webview-vue\\src\\components\\HelloWord.tsx',
+                  path: 'D:\\GithubProject\\yapi-code\\webview-vue\\src\\components\\HelloWord.tsx',
                   name: 'HelloWord.tsx',
                   size: 481,
                   extension: '.tsx',
@@ -2787,8 +2628,7 @@ export default {
               name: 'router',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\webview-vue\\src\\router\\index.ts',
+                  path: 'D:\\GithubProject\\yapi-code\\webview-vue\\src\\router\\index.ts',
                   name: 'index.ts',
                   size: 626,
                   extension: '.ts',
@@ -2806,8 +2646,7 @@ export default {
               type: 'file',
             },
             {
-              path:
-                'D:\\GithubProject\\yapi-code\\webview-vue\\src\\source.d.ts',
+              path: 'D:\\GithubProject\\yapi-code\\webview-vue\\src\\source.d.ts',
               name: 'source.d.ts',
               size: 106,
               extension: '.ts',
@@ -2818,16 +2657,14 @@ export default {
               name: 'store',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\webview-vue\\src\\store\\index.ts',
+                  path: 'D:\\GithubProject\\yapi-code\\webview-vue\\src\\store\\index.ts',
                   name: 'index.ts',
                   size: 168,
                   extension: '.ts',
                   type: 'file',
                 },
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\webview-vue\\src\\store\\state.ts',
+                  path: 'D:\\GithubProject\\yapi-code\\webview-vue\\src\\store\\state.ts',
                   name: 'state.ts',
                   size: 124,
                   extension: '.ts',
@@ -2842,24 +2679,21 @@ export default {
               name: 'style',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\webview-vue\\src\\style\\index.scss',
+                  path: 'D:\\GithubProject\\yapi-code\\webview-vue\\src\\style\\index.scss',
                   name: 'index.scss',
                   size: 23,
                   extension: '.scss',
                   type: 'file',
                 },
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\webview-vue\\src\\style\\main.scss',
+                  path: 'D:\\GithubProject\\yapi-code\\webview-vue\\src\\style\\main.scss',
                   name: 'main.scss',
                   size: 373,
                   extension: '.scss',
                   type: 'file',
                 },
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\webview-vue\\src\\style\\reset.scss',
+                  path: 'D:\\GithubProject\\yapi-code\\webview-vue\\src\\style\\reset.scss',
                   name: 'reset.scss',
                   size: 99,
                   extension: '.scss',
@@ -2874,16 +2708,14 @@ export default {
               name: 'views',
               children: [
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\webview-vue\\src\\views\\About.tsx',
+                  path: 'D:\\GithubProject\\yapi-code\\webview-vue\\src\\views\\About.tsx',
                   name: 'About.tsx',
                   size: 332,
                   extension: '.tsx',
                   type: 'file',
                 },
                 {
-                  path:
-                    'D:\\GithubProject\\yapi-code\\webview-vue\\src\\views\\Home.tsx',
+                  path: 'D:\\GithubProject\\yapi-code\\webview-vue\\src\\views\\Home.tsx',
                   name: 'Home.tsx',
                   size: 293,
                   extension: '.tsx',

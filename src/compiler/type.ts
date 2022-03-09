@@ -25,6 +25,6 @@ export type Model = {
   mockData: string;
   jsonData: any;
   jsonKeys?: string[];
-  rawSelectedText: string; //编辑器中选中的原始文本
-  rawClipboardText: string; //系统剪切板中的原始文本
+  rawSelectedText: string; // 编辑器中选中的原始文本
+  rawClipboardText: string; // 系统剪切板中的原始文本
 };

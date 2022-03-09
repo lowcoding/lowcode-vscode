@@ -25,12 +25,10 @@ const JsonToTs: React.FC<IProps> = ({ visible, json, onCancel, onOk }) => {
 
   useEffect(() => {
     if (visible) {
-      setFormData(s => {
-        return {
-          ...s,
-          json: JSON.stringify(json, null, 2),
-        };
-      });
+      setFormData((s) => ({
+        ...s,
+        json: JSON.stringify(json, null, 2),
+      }));
     }
   }, [visible]);
 
@@ -45,12 +43,10 @@ const JsonToTs: React.FC<IProps> = ({ visible, json, onCancel, onOk }) => {
           },
         },
         (type: string) => {
-          setFormData(s => {
-            return {
-              ...s,
-              type: type,
-            };
-          });
+          setFormData((s) => ({
+            ...s,
+            type,
+          }));
         },
         () => {},
       );
@@ -76,13 +72,11 @@ const JsonToTs: React.FC<IProps> = ({ visible, json, onCancel, onOk }) => {
             domId="jsonCodeMirror"
             lint
             value={formData.json}
-            onChange={value => {
-              setFormData(s => {
-                return {
-                  ...s,
-                  json: value,
-                };
-              });
+            onChange={(value) => {
+              setFormData((s) => ({
+                ...s,
+                json: value,
+              }));
             }}
           />
         </Form.Item>
@@ -90,14 +84,12 @@ const JsonToTs: React.FC<IProps> = ({ visible, json, onCancel, onOk }) => {
           <Input
             value={formData.typeName}
             placeholder="输入类型名称"
-            onChange={e => {
+            onChange={(e) => {
               const { value } = e.target;
-              setFormData(s => {
-                return {
-                  ...s,
-                  typeName: value,
-                };
-              });
+              setFormData((s) => ({
+                ...s,
+                typeName: value,
+              }));
             }}
           />
         </Form.Item>
@@ -106,13 +98,11 @@ const JsonToTs: React.FC<IProps> = ({ visible, json, onCancel, onOk }) => {
           <CodeMirror
             domId="typeCodeMirror"
             value={formData.type}
-            onChange={value => {
-              setFormData(s => {
-                return {
-                  ...s,
-                  type: value,
-                };
-              });
+            onChange={(value) => {
+              setFormData((s) => ({
+                ...s,
+                type: value,
+              }));
             }}
           />
         </Form.Item>

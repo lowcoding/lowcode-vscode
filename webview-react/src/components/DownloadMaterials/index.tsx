@@ -61,21 +61,17 @@ const DownloadMaterials: React.FC<IProps> = ({ visible, onCancel, onOk }) => {
       cancelText="取消"
       okButtonProps={{ disabled: processing, loading: processing }}
     >
-      <Form
-       layout="vertical"
-      >
+      <Form layout="vertical">
         <Form.Item label="类型" required>
           <Select
             placeholder="请选择"
             value={formData.type}
-            onChange={value => {
-              setFormData(s => {
-                return {
-                  ...s,
-                  url: '',
-                  type: value,
-                };
-              });
+            onChange={(value) => {
+              setFormData((s) => ({
+                ...s,
+                url: '',
+                type: value,
+              }));
             }}
           >
             <Select.Option value="git">git仓库</Select.Option>
@@ -93,13 +89,11 @@ const DownloadMaterials: React.FC<IProps> = ({ visible, onCancel, onOk }) => {
                 formData.type === 'git' ? 'git仓库地址' : 'npm包名称'
               }或选择默认模板`}
               value={formData.url ? [formData.url] : undefined}
-              onChange={value => {
-                setFormData(s => {
-                  return {
-                    ...s,
-                    url: value && value.length ? value[value.length - 1] : '',
-                  };
-                });
+              onChange={(value) => {
+                setFormData((s) => ({
+                  ...s,
+                  url: value && value.length ? value[value.length - 1] : '',
+                }));
               }}
             >
               {formData.type === 'git' && (

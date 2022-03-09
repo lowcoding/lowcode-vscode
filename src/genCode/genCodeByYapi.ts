@@ -1,11 +1,11 @@
+import { window } from 'vscode';
+import { compile } from 'json-schema-to-typescript';
 import {
   getDomain,
   getProjectList,
   getCodeTemplateListFromFiles,
   getSnippets,
 } from '../config';
-import { window } from 'vscode';
-import { compile } from 'json-schema-to-typescript';
 import { compile as compileEjs } from '../compiler/ejs';
 import {
   getFuncNameAndTypeName,
@@ -15,6 +15,7 @@ import {
 } from '../lib';
 import { fetchApiDetailInfo } from '../service';
 import { Model } from '../compiler/type';
+
 const strip = require('strip-comments');
 const stripJsonComments = require('strip-json-comments');
 const GenerateSchema = require('generate-schema');
@@ -33,8 +34,8 @@ export const genCodeByYapi = async (
     window.showErrorMessage('请配置项目');
     return;
   }
-  //const templateList = getCodeTemplateList();
-  //const templateList = getCodeTemplateListFromFiles();
+  // const templateList = getCodeTemplateList();
+  // const templateList = getCodeTemplateListFromFiles();
   const templateList = getSnippets();
   if (templateList.length === 0) {
     window.showErrorMessage('请配置模板');
@@ -77,7 +78,6 @@ export const genCodeByYapi = async (
     pasteToMarker(code);
   } catch (e: any) {
     window.showErrorMessage(e.toString());
-    return;
   }
 };
 
@@ -116,8 +116,8 @@ export const genTemplateModelByYapi = async (
     const model: Model = {
       type: ts,
       requestBodyType: requestBodyType.replace(/\[k: string\]: unknown;/g, ''),
-      funcName: funcName,
-      typeName: typeName,
+      funcName,
+      typeName,
       api: res.data.data,
       inputValues: [],
       mockCode,
@@ -127,42 +127,41 @@ export const genTemplateModelByYapi = async (
       rawClipboardText: '',
     };
     return model;
-  } else {
-    //const ts = await jsonToTs(selectInfo.typeName, res.data.data.res_body);
-    const resBodyJson = JSON.parse(stripJsonComments(res.data.data.res_body));
-    const schema = GenerateSchema.json(typeName || 'Schema', resBodyJson);
-    let ts = await compile(schema, typeName, {
-      bannerComment: '',
-    });
-    ts = strip(ts.replace(/(\[k: string\]: unknown;)|\?/g, ''));
-    const { mockCode, mockData } = formatSchema(schema);
-    let requestBodyType = '';
-    if (res.data.data.req_body_other) {
-      const reqBodyScheme = JSON.parse(
-        stripJsonComments(res.data.data.req_body_other),
-      );
-      delete reqBodyScheme.title;
-      requestBodyType = await compile(
-        reqBodyScheme,
-        `I${requestBodyTypeName}Data`,
-        {
-          bannerComment: '',
-        },
-      );
-    }
-    const model: Model = {
-      type: ts,
-      requestBodyType: requestBodyType.replace(/\[k: string\]: unknown;/g, ''),
-      funcName: funcName,
-      typeName: typeName,
-      api: res.data.data,
-      inputValues: [],
-      mockCode,
-      mockData,
-      jsonData: resBodyJson,
-      rawClipboardText: '',
-      rawSelectedText: '',
-    };
-    return model;
   }
+  // const ts = await jsonToTs(selectInfo.typeName, res.data.data.res_body);
+  const resBodyJson = JSON.parse(stripJsonComments(res.data.data.res_body));
+  const schema = GenerateSchema.json(typeName || 'Schema', resBodyJson);
+  let ts = await compile(schema, typeName, {
+    bannerComment: '',
+  });
+  ts = strip(ts.replace(/(\[k: string\]: unknown;)|\?/g, ''));
+  const { mockCode, mockData } = formatSchema(schema);
+  let requestBodyType = '';
+  if (res.data.data.req_body_other) {
+    const reqBodyScheme = JSON.parse(
+      stripJsonComments(res.data.data.req_body_other),
+    );
+    delete reqBodyScheme.title;
+    requestBodyType = await compile(
+      reqBodyScheme,
+      `I${requestBodyTypeName}Data`,
+      {
+        bannerComment: '',
+      },
+    );
+  }
+  const model: Model = {
+    type: ts,
+    requestBodyType: requestBodyType.replace(/\[k: string\]: unknown;/g, ''),
+    funcName,
+    typeName,
+    api: res.data.data,
+    inputValues: [],
+    mockCode,
+    mockData,
+    jsonData: resBodyJson,
+    rawClipboardText: '',
+    rawSelectedText: '',
+  };
+  return model;
 };

@@ -9,12 +9,10 @@ const useController = () => {
   const params = useParams<{ time: string }>();
 
   useEffect(() => {
-    model.setFormData(s => {
-      return {
-        ...s,
-        template: localStorage.getItem('addSnippets') || '',
-      };
-    });
+    model.setFormData((s) => ({
+      ...s,
+      template: localStorage.getItem('addSnippets') || '',
+    }));
   }, [params.time]);
 
   return {

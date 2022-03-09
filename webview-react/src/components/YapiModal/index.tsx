@@ -24,10 +24,10 @@ const YapiModal: React.FC<IProps> = ({ visible, onCancel, onOk }) => {
   } as any);
   useEffect(() => {
     if (visible) {
-      callVscode({ cmd: 'getYapiDomain' }, data => {
+      callVscode({ cmd: 'getYapiDomain' }, (data) => {
         setDomain(data);
       });
-      callVscode({ cmd: 'getYapiProjects' }, data => {
+      callVscode({ cmd: 'getYapiProjects' }, (data) => {
         setProjects(data);
       });
     }
@@ -37,14 +37,14 @@ const YapiModal: React.FC<IProps> = ({ visible, onCancel, onOk }) => {
       {
         cmd: 'genTemplateModelByYapi',
         data: {
-          domain: domain,
+          domain,
           id: formData.id,
           token: formData.token,
           typeName: formData.typeName ? formData.typeName : undefined,
           funName: formData.funName ? formData.funName : undefined,
         },
       },
-      model => {
+      (model) => {
         setFormData({} as any);
         onOk(model);
       },
@@ -69,41 +69,35 @@ const YapiModal: React.FC<IProps> = ({ visible, onCancel, onOk }) => {
         <Form.Item label="项目" required>
           <Select
             placeholder="请选择项目"
-            onChange={value => {
-              const selected = projects.find(s => s.token === value);
-              setFormData(s => {
-                return {
-                  ...s,
-                  token: selected!.token,
-                };
-              });
+            onChange={(value) => {
+              const selected = projects.find((s) => s.token === value);
+              setFormData((s) => ({
+                ...s,
+                token: selected!.token,
+              }));
               if (selected?.domain) {
                 setDomain(selected?.domain);
               }
             }}
             value={formData.token}
           >
-            {projects.map(s => {
-              return (
-                <Select.Option value={s.token} key={s.token}>
-                  {s.name}
-                </Select.Option>
-              );
-            })}
+            {projects.map((s) => (
+              <Select.Option value={s.token} key={s.token}>
+                {s.name}
+              </Select.Option>
+            ))}
           </Select>
         </Form.Item>
         <Form.Item label="接口ID" required>
           <Input
             placeholder="输入 yapi 接口ID"
             value={formData.id}
-            onChange={e => {
+            onChange={(e) => {
               const value = e.target.value;
-              setFormData(s => {
-                return {
-                  ...s,
-                  id: value,
-                };
-              });
+              setFormData((s) => ({
+                ...s,
+                id: value,
+              }));
             }}
           />
         </Form.Item>
@@ -111,24 +105,22 @@ const YapiModal: React.FC<IProps> = ({ visible, onCancel, onOk }) => {
           <Input
             placeholder="输入生成的接口请求函数名称"
             value={formData.funName}
-            onChange={e => {
+            onChange={(e) => {
               const value = e.target.value;
-              setFormData(s => {
-                return {
-                  ...s,
-                  funName: value,
-                };
-              });
+              setFormData((s) => ({
+                ...s,
+                funName: value,
+              }));
             }}
             onBlur={() => {
               if (formData.funName && formData.funName.length > 1) {
-                setFormData(s => {
-                  return {
-                    ...s,
-                    typeName: `I${formData.funName.charAt(0).toUpperCase() +
-                      formData.funName.slice(1)}Result`,
-                  };
-                });
+                setFormData((s) => ({
+                  ...s,
+                  typeName: `I${
+                    formData.funName.charAt(0).toUpperCase() +
+                    formData.funName.slice(1)
+                  }Result`,
+                }));
               }
             }}
           />
@@ -137,14 +129,12 @@ const YapiModal: React.FC<IProps> = ({ visible, onCancel, onOk }) => {
           <Input
             placeholder="输入生成的TS类型名称"
             value={formData.typeName}
-            onChange={e => {
+            onChange={(e) => {
               const value = e.target.value;
-              setFormData(s => {
-                return {
-                  ...s,
-                  typeName: value,
-                };
-              });
+              setFormData((s) => ({
+                ...s,
+                typeName: value,
+              }));
             }}
           />
         </Form.Item>

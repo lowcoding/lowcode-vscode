@@ -5,9 +5,8 @@ import * as glob from 'glob';
 import * as prettier from 'prettier';
 import { Model } from './type';
 
-export const compile = (templateString: string, model: Model) => {
-  return ejs.render(templateString, model);
-};
+export const compile = (templateString: string, model: Model) =>
+  ejs.render(templateString, model);
 
 export async function renderEjsTemplates(
   templateData: object,

@@ -16,12 +16,7 @@ export const registerCompletion = (context: vscode.ExtensionContext) => {
   provider = vscode.languages.registerCompletionItemProvider(
     { pattern: '**', scheme: 'file' },
     {
-      provideCompletionItems(
-        document: vscode.TextDocument,
-        position: vscode.Position,
-        token: vscode.CancellationToken,
-        context: vscode.CompletionContext,
-      ) {
+      provideCompletionItems() {
         const completionItems: vscode.CompletionItem[] = [];
         snippets.map((s) => {
           const completionItem = new vscode.CompletionItem(

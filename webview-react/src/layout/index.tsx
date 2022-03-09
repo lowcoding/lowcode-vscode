@@ -3,8 +3,8 @@ import { Layout, Radio } from 'antd';
 import { history } from 'umi';
 import { AppstoreFilled, BugFilled } from '@ant-design/icons';
 import './index.less';
-import HeaderControl from '@/components/HeaderControl';
 import { useMount } from 'ahooks';
+import HeaderControl from '@/components/HeaderControl';
 
 const { Sider, Content } = Layout;
 

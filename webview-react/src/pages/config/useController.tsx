@@ -1,6 +1,6 @@
-import { getPluginConfig } from '@/webview/service';
 import { useForm } from 'form-render';
 import React, { useEffect } from 'react';
+import { getPluginConfig } from '@/webview/service';
 import useService from './useService';
 
 const useController = () => {
@@ -9,7 +9,7 @@ const useController = () => {
   const form = useForm();
 
   useEffect(() => {
-    getPluginConfig().then(data => {
+    getPluginConfig().then((data) => {
       model.setFormDate({ ...data, saveOption: ['package'] });
       form.setValues({ ...data, saveOption: ['package'] });
     });

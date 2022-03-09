@@ -1,17 +1,52 @@
 import * as path from 'path';
 import * as vscode from 'vscode';
-import { getExtensionPath } from '../context';
-import messageHandler from '../webviewMessageHandler';
+import { getExtensionPath, setLastActiveTextEditorId } from '../context';
+import messageHandler from './messageHandler';
 
-type WebViewKeys = 'Main' | '';
+type WebViewKeys = 'main' | 'createApp';
 
-type Tasks = 'addSnippets' | 'openSnippet' | 'route';
+type Tasks = 'addSnippets' | 'openSnippet' | 'route' | 'updateSelectedFolder';
 
 let webviewPanels: {
   key: WebViewKeys;
   panel: vscode.WebviewPanel;
   disposables: vscode.Disposable[];
 }[] = [];
+
+const setWebviewHtml = (panel: vscode.WebviewPanel) => {
+  const scriptPathOnDisk = vscode.Uri.file(
+    path.join(getExtensionPath(), 'webview-dist', 'main.js'),
+  );
+  const scriptUri =
+    'http://localhost:8000/main.js' ||
+    panel.webview.asWebviewUri(scriptPathOnDisk);
+
+  panel.webview.html = `
+			<!DOCTYPE html>
+			<html>
+			<head>
+				<meta charset="utf-8" />
+				<meta
+				name="viewport"
+				content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no"
+				/>
+				<script>
+				    window.routerBase = "/";
+				</script>
+				<script>
+                   window.g_path = "/";
+				</script>
+				<script>
+				   window.vscode = acquireVsCodeApi();
+                </script>
+			</head>
+			<body>
+				<div id="root"></div>
+				<script src="${scriptUri}"></script>
+			</body>
+		</html>
+`;
+};
 
 export const showWebView = (options: {
   key: WebViewKeys;
@@ -30,6 +65,10 @@ export const showWebView = (options: {
       });
     }
   } else {
+    // 创建 webview 的时候，设置之前 focus 的 activeTextEditor
+    if (vscode.window.activeTextEditor) {
+      setLastActiveTextEditorId((vscode.window.activeTextEditor as any).id);
+    }
     const panel = vscode.window.createWebviewPanel(
       'lowcode',
       options.title || 'LOW-CODE可视化',
@@ -76,8 +115,8 @@ export const showWebView = (options: {
     );
     webviewPanels.push({
       key: options.key,
-      panel: panel,
-      disposables: disposables,
+      panel,
+      disposables,
     });
     if (options.task) {
       panel.webview.postMessage({
@@ -87,37 +126,4 @@ export const showWebView = (options: {
       });
     }
   }
-};
-
-const setWebviewHtml = (panel: vscode.WebviewPanel) => {
-  const scriptPathOnDisk = vscode.Uri.file(
-    path.join(getExtensionPath(), 'webview-dist', 'main.js'),
-  );
-  const scriptUri = panel.webview.asWebviewUri(scriptPathOnDisk);
-
-  panel.webview.html = `
-			<!DOCTYPE html>
-			<html>
-			<head>
-				<meta charset="utf-8" />
-				<meta
-				name="viewport"
-				content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no"
-				/>
-				<script>
-				    window.routerBase = "/";
-				</script>
-				<script>
-                   window.g_path = "/";
-				</script>
-				<script>
-				   window.vscode = acquireVsCodeApi();
-                </script>
-			</head>
-			<body>
-				<div id="root"></div>
-				<script src="${scriptUri}"></script>
-			</body>
-		</html>
-`;
 };

@@ -1,9 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 import * as codemirror from 'codemirror';
+
 require('script-loader!jsonlint');
 require('codemirror/mode/javascript/javascript.js');
 require('codemirror/addon/lint/lint.js');
-//require('codemirror/addon/lint/javascript-lint.js');
+// require('codemirror/addon/lint/javascript-lint.js');
 require('codemirror/addon/lint/json-lint.js');
 require('codemirror/lib/codemirror.css');
 require('codemirror/theme/monokai.css');
@@ -32,10 +33,10 @@ const CodeMirror: React.FC<IProps> = ({
       document.getElementById(domId) as any,
       {
         value: defaultValue || value,
-        //lineNumbers: true,
-        mode: mode,
+        // lineNumbers: true,
+        mode,
         // gutters: ['CodeMirror-lint-markers'],
-        lint: lint,
+        lint,
         theme: 'monokai',
       },
     );

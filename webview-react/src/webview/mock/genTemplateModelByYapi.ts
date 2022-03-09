@@ -1,6 +1,5 @@
 export default {
-  type:
-    '\nexport interface IYapiRequestResult {\n    message: string;\n    code: number;\n  result: {\n        records: {\n            id: number;\n            code: string;\n            name: string;\n            icon: string;\n            actived: number;\n      \n    }[];\n        total: number;\n        size: number;\n        current: number;\n        pages: number;\n    \n  };\n  \n}\n',
+  type: '\nexport interface IYapiRequestResult {\n    message: string;\n    code: number;\n  result: {\n        records: {\n            id: number;\n            code: string;\n            name: string;\n            icon: string;\n            actived: number;\n      \n    }[];\n        total: number;\n        size: number;\n        current: number;\n        pages: number;\n    \n  };\n  \n}\n',
   requestBodyType: '',
   funcName: 'fetch',
   typeName: 'IYapiRequestResult',

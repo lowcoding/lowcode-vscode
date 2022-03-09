@@ -4,8 +4,6 @@ import * as path from 'path';
 import * as fs from 'fs-extra';
 import * as dirTree from 'directory-tree';
 import { compile } from 'json-schema-to-typescript';
-const GenerateSchema = require('generate-schema');
-const strip = require('strip-comments');
 import {
   getAllConfig,
   getDomain,
@@ -13,9 +11,9 @@ import {
   getProjectList,
   getSnippets,
   saveAllConfig,
-} from './config';
-import { genTemplateModelByYapi } from './genCode/genCodeByYapi';
-import { renderEjsTemplates, compile as compileEjs } from './compiler/ejs';
+} from '../config';
+import { genTemplateModelByYapi } from '../genCode/genCodeByYapi';
+import { renderEjsTemplates, compile as compileEjs } from '../compiler/ejs';
 import {
   compileScaffold,
   downloadMaterialsFromGit,
@@ -23,10 +21,13 @@ import {
   downloadScaffoldFromGit,
   pasteToMarker,
   selectDirectory,
-} from './lib';
-import { registerCompletion } from './commands/registerCompletion';
-import { fetchScaffolds } from './service';
-import { getExtensionContext } from './context';
+} from '../lib';
+import { registerCompletion } from '../commands/registerCompletion';
+import { fetchScaffolds } from '../service';
+import { getExtensionContext } from '../context';
+
+const GenerateSchema = require('generate-schema');
+const strip = require('strip-comments');
 
 interface IMessage<T = any> {
   cmd: string;
@@ -37,7 +38,7 @@ interface IMessage<T = any> {
 function invokeCallback<T = any>(panel: WebviewPanel, cbid: string, res: T) {
   panel.webview.postMessage({
     cmd: 'vscodeCallback',
-    cbid: cbid,
+    cbid,
     data: res,
     code: 200,
   });
@@ -50,7 +51,7 @@ function invokeErrorCallback(
 ) {
   panel.webview.postMessage({
     cmd: 'vscodeCallback',
-    cbid: cbid,
+    cbid,
     data: res,
     code: 400,
   });
@@ -142,11 +143,11 @@ const messageHandler: {
         Object.keys(message.data.model).map((key) => {
           if (
             schama.conditionFiles[key] &&
-            schama.conditionFiles[key]['value'] ===
+            schama.conditionFiles[key].value ===
               (message.data.model as any)[key] &&
-            Array.isArray(schama.conditionFiles[key]['exclude'])
+            Array.isArray(schama.conditionFiles[key].exclude)
           ) {
-            schama.conditionFiles[key]['exclude'].map((exclude: string) => {
+            schama.conditionFiles[key].exclude.map((exclude: string) => {
               fs.removeSync(path.join(tempWordDir, 'src', exclude));
               fs.removeSync(path.join(tempWordDir, exclude));
             });
@@ -170,7 +171,7 @@ const messageHandler: {
       }
       const context = {
         model: message.data.model,
-        vscode: vscode,
+        vscode,
         workspaceRootPath: workspace.rootPath,
       };
       const extendModel = await hook.beforeCompile(context);

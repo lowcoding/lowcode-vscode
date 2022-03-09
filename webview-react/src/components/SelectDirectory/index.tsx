@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Form, TreeSelect, Select, message } from 'antd';
 import { callVscode } from '@/webview';
+
 interface Iprops {
   visible: boolean;
   onCancel: () => void;
@@ -23,15 +24,13 @@ type OriDirectoryTreeNode = {
 };
 
 const formatTreeData = (node: OriDirectoryTreeNode) => {
-  let formatedNode: DirectoryTreeNode = {
+  const formatedNode: DirectoryTreeNode = {
     title: node.name,
     value: node.path,
   };
   formatedNode.children = node.children
-    ?.filter(s => s.type === 'directory')
-    .map(s => {
-      return formatTreeData(s);
-    });
+    ?.filter((s) => s.type === 'directory')
+    .map((s) => formatTreeData(s));
   return formatedNode;
 };
 
@@ -45,11 +44,14 @@ const SelectDirectory: React.FC<Iprops> = ({ visible, onOk, onCancel }) => {
     if (visible) {
       callVscode({ cmd: 'getDirectoryTree' }, (data: OriDirectoryTreeNode) => {
         const formatedTree = data.children
-          ?.filter(s => s.type === 'directory')
-          .map(s => {
-            return formatTreeData(s);
-          });
+          ?.filter((s) => s.type === 'directory')
+          .map((s) => formatTreeData(s));
         setTree(formatedTree || []);
+        const selectedFolder = localStorage.getItem('selectedFolder');
+        setFormData((s) => ({
+          ...s,
+          path: selectedFolder as string,
+        }));
       });
     }
     setFormData({} as any);
@@ -81,13 +83,11 @@ const SelectDirectory: React.FC<Iprops> = ({ visible, onOk, onCancel }) => {
             showSearch
             treeNodeLabelProp="value"
             value={formData.path}
-            onSelect={value => {
-              setFormData(s => {
-                return {
-                  ...s,
-                  path: value as string,
-                };
-              });
+            onSelect={(value) => {
+              setFormData((s) => ({
+                ...s,
+                path: value as string,
+              }));
             }}
           />
         </Form.Item>
@@ -97,13 +97,11 @@ const SelectDirectory: React.FC<Iprops> = ({ visible, onOk, onCancel }) => {
             style={{ width: '100%' }}
             value={formData.createPath}
             placeholder="与上面选择的目录合成最终生成代码的目录，输入多个则生成层级目录"
-            onChange={value => {
-              setFormData(s => {
-                return {
-                  ...s,
-                  createPath: value,
-                };
-              });
+            onChange={(value) => {
+              setFormData((s) => ({
+                ...s,
+                createPath: value,
+              }));
             }}
             notFoundContent={null}
           />

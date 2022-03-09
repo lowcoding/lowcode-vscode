@@ -17,7 +17,7 @@ export function useImmerReducer<S = any, A = any>(
   return useReducer<Reducer<S, A>>(
     (state, action) => {
       // @ts-ignore
-      const newState = produce(state, draft => reducer(draft, action)) as S;
+      const newState = produce(state, (draft) => reducer(draft, action)) as S;
       return newState;
     },
     initialState,
@@ -30,9 +30,7 @@ export type ImmerStateProducer<S> = (state: S) => S | void;
 
 const isProducer = <S>(
   value: S | ImmerStateProducer<S>,
-): value is ImmerStateProducer<S> => {
-  return typeof value === 'function';
-};
+): value is ImmerStateProducer<S> => typeof value === 'function';
 
 export type SetImmerState<S> = (next: S | ImmerStateProducer<S>) => void;
 
@@ -45,7 +43,7 @@ export function useImmerState<S = any>(
   const produceState = useCallback((next: S | ImmerStateProducer<S>) => {
     if (isProducer(next)) {
       // @ts-ignore
-      return setState(state => produce(state, next));
+      return setState((state) => produce(state, next));
     }
     return setState(next);
   }, []);

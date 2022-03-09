@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
-import { WebView } from './createOrShowWebview';
+import { showWebView } from '../webview';
+
 export const CommonCommands = (context: vscode.ExtensionContext) => {
   context.subscriptions.push(
     vscode.commands.registerCommand('lowcode.openFolderForceNewWindow', () => {
@@ -8,17 +9,17 @@ export const CommonCommands = (context: vscode.ExtensionContext) => {
       });
     }),
     vscode.commands.registerCommand('lowcode.openScaffold', () => {
-      WebView.createOrShow(context.extensionPath);
-      WebView.pushTask({
-        task: 'route',
-        data: { path: '/scaffold' },
+      showWebView({
+        key: 'createApp',
+        title: '创建应用',
+        viewColumn: vscode.ViewColumn.One,
+        task: { task: 'route', data: { path: '/scaffold' } },
       });
     }),
     vscode.commands.registerCommand('lowcode.openConfig', () => {
-      WebView.createOrShow(context.extensionPath);
-      WebView.pushTask({
-        task: 'route',
-        data: { path: '/config' },
+      showWebView({
+        key: 'main',
+        task: { task: 'route', data: { path: '/config' } },
       });
     }),
   );

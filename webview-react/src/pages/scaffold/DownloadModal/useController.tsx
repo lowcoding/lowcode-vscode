@@ -23,8 +23,8 @@ const useController = (props: { visible: boolean; onClose: () => void }) => {
       type: model.formData.type,
       repository: model.formData.url,
     })
-      .then(res => {
-        model.setFormModal(s => {
+      .then((res) => {
+        model.setFormModal((s) => {
           s.config = res;
           s.visible = true;
         });

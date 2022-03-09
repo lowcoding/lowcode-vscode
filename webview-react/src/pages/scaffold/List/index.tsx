@@ -31,29 +31,27 @@ const View = () => {
         <Row className="content">
           <Col>
             <div className="category">
-              {model.categories.map(item => {
-                return (
-                  <div
-                    className={`category-item ${
-                      model.currentCategory === item.uuid ? 'checked-item' : ''
-                    }`}
-                    key={item.uuid}
-                    onClick={() => {
-                      controller.changeCategory(item.uuid);
-                    }}
-                  >
-                    <div className="icon">
-                      <img src={item.icon} />
-                    </div>
-                    <div className="title">{item.name}</div>
-                    {model.currentCategory === item.uuid && (
-                      <div className="badge">
-                        <span className="tick">✓</span>
-                      </div>
-                    )}
+              {model.categories.map((item) => (
+                <div
+                  className={`category-item ${
+                    model.currentCategory === item.uuid ? 'checked-item' : ''
+                  }`}
+                  key={item.uuid}
+                  onClick={() => {
+                    controller.changeCategory(item.uuid);
+                  }}
+                >
+                  <div className="icon">
+                    <img src={item.icon} />
                   </div>
-                );
-              })}
+                  <div className="title">{item.name}</div>
+                  {model.currentCategory === item.uuid && (
+                    <div className="badge">
+                      <span className="tick">✓</span>
+                    </div>
+                  )}
+                </div>
+              ))}
             </div>
             <Button
               style={{ width: '80%' }}
@@ -66,23 +64,21 @@ const View = () => {
           </Col>
           <Col>
             <div className="scaffold">
-              {model.scaffolds.map(s => {
-                return (
-                  <div
-                    key={s.uuid}
-                    className="scaffold-item"
-                    onClick={() => {
-                      controller.downloadScaffold(s);
-                    }}
-                  >
-                    <div className="screenshot">
-                      <img src={s.screenshot} />
-                    </div>
-                    <div className="title">{s.title}</div>
-                    <div className="description">{s.description}</div>
+              {model.scaffolds.map((s) => (
+                <div
+                  key={s.uuid}
+                  className="scaffold-item"
+                  onClick={() => {
+                    controller.downloadScaffold(s);
+                  }}
+                >
+                  <div className="screenshot">
+                    <img src={s.screenshot} />
                   </div>
-                );
-              })}
+                  <div className="title">{s.title}</div>
+                  <div className="description">{s.description}</div>
+                </div>
+              ))}
             </div>
           </Col>
         </Row>
@@ -91,7 +87,7 @@ const View = () => {
         visible={model.formModal.visible}
         config={model.formModal.config}
         onClose={() => {
-          model.setFormModal(s => {
+          model.setFormModal((s) => {
             s.visible = false;
           });
         }}

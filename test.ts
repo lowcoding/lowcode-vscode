@@ -10,11 +10,11 @@ import * as TJS from 'typescript-json-schema';
 import { resolve } from 'path';
 
 const tempDir = path.join(os.homedir(), '.lowcode/temp');
-  const filePath = path.join(tempDir, 'ts.ts');
-  if (!fs.existsSync(filePath)) {
-    fs.createFileSync(filePath);
-  }
-  const type=`{
+const filePath = path.join(tempDir, 'ts.ts');
+if (!fs.existsSync(filePath)) {
+  fs.createFileSync(filePath);
+}
+const type = `{
 	code: number;
 	message: string;
 	result: {
@@ -49,31 +49,28 @@ const tempDir = path.join(os.homedir(), '.lowcode/temp');
 	  }[];
 	};
   }`;
-  fs.writeFileSync(filePath, `export interface TempType ${type}`, {
-    encoding: 'utf-8',
-  });
+fs.writeFileSync(filePath, `export interface TempType ${type}`, {
+  encoding: 'utf-8',
+});
 
-  //   const config: Config = {
-  //     path: filePath,
-  //     topRef: true,
-  //     expose: 'all',
-  //     jsDoc: 'extended',
-  //     type: '*',
-  //   };
+//   const config: Config = {
+//     path: filePath,
+//     topRef: true,
+//     expose: 'all',
+//     jsDoc: 'extended',
+//     type: '*',
+//   };
 
-  //   const schema = tsj.createGenerator(config).createSchema(config.type) as any;
-  // optionally pass argument to schema generator
-  const settings: TJS.PartialArgs = {
-    required: true,
-  };
+//   const schema = tsj.createGenerator(config).createSchema(config.type) as any;
+// optionally pass argument to schema generator
+const settings: TJS.PartialArgs = {
+  required: true,
+};
 
-  // optionally pass ts compiler options
-  const compilerOptions: TJS.CompilerOptions = {
-    strictNullChecks: true,
-  };
-  const program = TJS.getProgramFromFiles(
-    [resolve(filePath)],
-    compilerOptions,
-  );
-  const schema = TJS.generateSchema(program, 'TempType', settings) as any;
-  console.log(JSON.stringify(schema,null,4));
+// optionally pass ts compiler options
+const compilerOptions: TJS.CompilerOptions = {
+  strictNullChecks: true,
+};
+const program = TJS.getProgramFromFiles([resolve(filePath)], compilerOptions);
+const schema = TJS.generateSchema(program, 'TempType', settings) as any;
+console.log(JSON.stringify(schema, null, 4));

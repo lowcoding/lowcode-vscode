@@ -10,14 +10,13 @@ const useService = () => {
         model.setMaterials(model.oriMaterials);
       } else {
         model.setMaterials(
-          model.oriMaterials.filter(s => {
-            return (
+          model.oriMaterials.filter(
+            (s) =>
               s.name.indexOf(value) > -1 ||
               (s.preview.title && s.preview.title.indexOf(value) > -1) ||
               (s.preview.description &&
-                s.preview.description.indexOf(value) > -1)
-            );
-          }),
+                s.preview.description.indexOf(value) > -1),
+          ),
         );
       }
     },
