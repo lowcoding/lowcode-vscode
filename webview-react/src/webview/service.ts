@@ -59,6 +59,7 @@ export function jsonToTs(data: { json: Object; typeName: string }) {
  * @returns
  */
 export function genCodeBySnippetMaterial(data: {
+  name: string;
   model: object;
   template: string;
 }) {

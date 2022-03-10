@@ -156,8 +156,10 @@ const messageHandler: {
       }
       const scriptFile = path.join(tempWordDir, 'script/index.js');
       const hook = {
-        beforeCompile: (context: any) => Promise.resolve(undefined),
-        afterCompile: (context: any) => Promise.resolve(undefined),
+        beforeCompile: (context: any) =>
+          <object | undefined>Promise.resolve(undefined),
+        afterCompile: (context: any) =>
+          <object | undefined>Promise.resolve(undefined),
       };
       if (fs.existsSync(scriptFile)) {
         delete require.cache[require.resolve(scriptFile)];
@@ -178,7 +180,7 @@ const messageHandler: {
       if (extendModel) {
         message.data.model = {
           ...message.data.model,
-          ...{ extendModel },
+          ...extendModel,
         };
       }
       await renderEjsTemplates(message.data.model, tempWordDir, excludeCompile);
@@ -199,12 +201,48 @@ const messageHandler: {
   },
   async genCodeBySnippetMaterial(
     panel: WebviewPanel,
-    message: IMessage<{ model: any; template: string }>,
+    message: IMessage<{ model: any; template: string; name: string }>,
   ) {
     try {
+      const snippetPath = path.join(
+        workspace.rootPath!,
+        'materials/snippets',
+        message.data.name,
+      );
+      const scriptFile = path.join(snippetPath, 'script/index.js');
+      const hook = {
+        beforeCompile: (context: any) =>
+          <object | undefined>Promise.resolve(undefined),
+        afterCompile: (context: any) => <any>Promise.resolve(undefined),
+      };
+      if (fs.existsSync(scriptFile)) {
+        delete require.cache[require.resolve(scriptFile)];
+        const script = require(scriptFile);
+        if (script.beforeCompile) {
+          hook.beforeCompile = script.beforeCompile;
+        }
+        if (script.afterCompile) {
+          hook.afterCompile = script.afterCompile;
+        }
+      }
+      const context = {
+        model: message.data.model,
+        vscode,
+        workspaceRootPath: workspace.rootPath,
+        code: '',
+      };
+      const extendModel = await hook.beforeCompile(context);
+      if (extendModel) {
+        message.data.model = {
+          ...message.data.model,
+          ...extendModel,
+        };
+      }
       const code = compileEjs(message.data.template, message.data.model);
-      pasteToMarker(code);
-      invokeCallback(panel, message.cbid, code);
+      context.code = code;
+      const newCode = await hook.afterCompile(context);
+      pasteToMarker(newCode || code);
+      invokeCallback(panel, message.cbid, newCode || code);
     } catch (ex: any) {
       invokeErrorCallback(panel, message.cbid, {
         title: '生成失败',

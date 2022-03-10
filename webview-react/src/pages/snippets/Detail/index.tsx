@@ -109,6 +109,7 @@ export default () => {
                 genCodeBySnippetMaterial({
                   model: model.selectedMaterial.model,
                   template: model.selectedMaterial.template,
+                  name: model.selectedMaterial.name,
                 }).then(() => {
                   message.success('生成成功');
                 });
