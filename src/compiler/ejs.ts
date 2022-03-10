@@ -55,7 +55,12 @@ export async function renderEjsTemplates(
 
 async function renderFile(templateFilepath: string, data: ejs.Data) {
   let content = await ejs.renderFile(templateFilepath, data);
-  const targetFilePath = templateFilepath.replace(/\.ejs$/, '');
+  const targetFilePath = templateFilepath
+    .replace(/\.ejs$/, '')
+    .replace(
+      /\$\{.+?\}/gi,
+      (match) => data[match.replace(/\$|\{|\}/g, '')] || '',
+    );
   try {
     content = prettier.format(content, {
       singleQuote: true,
