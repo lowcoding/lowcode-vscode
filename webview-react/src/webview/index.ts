@@ -77,8 +77,8 @@ window.addEventListener('message', (event) => {
         (callbacks[message.cbid] || function () {})(message.data);
       } else {
         notification.error({
-          message: message.data.title,
-          description: message.data.message,
+          message: message.data.title || message.data,
+          description: message.data.message || message.data,
           placement: 'bottomRight',
         });
         (errorCallbacks[message.cbid] || function () {})(message.data);

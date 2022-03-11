@@ -1,4 +1,4 @@
-import { commands, Uri, WebviewPanel, window, workspace } from 'vscode';
+import { commands, Uri, WebviewPanel, workspace } from 'vscode';
 import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs-extra';
@@ -7,9 +7,7 @@ import { compile } from 'json-schema-to-typescript';
 import {
   getAllConfig,
   getDomain,
-  getLocalMaterials,
   getProjectList,
-  getSnippets,
   saveAllConfig,
 } from '../config';
 import { genTemplateModelByYapi } from '../genCode/genCodeByYapi';
@@ -35,7 +33,11 @@ interface IMessage<T = any> {
   data: T;
 }
 
-function invokeCallback<T = any>(panel: WebviewPanel, cbid: string, res: T) {
+export function invokeCallback<T = any>(
+  panel: WebviewPanel,
+  cbid: string,
+  res: T,
+) {
   panel.webview.postMessage({
     cmd: 'vscodeCallback',
     cbid,
@@ -44,7 +46,7 @@ function invokeCallback<T = any>(panel: WebviewPanel, cbid: string, res: T) {
   });
 }
 
-function invokeErrorCallback(
+export function invokeErrorCallback(
   panel: WebviewPanel,
   cbid: string,
   res: { title: string; message: string },
@@ -60,27 +62,11 @@ function invokeErrorCallback(
 const messageHandler: {
   [propName: string]: (panel: WebviewPanel, message: IMessage) => void;
 } = {
-  alert(panel: WebviewPanel, message: IMessage) {
-    window.showErrorMessage(message.data);
-    invokeCallback(panel, message.cbid, '来自vscode的回复');
-  },
   getDirectoryTree(panel: WebviewPanel, message: IMessage) {
     const filteredTree = dirTree(workspace.rootPath!, {
       exclude: /node_modules|\.umi|\.git/,
     });
     invokeCallback(panel, message.cbid, filteredTree);
-  },
-  getLocalMaterials(
-    panel: WebviewPanel,
-    message: IMessage<'blocks' | 'snippets'>,
-  ) {
-    if (message.data === 'blocks') {
-      const materials = getLocalMaterials(message.data);
-      invokeCallback(panel, message.cbid, materials);
-    } else {
-      const materials = getSnippets();
-      invokeCallback(panel, message.cbid, materials);
-    }
   },
   getYapiDomain(panel: WebviewPanel, message: IMessage) {
     const domian = getDomain();

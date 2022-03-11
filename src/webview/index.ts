@@ -1,7 +1,11 @@
 import * as path from 'path';
 import * as vscode from 'vscode';
 import { getExtensionPath, setLastActiveTextEditorId } from '../context';
-import messageHandler from './messageHandler';
+import messageHandler, {
+  invokeCallback,
+  invokeErrorCallback,
+} from './messageHandler';
+import { routes } from './routes';
 
 type WebViewKeys = 'main' | 'createApp';
 
@@ -87,8 +91,16 @@ export const showWebView = (options: {
     setWebviewHtml(panel);
     const disposables: vscode.Disposable[] = [];
     panel.webview.onDidReceiveMessage(
-      (message: { cmd: string; cbid: string; data: any }) => {
-        if (messageHandler[message.cmd]) {
+      async (message: { cmd: string; cbid: string; data: any }) => {
+        if (routes[message.cmd]) {
+          try {
+            const res = await routes[message.cmd](message);
+            invokeCallback(panel, message.cbid, res);
+          } catch (ex: any) {
+            invokeErrorCallback(panel, message.cbid, ex);
+          }
+        } else if (messageHandler[message.cmd]) {
+          // 迁移完之后去掉
           messageHandler[message.cmd](panel, message);
         } else {
           vscode.window.showWarningMessage(
