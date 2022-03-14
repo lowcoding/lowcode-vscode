@@ -48,4 +48,7 @@ export default defineConfig({
   antd: {
     dark: false,
   },
+  cssLoader: {
+    localsConvention: 'camelCase',
+  },
 });
