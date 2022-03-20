@@ -7,7 +7,7 @@ module.exports = {
   extends: ['airbnb-base', 'prettier'],
   plugins: ['@typescript-eslint', 'prettier'],
   rules: {
-    'prettier/prettier': 'error',
+    'prettier/prettier': ['off', { printWidth: 80 }],
     '@typescript-eslint/semi': 'warn',
     curly: 'warn',
     eqeqeq: 'warn',
@@ -35,5 +35,6 @@ module.exports = {
     'no-fallthrough': 'off',
     'import/no-webpack-loader-syntax': 'off',
     'no-unused-expressions': 'off',
+    'max-len': 'off',
   },
 };

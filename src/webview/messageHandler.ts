@@ -14,8 +14,6 @@ import { genTemplateModelByYapi } from '../genCode/genCodeByYapi';
 import { renderEjsTemplates, compile as compileEjs } from '../compiler/ejs';
 import {
   compileScaffold,
-  downloadMaterialsFromGit,
-  downloadMaterialsFromNpm,
   downloadScaffoldFromGit,
   pasteToMarker,
   selectDirectory,
@@ -242,24 +240,6 @@ const messageHandler: {
     } catch (ex: any) {
       invokeErrorCallback(panel, message.cbid, {
         title: '添加失败',
-        message: ex.toString(),
-      });
-    }
-  },
-  async downloadMaterials(
-    panel: WebviewPanel,
-    message: IMessage<{ type: 'git' | 'npm'; url: string }>,
-  ) {
-    try {
-      if (message.data.type === 'npm') {
-        await downloadMaterialsFromNpm(message.data.url);
-      } else {
-        downloadMaterialsFromGit(message.data.url);
-      }
-      invokeCallback(panel, message.cbid, '下载成功');
-    } catch (ex: any) {
-      invokeErrorCallback(panel, message.cbid, {
-        title: '下载失败',
         message: ex.toString(),
       });
     }

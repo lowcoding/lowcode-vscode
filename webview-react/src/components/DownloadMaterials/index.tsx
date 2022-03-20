@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Form, Select, message } from 'antd';
-import { useModel, history } from 'umi';
-import { callVscode } from '@/webview';
+import { downloadMaterials, IDownloadMaterialsResult } from '@/webview/service';
 
 interface IProps {
   visible: boolean;
   onCancel: () => void;
-  onOk: () => void;
+  onOk: (data: IDownloadMaterialsResult) => void;
 }
 const DownloadMaterials: React.FC<IProps> = ({ visible, onCancel, onOk }) => {
-  const { tab, setRefresh } = useModel('tab');
   const [formData, setFormData] = useState<{
     type: 'git' | 'npm';
     url: string;
@@ -39,23 +37,15 @@ const DownloadMaterials: React.FC<IProps> = ({ visible, onCancel, onOk }) => {
           return;
         }
         setProcessing(true);
-        callVscode(
-          {
-            cmd: 'downloadMaterials',
-            data: { type: formData.type, url: formData.url },
-          },
-          () => {
+        downloadMaterials({ type: formData.type, url: formData.url })
+          .then((res) => {
             message.success('下载成功');
             setProcessing(false);
-            onOk();
-            if (tab === '/snippets' || tab === '/blocks') {
-              setRefresh(true);
-            }
-          },
-          () => {
+            onOk(res);
+          })
+          .finally(() => {
             setProcessing(false);
-          },
-        );
+          });
       }}
       okText="确定"
       cancelText="取消"

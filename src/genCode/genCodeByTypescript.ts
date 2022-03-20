@@ -1,5 +1,4 @@
 import { window } from 'vscode';
-import { getSnippets } from '../config';
 import {
   getFuncNameAndTypeName,
   pasteToMarker,
@@ -7,13 +6,12 @@ import {
 } from '../lib';
 import { compile as compileEjs } from '../compiler/ejs';
 import { Model } from '../compiler/type';
+import { getSnippets } from '../utils/materials';
 
 export const genCodeByTypescript = async (
   typeString: string,
   rawClipboardText: string,
 ) => {
-  // const templateList = getCodeTemplateList();
-  // const templateList = getCodeTemplateListFromFiles();
   const templateList = getSnippets();
   if (templateList.length === 0) {
     window.showErrorMessage('请配置模板');

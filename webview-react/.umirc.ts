@@ -10,6 +10,10 @@ export default defineConfig({
       component: '@/pages/scaffold/List',
     },
     {
+      path: '/downloadMaterials',
+      component: '@/pages/downloadMaterials',
+    },
+    {
       path: '/',
       component: '@/layout/index',
       routes: [

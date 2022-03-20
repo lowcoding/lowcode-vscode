@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import { commands } from '../utils/env';
 import { showWebView } from '../webview';
 
 export const CommonCommands = (context: vscode.ExtensionContext) => {
@@ -20,6 +21,14 @@ export const CommonCommands = (context: vscode.ExtensionContext) => {
       showWebView({
         key: 'main',
         task: { task: 'route', data: { path: '/config' } },
+      });
+    }),
+    vscode.commands.registerCommand(commands.openDownloadMaterials, () => {
+      showWebView({
+        key: 'downloadMaterials',
+        title: '下载物料',
+        viewColumn: vscode.ViewColumn.One,
+        task: { task: 'route', data: { path: '/downloadMaterials' } },
       });
     }),
   );

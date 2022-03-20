@@ -49,6 +49,10 @@
         "title": "生成代码"
       },
       {
+        "command": "lowcode.openDownloadMaterials",
+        "title": "下载物料"
+      },
+      {
         "command": "yapi-code.addSnippet",
         "title": "$(octoface) 添加代码片段",
         "icon": "$(octoface)"
@@ -78,14 +82,22 @@
           "group": "lowcode@2"
         },
         {
-          "command": "yapi-code.addSnippet",
+          "command": "lowcode.openDownloadMaterials",
           "group": "lowcode@3"
+        },
+        {
+          "command": "yapi-code.addSnippet",
+          "group": "lowcode@4"
         }
       ],
       "lowcode/explorer/context": [
         {
           "command": "yapi-code.generateCodeByWebview",
           "group": "lowcode@1"
+        },
+        {
+          "command": "lowcode.openDownloadMaterials",
+          "group": "lowcode@2"
         }
       ]
     },

@@ -162,6 +162,25 @@ export function genCodeByBlockMaterial(data: {
   });
 }
 
+export interface IDownloadMaterialsResult {
+  blocks: {
+    path: string;
+    name: string;
+    model: {};
+    schema: {};
+    preview: { title?: string; description?: string; img?: string };
+    template: string;
+  }[];
+  snippets: {
+    path: string;
+    name: string;
+    model: {};
+    schema: {};
+    preview: { title?: string; description?: string; img?: string };
+    template: string;
+  }[];
+}
+
 /**
  * 下载物料
  *
@@ -170,11 +189,22 @@ export function genCodeByBlockMaterial(data: {
  * @returns
  */
 export function downloadMaterials(data: { type: string; url: string }) {
-  return request<string>({
-    cmd: 'genCodeByBlockMaterial',
+  return request<IDownloadMaterialsResult>({
+    cmd: 'downloadMaterials',
     data,
   });
 }
+
+export function saveDownloadMaterials(data: {
+  blocks: string[];
+  snippets: string[];
+}) {
+  return request<string>({
+    cmd: 'saveDownloadMaterials',
+    data,
+  });
+}
+
 /**
  * 刷新代码智能提示
  *
@@ -357,6 +387,13 @@ export function createProject(data: {
 }) {
   return request<string>({
     cmd: 'createProject',
+    data,
+  });
+}
+
+export function executeVscodeCommand(data: { command: string }) {
+  return request<string>({
+    cmd: 'executeVscodeCommand',
     data,
   });
 }

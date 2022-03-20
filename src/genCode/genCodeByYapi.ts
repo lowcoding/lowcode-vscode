@@ -1,11 +1,6 @@
 import { window } from 'vscode';
 import { compile } from 'json-schema-to-typescript';
-import {
-  getDomain,
-  getProjectList,
-  getCodeTemplateListFromFiles,
-  getSnippets,
-} from '../config';
+import { getDomain, getProjectList } from '../config';
 import { compile as compileEjs } from '../compiler/ejs';
 import {
   getFuncNameAndTypeName,
@@ -15,6 +10,7 @@ import {
 } from '../lib';
 import { fetchApiDetailInfo } from '../service';
 import { Model } from '../compiler/type';
+import { getSnippets } from '../utils/materials';
 
 const strip = require('strip-comments');
 const stripJsonComments = require('strip-json-comments');
@@ -34,8 +30,6 @@ export const genCodeByYapi = async (
     window.showErrorMessage('请配置项目');
     return;
   }
-  // const templateList = getCodeTemplateList();
-  // const templateList = getCodeTemplateListFromFiles();
   const templateList = getSnippets();
   if (templateList.length === 0) {
     window.showErrorMessage('请配置模板');

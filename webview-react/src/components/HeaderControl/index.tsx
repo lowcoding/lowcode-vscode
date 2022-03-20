@@ -1,19 +1,16 @@
 import React, { useState } from 'react';
 import { history, useModel } from 'umi';
 import { Radio, Menu, Dropdown, message } from 'antd';
-import DownloadMaterials from '../DownloadMaterials';
-import { refreshIntelliSense } from '@/webview/service';
+import { executeVscodeCommand, refreshIntelliSense } from '@/webview/service';
 
 export default () => {
-  const { tab, setTab } = useModel('tab');
-  const [downloadMaterialsVisible, setDownloadMaterialsVisible] =
-    useState(false);
+  const { tab, setTab, setRefresh } = useModel('tab');
   const menu = (
     <Menu>
       <Menu.Item
         key="0"
         onClick={() => {
-          setDownloadMaterialsVisible(true);
+          executeVscodeCommand({ command: 'lowcode.openDownloadMaterials' });
         }}
       >
         下载物料
@@ -59,15 +56,6 @@ export default () => {
           <Radio.Button value="more">更多</Radio.Button>
         </Dropdown>
       </Radio.Group>
-      <DownloadMaterials
-        visible={downloadMaterialsVisible}
-        onOk={() => {
-          setDownloadMaterialsVisible(false);
-        }}
-        onCancel={() => {
-          setDownloadMaterialsVisible(false);
-        }}
-      />
     </div>
   );
 };

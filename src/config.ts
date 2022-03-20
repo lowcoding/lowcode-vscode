@@ -1,18 +1,5 @@
 import * as vscode from 'vscode';
-import * as path from 'path';
-import * as fs from 'fs';
-
-export const getFileContent = (filePath: string, fullPath = false) => {
-  let fileContent = '';
-  const fileFullPath = fullPath
-    ? filePath
-    : path.join(vscode.workspace.rootPath!, filePath);
-  try {
-    const fileBuffer = fs.readFileSync(fileFullPath);
-    fileContent = fileBuffer.toString();
-  } catch (error) {}
-  return fileContent;
-};
+import { getFileContent } from './utils/file';
 
 /**
  * 获取域名
@@ -77,31 +64,6 @@ export const getTemplateFilePath = () => {
       .getConfiguration()
       .get<string>('yapi-code.templatePath', 'codeTemplate')
   );
-};
-
-export const getCodeTemplateListFromFiles = () => {
-  const list: { name: string; template: string; type: 'ejs' }[] = [];
-  if (vscode.workspace.rootPath) {
-    const templateFullPath = path.join(
-      vscode.workspace.rootPath,
-      getTemplateFilePath(),
-    );
-    try {
-      const templateFiles = fs
-        .readdirSync(templateFullPath)
-        .filter((s) => s.indexOf('.ejs') > -1);
-      templateFiles.map((s) => {
-        const fileBuffer = fs.readFileSync(path.join(templateFullPath, s));
-        const fileContent = fileBuffer.toString();
-        list.push({
-          name: s,
-          template: fileContent,
-          type: 'ejs',
-        });
-      });
-    } catch (error) {}
-  }
-  return list;
 };
 
 export const getMockConfig = () => {
@@ -209,98 +171,3 @@ export const saveAllConfig = (config: {
     .getConfiguration()
     .update('yapi-code.mockKeyWordLike', config.mock.mockKeyWordLike, true);
 };
-
-/**
- * 获取本地 物料模板
- *
- * @param {('blocks' | 'snippets')} type
- */
-export const getLocalMaterials = (type: 'blocks' | 'snippets') => {
-  const materialsPath = path.join(
-    vscode.workspace.rootPath!,
-    'materials',
-    type,
-  );
-  let materials: {
-    path: string;
-    name: string;
-    model: {};
-    schema: {};
-    preview: {};
-    template: string;
-  }[] = [];
-  try {
-    materials = fs.readdirSync(materialsPath).map((s) => {
-      const fullPath = path.join(materialsPath, s);
-      let model = {} as any;
-      let schema = {} as any;
-      let preview = {};
-      let template = '';
-      try {
-        model = JSON.parse(
-          getFileContent(path.join(fullPath, 'config', 'model.json'), true),
-        );
-      } catch {}
-      try {
-        schema = JSON.parse(
-          getFileContent(path.join(fullPath, 'config', 'schema.json'), true),
-        );
-      } catch {}
-      try {
-        preview = JSON.parse(
-          getFileContent(path.join(fullPath, 'config', 'preview.json'), true),
-        );
-      } catch {}
-      if (type === 'snippets') {
-        try {
-          template = getFileContent(
-            path.join(fullPath, 'src', 'template.ejs'),
-            true,
-          );
-        } catch {}
-      }
-      if (schema.formSchema) {
-        if (schema.formSchema.formData) {
-          model = schema.formSchema.formData;
-        }
-        schema = schema.formSchema.schema;
-      }
-      return {
-        path: fullPath,
-        name: s,
-        model,
-        schema,
-        preview,
-        template,
-      };
-    });
-  } catch {}
-  return materials;
-};
-
-/**
- * 获取 codeTemplate 目录下ejs文件作为代码模板并且合并代码片段
- *
- * @export
- * @returns
- */
-export function getSnippets() {
-  const templates: {
-    path: string;
-    name: string;
-    model: {};
-    schema: {};
-    preview: {};
-    template: string;
-  }[] = getCodeTemplateListFromFiles().map((s) => ({
-    path: s.name,
-    name: s.name,
-    model: {},
-    schema: {},
-    preview: {
-      img: 'https://gitee.com/img-host/img-host/raw/master//2020/11/05/1604587962875.jpg',
-    },
-    template: s.template,
-  }));
-  return templates.concat(getLocalMaterials('snippets'));
-}

@@ -7,7 +7,7 @@ import messageHandler, {
 } from './messageHandler';
 import { routes } from './routes';
 
-type WebViewKeys = 'main' | 'createApp';
+type WebViewKeys = 'main' | 'createApp' | 'downloadMaterials';
 
 type Tasks = 'addSnippets' | 'openSnippet' | 'route' | 'updateSelectedFolder';
 
@@ -21,9 +21,7 @@ const setWebviewHtml = (panel: vscode.WebviewPanel) => {
   const scriptPathOnDisk = vscode.Uri.file(
     path.join(getExtensionPath(), 'webview-dist', 'main.js'),
   );
-  const scriptUri =
-    'http://localhost:8000/main.js' ||
-    panel.webview.asWebviewUri(scriptPathOnDisk);
+  const scriptUri = panel.webview.asWebviewUri(scriptPathOnDisk);
 
   panel.webview.html = `
 			<!DOCTYPE html>

@@ -1,10 +1,4 @@
-import {
-  window,
-  Range,
-  workspace,
-  SnippetString,
-  OpenDialogOptions,
-} from 'vscode';
+import { window, Range, SnippetString, OpenDialogOptions } from 'vscode';
 import * as os from 'os';
 import * as copyPaste from 'copy-paste';
 import * as quicktypeCore from 'quicktype-core';
@@ -18,11 +12,8 @@ import {
   getMockKeyWordEqualConfig,
   getMockKeyWordLikeConfig,
 } from './config';
-import { download } from './utils/download';
 import { renderEjsTemplates } from './compiler/ejs';
 import { getLastAcitveTextEditor } from './context';
-
-const tar = require('tar');
 
 export const getClipboardText = () => copyPaste.paste();
 
@@ -258,43 +249,6 @@ export const formatSchema = (schema: any) => {
     mockCode: listStr.join('\n'),
     mockData: `{${jsonStr}}`,
   };
-};
-
-export const getFileContent = (filePath: string, fullPath = false) => {
-  let fileContent = '';
-  const fileFullPath = fullPath
-    ? filePath
-    : path.join(workspace.rootPath!, filePath);
-  try {
-    const fileBuffer = fs.readFileSync(fileFullPath);
-    fileContent = fileBuffer.toString();
-  } catch (error) {}
-  return fileContent;
-};
-
-export const downloadMaterialsFromGit = (remote: string) => {
-  const tempDir = path.join(workspace.rootPath!, '.lowcode');
-  const materialsDir = path.join(workspace.rootPath!, 'materials');
-  fs.removeSync(tempDir);
-  execa.sync('git', ['clone', ...remote.split(' '), tempDir]);
-  fs.copySync(path.join(tempDir, 'materials'), path.join(materialsDir));
-  fs.removeSync(tempDir);
-};
-
-export const downloadMaterialsFromNpm = async (packageName: string) => {
-  const result = execa.sync('npm', ['view', packageName, 'dist.tarball']);
-  const tarball = result.stdout;
-  const tempDir = path.join(workspace.rootPath!, '.lowcode');
-  fs.removeSync(tempDir);
-  await download(tarball, tempDir, `temp.tgz`);
-  await tar.x({
-    file: path.join(tempDir, `temp.tgz`),
-    C: tempDir,
-    strip: 1,
-  });
-  const materialsDir = path.join(workspace.rootPath!, 'materials');
-  fs.copySync(path.join(tempDir, 'materials'), materialsDir);
-  fs.removeSync(tempDir);
 };
 
 export const downloadScaffoldFromGit = (remote: string) => {

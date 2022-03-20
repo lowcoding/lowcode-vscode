@@ -2,6 +2,7 @@
 .vscode-test/**
 out/test/**
 src/**
+materials/**
 webview-vue/**
 webview-react/**
 webview-angular/**

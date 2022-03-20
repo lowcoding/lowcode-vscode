@@ -1,6 +1,5 @@
 import { window } from 'vscode';
 import { compile } from 'json-schema-to-typescript';
-import { getCodeTemplateListFromFiles, getSnippets } from '../config';
 import {
   getFuncNameAndTypeName,
   jsonToTs,
@@ -9,6 +8,7 @@ import {
 } from '../lib';
 import { compile as compileEjs } from '../compiler/ejs';
 import { Model } from '../compiler/type';
+import { getSnippets } from '../utils/materials';
 
 const GenerateSchema = require('generate-schema');
 const strip = require('strip-comments');
@@ -17,8 +17,6 @@ export const genCodeByJson = async (
   jsonString: string,
   rawClipboardText: string,
 ) => {
-  // const templateList = getCodeTemplateList();
-  // const templateList = getCodeTemplateListFromFiles();
   const templateList = getSnippets();
   if (templateList.length === 0) {
     window.showErrorMessage('请配置模板');

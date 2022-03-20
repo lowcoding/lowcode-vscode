@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
-import { getSnippets } from '../config';
 import { compile as compileEjs } from '../compiler/ejs';
+import { getSnippets } from '../utils/materials';
 
 let provider: vscode.Disposable;
 
@@ -11,7 +11,7 @@ export const registerCompletion = (context: vscode.ExtensionContext) => {
   if (provider) {
     provider.dispose();
   }
-  // provideCompletionItems 每一次输入都会运行一次，将 getSnippets 移到外部，通过手动刷新
+
   const snippets = getSnippets();
   provider = vscode.languages.registerCompletionItemProvider(
     { pattern: '**', scheme: 'file' },
