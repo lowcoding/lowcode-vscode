@@ -1,3 +1,4 @@
+/* eslint-disable no-eval */
 import { commands, Uri, WebviewPanel, workspace } from 'vscode';
 import * as vscode from 'vscode';
 import * as path from 'path';
@@ -146,8 +147,8 @@ const messageHandler: {
           <object | undefined>Promise.resolve(undefined),
       };
       if (fs.existsSync(scriptFile)) {
-        delete require.cache[require.resolve(scriptFile)];
-        const script = require(scriptFile);
+        delete eval('require').cache[eval('require').resolve(scriptFile)];
+        const script = eval('require')(scriptFile);
         if (script.beforeCompile) {
           hook.beforeCompile = script.beforeCompile;
         }
@@ -200,8 +201,8 @@ const messageHandler: {
         afterCompile: (context: any) => <any>Promise.resolve(undefined),
       };
       if (fs.existsSync(scriptFile)) {
-        delete require.cache[require.resolve(scriptFile)];
-        const script = require(scriptFile);
+        delete eval('require').cache[eval('require').resolve(scriptFile)];
+        const script = eval('require')(scriptFile);
         if (script.beforeCompile) {
           hook.beforeCompile = script.beforeCompile;
         }
