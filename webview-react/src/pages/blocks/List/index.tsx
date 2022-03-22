@@ -46,7 +46,7 @@ export default () => {
                     )}
                   </div>
                 </div>
-                <div className={styles.scroll}>
+                <div className={styles.control}>
                   <Button
                     type="primary"
                     style={{ width: '50%' }}

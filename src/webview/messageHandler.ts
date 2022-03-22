@@ -109,7 +109,7 @@ const messageHandler: {
       createPath: string[];
     }>,
   ) {
-    const tempWordDir = path.join(workspace.rootPath!, '.lowcode');
+    const tempWorkDir = path.join(workspace.rootPath!, '.lowcode');
     try {
       const materialsPath = path.join(
         workspace.rootPath!,
@@ -118,7 +118,7 @@ const messageHandler: {
       );
       const schemaFile = path.join(materialsPath, 'config/schema.json');
       const schama = fs.readJSONSync(schemaFile);
-      fs.copySync(materialsPath, tempWordDir);
+      fs.copySync(materialsPath, tempWorkDir);
       let excludeCompile: string[] = [];
       if (schama.excludeCompile) {
         excludeCompile = schama.excludeCompile;
@@ -132,13 +132,13 @@ const messageHandler: {
             Array.isArray(schama.conditionFiles[key].exclude)
           ) {
             schama.conditionFiles[key].exclude.map((exclude: string) => {
-              fs.removeSync(path.join(tempWordDir, 'src', exclude));
-              fs.removeSync(path.join(tempWordDir, exclude));
+              fs.removeSync(path.join(tempWorkDir, 'src', exclude));
+              fs.removeSync(path.join(tempWorkDir, exclude));
             });
           }
         });
       }
-      const scriptFile = path.join(tempWordDir, 'script/index.js');
+      const scriptFile = path.join(tempWorkDir, 'script/index.js');
       const hook = {
         beforeCompile: (context: any) =>
           <object | undefined>Promise.resolve(undefined),
@@ -167,16 +167,16 @@ const messageHandler: {
           ...extendModel,
         };
       }
-      await renderEjsTemplates(message.data.model, tempWordDir, excludeCompile);
+      await renderEjsTemplates(message.data.model, tempWorkDir, excludeCompile);
       await hook.afterCompile(context);
       fs.copySync(
-        path.join(tempWordDir, 'src'),
+        path.join(tempWorkDir, 'src'),
         path.join(message.data.path, ...message.data.createPath),
       );
-      fs.removeSync(tempWordDir);
+      fs.removeSync(tempWorkDir);
       invokeCallback(panel, message.cbid, '成功');
     } catch (ex: any) {
-      fs.remove(tempWordDir);
+      fs.remove(tempWorkDir);
       invokeErrorCallback(panel, message.cbid, {
         title: '生成失败',
         message: ex.toString(),

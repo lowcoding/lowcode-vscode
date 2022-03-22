@@ -30,7 +30,7 @@ const config = {
     extensions: ['.ts', '.js'],
   },
   module: {
-    exprContextCritical: false,
+    // exprContextCritical: false,
     rules: [
       {
         test: /\.ts$/,
