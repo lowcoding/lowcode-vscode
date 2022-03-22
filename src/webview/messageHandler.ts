@@ -19,8 +19,8 @@ import {
   selectDirectory,
 } from '../lib';
 import { registerCompletion } from '../commands/registerCompletion';
-import { fetchScaffolds } from '../service';
 import { getExtensionContext } from '../context';
+import { fetchScaffolds } from '../utils/request';
 
 const GenerateSchema = require('generate-schema');
 const strip = require('strip-comments');

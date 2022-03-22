@@ -5,12 +5,11 @@ import { compile as compileEjs } from '../compiler/ejs';
 import {
   getFuncNameAndTypeName,
   pasteToMarker,
-  jsonToTs,
   formatSchema,
 } from '../lib';
-import { fetchApiDetailInfo } from '../service';
 import { Model } from '../compiler/type';
 import { getSnippets } from '../utils/materials';
+import { fetchApiDetailInfo } from '../utils/request';
 
 const strip = require('strip-comments');
 const stripJsonComments = require('strip-json-comments');

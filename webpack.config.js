@@ -11,13 +11,13 @@ const config = {
     libraryTarget: 'commonjs2',
     devtoolModuleFilenameTemplate: '../[resource-path]',
   },
+  // 不打包
   externals: {
     vscode: 'commonjs vscode',
     prettier: 'commonjs prettier',
     'copy-paste': 'commonjs copy-paste',
     'typescript-json-schema': 'commonjs2 typescript-json-schema',
     // 'ts-json-schema-generator': 'cmmonjs ts-json-schema-generator'
-    // handlebars: 'commonjs handlebars',
     // axios: 'commonjs axios',
     // ejs:'commonjs ejs',
     // 'generate-schema':'commonjs generate-schema',
@@ -27,12 +27,10 @@ const config = {
     // 'strip-comments':'commonjs strip-comments'
   },
   resolve: {
-    alias: {
-      handlebars: 'handlebars/dist/handlebars.min.js',
-    },
     extensions: ['.ts', '.js'],
   },
   module: {
+    exprContextCritical: false,
     rules: [
       {
         test: /\.ts$/,

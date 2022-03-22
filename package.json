@@ -220,8 +220,6 @@
     "fs-extra": "^9.0.1",
     "generate-schema": "^2.6.0",
     "globby": "^11.0.1",
-    "handlebars": "^4.7.6",
-    "ice-npm-utils": "^2.0.1",
     "is-url": "^1.2.4",
     "json-schema-to-typescript": "^9.1.1",
     "quicktype-core": "^6.0.66",
