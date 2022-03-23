@@ -1,9 +1,8 @@
 import { window } from 'vscode';
-import { typescriptToJson } from '../lib';
-import { compile as compileEjs } from '../compiler/ejs';
-import { Model } from '../compiler/type';
+import { compile as compileEjs, Model } from '../utils/ejs';
 import { getSnippets } from '../utils/materials';
 import { getFuncNameAndTypeName, pasteToEditor } from '../utils/editor';
+import { typescriptToJson } from '../utils/json';
 
 export const genCodeByTypescript = async (
   typeString: string,

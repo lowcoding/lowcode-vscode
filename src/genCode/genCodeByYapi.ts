@@ -1,12 +1,11 @@
 import { window } from 'vscode';
 import { compile } from 'json-schema-to-typescript';
 import { getDomain, getProjectList } from '../config';
-import { compile as compileEjs } from '../compiler/ejs';
-import { formatSchema } from '../lib';
-import { Model } from '../compiler/type';
+import { compile as compileEjs, Model } from '../utils/ejs';
 import { getSnippets } from '../utils/materials';
 import { fetchApiDetailInfo } from '../utils/request';
 import { getFuncNameAndTypeName, pasteToEditor } from '../utils/editor';
+import { mockFromSchema } from '../utils/json';
 
 const strip = require('strip-comments');
 const stripJsonComments = require('strip-json-comments');
@@ -88,7 +87,7 @@ export const genTemplateModelByYapi = async (
       bannerComment: '',
     });
     ts = ts.replace(/(\[k: string\]: unknown;)|\?/g, '');
-    const { mockCode, mockData } = formatSchema(schema);
+    const { mockCode, mockData } = mockFromSchema(schema);
     let requestBodyType = '';
     if (res.data.data.req_body_other) {
       const reqBodyScheme = JSON.parse(
@@ -125,7 +124,7 @@ export const genTemplateModelByYapi = async (
     bannerComment: '',
   });
   ts = strip(ts.replace(/(\[k: string\]: unknown;)|\?/g, ''));
-  const { mockCode, mockData } = formatSchema(schema);
+  const { mockCode, mockData } = mockFromSchema(schema);
   let requestBodyType = '';
   if (res.data.data.req_body_other) {
     const reqBodyScheme = JSON.parse(

@@ -222,7 +222,6 @@
     "globby": "^11.0.1",
     "is-url": "^1.2.4",
     "json-schema-to-typescript": "^9.1.1",
-    "quicktype-core": "^6.0.66",
     "strip-comments": "^2.0.1",
     "strip-json-comments": "^3.1.1",
     "tar": "^6.0.5",

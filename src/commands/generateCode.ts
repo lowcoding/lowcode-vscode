@@ -1,9 +1,9 @@
 import * as vscode from 'vscode';
-import { isYapiId, jsonIsValid, jsonParse } from '../lib';
 import { genCodeByYapi } from '../genCode/genCodeByYapi';
 import { genCodeByJson } from '../genCode/genCodeByJson';
 import { genCodeByTypescript } from '../genCode/genCodeByTypescript';
 import { getClipboardText } from '../utils/editor';
+import { isYapiId, jsonIsValid, jsonParse } from '../utils/json';
 
 const { window } = vscode;
 

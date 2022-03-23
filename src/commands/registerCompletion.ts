@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { compile as compileEjs } from '../compiler/ejs';
+import { compile as compileEjs } from '../utils/ejs';
 import { getSnippets } from '../utils/materials';
 
 let provider: vscode.Disposable;

@@ -1,6 +1,6 @@
 import * as path from 'path';
 import * as os from 'os';
-import { compileScaffold, downloadScaffoldFromGit } from '../../lib';
+import { compileScaffold, downloadScaffoldFromGit } from '../../utils/scaffold';
 import { selectDirectory } from '../../utils/editor';
 
 suite('Lib Test Suite', () => {

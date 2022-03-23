@@ -1,5 +1,5 @@
 /* eslint-disable no-eval */
-import { commands, Uri, WebviewPanel, workspace } from 'vscode';
+import { WebviewPanel, workspace } from 'vscode';
 import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs-extra';
@@ -12,12 +12,10 @@ import {
   saveAllConfig,
 } from '../config';
 import { genTemplateModelByYapi } from '../genCode/genCodeByYapi';
-import { renderEjsTemplates, compile as compileEjs } from '../compiler/ejs';
-import { compileScaffold, downloadScaffoldFromGit } from '../lib';
+import { renderEjsTemplates, compile as compileEjs } from '../utils/ejs';
 import { registerCompletion } from '../commands/registerCompletion';
 import { getExtensionContext } from '../context';
-import { fetchScaffolds } from '../utils/request';
-import { pasteToEditor, selectDirectory } from '../utils/editor';
+import { pasteToEditor } from '../utils/editor';
 
 const GenerateSchema = require('generate-schema');
 const strip = require('strip-comments');
@@ -400,74 +398,6 @@ const messageHandler: {
       invokeErrorCallback(panel, message.cbid, {
         title: '刷新失败',
         message: '',
-      });
-    }
-  },
-  getScaffolds(panel: WebviewPanel, message: IMessage<{ url: string }>) {
-    fetchScaffolds(message.data.url)
-      .then((res) => {
-        invokeCallback(panel, message.cbid, res.data);
-      })
-      .catch((ex: any) => {
-        invokeErrorCallback(panel, message.cbid, {
-          title: '请求失败',
-          message: ex.toString(),
-        });
-      });
-  },
-  downloadScaffold(
-    panel: WebviewPanel,
-    message: IMessage<{
-      type: 'git' | 'npm';
-      repository: string;
-    }>,
-  ) {
-    if (message.data.type === 'git') {
-      try {
-        const config = downloadScaffoldFromGit(message.data.repository);
-        invokeCallback(panel, message.cbid, config);
-      } catch (ex: any) {
-        invokeErrorCallback(panel, message.cbid, {
-          title: '发生异常',
-          message: ex.toString(),
-        });
-      }
-    }
-  },
-  selectDirectory(panel: WebviewPanel, message: IMessage) {
-    selectDirectory()
-      .then((dir) => {
-        invokeCallback(panel, message.cbid, dir);
-      })
-      .catch((ex: any) => {
-        invokeErrorCallback(panel, message.cbid, {
-          title: '发生异常',
-          message: ex.toString(),
-        });
-      });
-  },
-  async createProject(
-    panel: WebviewPanel,
-    message: IMessage<{
-      model: any;
-      createDir: string;
-      immediateOpen: boolean;
-    }>,
-  ) {
-    try {
-      await compileScaffold(message.data.model, message.data.createDir);
-      invokeCallback(panel, message.cbid, '创建项目成功');
-      if (message.data.immediateOpen) {
-        commands.executeCommand(
-          'vscode.openFolder',
-          Uri.file(message.data.createDir),
-          true,
-        );
-      }
-    } catch (ex: any) {
-      invokeErrorCallback(panel, message.cbid, {
-        title: '发生异常',
-        message: ex.toString(),
       });
     }
   },

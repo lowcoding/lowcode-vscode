@@ -1,8 +1,8 @@
 import * as vscode from 'vscode';
 import { TextEditor, TextEditorEdit } from 'vscode';
-import { compile } from '../compiler/ejs';
-import { jsonIsValid, jsonParse } from '../lib';
 import { getClipboardText, pasteToEditor } from '../utils/editor';
+import { compile } from '../utils/ejs';
+import { jsonIsValid, jsonParse } from '../utils/json';
 import { showWebView } from '../webview';
 
 export const openSnippet = (context: vscode.ExtensionContext) => {

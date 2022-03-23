@@ -1,10 +1,9 @@
 import { window } from 'vscode';
 import { compile } from 'json-schema-to-typescript';
-import { formatSchema } from '../lib';
-import { compile as compileEjs } from '../compiler/ejs';
-import { Model } from '../compiler/type';
+import { compile as compileEjs, Model } from '../utils/ejs';
 import { getSnippets } from '../utils/materials';
 import { getFuncNameAndTypeName, pasteToEditor } from '../utils/editor';
+import { mockFromSchema } from '../utils/json';
 
 const GenerateSchema = require('generate-schema');
 const strip = require('strip-comments');
@@ -36,7 +35,7 @@ export const genCodeByJson = async (
       bannerComment: undefined,
     });
     ts = strip(ts.replace(/(\[k: string\]: unknown;)|\?/g, ''));
-    const { mockCode, mockData } = formatSchema(schema);
+    const { mockCode, mockData } = mockFromSchema(schema);
     const model: Model = {
       type: ts,
       funcName: selectInfo.funcName,
