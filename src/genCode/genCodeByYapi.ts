@@ -2,14 +2,11 @@ import { window } from 'vscode';
 import { compile } from 'json-schema-to-typescript';
 import { getDomain, getProjectList } from '../config';
 import { compile as compileEjs } from '../compiler/ejs';
-import {
-  getFuncNameAndTypeName,
-  pasteToMarker,
-  formatSchema,
-} from '../lib';
+import { formatSchema } from '../lib';
 import { Model } from '../compiler/type';
 import { getSnippets } from '../utils/materials';
 import { fetchApiDetailInfo } from '../utils/request';
+import { getFuncNameAndTypeName, pasteToEditor } from '../utils/editor';
 
 const strip = require('strip-comments');
 const stripJsonComments = require('strip-json-comments');
@@ -68,7 +65,7 @@ export const genCodeByYapi = async (
     model.rawSelectedText = selectInfo.rawSelectedText;
     model.rawClipboardText = rawClipboardText;
     const code = compileEjs(template!.template, model);
-    pasteToMarker(code);
+    pasteToEditor(code);
   } catch (e: any) {
     window.showErrorMessage(e.toString());
   }

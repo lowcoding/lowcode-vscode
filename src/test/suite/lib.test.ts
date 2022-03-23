@@ -1,10 +1,7 @@
 import * as path from 'path';
 import * as os from 'os';
-import {
-  compileScaffold,
-  downloadScaffoldFromGit,
-  selectDirectory,
-} from '../../lib';
+import { compileScaffold, downloadScaffoldFromGit } from '../../lib';
+import { selectDirectory } from '../../utils/editor';
 
 suite('Lib Test Suite', () => {
   test('downloadScaffoldFromGit', async () => {
@@ -25,7 +22,7 @@ suite('Lib Test Suite', () => {
     }
   });
   test('selectDirectory', async () => {
-    // const dir = await selectDirectory();
-    // console.log(dir);
+    const dir = await selectDirectory();
+    console.log(dir);
   });
 });

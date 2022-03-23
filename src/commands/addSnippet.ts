@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { getClipboardText, getSelectedText } from '../lib';
+import { getClipboardText, getSelectedText } from '../utils/editor';
 import { showWebView } from '../webview';
 
 export const createOrShowWebview = (context: vscode.ExtensionContext) => {

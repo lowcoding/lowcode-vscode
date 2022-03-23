@@ -13,15 +13,11 @@ import {
 } from '../config';
 import { genTemplateModelByYapi } from '../genCode/genCodeByYapi';
 import { renderEjsTemplates, compile as compileEjs } from '../compiler/ejs';
-import {
-  compileScaffold,
-  downloadScaffoldFromGit,
-  pasteToMarker,
-  selectDirectory,
-} from '../lib';
+import { compileScaffold, downloadScaffoldFromGit } from '../lib';
 import { registerCompletion } from '../commands/registerCompletion';
 import { getExtensionContext } from '../context';
 import { fetchScaffolds } from '../utils/request';
+import { pasteToEditor, selectDirectory } from '../utils/editor';
 
 const GenerateSchema = require('generate-schema');
 const strip = require('strip-comments');
@@ -226,7 +222,7 @@ const messageHandler: {
       const code = compileEjs(message.data.template, message.data.model);
       context.code = code;
       const newCode = await hook.afterCompile(context);
-      pasteToMarker(newCode || code);
+      pasteToEditor(newCode || code);
       invokeCallback(panel, message.cbid, newCode || code);
     } catch (ex: any) {
       invokeErrorCallback(panel, message.cbid, {
@@ -237,7 +233,7 @@ const messageHandler: {
   },
   insertSnippet(panel: WebviewPanel, message: IMessage<{ template: string }>) {
     try {
-      pasteToMarker(message.data.template);
+      pasteToEditor(message.data.template);
     } catch (ex: any) {
       invokeErrorCallback(panel, message.cbid, {
         title: '添加失败',

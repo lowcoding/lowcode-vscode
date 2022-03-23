@@ -17,7 +17,6 @@ const config = {
     prettier: 'commonjs prettier',
     'copy-paste': 'commonjs copy-paste',
     'typescript-json-schema': 'commonjs2 typescript-json-schema',
-    // 'ts-json-schema-generator': 'cmmonjs ts-json-schema-generator'
     // axios: 'commonjs axios',
     // ejs:'commonjs ejs',
     // 'generate-schema':'commonjs generate-schema',

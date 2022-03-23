@@ -1,12 +1,8 @@
 import * as vscode from 'vscode';
 import { TextEditor, TextEditorEdit } from 'vscode';
 import { compile } from '../compiler/ejs';
-import {
-  getClipboardText,
-  jsonIsValid,
-  jsonParse,
-  pasteToMarker,
-} from '../lib';
+import { jsonIsValid, jsonParse } from '../lib';
+import { getClipboardText, pasteToEditor } from '../utils/editor';
 import { showWebView } from '../webview';
 
 export const openSnippet = (context: vscode.ExtensionContext) => {
@@ -25,7 +21,7 @@ export const openSnippet = (context: vscode.ExtensionContext) => {
         if (validJson) {
           try {
             const code = compile(template, JSON.parse(clipboardText));
-            pasteToMarker(code);
+            pasteToEditor(code);
           } catch {
             showWebView({
               key: 'main',

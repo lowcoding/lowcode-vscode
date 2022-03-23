@@ -1,106 +1,14 @@
-import { window, Range, SnippetString, OpenDialogOptions } from 'vscode';
 import * as os from 'os';
-import * as copyPaste from 'copy-paste';
-import * as quicktypeCore from 'quicktype-core';
 import * as path from 'path';
 import * as fs from 'fs-extra';
 import * as execa from 'execa';
 import * as TJS from 'typescript-json-schema';
-import Axios from 'axios';
 import {
   getMockConfig,
   getMockKeyWordEqualConfig,
   getMockKeyWordLikeConfig,
 } from './config';
 import { renderEjsTemplates } from './compiler/ejs';
-import { getLastAcitveTextEditor } from './context';
-
-export const getClipboardText = () => copyPaste.paste();
-
-export const getSelectedText = () => {
-  const { selection, document } = window.activeTextEditor!;
-  return document.getText(selection).trim();
-};
-
-export const pasteToMarker = (content: string, isInsertSnippet = true) => {
-  if (isInsertSnippet) {
-    return insertSnippet(content);
-  }
-  const activeTextEditor = getLastAcitveTextEditor();
-  if (activeTextEditor === undefined) {
-    throw new Error('无打开文件');
-  }
-  return activeTextEditor?.edit((editBuilder) => {
-    // editBuilder.replace(activeTextEditor.selection, content);
-    if (activeTextEditor.selection.isEmpty) {
-      editBuilder.insert(activeTextEditor.selection.start, content);
-    } else {
-      editBuilder.replace(
-        new Range(
-          activeTextEditor.selection.start,
-          activeTextEditor.selection.end,
-        ),
-        content,
-      );
-    }
-  });
-};
-
-export const insertSnippet = (content: string) => {
-  const activeTextEditor = window.activeTextEditor || getLastAcitveTextEditor();
-  if (activeTextEditor === undefined) {
-    throw new Error('无打开文件');
-  }
-  return activeTextEditor.insertSnippet(new SnippetString(content));
-};
-
-export const getFuncNameAndTypeName = () => {
-  const selectedText = getSelectedText() || '';
-  let funcName = 'fetch';
-  let typeName = 'IFetchResult';
-  if (selectedText) {
-    const splitValue = selectedText.split(' ');
-    funcName = splitValue[0] || funcName;
-    if (splitValue.length > 1 && splitValue[1]) {
-      typeName = splitValue[1];
-    } else {
-      typeName = `I${
-        funcName.charAt(0).toUpperCase() + funcName.slice(1)
-      }Result`;
-    }
-  }
-  return {
-    funcName,
-    typeName,
-    inputValues: selectedText.split(' '),
-    rawSelectedText: selectedText,
-  };
-};
-
-export const jsonToTs = async (typeName: string, jsonString: string) => {
-  const jsonInput = quicktypeCore.jsonInputForTargetLanguage('typescript');
-  await jsonInput.addSource({
-    name: typeName,
-    samples: [jsonString],
-  });
-
-  const inputData = new quicktypeCore.InputData();
-  inputData.addInput(jsonInput);
-
-  const result = await quicktypeCore.quicktype({
-    inputData,
-    lang: 'typescript',
-    fixedTopLevels: true,
-    rendererOptions: {
-      'just-types': 'true',
-    },
-    inferMaps: false,
-    inferEnums: false,
-    inferDateTimes: false,
-    inferIntegerStrings: false,
-  });
-  return result.lines.join('\n');
-};
 
 export const jsonIsValid = (jsonString: string) => {
   if (typeof jsonString !== 'string') {
@@ -287,24 +195,6 @@ export const compileScaffold = async (model: any, createDir: string) => {
   }
   fs.copySync(tempDir, createDir);
 };
-
-export const selectDirectory = async () => {
-  const options: OpenDialogOptions = {
-    canSelectFolders: true,
-    canSelectFiles: false,
-    canSelectMany: false,
-    openLabel: 'Open',
-  };
-  const selectFolderUri = await window.showOpenDialog(options);
-  if (selectFolderUri && selectFolderUri.length > 0) {
-    return selectFolderUri[0].fsPath;
-  }
-};
-
-export const checkVankeInternal = () =>
-  Axios.get('https://npm.bu6.io')
-    .then((res) => true)
-    .catch(() => false);
 
 export const typescriptToJson = (oriType: string) => {
   let type = oriType;

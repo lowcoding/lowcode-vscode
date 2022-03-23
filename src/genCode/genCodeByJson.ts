@@ -1,14 +1,10 @@
 import { window } from 'vscode';
 import { compile } from 'json-schema-to-typescript';
-import {
-  getFuncNameAndTypeName,
-  jsonToTs,
-  pasteToMarker,
-  formatSchema,
-} from '../lib';
+import { formatSchema } from '../lib';
 import { compile as compileEjs } from '../compiler/ejs';
 import { Model } from '../compiler/type';
 import { getSnippets } from '../utils/materials';
+import { getFuncNameAndTypeName, pasteToEditor } from '../utils/editor';
 
 const GenerateSchema = require('generate-schema');
 const strip = require('strip-comments');
@@ -54,7 +50,7 @@ export const genCodeByJson = async (
       rawClipboardText,
     };
     const code = compileEjs(template!.template, model);
-    pasteToMarker(code);
+    pasteToEditor(code);
   } catch (e: any) {
     window.showErrorMessage(e.toString());
   }

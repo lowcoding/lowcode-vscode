@@ -40,3 +40,9 @@ export const fetchApiDetailInfo = (
 };
 
 export const fetchScaffolds = (url: string) => axios.get(url);
+
+export const checkVankeInternal = () =>
+  axios
+    .get('https://npm.bu6.io')
+    .then((res) => true)
+    .catch(() => false);

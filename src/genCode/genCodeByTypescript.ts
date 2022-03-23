@@ -1,12 +1,9 @@
 import { window } from 'vscode';
-import {
-  getFuncNameAndTypeName,
-  pasteToMarker,
-  typescriptToJson,
-} from '../lib';
+import { typescriptToJson } from '../lib';
 import { compile as compileEjs } from '../compiler/ejs';
 import { Model } from '../compiler/type';
 import { getSnippets } from '../utils/materials';
+import { getFuncNameAndTypeName, pasteToEditor } from '../utils/editor';
 
 export const genCodeByTypescript = async (
   typeString: string,
@@ -41,7 +38,7 @@ export const genCodeByTypescript = async (
       rawClipboardText,
     };
     const code = compileEjs(template!.template, model);
-    pasteToMarker(code);
+    pasteToEditor(code);
   } catch (e: any) {
     window.showErrorMessage(e.toString());
   }
