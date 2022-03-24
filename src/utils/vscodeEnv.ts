@@ -3,22 +3,20 @@ import { workspace } from 'vscode';
 
 export const rootPath = path.join(workspace.rootPath || '');
 
-export const materialsPath = path.join(workspace.rootPath || '', 'materials');
+export const tempWorkPath = path.join(rootPath, '.lowcode');
 
-export const blockMaterialsPath = path.join(
-  workspace.rootPath || '',
-  'materials',
-  'blocks',
-);
+export const materialsPath = path.join(rootPath, 'materials');
+
+export const blockMaterialsPath = path.join(rootPath, 'materials', 'blocks');
 
 export const snippetMaterialsPath = path.join(
-  workspace.rootPath || '',
+  rootPath,
   'materials',
   'snippets',
 );
 
 export const checkRootPath = () => {
-  if (!workspace.rootPath) {
+  if (!rootPath) {
     throw new Error('请打开工作目录');
   }
 };

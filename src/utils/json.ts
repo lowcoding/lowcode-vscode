@@ -2,11 +2,15 @@ import * as os from 'os';
 import * as path from 'path';
 import * as fs from 'fs-extra';
 import * as TJS from 'typescript-json-schema';
+import { compile } from 'json-schema-to-typescript';
 import {
   getMockConfig,
   getMockKeyWordEqualConfig,
   getMockKeyWordLikeConfig,
 } from '../config';
+
+const GenerateSchema = require('generate-schema');
+const strip = require('strip-comments');
 
 export const jsonIsValid = (jsonString: string) => {
   if (typeof jsonString !== 'string') {
@@ -181,6 +185,15 @@ export const typescriptToJson = (oriType: string) => {
     mockCode,
     mockData: !oriType.trim().endsWith('}') ? 'list1' : mockData,
   };
+};
+
+export const json2Ts = async (json: object, typeName: string) => {
+  const schema = GenerateSchema.json(typeName || 'DefaultType', json);
+  let ts = await compile(schema, typeName, {
+    bannerComment: '',
+  });
+  ts = strip(ts.replace(/(\[k: string\]: unknown;)|\?/g, ''));
+  return ts;
 };
 
 export const isYapiId = (value: string) => /^[0-9]{1,}$/g.test(value);

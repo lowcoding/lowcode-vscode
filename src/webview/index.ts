@@ -1,15 +1,39 @@
 import * as path from 'path';
 import * as vscode from 'vscode';
+import { WebviewPanel } from 'vscode';
 import { getExtensionPath, setLastActiveTextEditorId } from '../context';
-import messageHandler, {
-  invokeCallback,
-  invokeErrorCallback,
-} from './messageHandler';
+
 import { routes } from './routes';
 
 type WebViewKeys = 'main' | 'createApp' | 'downloadMaterials';
 
 type Tasks = 'addSnippets' | 'openSnippet' | 'route' | 'updateSelectedFolder';
+
+export function invokeCallback<T = any>(
+  panel: WebviewPanel,
+  cbid: string,
+  res: T,
+) {
+  panel.webview.postMessage({
+    cmd: 'vscodeCallback',
+    cbid,
+    data: res,
+    code: 200,
+  });
+}
+
+export function invokeErrorCallback(
+  panel: WebviewPanel,
+  cbid: string,
+  res: { title: string; message: string },
+) {
+  panel.webview.postMessage({
+    cmd: 'vscodeCallback',
+    cbid,
+    data: res,
+    code: 400,
+  });
+}
 
 let webviewPanels: {
   key: WebViewKeys;
@@ -97,9 +121,6 @@ export const showWebView = (options: {
           } catch (ex: any) {
             invokeErrorCallback(panel, message.cbid, ex);
           }
-        } else if (messageHandler[message.cmd]) {
-          // 迁移完之后去掉
-          messageHandler[message.cmd](panel, message);
         } else {
           vscode.window.showWarningMessage(
             `未找到名为 ${message.cmd} 回调方法!`,
