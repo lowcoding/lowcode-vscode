@@ -1,6 +1,6 @@
 import * as path from 'path';
 import * as vscode from 'vscode';
-import { WebviewPanel } from 'vscode';
+import { WebviewPanel, window } from 'vscode';
 import { getExtensionPath, setLastActiveTextEditorId } from '../context';
 
 import { routes } from './routes';
@@ -119,6 +119,7 @@ export const showWebView = (options: {
             const res = await routes[message.cmd](message);
             invokeCallback(panel, message.cbid, res);
           } catch (ex: any) {
+            window.showErrorMessage(ex.toString());
             invokeErrorCallback(panel, message.cbid, ex);
           }
         } else {

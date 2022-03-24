@@ -13,7 +13,7 @@ if (process.env.NODE_ENV !== 'production') {
               message: 'call vscode',
               description: `cmd: ${message.cmd}`,
             });
-            (callbacks[message.cbid] || function () {})(
+            (callbacks[message.cbid] || function() {})(
               require(`./mock/${message.cmd}`).default,
             );
           }, 1000);
@@ -74,14 +74,9 @@ window.addEventListener('message', (event) => {
     // 来自vscode的回调
     case 'vscodeCallback':
       if (message.code === 200) {
-        (callbacks[message.cbid] || function () {})(message.data);
+        (callbacks[message.cbid] || function() {})(message.data);
       } else {
-        notification.error({
-          message: message.data.title || message.data,
-          description: message.data.message || message.data,
-          placement: 'bottomRight',
-        });
-        (errorCallbacks[message.cbid] || function () {})(message.data);
+        (errorCallbacks[message.cbid] || function() {})(message.data);
       }
       delete callbacks[message.cbid]; // 执行完回调删除
       delete errorCallbacks[message.cbid]; // 执行完回调删除

@@ -6,12 +6,19 @@ export const createOrShowWebview = (context: vscode.ExtensionContext) => {
     vscode.commands.registerCommand(
       'yapi-code.generateCodeByWebview',
       (args) => {
+        let path: string = args ? args.path : '';
+        if (
+          path.startsWith('/') &&
+          process.platform.toLowerCase().includes('win')
+        ) {
+          path = path.substring(1);
+        }
         showWebView({
           key: 'main',
           viewColumn: vscode.ViewColumn.Two,
           task: {
             task: 'updateSelectedFolder',
-            data: { selectedFolder: args ? args.path : '' },
+            data: { selectedFolder: path },
           },
         });
       },
