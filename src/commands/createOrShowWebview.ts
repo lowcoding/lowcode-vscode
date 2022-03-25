@@ -9,7 +9,7 @@ export const createOrShowWebview = (context: vscode.ExtensionContext) => {
         let path: string = args ? args.path : '';
         if (
           path.startsWith('/') &&
-          process.platform.toLowerCase().includes('win')
+          process.platform.toLowerCase().includes('win32')
         ) {
           path = path.substring(1);
         }
