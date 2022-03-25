@@ -6,6 +6,7 @@ import { registerCompletion } from './commands/registerCompletion';
 import { openSnippet } from './commands/openSnippet';
 import { CommonCommands } from './commands/common';
 import { init, setLastActiveTextEditorId } from './context';
+import { registerQuickGenerateBlock } from './commands/quickGenerateBlock';
 
 export function activate(context: vscode.ExtensionContext) {
   vscode.window.onDidChangeActiveTextEditor(
@@ -30,6 +31,8 @@ export function activate(context: vscode.ExtensionContext) {
   registerCompletion(context);
 
   openSnippet(context);
+
+  registerQuickGenerateBlock(context);
 
   const statusBarItem = vscode.window.createStatusBarItem(
     vscode.StatusBarAlignment.Left,

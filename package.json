@@ -54,8 +54,11 @@
       },
       {
         "command": "yapi-code.addSnippet",
-        "title": "$(octoface) 添加代码片段",
-        "icon": "$(octoface)"
+        "title": "添加代码片段"
+      },
+      {
+        "command": "lowcode.quickGenerateBlock",
+        "title": "快速创建区块"
       }
     ],
     "menus": {
@@ -92,12 +95,16 @@
       ],
       "lowcode/explorer/context": [
         {
-          "command": "yapi-code.generateCodeByWebview",
+          "command": "lowcode.quickGenerateBlock",
           "group": "lowcode@1"
         },
         {
-          "command": "lowcode.openDownloadMaterials",
+          "command": "yapi-code.generateCodeByWebview",
           "group": "lowcode@2"
+        },
+        {
+          "command": "lowcode.openDownloadMaterials",
+          "group": "lowcode@3"
         }
       ]
     },

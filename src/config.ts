@@ -107,6 +107,19 @@ export const getMockKeyWordLikeConfig = () => {
   );
 };
 
+/**
+ * @description 获取常用区块物料
+ */
+export const getCommonlyUsedBlock = () => {
+  const pkg = JSON.parse(getFileContent('package.json') || '{}');
+  return (
+    (pkg['lowcode.commonlyUsedBlock'] as string[]) ||
+    vscode.workspace
+      .getConfiguration()
+      .get<string[]>('lowcode.commonlyUsedBlock', [])
+  );
+};
+
 export const getAllConfig = () => {
   const mockConfig = getMockConfig();
   const mockKeyWordEqualConfig = getMockKeyWordEqualConfig();

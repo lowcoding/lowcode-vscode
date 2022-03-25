@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import { formatPath } from '../utils/platform';
 import { showWebView } from '../webview';
 
 export const createOrShowWebview = (context: vscode.ExtensionContext) => {
@@ -6,13 +7,7 @@ export const createOrShowWebview = (context: vscode.ExtensionContext) => {
     vscode.commands.registerCommand(
       'yapi-code.generateCodeByWebview',
       (args) => {
-        let path: string = args ? args.path : '';
-        if (
-          path.startsWith('/') &&
-          process.platform.toLowerCase().includes('win32')
-        ) {
-          path = path.substring(1);
-        }
+        const path = formatPath(args?.path);
         showWebView({
           key: 'main',
           viewColumn: vscode.ViewColumn.Two,

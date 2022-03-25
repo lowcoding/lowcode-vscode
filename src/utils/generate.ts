@@ -10,6 +10,7 @@ import {
 } from './vscodeEnv';
 import { renderEjsTemplates, compile } from './ejs';
 import { pasteToEditor } from './editor';
+import { getFileContent } from './file';
 
 export const genCodeByBlock = async (data: {
   material: string;
@@ -80,6 +81,30 @@ export const genCodeByBlock = async (data: {
     fs.remove(tempWorkPath);
     throw ex;
   }
+};
+
+export const genCodeByBlockWithDefaultModel = async (
+  genPath: string,
+  blockName: string,
+) => {
+  if (!fs.existsSync(path.join(blockMaterialsPath, blockName))) {
+    throw new Error('区块不存在');
+  }
+  let model = {} as any;
+  try {
+    model = JSON.parse(
+      getFileContent(
+        path.join(blockMaterialsPath, blockName, 'config', 'model.json'),
+        true,
+      ),
+    );
+  } catch {}
+  await genCodeByBlock({
+    material: blockName,
+    model,
+    path: genPath,
+    createPath: [],
+  });
 };
 
 export const genCodeBySnippet = async (data: {

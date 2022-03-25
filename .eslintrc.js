@@ -7,7 +7,7 @@ module.exports = {
   extends: ['airbnb-base', 'prettier'],
   plugins: ['@typescript-eslint', 'prettier'],
   rules: {
-    'prettier/prettier': ['off', { printWidth: 80 }],
+    'prettier/prettier': [1, { printWidth: 80 }],
     '@typescript-eslint/semi': 'warn',
     curly: 'warn',
     eqeqeq: 'warn',
