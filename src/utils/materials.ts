@@ -26,7 +26,7 @@ export const getLocalMaterials = (
       const fullPath = path.join(materialsFullPath, s);
       let model = {} as any;
       let schema = {} as any;
-      let preview = {};
+      let preview = { img: '' };
       let template = '';
       try {
         model = JSON.parse(
@@ -43,6 +43,10 @@ export const getLocalMaterials = (
           getFileContent(path.join(fullPath, 'config', 'preview.json'), true),
         );
       } catch {}
+      if (preview.img && preview.img.indexOf('gitee.') > -1) {
+        preview.img =
+          'https://cdn.jsdelivr.net/gh/migrate-gitee/img-host/2020/11/05/1604587962875.jpg';
+      }
       if (type === 'snippets') {
         try {
           template = getFileContent(
@@ -110,7 +114,7 @@ export function getSnippets() {
     model: {},
     schema: {},
     preview: {
-      img: 'https://gitee.com/img-host/img-host/raw/master//2020/11/05/1604587962875.jpg',
+      img: 'https://cdn.jsdelivr.net/gh/migrate-gitee/img-host/2020/11/05/1604587962875.jpg',
     },
     template: s.template,
   }));

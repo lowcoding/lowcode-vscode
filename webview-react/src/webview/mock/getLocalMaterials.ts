@@ -112,7 +112,8 @@ export default [
     preview: {
       title: '哈哈哈',
       description: 'ksjfdfhdfhdkfjd',
-      img: 'https://gitee.com/img-host/img-host/raw/master//2020/11/05/1604587962875.jpg',
+      img:
+        'https://cdn.jsdelivr.net/gh/migrate-gitee/img-host/2020/11/05/1604587962875.jpg',
     },
     template: '1212121',
   },
@@ -233,7 +234,8 @@ export default [
     preview: {
       title: '哈哈哈',
       description: 'ksjfdfhdfhdkfjd',
-      img: 'https://gitee.com/img-host/img-host/raw/master//2020/11/05/1604587962875.jpg',
+      img:
+        'https://cdn.jsdelivr.net/gh/migrate-gitee/img-host/2020/11/05/1604587962875.jpg',
     },
     template: '',
   },
@@ -270,7 +272,8 @@ export default [
     preview: {
       title: '哈哈哈',
       description: 'ksjfdfhdfhdkfjd',
-      img: 'https://gitee.com/img-host/img-host/raw/master//2020/11/05/1604587962875.jpg',
+      img:
+        'https://cdn.jsdelivr.net/gh/migrate-gitee/img-host/2020/11/05/1604587962875.jpg',
     },
     template: '',
   },
@@ -307,7 +310,8 @@ export default [
     preview: {
       title: '哈哈哈',
       description: 'ksjfdfhdfhdkfjd',
-      img: 'https://gitee.com/img-host/img-host/raw/master//2020/11/05/1604587962875.jpg',
+      img:
+        'https://cdn.jsdelivr.net/gh/migrate-gitee/img-host/2020/11/05/1604587962875.jpg',
     },
     template: '',
   },
@@ -344,7 +348,8 @@ export default [
     preview: {
       title: '哈哈哈',
       description: 'ksjfdfhdfhdkfjd',
-      img: 'https://gitee.com/img-host/img-host/raw/master//2020/11/05/1604587962875.jpg',
+      img:
+        'https://cdn.jsdelivr.net/gh/migrate-gitee/img-host/2020/11/05/1604587962875.jpg',
     },
     template: '',
   },

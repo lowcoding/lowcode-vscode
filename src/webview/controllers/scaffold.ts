@@ -6,7 +6,7 @@ import { IMessage } from '../type';
 
 export const getScaffolds = async (message: IMessage<{ url: string }>) => {
   const res = await fetchScaffolds(message.data.url);
-  return res.data;
+  return res.data || [];
 };
 
 export const downloadScaffold = (
