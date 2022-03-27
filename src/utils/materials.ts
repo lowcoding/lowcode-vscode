@@ -1,7 +1,7 @@
 import * as path from 'path';
 import * as fs from 'fs';
 import { getFileContent } from './file';
-import { getTemplateFilePath } from '../config';
+import { getTemplateFilePath } from './config';
 import { rootPath, snippetMaterialsPath } from './vscodeEnv';
 
 /**

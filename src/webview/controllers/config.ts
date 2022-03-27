@@ -1,67 +1,36 @@
 import * as path from 'path';
 import * as fs from 'fs-extra';
-import { getAllConfig, saveAllConfig } from '../../config';
+import { Config, getConfig, saveConfig } from '../../utils/config';
 import { IMessage } from '../type';
 import { rootPath } from '../../utils/vscodeEnv';
 
-export const getPluginConfig = () => getAllConfig();
+export const getPluginConfig = () => getConfig();
 
-export const savePluginConfig = (
-  message: IMessage<{
-    yapi: {
-      domain: string;
-      projects: {
-        name: string;
-        token: string;
-        domain: string;
-      }[];
-    };
-    mock: {
-      mockNumber: string;
-      mockBoolean: string;
-      mockString: string;
-      mockKeyWordEqual: {
-        key: string;
-        value: string;
-      }[];
-      mockKeyWordLike: {
-        key: string;
-        value: string;
-      }[];
-    };
-    saveOption: ['vscode', 'package'];
-  }>,
-) => {
-  const mockKeyWordEqual = {} as any;
-  message.data.mock.mockKeyWordEqual.map((s) => {
-    mockKeyWordEqual[s.key] = s.value;
-  });
-  const mockKeyWordLike = {} as any;
-  message.data.mock.mockKeyWordLike.map((s) => {
-    mockKeyWordLike[s.key] = s.value;
-  });
-  if (message.data.saveOption.includes('vscode')) {
-    saveAllConfig({
-      yapi: { ...message.data.yapi },
-      mock: { ...message.data.mock, mockKeyWordEqual, mockKeyWordLike },
-    });
-  }
-  if (message.data.saveOption.includes('package')) {
-    const packageObj = fs.readJsonSync(path.join(rootPath, 'package.json'));
-    const newPackageObj = {
-      ...packageObj,
-      'yapi-code.domain': message.data.yapi.domain,
-      'yapi-code.project': message.data.yapi.projects,
-      'yapi-code.mockNumber': message.data.mock.mockNumber,
-      'yapi-code.mockBoolean': message.data.mock.mockBoolean,
-      'yapi-code.mockString': message.data.mock.mockString,
-      'yapi-code.mockKeyWordEqual': mockKeyWordEqual,
-      'yapi-code.mockKeyWordLike': mockKeyWordLike,
-    };
+export const savePluginConfig = (message: IMessage<Config>) => {
+  // 处理旧的配置
+  const packageObj = fs.readJsonSync(path.join(rootPath, 'package.json'));
+  if (
+    packageObj['yapi-code.domain'] ||
+    packageObj['yapi-code.project'] ||
+    packageObj['yapi-code.mockNumber'] ||
+    packageObj['yapi-code.mockString'] ||
+    packageObj['yapi-code.mockBoolean'] ||
+    packageObj['yapi-code.mockKeyWordEqual'] ||
+    packageObj['yapi-code.mockKeyWordLike']
+  ) {
+    delete packageObj['yapi-code.domain'];
+    delete packageObj['yapi-code.project'];
+    delete packageObj['yapi-code.mockNumber'];
+    delete packageObj['yapi-code.mockString'];
+    delete packageObj['yapi-code.mockBoolean'];
+    delete packageObj['yapi-code.mockKeyWordEqual'];
+    delete packageObj['yapi-code.mockKeyWordLike'];
     fs.writeFileSync(
       path.join(rootPath, 'package.json'),
-      JSON.stringify(newPackageObj, null, 2),
+      JSON.stringify(packageObj, null, 2),
     );
   }
+
+  saveConfig(message.data);
   return '保存成功';
 };

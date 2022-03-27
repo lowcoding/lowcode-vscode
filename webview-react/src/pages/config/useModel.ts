@@ -29,7 +29,6 @@ const useModel = () => {
         },
       ],
     },
-    saveOption: ['package'],
   });
 
   return {

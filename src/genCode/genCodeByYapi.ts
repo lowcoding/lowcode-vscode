@@ -1,11 +1,11 @@
 import { window } from 'vscode';
 import { compile } from 'json-schema-to-typescript';
-import { getDomain, getProjectList } from '../config';
 import { compile as compileEjs, Model } from '../utils/ejs';
 import { getSnippets } from '../utils/materials';
 import { fetchApiDetailInfo } from '../utils/request';
 import { getFuncNameAndTypeName, pasteToEditor } from '../utils/editor';
 import { mockFromSchema } from '../utils/json';
+import { getConfig } from '../utils/config';
 
 const strip = require('strip-comments');
 const stripJsonComments = require('strip-json-comments');
@@ -15,12 +15,12 @@ export const genCodeByYapi = async (
   yapiId: string,
   rawClipboardText: string,
 ) => {
-  const domain = getDomain();
+  const domain = getConfig().yapi?.domain || '';
   if (!domain.trim()) {
     window.showErrorMessage('请配置yapi域名');
     return;
   }
-  const projectList = getProjectList();
+  const projectList = getConfig().yapi?.projects || [];
   if (projectList.length === 0) {
     window.showErrorMessage('请配置项目');
     return;

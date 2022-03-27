@@ -3,11 +3,7 @@ import * as path from 'path';
 import * as fs from 'fs-extra';
 import * as TJS from 'typescript-json-schema';
 import { compile } from 'json-schema-to-typescript';
-import {
-  getMockConfig,
-  getMockKeyWordEqualConfig,
-  getMockKeyWordLikeConfig,
-} from '../config';
+import { getConfig } from './config';
 
 const GenerateSchema = require('generate-schema');
 const strip = require('strip-comments');
@@ -49,18 +45,16 @@ export const jsonParse = (clipboardText: string) => {
 
 export const mockFromSchema = (schema: any) => {
   let listIndex = 1;
-  const mockConfig = getMockConfig();
+  const config = getConfig();
+  const mockConfig = config.mock;
 
   const getMockValue = (key: string, defaultValue: string, type = 'number') => {
     const value = defaultValue;
-    const mockKeyWordEqualConfig = getMockKeyWordEqualConfig();
-    const equalKeys = Object.keys(mockKeyWordEqualConfig);
-    for (let i = 0; i < equalKeys.length; i++) {
-      if (key.toUpperCase() === equalKeys[i].toUpperCase()) {
-        if (typeof mockKeyWordEqualConfig[equalKeys[i]] === 'string') {
-          const array = (mockKeyWordEqualConfig[equalKeys[i]] as string).split(
-            '&&',
-          );
+    const mockKeyWordEqualConfig = mockConfig?.mockKeyWordEqual || [];
+    for (let i = 0; i < mockKeyWordEqualConfig.length; i++) {
+      if (key.toUpperCase() === mockKeyWordEqualConfig[i].key.toUpperCase()) {
+        if (typeof mockKeyWordEqualConfig[i].value === 'string') {
+          const array = mockKeyWordEqualConfig[i].value.split('&&');
           if (array.length > 1) {
             if (type === array[1]) {
               return array[0];
@@ -68,17 +62,17 @@ export const mockFromSchema = (schema: any) => {
             return value;
           }
         }
-        return mockKeyWordEqualConfig[equalKeys[i]];
+        return mockKeyWordEqualConfig[i].value;
       }
     }
-    const mockKeyWordLikeConfig = getMockKeyWordLikeConfig();
-    const likeKeys = Object.keys(mockKeyWordLikeConfig);
-    for (let i = 0; i < likeKeys.length; i++) {
-      if (key.toUpperCase().indexOf(likeKeys[i].toUpperCase()) > -1) {
-        if (typeof mockKeyWordLikeConfig[likeKeys[i]] === 'string') {
-          const array = (mockKeyWordLikeConfig[likeKeys[i]] as string).split(
-            '&&',
-          );
+    const mockKeyWordLikeConfig = mockConfig?.mockKeyWordLike || [];
+    for (let i = 0; i < mockKeyWordLikeConfig.length; i++) {
+      if (
+        key.toUpperCase().indexOf(mockKeyWordLikeConfig[i].key.toUpperCase()) >
+        -1
+      ) {
+        if (typeof mockKeyWordLikeConfig[i].value === 'string') {
+          const array = mockKeyWordLikeConfig[i].value.split('&&');
           if (array.length > 1) {
             if (type === array[1]) {
               return array[0];
@@ -86,7 +80,7 @@ export const mockFromSchema = (schema: any) => {
             return value;
           }
         }
-        return mockKeyWordLikeConfig[likeKeys[i]];
+        return mockKeyWordLikeConfig[i].value;
       }
     }
 
@@ -129,9 +123,16 @@ export const mockFromSchema = (schema: any) => {
           itemStr += `})}`;
         } else {
           if (property.items.type === 'string') {
-            itemStr += getMockValue(key, mockConfig.string, 'string');
+            itemStr += getMockValue(
+              key,
+              mockConfig?.mockString || '',
+              'string',
+            );
           } else {
-            itemStr += getMockValue(key, mockConfig.number);
+            itemStr += getMockValue(
+              key,
+              mockConfig?.mockNumber || 'Random.natural(1000,1000)',
+            );
           }
           itemStr += `)}`;
         }
@@ -141,11 +142,22 @@ export const mockFromSchema = (schema: any) => {
         jsonStr += `${key}: [],`;
       }
     } else if (property.type === 'number') {
-      jsonStr += `${key}: ${getMockValue(key, mockConfig.number)},`;
+      jsonStr += `${key}: ${getMockValue(
+        key,
+        mockConfig?.mockNumber || 'Random.natural(1000,1000)',
+      )},`;
     } else if (property.type === 'boolean') {
-      jsonStr += `${key}: ${getMockValue(key, mockConfig.boolean, 'boolean')},`;
+      jsonStr += `${key}: ${getMockValue(
+        key,
+        mockConfig?.mockBoolean || 'false',
+        'boolean',
+      )},`;
     } else if (property.type === 'string') {
-      jsonStr += `${key}: ${getMockValue(key, mockConfig.string, 'string')},`;
+      jsonStr += `${key}: ${getMockValue(
+        key,
+        mockConfig?.mockString || 'Random.cword(5, 7)',
+        'string',
+      )},`;
     }
     return {
       jsonStr,

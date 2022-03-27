@@ -111,18 +111,20 @@ const schame: any = {
             },
           },
           'ui:options': {},
+          props: {},
         },
       },
     },
-    saveOption: {
-      title: '保存位置',
-      description: '至少选择一项',
+    commonlyUsedBlock: {
+      title: '常用区块',
+      description: '',
       type: 'array',
       items: {
         type: 'string',
       },
-      enum: ['package', 'vscode'],
-      enumNames: ['当前项目package.json文件（建议）', 'vscode配置'],
+      enum: [],
+      enumNames: [],
+      widget: 'multiSelect',
     },
   },
 };

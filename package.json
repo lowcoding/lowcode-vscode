@@ -111,13 +111,11 @@
     "submenus": [
       {
         "id": "lowcode/editor/context",
-        "label": "$(octoface) Low Code",
-        "icon": "$(octoface)"
+        "label": "Low Code"
       },
       {
         "id": "lowcode/explorer/context",
-        "label": "$(octoface) Low Code",
-        "icon": "$(octoface)"
+        "label": "Low Code"
       }
     ],
     "viewsContainers": {
@@ -142,53 +140,7 @@
         "view": "lowcode.welcome",
         "contents": "[打开文件夹](command:lowcode.openFolderForceNewWindow)\n[创建应用](command:lowcode.openScaffold)\n[设置](command:lowcode.openConfig)\n查看[文档](https://lowcoding.gitee.io)以学习如何在 VS Code 中如何使用 lowcode。"
       }
-    ],
-    "configuration": {
-      "type": "object",
-      "title": "yapi-code 配置项",
-      "properties": {
-        "yapi-code.domain": {
-          "type": "string",
-          "default": "",
-          "description": "域名"
-        },
-        "yapi-code.project": {
-          "type": "array",
-          "default": [],
-          "description": "项目列表。eg.[{\"name\": \"项目\",\"token\": \"token\"}]"
-        },
-        "yapi-code.templatePath": {
-          "type": "string",
-          "default": "codeTemplate/",
-          "description": "模板存放路径"
-        },
-        "yapi-code.mockNumber": {
-          "type": "string",
-          "default": "Random.natural(1000,1000)",
-          "description": "模拟number数据"
-        },
-        "yapi-code.mockBoolean": {
-          "type": "string",
-          "default": "false",
-          "description": "模拟boolean数据"
-        },
-        "yapi-code.mockString": {
-          "type": "string",
-          "default": "Random.cword(5, 7)",
-          "description": "模拟string数据"
-        },
-        "yapi-code.mockKeyWordEqual": {
-          "type": "object",
-          "default": {},
-          "description": "模拟关键词-全等匹配"
-        },
-        "yapi-code.mockKeyWordLike": {
-          "type": "object",
-          "default": {},
-          "description": "模拟关键词-相似匹配"
-        }
-      }
-    }
+    ]
   },
   "devDependencies": {
     "@types/copy-paste": "^1.1.30",

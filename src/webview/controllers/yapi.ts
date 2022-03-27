@@ -1,11 +1,13 @@
-import { getDomain, getProjectList } from '../../config';
+import { getConfig } from '../../utils/config';
+
+const config = getConfig();
 
 export const getYapiDomain = () => {
-  const domian = getDomain();
+  const domian = config.yapi?.domain;
   return domian;
 };
 
 export const getYapiProjects = () => {
-  const projects = getProjectList();
+  const projects = config.yapi?.projects || [];
   return projects;
 };

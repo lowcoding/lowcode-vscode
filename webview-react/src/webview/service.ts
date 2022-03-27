@@ -270,7 +270,6 @@ export function getPluginConfig() {
         value: string;
       }[];
     };
-    saveOption: string[];
   }>({
     cmd: 'getPluginConfig',
   });
@@ -298,7 +297,6 @@ export function savePluginConfig(data: {
       value: string;
     }[];
   };
-  saveOption: string[];
 }) {
   return request({
     cmd: 'savePluginConfig',

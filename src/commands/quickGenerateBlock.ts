@@ -1,5 +1,5 @@
 import { commands, ExtensionContext, window } from 'vscode';
-import { getCommonlyUsedBlock } from '../config';
+import { getConfig } from '../utils/config';
 import { genCodeByBlockWithDefaultModel } from '../utils/generate';
 import { formatPath } from '../utils/platform';
 
@@ -7,7 +7,7 @@ export const registerQuickGenerateBlock = (context: ExtensionContext) => {
   context.subscriptions.push(
     commands.registerCommand('lowcode.quickGenerateBlock', async (args) => {
       const path = formatPath(args.path);
-      const blocks = getCommonlyUsedBlock();
+      const blocks = getConfig().commonlyUsedBlock || [];
       if (blocks.length < 1) {
         window.showWarningMessage('未配置常用区块', {
           modal: true,

@@ -1,6 +1,6 @@
 import { useForm } from 'form-render';
 import React, { useEffect } from 'react';
-import { getPluginConfig } from '@/webview/service';
+import { getLocalMaterials, getPluginConfig } from '@/webview/service';
 import useService from './useService';
 
 const useController = () => {
@@ -9,9 +9,15 @@ const useController = () => {
   const form = useForm();
 
   useEffect(() => {
+    getLocalMaterials('blocks').then((res) => {
+      form.setSchemaByPath('commonlyUsedBlock', {
+        enum: res.map((s) => s.name),
+        enumNames: res.map((s) => s.name),
+      });
+    });
     getPluginConfig().then((data) => {
-      model.setFormDate({ ...data, saveOption: ['package'] });
-      form.setValues({ ...data, saveOption: ['package'] });
+      model.setFormDate(data);
+      form.setValues(data);
     });
   }, []);
 
