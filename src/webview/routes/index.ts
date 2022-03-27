@@ -6,6 +6,7 @@ import * as directory from '../controllers/directory';
 import * as yapi from '../controllers/yapi';
 import * as generate from '../controllers/generate';
 import * as snippet from '../controllers/snippet';
+import * as block from '../controllers/block';
 import * as json from '../controllers/json';
 import * as config from '../controllers/config';
 import * as intelliSense from '../controllers/intelliSense';
@@ -23,6 +24,7 @@ export const routes: Record<string, any> = {
   downloadScaffold: scaffold.downloadScaffold,
   selectDirectory: scaffold.selectDirectory,
   createProject: scaffold.createProject,
+  useLocalScaffold: scaffold.useLocalScaffold,
 
   getDirectoryTree: directory.getDirectoryTree,
 
@@ -35,6 +37,8 @@ export const routes: Record<string, any> = {
 
   insertSnippet: snippet.insertSnippet,
   addSnippets: snippet.addSnippets,
+
+  createBlockTemplate: block.createBlock,
 
   jsonToTs: json.jsonToTs,
 

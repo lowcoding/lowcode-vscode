@@ -1,7 +1,11 @@
 import { commands, Uri } from 'vscode';
 import { selectDirectory as openSelectDirectory } from '../../utils/editor';
 import { fetchScaffolds } from '../../utils/request';
-import { compileScaffold, downloadScaffoldFromGit } from '../../utils/scaffold';
+import {
+  compileScaffold,
+  copyLocalScaffoldToTemp,
+  downloadScaffoldFromGit,
+} from '../../utils/scaffold';
 import { IMessage } from '../type';
 
 export const getScaffolds = async (message: IMessage<{ url: string }>) => {
@@ -21,7 +25,7 @@ export const downloadScaffold = (
   }
 };
 
-export const selectDirectory = async (message: IMessage) => {
+export const selectDirectory = async () => {
   const dirs = await openSelectDirectory();
   return dirs;
 };
@@ -42,4 +46,13 @@ export const createProject = async (
     );
   }
   return '创建项目成功';
+};
+
+export const useLocalScaffold = (
+  message: IMessage<{
+    localPath?: string;
+  }>,
+) => {
+  const config = copyLocalScaffoldToTemp(message.data.localPath);
+  return config;
 };

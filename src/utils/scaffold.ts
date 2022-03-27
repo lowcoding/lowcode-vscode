@@ -3,10 +3,38 @@ import * as fs from 'fs-extra';
 import * as execa from 'execa';
 import { renderEjsTemplates } from './ejs';
 import { tempDir } from './env';
+import { rootPath } from './vscodeEnv';
 
 export const downloadScaffoldFromGit = (remote: string) => {
   fs.removeSync(tempDir.scaffold);
   execa.sync('git', ['clone', ...remote.split(' '), tempDir.scaffold]);
+  fs.removeSync(path.join(tempDir.scaffold, '.git'));
+  if (
+    fs.existsSync(path.join(tempDir.scaffold, 'lowcode.scaffold.config.json'))
+  ) {
+    return fs.readJSONSync(
+      path.join(tempDir.scaffold, 'lowcode.scaffold.config.json'),
+    );
+  }
+  return {};
+};
+
+export const copyLocalScaffoldToTemp = (localScaffoldPath?: string) => {
+  if (!localScaffoldPath) {
+    localScaffoldPath = rootPath;
+  }
+  if (!localScaffoldPath) {
+    throw new Error('当前没有打开项目，请选择本地项目');
+  }
+  fs.removeSync(tempDir.scaffold);
+  fs.copySync(localScaffoldPath, tempDir.scaffold, {
+    filter: (src: string, dest: string) => {
+      if (src.includes('.git') || src.includes('node_modules')) {
+        return false;
+      }
+      return true;
+    },
+  });
   fs.removeSync(path.join(tempDir.scaffold, '.git'));
   if (
     fs.existsSync(path.join(tempDir.scaffold, 'lowcode.scaffold.config.json'))

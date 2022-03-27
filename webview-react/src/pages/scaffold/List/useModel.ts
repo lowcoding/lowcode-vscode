@@ -31,18 +31,19 @@ const useModel = () => {
 
   const [currentCategory, setCurrentCategory] = useState('');
 
-  const [formModal, setFormModal] = useState<{ visible: boolean; config: any }>(
-    {
-      visible: false,
-      config: {},
-    },
-  );
+  const [formModal, setFormModal] = useState<{ visible: boolean; config: any }>({
+    visible: false,
+    config: {},
+  });
 
   const [downloadVisible, setDownloadVisible] = useState(false);
 
-  const [loading, setLoading] = useState<{ fetch: boolean; download: boolean }>(
-    { fetch: false, download: false },
-  );
+  const [localProjectModalVisible, setLocalProjectModalVisible] = useState(false);
+
+  const [loading, setLoading] = useState<{ fetch: boolean; download: boolean }>({
+    fetch: false,
+    download: false,
+  });
   return {
     loading,
     setLoading,
@@ -58,6 +59,8 @@ const useModel = () => {
     setFormModal,
     downloadVisible,
     setDownloadVisible,
+    localProjectModalVisible,
+    setLocalProjectModalVisible,
   };
 };
 

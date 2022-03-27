@@ -194,7 +194,15 @@ export function downloadMaterials(data: { type: string; url: string }) {
     data,
   });
 }
-
+/**
+ * @description 保存物料
+ * @export
+ * @param {{
+ *   blocks: string[];
+ *   snippets: string[];
+ * }} data
+ * @returns
+ */
 export function saveDownloadMaterials(data: {
   blocks: string[];
   snippets: string[];
@@ -241,6 +249,32 @@ export function addSnippets(data: {
     data,
   });
 }
+
+/**
+ * @description 创建区块模板
+ * @export
+ * @param {{
+ *   name: string;
+ *   template: string;
+ *   model: string;
+ *   schema: string;
+ *   preview: string;
+ * }} data
+ * @returns
+ */
+export function createBlockTemplate(data: {
+  name: string;
+  template: string;
+  model: string;
+  schema: string;
+  preview: string;
+}) {
+  return request<string>({
+    cmd: 'createBlockTemplate',
+    data,
+  });
+}
+
 /**
  * 获取插件配置
  *
@@ -356,6 +390,21 @@ export function downloadScaffoldByVsCode(data: {
 }
 
 /**
+ * @description 使用本地脚手架
+ * @export
+ * @param {{ localPath?: string }} data
+ * @returns
+ */
+export function useLocalScaffold(data: { localPath?: string }) {
+  return request<{
+    config: { formSchema?: { schema?: object; formData?: object } };
+  }>({
+    cmd: 'useLocalScaffold',
+    data,
+  });
+}
+
+/**
  * 选择目录
  *
  * @export
@@ -389,6 +438,12 @@ export function createProject(data: {
   });
 }
 
+/**
+ * @description 执行 vscode 命令
+ * @export
+ * @param {{ command: string }} data
+ * @returns
+ */
 export function executeVscodeCommand(data: { command: string }) {
   return request<string>({
     cmd: 'executeVscodeCommand',

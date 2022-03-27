@@ -25,7 +25,7 @@ export function invokeCallback<T = any>(
 export function invokeErrorCallback(
   panel: WebviewPanel,
   cbid: string,
-  res: { title: string; message: string },
+  res: any,
 ) {
   panel.webview.postMessage({
     cmd: 'vscodeCallback',
@@ -45,6 +45,7 @@ const setWebviewHtml = (panel: vscode.WebviewPanel) => {
   const scriptPathOnDisk = vscode.Uri.file(
     path.join(getExtensionPath(), 'webview-dist', 'main.js'),
   );
+  // const scriptUri = 'http://localhost:8000/main.js';
   const scriptUri = panel.webview.asWebviewUri(scriptPathOnDisk);
 
   panel.webview.html = `
@@ -123,6 +124,11 @@ export const showWebView = (options: {
             invokeErrorCallback(panel, message.cbid, ex);
           }
         } else {
+          invokeErrorCallback(
+            panel,
+            message.cbid,
+            `未找到名为 ${message.cmd} 回调方法!`,
+          );
           vscode.window.showWarningMessage(
             `未找到名为 ${message.cmd} 回调方法!`,
           );

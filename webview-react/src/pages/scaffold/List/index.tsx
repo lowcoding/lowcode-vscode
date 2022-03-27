@@ -5,6 +5,7 @@ import useController from './useController';
 import './index.less';
 import FormModal from '../FormModal';
 import DownloadModal from '../DownloadModal';
+import LocalProjectModal from '../LocalProjectModal';
 
 const View = () => {
   const controller = useController();
@@ -54,13 +55,22 @@ const View = () => {
               ))}
             </div>
             <Button
-              style={{ width: '80%' }}
+              style={{ width: '45%', borderRadius: '0px' }}
               type="primary"
-              icon={<PlusOutlined />}
               onClick={() => {
                 model.setDownloadVisible(true);
               }}
-            ></Button>
+            >
+              更多模板
+            </Button>
+            <Button
+              style={{ width: '45%', borderRadius: '0px' }}
+              onClick={() => {
+                model.setLocalProjectModalVisible(true);
+              }}
+            >
+              本地调试
+            </Button>
           </Col>
           <Col>
             <div className="scaffold">
@@ -102,6 +112,12 @@ const View = () => {
         visible={model.downloadVisible}
         onClose={() => {
           model.setDownloadVisible(false);
+        }}
+      />
+      <LocalProjectModal
+        visible={model.localProjectModalVisible}
+        onClose={() => {
+          model.setLocalProjectModalVisible(false);
         }}
       />
     </Spin>

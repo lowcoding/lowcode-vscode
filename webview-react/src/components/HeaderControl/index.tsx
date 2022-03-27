@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { history, useModel } from 'umi';
-import { Radio, Menu, Dropdown, message } from 'antd';
+import { Radio, Menu, Dropdown, message, Modal, Form, Input } from 'antd';
 import { executeVscodeCommand, refreshIntelliSense } from '@/webview/service';
+import { usePresenter } from './presenter';
 
 export default () => {
-  const { tab, setTab, setRefresh } = useModel('tab');
+  const { tab, setTab } = useModel('tab');
+  const presenter = usePresenter();
+  const { model } = presenter;
   const menu = (
     <Menu>
       <Menu.Item
@@ -23,6 +26,16 @@ export default () => {
         }}
       >
         添加代码片段
+      </Menu.Item>
+      <Menu.Item
+        key="3"
+        onClick={() => {
+          model.setBlockModal((s) => {
+            s.visible = true;
+          });
+        }}
+      >
+        创建区块模板
       </Menu.Item>
       <Menu.Item
         key="2"
@@ -56,6 +69,33 @@ export default () => {
           <Radio.Button value="more">更多</Radio.Button>
         </Dropdown>
       </Radio.Group>
+      <Modal
+        visible={model.blockModal.visible}
+        title="创建区块模板"
+        onCancel={presenter.closeBlockModal}
+        onOk={presenter.createBlock}
+        okText="确定"
+        cancelText="取消"
+        okButtonProps={{
+          disabled: model.blockModal.processing,
+          loading: model.blockModal.processing,
+        }}
+      >
+        <Form layout="vertical">
+          <Form.Item label="名称" required>
+            <Input
+              value={model.blockModal.name}
+              onChange={(e) => {
+                const { value } = e.target;
+                model.setBlockModal((s) => {
+                  s.name = value;
+                });
+              }}
+              placeholder="请输入"
+            />
+          </Form.Item>
+        </Form>
+      </Modal>
     </div>
   );
 };
