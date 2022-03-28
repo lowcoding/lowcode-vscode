@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Form, Select, message } from 'antd';
+import { Modal, Form, Select, message, Tooltip } from 'antd';
+import { QuestionCircleOutlined } from '@ant-design/icons';
 import { downloadMaterials, IDownloadMaterialsResult } from '@/webview/service';
+import {
+  fetchMaterialRepositoryList,
+  IFetchMaterialRepositoryListResult,
+} from './api';
 
 interface IProps {
   visible: boolean;
@@ -8,15 +13,41 @@ interface IProps {
   onOk: (data: IDownloadMaterialsResult) => void;
 }
 const DownloadMaterials: React.FC<IProps> = ({ visible, onCancel, onOk }) => {
+  const [repositoryList, setRepositoryList] =
+    useState<IFetchMaterialRepositoryListResult>({
+      git: [
+        {
+          title: 'lowcode默认提供的物料',
+          repository:
+            'https://github.com/lowcode-scaffold/lowcode-materials.git',
+        },
+        {
+          title: 'lowcode默认提供的物料(国内镜像)',
+          repository:
+            'https://gitee.com/lowcode-scaffold/lowcode-materials.git',
+        },
+      ],
+      npm: [
+        {
+          title: '@lowcoding/materials-template',
+          repository: '@lowcoding/materials-template',
+        },
+      ],
+    });
+
   const [formData, setFormData] = useState<{
     type: 'git' | 'npm';
     url: string;
   }>({} as any);
+
   const [processing, setProcessing] = useState(false);
 
   useEffect(() => {
     if (visible) {
       setFormData({} as any);
+      fetchMaterialRepositoryList().then((res) => {
+        setRepositoryList(res);
+      });
     }
   }, [visible]);
 
@@ -24,7 +55,14 @@ const DownloadMaterials: React.FC<IProps> = ({ visible, onCancel, onOk }) => {
     <Modal
       width={650}
       visible={visible}
-      title="下载物料"
+      title={
+        <span>
+          下载物料
+          <Tooltip title="分享物料可提交到https://github.com/lowcoding/material">
+            <QuestionCircleOutlined />
+          </Tooltip>
+        </span>
+      }
       onCancel={() => {
         if (processing) {
           return;
@@ -86,21 +124,18 @@ const DownloadMaterials: React.FC<IProps> = ({ visible, onCancel, onOk }) => {
                 }));
               }}
             >
-              {formData.type === 'git' && (
-                <>
-                  <Select.Option value="https://gitee.com/lowcoding/lowcode-materials-template.git">
-                    https://gitee.com/lowcoding/lowcode-materials-template.git(国内镜像)
+              {formData.type === 'git' &&
+                repositoryList.git.map((item) => (
+                  <Select.Option value={item.repository} key={item.repository}>
+                    {item.title}
                   </Select.Option>
-                  <Select.Option value="https://github.com/lowcoding/lowcode-materials-template.git">
-                    https://github.com/lowcoding/lowcode-materials-template.git
+                ))}
+              {formData.type === 'npm' &&
+                repositoryList.npm.map((item) => (
+                  <Select.Option value={item.repository} key={item.repository}>
+                    {item.title}
                   </Select.Option>
-                </>
-              )}
-              {formData.type === 'npm' && (
-                <Select.Option value="@lowcoding/materials-template">
-                  @lowcoding/materials-template
-                </Select.Option>
-              )}
+                ))}
             </Select>
           </Form.Item>
         )}
