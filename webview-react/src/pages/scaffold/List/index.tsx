@@ -1,6 +1,6 @@
 import React from 'react';
-import { Row, Col, Spin, Button } from 'antd';
-import { SyncOutlined, PlusOutlined } from '@ant-design/icons';
+import { Row, Col, Spin, Button, Tooltip } from 'antd';
+import { SyncOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import useController from './useController';
 import './index.less';
 import FormModal from '../FormModal';
@@ -19,7 +19,12 @@ const View = () => {
     >
       <div className="scaffold">
         <Row className="header">
-          <Col span={20}>选择模板创建应用</Col>
+          <Col span={20}>
+            选择模板创建应用{' '}
+            <Tooltip title="分享物料可提交到https://github.com/lowcoding/scaffold">
+              <QuestionCircleOutlined />
+            </Tooltip>
+          </Col>
           <Col span={4} className="control">
             <SyncOutlined
               spin={model.loading.fetch}

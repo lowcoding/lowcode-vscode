@@ -18,7 +18,12 @@ export const getLocalMaterials = (
     name: string;
     model: {};
     schema: {};
-    preview: { title?: string; description?: string; img?: string };
+    preview: {
+      title?: string;
+      description?: string;
+      img?: string;
+      category?: string[];
+    };
     template: string;
   }[] = [];
   try {
@@ -26,7 +31,7 @@ export const getLocalMaterials = (
       const fullPath = path.join(materialsFullPath, s);
       let model = {} as any;
       let schema = {} as any;
-      let preview = { img: '' };
+      let preview = { img: '', category: [] };
       let template = '';
       try {
         model = JSON.parse(
@@ -115,6 +120,7 @@ export function getSnippets() {
     schema: {},
     preview: {
       img: 'https://cdn.jsdelivr.net/gh/migrate-gitee/img-host/2020/11/05/1604587962875.jpg',
+      category: [],
     },
     template: s.template,
   }));

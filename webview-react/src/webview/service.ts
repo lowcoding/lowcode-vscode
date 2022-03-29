@@ -9,6 +9,7 @@ export interface IGetLocalMaterialsResult {
     title: string;
     description: string;
     img?: string;
+    category?: string[];
   };
   template: string;
 }
@@ -168,7 +169,12 @@ export interface IDownloadMaterialsResult {
     name: string;
     model: {};
     schema: {};
-    preview: { title?: string; description?: string; img?: string };
+    preview: {
+      title?: string;
+      description?: string;
+      img?: string;
+      category?: string[];
+    };
     template: string;
   }[];
   snippets: {
@@ -176,7 +182,12 @@ export interface IDownloadMaterialsResult {
     name: string;
     model: {};
     schema: {};
-    preview: { title?: string; description?: string; img?: string };
+    preview: {
+      title?: string;
+      description?: string;
+      img?: string;
+      category?: string[];
+    };
     template: string;
   }[];
 }

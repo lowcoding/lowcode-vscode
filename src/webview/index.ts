@@ -45,8 +45,8 @@ const setWebviewHtml = (panel: vscode.WebviewPanel) => {
   const scriptPathOnDisk = vscode.Uri.file(
     path.join(getExtensionPath(), 'webview-dist', 'main.js'),
   );
-  // const scriptUri = 'http://localhost:8000/main.js';
-  const scriptUri = panel.webview.asWebviewUri(scriptPathOnDisk);
+  const scriptUri = 'http://localhost:8000/main.js';
+  // const scriptUri = panel.webview.asWebviewUri(scriptPathOnDisk);
 
   panel.webview.html = `
 			<!DOCTYPE html>

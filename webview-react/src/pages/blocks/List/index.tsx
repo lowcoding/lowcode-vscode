@@ -1,30 +1,48 @@
 import React from 'react';
-import { Input, Row, Col, Button, message } from 'antd';
+import { Input, Row, Col, Button, message, Select } from 'antd';
 import { history } from 'umi';
 import styles from './index.less';
-import useController from './useController';
 import { genCodeByBlockMaterial } from '@/webview/service';
 import SelectDirectory from '@/components/SelectDirectory';
+import { usePresenter } from './presenter';
 
 const Search = Input.Search;
 
 export default () => {
-  const controller = useController();
-  const { service } = controller;
-  const { model } = service;
+  const presenter = usePresenter();
+  const { model } = presenter;
 
   return (
     <div className={styles.materials}>
       <div style={{ textAlign: 'center', marginBottom: '20px' }}>
         <Search
           placeholder="输入关键字查询"
-          onSearch={(value) => {
-            service.search.run(value);
-          }}
           onChange={(el) => {
-            service.search.run(el.target.value);
+            const { value } = el.target;
+            model.setSearchValue(value);
+            presenter.handleSearch();
           }}
         />
+        <div style={{ textAlign: 'left', marginTop: '5px' }}>
+          <Select
+            mode="multiple"
+            allowClear
+            style={{ width: '100%' }}
+            placeholder="选择分类"
+            value={model.selectedCategory}
+            notFoundContent="没有分类"
+            onChange={(value) => {
+              model.setSelectedCategory(value);
+              presenter.handleSearch();
+            }}
+          >
+            {model.categoryList.map((s) => (
+              <Select.Option value={s} key={s}>
+                {s}
+              </Select.Option>
+            ))}
+          </Select>
+        </div>
       </div>
       <Row gutter={[16, 16]}>
         {model.materials.map((s) => (
@@ -40,9 +58,13 @@ export default () => {
               <div className={styles.itemWrapper}>
                 <div className={styles.scroll}>
                   <div className={styles.content}>
-                    <div className={styles.title}>{s.preview.title || s.name}</div>
+                    <div className={styles.title}>
+                      {s.preview.title || s.name}
+                    </div>
                     {s.preview.description && (
-                      <div className={styles.remark}>{s.preview.description}</div>
+                      <div className={styles.remark}>
+                        {s.preview.description}
+                      </div>
                     )}
                   </div>
                 </div>
