@@ -14,7 +14,8 @@ const useModel = () => {
       {
         title: '',
         description: '',
-        img: 'https://cdn.jsdelivr.net/gh/migrate-gitee/img-host/2020/11/05/1604587962875.jpg',
+        img:
+          'https://fastly.jsdelivr.net/gh/migrate-gitee/img-host/2020/11/05/1604587962875.jpg',
         category: [],
       },
       null,

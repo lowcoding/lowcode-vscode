@@ -50,7 +50,7 @@ export const getLocalMaterials = (
       } catch {}
       if (preview.img && preview.img.indexOf('gitee.') > -1) {
         preview.img =
-          'https://cdn.jsdelivr.net/gh/migrate-gitee/img-host/2020/11/05/1604587962875.jpg';
+          'https://fastly.jsdelivr.net/gh/migrate-gitee/img-host/2020/11/05/1604587962875.jpg';
       }
       if (type === 'snippets') {
         try {
@@ -119,7 +119,7 @@ export function getSnippets() {
     model: {},
     schema: {},
     preview: {
-      img: 'https://cdn.jsdelivr.net/gh/migrate-gitee/img-host/2020/11/05/1604587962875.jpg',
+      img: 'https://fastly.jsdelivr.net/gh/migrate-gitee/img-host/2020/11/05/1604587962875.jpg',
       category: [],
     },
     template: s.template,

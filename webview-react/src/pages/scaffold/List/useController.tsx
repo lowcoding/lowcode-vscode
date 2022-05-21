@@ -29,7 +29,7 @@ const useController = () => {
     });
     const promises: ReturnType<typeof getScaffolds>[] = [
       getScaffolds(
-        'https://cdn.jsdelivr.net/gh/lowcoding/scaffold@latest/index.json',
+        'https://fastly.jsdelivr.net/gh/lowcoding/scaffold@latest/index.json',
       ),
     ];
     if (isVankeInternal) {

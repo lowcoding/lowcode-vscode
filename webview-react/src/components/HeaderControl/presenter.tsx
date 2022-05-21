@@ -28,7 +28,7 @@ export const usePresenter = () => {
         {
           title: model.blockModal.name,
           description: model.blockModal.name,
-          img: 'https://cdn.jsdelivr.net/gh/migrate-gitee/img-host/2020/11/05/1604587962875.jpg',
+          img: 'https://fastly.jsdelivr.net/gh/migrate-gitee/img-host/2020/11/05/1604587962875.jpg',
           category: [],
         },
         null,

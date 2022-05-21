@@ -13,7 +13,7 @@ export interface IFetchMaterialRepositoryListResult {
 
 export function fetchMaterialRepositoryList() {
   return request<IFetchMaterialRepositoryListResult>(
-    `https://cdn.jsdelivr.net/gh/lowcoding/material@latest/index.json`,
+    `https://fastly.jsdelivr.net/gh/lowcoding/material@latest/index.json`,
     {
       method: 'GET',
       skipErrorHandler: true,
