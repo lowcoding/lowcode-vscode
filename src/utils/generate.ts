@@ -4,6 +4,7 @@ import * as vscode from 'vscode';
 import * as fs from 'fs-extra';
 import {
   blockMaterialsPath,
+  getEnv,
   rootPath,
   snippetMaterialsPath,
   tempWorkPath,
@@ -11,6 +12,8 @@ import {
 import { renderEjsTemplates, compile } from './ejs';
 import { pasteToEditor } from './editor';
 import { getFileContent } from './file';
+import { getInnerLibs } from './lib';
+import { getOutputChannel } from './outputChannel';
 
 export const genCodeByBlock = async (data: {
   material: string;
@@ -62,6 +65,9 @@ export const genCodeByBlock = async (data: {
       model: data.model,
       vscode,
       workspaceRootPath: rootPath,
+      env: getEnv(),
+      libs: getInnerLibs(),
+      outputChannel: getOutputChannel(),
     };
     const extendModel = await hook.beforeCompile(context);
     if (extendModel) {
@@ -133,6 +139,9 @@ export const genCodeBySnippet = async (data: {
     model: data.model,
     vscode,
     workspaceRootPath: rootPath,
+    env: getEnv(),
+    libs: getInnerLibs(),
+    outputChannel: getOutputChannel(),
     code: '',
   };
   const extendModel = await hook.beforeCompile(context);

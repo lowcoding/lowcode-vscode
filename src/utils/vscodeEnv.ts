@@ -15,6 +15,14 @@ export const snippetMaterialsPath = path.join(
   'snippets',
 );
 
+export const getEnv = () => ({
+  rootPath,
+  tempWorkPath,
+  materialsPath,
+  blockMaterialsPath,
+  snippetMaterialsPath,
+});
+
 export const checkRootPath = () => {
   if (!rootPath) {
     throw new Error('请打开工作目录');
