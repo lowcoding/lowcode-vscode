@@ -44,7 +44,7 @@ export const genCodeByYapi = async (
 
   const templateResult = await window.showQuickPick(
     templateList.map((s) => s.name),
-    { placeHolder: '请选择模板' },
+    { placeHolder: '请选择YAPI相关模板' },
   );
   if (!templateResult) {
     return;

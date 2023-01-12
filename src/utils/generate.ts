@@ -72,7 +72,9 @@ export const genCodeByBlock = async (data: {
     };
     data.model = {
       ...data.model,
-      createBlockPath: path.join(data.path, ...data.createPath),
+      createBlockPath: path
+        .join(data.path, ...data.createPath)
+        .replace(/\\/g, '/'),
     };
     const extendModel = await hook.beforeCompile(context);
     if (extendModel) {
@@ -144,7 +146,10 @@ export const genCodeBySnippet = async (data: {
   if (activeTextEditor) {
     data.model = {
       ...data.model,
-      activeTextEditorFilePath: activeTextEditor.document.uri.fsPath,
+      activeTextEditorFilePath: activeTextEditor.document.uri.fsPath.replace(
+        /\\/g,
+        '/',
+      ),
     };
   }
   const context = {

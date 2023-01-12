@@ -21,7 +21,7 @@ export const genCodeByJson = async (
 
   const templateResult = await window.showQuickPick(
     templateList.map((s) => s.name),
-    { placeHolder: '请选择模板' },
+    { placeHolder: '请选择JSON相关模板' },
   );
   if (!templateResult) {
     return;

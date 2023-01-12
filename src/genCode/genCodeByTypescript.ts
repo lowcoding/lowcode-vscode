@@ -17,28 +17,24 @@ export const genCodeByTypescript = async (
 
   const templateResult = await window.showQuickPick(
     templateList.map((s) => s.name),
-    { placeHolder: '请选择模板' },
+    { placeHolder: '请选择TS相关模板' },
   );
   if (!templateResult) {
     return;
   }
   const template = templateList.find((s) => s.name === templateResult);
-  try {
-    const { mockCode, mockData } = typescriptToJson(typeString);
-    const model: Model = {
-      type: '',
-      funcName: selectInfo.funcName,
-      typeName: selectInfo.typeName,
-      inputValues: selectInfo.inputValues,
-      mockCode,
-      mockData,
-      jsonData: '',
-      rawSelectedText: selectInfo.rawSelectedText,
-      rawClipboardText,
-    };
-    const code = compileEjs(template!.template, model);
-    pasteToEditor(code);
-  } catch (e: any) {
-    window.showErrorMessage(e.toString());
-  }
+  const { mockCode, mockData } = typescriptToJson(typeString);
+  const model: Model = {
+    type: '',
+    funcName: selectInfo.funcName,
+    typeName: selectInfo.typeName,
+    inputValues: selectInfo.inputValues,
+    mockCode,
+    mockData,
+    jsonData: '',
+    rawSelectedText: selectInfo.rawSelectedText,
+    rawClipboardText,
+  };
+  const code = compileEjs(template!.template, model);
+  pasteToEditor(code);
 };
