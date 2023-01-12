@@ -14,6 +14,7 @@ import { pasteToEditor } from './editor';
 import { getFileContent } from './file';
 import { getInnerLibs } from './lib';
 import { getOutputChannel } from './outputChannel';
+import { getLastAcitveTextEditor } from '../context';
 
 export const genCodeByBlock = async (data: {
   material: string;
@@ -68,6 +69,10 @@ export const genCodeByBlock = async (data: {
       env: getEnv(),
       libs: getInnerLibs(),
       outputChannel: getOutputChannel(),
+    };
+    data.model = {
+      ...data.model,
+      createBlockPath: path.join(data.path, ...data.createPath),
     };
     const extendModel = await hook.beforeCompile(context);
     if (extendModel) {
@@ -134,6 +139,13 @@ export const genCodeBySnippet = async (data: {
     if (script.afterCompile) {
       hook.afterCompile = script.afterCompile;
     }
+  }
+  const activeTextEditor = getLastAcitveTextEditor();
+  if (activeTextEditor) {
+    data.model = {
+      ...data.model,
+      activeTextEditorFilePath: activeTextEditor.document.uri.fsPath,
+    };
   }
   const context = {
     model: data.model,

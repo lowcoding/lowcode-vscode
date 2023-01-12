@@ -33,6 +33,8 @@ export type Model = {
   jsonKeys?: string[];
   rawSelectedText: string; // 编辑器中选中的原始文本
   rawClipboardText: string; // 系统剪切板中的原始文本
+  activeTextEditorFilePath?: string; // 当前打开文件地址
+  createBlockPath?: string; // 创建区块的目录
 };
 
 export const compile = (templateString: string, model: Model) =>
