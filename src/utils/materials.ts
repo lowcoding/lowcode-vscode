@@ -21,8 +21,11 @@ export const getLocalMaterials = (
     preview: {
       title?: string;
       description?: string;
-      img?: string;
+      img?: string | string[];
       category?: string[];
+      notShowInCommand?: boolean;
+      notShowInSnippetsList?: boolean;
+      notShowInintellisense?: boolean;
     };
     template: string;
   }[] = [];
@@ -48,9 +51,9 @@ export const getLocalMaterials = (
           getFileContent(path.join(fullPath, 'config', 'preview.json'), true),
         );
       } catch {}
-      if (preview.img && preview.img.indexOf('gitee.') > -1) {
+      if (!preview.img) {
         preview.img =
-          'https://fastly.jsdelivr.net/gh/migrate-gitee/img-host/2020/11/05/1604587962875.jpg';
+          'https://gitee.com/img-host/img-host/raw/master/2020/11/05/1604587962875.jpg';
       }
       if (type === 'snippets') {
         try {
@@ -111,7 +114,15 @@ export function getSnippets() {
     name: string;
     model: {};
     schema: {};
-    preview: {};
+    preview: {
+      title?: string;
+      description?: string;
+      img?: string | string[];
+      category?: string[];
+      notShowInCommand?: boolean;
+      notShowInSnippetsList?: boolean;
+      notShowInintellisense?: boolean;
+    };
     template: string;
   }[] = getCodeTemplateListFromFiles().map((s) => ({
     path: s.name,
@@ -119,7 +130,7 @@ export function getSnippets() {
     model: {},
     schema: {},
     preview: {
-      img: 'https://fastly.jsdelivr.net/gh/migrate-gitee/img-host/2020/11/05/1604587962875.jpg',
+      img: 'https://gitee.com/img-host/img-host/raw/master/2020/11/05/1604587962875.jpg',
       category: [],
     },
     template: s.template,

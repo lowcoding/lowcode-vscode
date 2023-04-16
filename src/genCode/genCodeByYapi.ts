@@ -25,7 +25,7 @@ export const genCodeByYapi = async (
     window.showErrorMessage('请配置项目');
     return;
   }
-  const templateList = getSnippets();
+  const templateList = getSnippets().filter((s) => !s.preview.notShowInCommand);
   if (templateList.length === 0) {
     window.showErrorMessage('请配置模板');
     return;

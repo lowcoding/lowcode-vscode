@@ -12,7 +12,7 @@ export const genCodeByJson = async (
   jsonString: string,
   rawClipboardText: string,
 ) => {
-  const templateList = getSnippets();
+  const templateList = getSnippets().filter((s) => !s.preview.notShowInCommand);
   if (templateList.length === 0) {
     window.showErrorMessage('请配置模板');
     return;

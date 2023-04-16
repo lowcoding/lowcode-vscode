@@ -1,5 +1,7 @@
 # Change Log
 
+https://github.com/lowcoding/lowcode-vscode/releases
+
 ## 0.1.0
 
 - 支持下载 npm 物料包

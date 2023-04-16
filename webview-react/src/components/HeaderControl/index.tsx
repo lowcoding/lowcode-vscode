@@ -51,20 +51,31 @@ export default () => {
   );
   return (
     <div style={{ textAlign: 'center', marginTop: '20px' }}>
-      <Radio.Group
-        value={tab}
-        onChange={(e) => {
-          const { value } = e.target;
-          if (value !== 'more') {
-            history.push(value);
-            setTab(value);
-          }
-        }}
-        buttonStyle="solid"
-      >
-        <Radio.Button value="/snippets">代码片段</Radio.Button>
-        <Radio.Button value="/blocks">区块</Radio.Button>
-        <Radio.Button value="/config">插件配置</Radio.Button>
+      <Radio.Group value={tab} buttonStyle="solid">
+        <Radio.Button
+          value="/snippets"
+          onClick={() => {
+            presenter.handleChangeRoute('/snippets');
+          }}
+        >
+          代码片段
+        </Radio.Button>
+        <Radio.Button
+          value="/blocks"
+          onClick={() => {
+            presenter.handleChangeRoute('/blocks');
+          }}
+        >
+          区块
+        </Radio.Button>
+        <Radio.Button
+          value="/config"
+          onClick={() => {
+            presenter.handleChangeRoute('/config');
+          }}
+        >
+          插件配置
+        </Radio.Button>
         <Dropdown overlay={menu}>
           <Radio.Button value="more">更多</Radio.Button>
         </Dropdown>

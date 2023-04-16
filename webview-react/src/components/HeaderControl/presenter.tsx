@@ -1,15 +1,24 @@
 import { message } from 'antd';
+import { history, useModel as useUmiModel } from 'umi';
 import { createBlockTemplate } from '@/webview/service';
 import { useModel } from './model';
 
 export const usePresenter = () => {
   const model = useModel();
+  const { setTab } = useUmiModel('tab');
 
   const closeBlockModal = () => {
     model.setBlockModal((s) => {
       s.visible = false;
       s.name = '';
     });
+  };
+
+  const handleChangeRoute = (route: string) => {
+    setTab(route);
+    if (history.location.pathname !== route) {
+      history.push(route);
+    }
   };
 
   const createBlock = () => {
@@ -28,7 +37,9 @@ export const usePresenter = () => {
         {
           title: model.blockModal.name,
           description: model.blockModal.name,
-          img: 'https://fastly.jsdelivr.net/gh/migrate-gitee/img-host/2020/11/05/1604587962875.jpg',
+          img: [
+            'https://gitee.com/img-host/img-host/raw/master/2020/11/05/1604587962875.jpg',
+          ],
           category: [],
         },
         null,
@@ -46,5 +57,5 @@ export const usePresenter = () => {
       });
   };
 
-  return { model, closeBlockModal, createBlock };
+  return { model, closeBlockModal, createBlock, handleChangeRoute };
 };

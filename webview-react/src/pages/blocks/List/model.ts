@@ -10,7 +10,7 @@ export const useModel = () => {
       preview: {
         title?: string;
         description?: string;
-        img?: string;
+        img?: string[];
         category?: string[];
       };
       template: string;
@@ -18,18 +18,9 @@ export const useModel = () => {
   >([]);
   const [oriMaterials, setOriMaterials] = useState<typeof materials>([]);
 
-  const [selectedMaterial, setSelectedMaterial] = useState<{
-    path: string;
-    name: string;
-    model: object;
-    schema: object;
-    preview: {
-      title?: string;
-      description?: string;
-      img?: string;
-    };
-    template: string;
-  }>({ schema: {}, model: {} } as any);
+  const [selectedMaterial, setSelectedMaterial] = useState<typeof materials[0]>(
+    { schema: {}, model: {} } as any,
+  );
 
   const [directoryModalVsible, setDirectoryModalVsible] = useState(false);
 

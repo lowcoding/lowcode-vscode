@@ -10,7 +10,7 @@ export const useModel = () => {
       preview: {
         title?: string;
         description?: string;
-        img?: string;
+        img?: string[];
         category?: string[];
       };
       template: string;

@@ -32,5 +32,15 @@ export const createBlock = (
     path.join(blockPath, 'config', 'preview.json'),
     message.data.preview,
   );
+  fs.outputFileSync(
+    path.join(blockPath, 'script', 'index.js'),
+    `const path = require("path");
+module.exports = {
+  beforeCompile: (context) => {},
+  afterCompile: (context) => {
+    context.outputChannel.appendLine("compile ${message.data.name} end");
+  },
+};`,
+  );
   return '添加成功';
 };

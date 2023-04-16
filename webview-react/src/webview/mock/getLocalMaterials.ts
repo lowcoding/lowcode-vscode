@@ -112,8 +112,10 @@ export default [
     preview: {
       title: '哈哈哈',
       description: 'ksjfdfhdfhdkfjd',
-      img:
+      img: [
         'https://fastly.jsdelivr.net/gh/migrate-gitee/img-host/2020/11/05/1604587962875.jpg',
+        'https://s1.ax1x.com/2023/04/16/p9CenKS.jpg',
+      ],
     },
     template: '1212121',
   },
@@ -234,8 +236,10 @@ export default [
     preview: {
       title: '哈哈哈',
       description: 'ksjfdfhdfhdkfjd',
-      img:
+      img: [
         'https://fastly.jsdelivr.net/gh/migrate-gitee/img-host/2020/11/05/1604587962875.jpg',
+        'https://s1.ax1x.com/2023/04/16/p9CenKS.jpg',
+      ],
     },
     template: '',
   },
@@ -272,8 +276,10 @@ export default [
     preview: {
       title: '哈哈哈',
       description: 'ksjfdfhdfhdkfjd',
-      img:
+      img: [
         'https://fastly.jsdelivr.net/gh/migrate-gitee/img-host/2020/11/05/1604587962875.jpg',
+        'https://s1.ax1x.com/2023/04/16/p9CenKS.jpg',
+      ],
     },
     template: '',
   },
@@ -310,8 +316,10 @@ export default [
     preview: {
       title: '哈哈哈',
       description: 'ksjfdfhdfhdkfjd',
-      img:
+      img: [
         'https://fastly.jsdelivr.net/gh/migrate-gitee/img-host/2020/11/05/1604587962875.jpg',
+        'https://s1.ax1x.com/2023/04/16/p9CenKS.jpg',
+      ],
     },
     template: '',
   },
@@ -348,8 +356,10 @@ export default [
     preview: {
       title: '哈哈哈',
       description: 'ksjfdfhdfhdkfjd',
-      img:
+      img: [
         'https://fastly.jsdelivr.net/gh/migrate-gitee/img-host/2020/11/05/1604587962875.jpg',
+        'https://s1.ax1x.com/2023/04/16/p9CenKS.jpg',
+      ],
     },
     template: '',
   },

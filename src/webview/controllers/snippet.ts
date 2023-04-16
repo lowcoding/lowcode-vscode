@@ -34,5 +34,15 @@ export const addSnippets = (
     path.join(snippetPath, 'config', 'preview.json'),
     message.data.preview,
   );
+  fs.outputFileSync(
+    path.join(snippetPath, 'script', 'index.js'),
+    `const path = require("path");
+module.exports = {
+  beforeCompile: (context) => {},
+  afterCompile: (context) => {
+    context.outputChannel.appendLine("compile ${message.data.name} end");
+  },
+};`,
+  );
   return '添加成功';
 };

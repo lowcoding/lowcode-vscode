@@ -91,7 +91,7 @@ const View = () => {
                     <img
                       src={
                         s.screenshot?.includes('gitee.')
-                          ? 'https://fastly.jsdelivr.net/gh/migrate-gitee/img-host/2020/11/05/1604587962875.jpg'
+                          ? 'https://gitee.com/img-host/img-host/raw/master/2020/11/05/1604587962875.jpg'
                           : s.screenshot
                       }
                     />

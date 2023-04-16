@@ -14,7 +14,9 @@ const material = {
       const materials = getLocalMaterials(message.data, blockMaterialsPath);
       return materials;
     }
-    const materials = getSnippets();
+    const materials = getSnippets().filter(
+      (s) => !s.preview.notShowInSnippetsList,
+    );
     return materials;
   },
 

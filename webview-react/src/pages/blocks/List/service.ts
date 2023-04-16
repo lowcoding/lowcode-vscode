@@ -45,8 +45,16 @@ export default class Service {
         }
       });
     });
-    this.model.setMaterials(res);
-    this.model.setOriMaterials(res);
+    const list: Model['materials'] = res.map((s) => ({
+      ...s,
+      preview: {
+        ...s.preview,
+        img:
+          typeof s.preview.img === 'string' ? [s.preview.img] : s.preview.img,
+      },
+    }));
+    this.model.setMaterials(list);
+    this.model.setOriMaterials(list);
     this.model.setSelectedCategory([]);
     this.model.setCategoryList(categoryList);
   }

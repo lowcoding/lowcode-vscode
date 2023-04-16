@@ -1,10 +1,10 @@
 import React from 'react';
-import { Input, Row, Col, Button, message, Select } from 'antd';
-import { history } from 'umi';
+import { Input, Row, message, Select } from 'antd';
 import styles from './index.less';
 import { genCodeByBlockMaterial } from '@/webview/service';
 import SelectDirectory from '@/components/SelectDirectory';
 import { usePresenter } from './presenter';
+import BlockItem from './components/BlockItem';
 
 const Search = Input.Search;
 
@@ -46,52 +46,13 @@ export default () => {
       </div>
       <Row gutter={[16, 16]}>
         {model.materials.map((s) => (
-          <Col span={24} sm={24} md={12} key={s.name}>
-            <div className={styles.item}>
-              <div
-                className={styles.itemBg}
-                style={{
-                  backgroundImage: `url(${s.preview.img})`,
-                  backgroundPosition: 'center',
-                }}
-              ></div>
-              <div className={styles.itemWrapper}>
-                <div className={styles.scroll}>
-                  <div className={styles.content}>
-                    <div className={styles.title}>
-                      {s.preview.title || s.name}
-                    </div>
-                    {s.preview.description && (
-                      <div className={styles.remark}>
-                        {s.preview.description}
-                      </div>
-                    )}
-                  </div>
-                </div>
-                <div className={styles.control}>
-                  <Button
-                    type="primary"
-                    style={{ width: '50%' }}
-                    onClick={() => {
-                      history.push(`/blocks/detail/${s.name}`);
-                    }}
-                  >
-                    添加
-                  </Button>
-                  <Button
-                    type="primary"
-                    style={{ width: '50%' }}
-                    onClick={() => {
-                      model.setDirectoryModalVsible(true);
-                      model.setSelectedMaterial(s);
-                    }}
-                  >
-                    使用默认数据
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </Col>
+          <BlockItem
+            blockItem={s}
+            onDefaultClick={() => {
+              model.setDirectoryModalVsible(true);
+              model.setSelectedMaterial(s);
+            }}
+          ></BlockItem>
         ))}
       </Row>
       <SelectDirectory

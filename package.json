@@ -3,7 +3,7 @@
 	"displayName": "lowcode",
 	"description": "低代码工具",
 	"author": "wjkang <ruoxieme@gmail.com>",
-	"version": "1.3.0",
+	"version": "1.4.0",
 	"icon": "asset/icon.png",
 	"publisher": "wjkang",
 	"repository": "https://github.com/lowcoding/lowcode-vscode",

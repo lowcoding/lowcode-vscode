@@ -8,7 +8,7 @@ export interface IGetLocalMaterialsResult {
   preview: {
     title: string;
     description: string;
-    img?: string;
+    img?: string | string[];
     category?: string[];
   };
   template: string;

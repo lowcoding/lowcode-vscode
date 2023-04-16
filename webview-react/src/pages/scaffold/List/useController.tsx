@@ -28,9 +28,7 @@ const useController = () => {
       s.fetch = true;
     });
     const promises: ReturnType<typeof getScaffolds>[] = [
-      getScaffolds(
-        'https://fastly.jsdelivr.net/gh/lowcoding/scaffold@latest/index.json',
-      ),
+      getScaffolds('https://gitee.com/lowcoding/scaffold/raw/master/index.json'),
     ];
     if (isVankeInternal) {
       promises.push(

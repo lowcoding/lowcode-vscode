@@ -8,7 +8,7 @@ const useCheckVankeInternal = () => {
   );
 
   useMount(() => {
-    request('https://npm.bu6.io', { skipErrorHandler: true })
+    request('https://yapi.onewo.com', { skipErrorHandler: true })
       .then(() => {
         setIsVankeInternal(true);
       })

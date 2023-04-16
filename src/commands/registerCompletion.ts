@@ -12,7 +12,9 @@ export const registerCompletion = (context: vscode.ExtensionContext) => {
     provider.dispose();
   }
 
-  const snippets = getSnippets();
+  const snippets = getSnippets().filter(
+    (s) => !s.preview.notShowInintellisense,
+  );
   provider = vscode.languages.registerCompletionItemProvider(
     { pattern: '**', scheme: 'file' },
     {
