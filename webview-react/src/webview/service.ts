@@ -1,3 +1,4 @@
+import { AxiosRequestConfig } from 'axios';
 import { request } from './index';
 
 export interface IGetLocalMaterialsResult {
@@ -459,5 +460,15 @@ export function executeVscodeCommand(data: { command: string }) {
   return request<string>({
     cmd: 'executeVscodeCommand',
     data,
+  });
+}
+
+export function nodeRequest<IResult = unknown>(config: AxiosRequestConfig) {
+  return request<IResult>({
+    cmd: 'request',
+    skipError: true,
+    data: {
+      config,
+    },
   });
 }

@@ -1,5 +1,5 @@
 import { useMount } from 'ahooks';
-import { request } from 'umi';
+import { nodeRequest } from '@/webview/service';
 import { useState } from './useImmer';
 
 const useCheckVankeInternal = () => {
@@ -8,7 +8,7 @@ const useCheckVankeInternal = () => {
   );
 
   useMount(() => {
-    request('https://yapi.onewo.com', { skipErrorHandler: true })
+    nodeRequest({ url: 'https://yapi.onewo.com' })
       .then(() => {
         setIsVankeInternal(true);
       })

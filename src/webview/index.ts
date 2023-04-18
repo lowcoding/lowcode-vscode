@@ -114,13 +114,20 @@ export const showWebView = (options: {
     setWebviewHtml(panel);
     const disposables: vscode.Disposable[] = [];
     panel.webview.onDidReceiveMessage(
-      async (message: { cmd: string; cbid: string; data: any }) => {
+      async (message: {
+        cmd: string;
+        cbid: string;
+        data: any;
+        skipError?: boolean;
+      }) => {
         if (routes[message.cmd]) {
           try {
             const res = await routes[message.cmd](message);
             invokeCallback(panel, message.cbid, res);
           } catch (ex: any) {
-            window.showErrorMessage(ex.toString());
+            if (!message.skipError) {
+              window.showErrorMessage(ex.toString());
+            }
             invokeErrorCallback(panel, message.cbid, ex);
           }
         } else {

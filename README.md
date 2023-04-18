@@ -90,7 +90,7 @@
       {
         "id": 137,
         "code": "mechanisms",
-        "name": "居有屋_外部机构",
+        "name": "外部机构",
         "internalType": 0,
         "needArea": 0,
         "assetTypes": [],
@@ -223,7 +223,7 @@ routes 目录下创建新的 mock 文件
 
 配置表单
 
-<p align="center"><img style="height:500px" src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5b24b7d804ac4db1a3673fd2aa4aa4cd~tplv-k3u1fbpfcp-zoom-1.image"/></p>
+<p align="center"><a href="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5b24b7d804ac4db1a3673fd2aa4aa4cd~tplv-k3u1fbpfcp-zoom-1.image"><img style="height:500px;max-height:500px" src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5b24b7d804ac4db1a3673fd2aa4aa4cd~tplv-k3u1fbpfcp-zoom-1.image"/></a></p>
 
 生成代码
 
@@ -335,12 +335,15 @@ routes 目录下创建新的 mock 文件
 ### 表单
 
 选择表单区块，配置 Schema 表单
+
 ![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5a0c793a67924583a4cb83569483687c~tplv-k3u1fbpfcp-zoom-1.image)
 
 ## 自定义区块
 
 创建新的区块
+
 ![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/48f22790459d49f7b708a7684f9d2321~tplv-k3u1fbpfcp-zoom-1.image)
+
 ![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ca76e8e939334df48d7bd3512dadf40a~tplv-k3u1fbpfcp-zoom-1.image)
 
 配置 Schema 表单：复制旧区块的 schema.json 内容覆盖到当前区块的 schema.json 文件内。将 schema 字段内容导入网页 https://xrender.fun/~demos/docs-generator-demo-0 中重新配置。

@@ -1,4 +1,5 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
+import common from 'mocha/lib/interfaces/common';
 
 const https = require('https');
 

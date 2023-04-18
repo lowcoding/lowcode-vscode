@@ -13,7 +13,7 @@ if (process.env.NODE_ENV !== 'production') {
               message: 'call vscode',
               description: `cmd: ${message.cmd}`,
             });
-            (callbacks[message.cbid] || function() {})(
+            (callbacks[message.cbid] || function () {})(
               require(`./mock/${message.cmd}`).default,
             );
           }, 1000);
@@ -21,7 +21,7 @@ if (process.env.NODE_ENV !== 'production') {
       };
 }
 export function callVscode(
-  data: { cmd: string; data?: any },
+  data: { cmd: string; data?: any; skipError?: boolean },
   cb?: (data: any) => void,
   errorCb?: (data: any) => void,
 ) {
@@ -40,10 +40,10 @@ export function callVscode(
   }
 }
 
-export function callVscodePromise(cmd: string, data: any) {
+export function callVscodePromise(cmd: string, data: any, skipError?: boolean) {
   return new Promise((resolve, reject) => {
     callVscode(
-      { cmd, data },
+      { cmd, data, skipError },
       (res) => {
         resolve(res);
       },
@@ -54,10 +54,14 @@ export function callVscodePromise(cmd: string, data: any) {
   });
 }
 
-export function request<T = unknown>(params: { cmd: string; data?: any }) {
+export function request<T = unknown>(params: {
+  cmd: string;
+  data?: any;
+  skipError?: boolean;
+}) {
   return new Promise<T>((resolve, reject) => {
     callVscode(
-      { cmd: params.cmd, data: params.data },
+      { cmd: params.cmd, data: params.data, skipError: params.skipError },
       (res) => {
         resolve(res);
       },
@@ -74,9 +78,9 @@ window.addEventListener('message', (event) => {
     // 来自vscode的回调
     case 'vscodeCallback':
       if (message.code === 200) {
-        (callbacks[message.cbid] || function() {})(message.data);
+        (callbacks[message.cbid] || function () {})(message.data);
       } else {
-        (errorCallbacks[message.cbid] || function() {})(message.data);
+        (errorCallbacks[message.cbid] || function () {})(message.data);
       }
       delete callbacks[message.cbid]; // 执行完回调删除
       delete errorCallbacks[message.cbid]; // 执行完回调删除
