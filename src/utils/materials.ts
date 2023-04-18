@@ -79,7 +79,7 @@ export const getLocalMaterials = (
       };
     });
   } catch {}
-  return materials;
+  return materials.filter((s) => s.name !== '.DS_Store');
 };
 
 export const getCodeTemplateListFromFiles = () => {
