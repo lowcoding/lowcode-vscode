@@ -1,121 +1,64 @@
 export default [
   {
     path: '1',
-    name: 'hahah  ahahahah1',
+    name: 'amis schema',
     model: {
       string: '',
       select: 'a',
     },
     schema: {
-      type: 'object',
-      properties: {
-        name: {
-          title: '名称',
-          type: 'string',
-          'ui:options': {},
-        },
-        filters: {
-          title: '查询条件',
-          type: 'array',
-          items: {
-            type: 'object',
-            properties: {
-              type: {
-                title: 'type',
-                type: 'string',
-                enum: ['input', 'select'],
-                enumNames: ['input', 'select'],
-              },
-              prop: {
-                title: 'prop',
-                type: 'string',
-                'ui:options': {},
-              },
-              label: {
-                title: 'label',
-                type: 'string',
-                'ui:options': {},
-              },
-              placeholder: {
-                title: 'placeholder',
-                type: 'string',
-                'ui:options': {},
-              },
-              block: {
-                title: 'block',
-                type: 'boolean',
-                'ui:widget': 'switch',
-              },
-              disabled: {
-                title: 'disabled',
-                type: 'boolean',
-                'ui:widget': 'switch',
-              },
+      type: 'page',
+      title: 'Hello world',
+      name: 'page',
+      body: [
+        {
+          type: 'form',
+          name: 'form',
+          title: '',
+          body: [
+            {
+              label: '文本框',
+              type: 'input-text',
+              name: 'text',
+              id: 'u:dd1aea5a9004',
             },
-          },
-        },
-        columns: {
-          title: '表格',
-          type: 'array',
-          items: {
-            type: 'object',
-            properties: {
-              title: {
-                title: 'title',
-                type: 'string',
-                'ui:options': {},
-              },
-              dataIndex: {
-                title: 'dataIndex',
-                type: 'string',
-                'ui:options': {},
-              },
-              width: {
-                title: 'width',
-                type: 'number',
-                'ui:options': {},
-              },
-              type: {
-                title: 'type',
-                type: 'string',
-                enum: [
-                  '',
-                  'text',
-                  'button',
-                  'tag-prop',
-                  'clickable',
-                  'tag-list',
-                  'html',
-                  'time',
-                ],
-                enumNames: [
-                  '默认',
-                  'text',
-                  'button',
-                  'tag-prop',
-                  'clickable',
-                  'tag-list',
-                  'html',
-                  'time',
-                ],
-              },
-              ellipsis: {
-                title: 'ellipsis',
-                type: 'boolean',
-                'ui:widget': 'switch',
-              },
+            {
+              type: 'checkbox',
+              label: '3434',
+              name: 'ghghgh',
+              id: 'u:dd52ab21a30f',
             },
-          },
+            {
+              type: 'input-number',
+              label: '3434',
+              name: 'ghhgh',
+              id: 'u:994720d89709',
+            },
+          ],
+          id: 'u:e83e3a31608d',
+          submitText: '',
+          actions: [],
         },
+      ],
+      id: 'u:62cd03947c5f',
+      asideResizor: false,
+      style: {
+        boxShadow: ' 0px 0px 0px 0px transparent',
       },
+      pullRefresh: {
+        disabled: true,
+      },
+      aside: [],
+      regions: ['body'],
     },
     preview: {
-      title: '哈哈哈',
-      description: 'ksjfdfhdfhdkfjd',
+      title: 'amis schema',
+      description: 'amis schema',
       img: [
         'https://fastly.jsdelivr.net/gh/migrate-gitee/img-host/2020/11/05/1604587962875.jpg',
         'https://s1.ax1x.com/2023/04/16/p9CenKS.jpg',
       ],
+      schema: 'amis',
     },
     template: '1212121',
   },

@@ -11,6 +11,7 @@ export interface IGetLocalMaterialsResult {
     description: string;
     img?: string | string[];
     category?: string[];
+    schema?: 'form-render' | 'formily' | 'amis';
   };
   template: string;
 }

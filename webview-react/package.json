@@ -24,6 +24,7 @@
     "@umijs/preset-react": "1.x",
     "@umijs/test": "^3.2.19",
     "ahooks": "^2.9.4",
+    "amis": "^2.9.0",
     "codemirror": "^5.58.1",
     "form-render": "^1.9.2",
     "hox": "1.0.2",

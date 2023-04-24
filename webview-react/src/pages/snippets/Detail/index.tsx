@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Button, Form, Space, Dropdown, message, Modal } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import { history } from 'umi';
@@ -8,6 +8,7 @@ import CodeMirror from '@/components/CodeMirror';
 import JsonToTs from '@/components/JsonToTs';
 import useController from './useController';
 import { genCodeBySnippetMaterial } from '@/webview/service';
+import AmisComponent from '@/components/AmisComponent';
 
 export default () => {
   const controller = useController();
@@ -54,26 +55,41 @@ export default () => {
         {Object.keys(model.selectedMaterial.schema).length > 0 && (
           <Form.Item label="Schema 表单">
             <div style={{ padding: '24px' }}>
-              <FormRender
-                schema={model.selectedMaterial.schema}
-                form={controller.form}
-                watch={controller.watch}
-              />
-              <br></br>
-              <Space>
-                <Button
-                  type="primary"
-                  size="small"
-                  onClick={() => {
+              {model.selectedMaterial.preview.schema === 'form-render' && (
+                <>
+                  <FormRender
+                    schema={model.selectedMaterial.schema}
+                    form={controller.form}
+                    watch={controller.watch}
+                  />
+                  <br></br>
+                  <Space>
+                    <Button
+                      type="primary"
+                      size="small"
+                      onClick={() => {
+                        model.setSelectedMaterial((s) => ({
+                          ...s,
+                          model: model.formData,
+                        }));
+                      }}
+                    >
+                      重新生成模板数据
+                    </Button>
+                  </Space>
+                </>
+              )}
+              {model.selectedMaterial.preview.schema === 'amis' && (
+                <AmisComponent
+                  schema={model.selectedMaterial.schema}
+                  onFormChange={(values) => {
                     model.setSelectedMaterial((s) => ({
                       ...s,
-                      model: model.formData,
+                      model: values,
                     }));
                   }}
-                >
-                  重新生成模板数据
-                </Button>
-              </Space>
+                />
+              )}
             </div>
           </Form.Item>
         )}
@@ -95,10 +111,7 @@ export default () => {
           <br></br>
           <Space>
             <Dropdown overlay={controller.menu}>
-              <a
-                className="ant-dropdown-link"
-                onClick={(e) => e.preventDefault()}
-              >
+              <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
                 更多功能 <DownOutlined />
               </a>
             </Dropdown>

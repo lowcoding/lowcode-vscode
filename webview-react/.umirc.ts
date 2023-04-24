@@ -47,6 +47,15 @@ export default defineConfig({
   outputPath: '../webview-dist',
   //mpa: { path: '/', component: '@/pages/index' },
   chunks: ['main'],
+	chainWebpack: function(config, { webpack }) {
+    config.merge({
+      optimization: {
+        splitChunks: {
+          chunks: 'all',
+        },
+      },
+    });
+  },
   styleLoader: {},
   plugins: [path.join(__dirname, 'plugin')],
   antd: {

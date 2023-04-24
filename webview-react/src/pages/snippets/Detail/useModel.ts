@@ -9,7 +9,8 @@ const useModel = () => {
     preview: {
       title: string;
       description: string;
-      img?: string;
+      img?: string[] | string;
+      schema?: 'form-render' | 'formily' | 'amis';
     };
     template: string;
   }>({ schema: {}, model: {} } as any);

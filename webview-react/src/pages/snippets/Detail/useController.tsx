@@ -14,7 +14,10 @@ const useController = () => {
   useEffect(() => {
     getLocalMaterials('snippets').then((data) => {
       if (data.length) {
-        const selected = data.find((s: any) => s.name === params.name);
+        const selected = data.find((s) => s.name === params.name);
+        if (selected && !selected.preview.schema) {
+          selected.preview.schema = 'form-render';
+        }
         model.setSelectedMaterial(selected!);
         model.setFormData(selected?.model);
         form.setValues(selected?.model);
