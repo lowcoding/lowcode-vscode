@@ -26,6 +26,7 @@ export const getLocalMaterials = (
       notShowInCommand?: boolean;
       notShowInSnippetsList?: boolean;
       notShowInintellisense?: boolean;
+      schema?: string;
     };
     template: string;
   }[] = [];
@@ -34,7 +35,7 @@ export const getLocalMaterials = (
       const fullPath = path.join(materialsFullPath, s);
       let model = {} as any;
       let schema = {} as any;
-      let preview = { img: '', category: [] };
+      let preview = { img: '', category: [], schema: 'form-render' };
       let template = '';
       try {
         model = JSON.parse(
@@ -55,6 +56,9 @@ export const getLocalMaterials = (
         preview.img =
           'https://gitee.com/img-host/img-host/raw/master/2020/11/05/1604587962875.jpg';
       }
+      if (!preview.schema) {
+        preview.schema = 'form-render';
+      }
       if (type === 'snippets') {
         try {
           template = getFileContent(
@@ -68,6 +72,22 @@ export const getLocalMaterials = (
           model = schema.formSchema.formData;
         }
         schema = schema.formSchema.schema;
+      }
+      if (preview.schema === 'amis') {
+        // 设置 page 默认 name
+        schema.name = 'page';
+        if (schema.body && Array.isArray(schema.body)) {
+          schema.body.forEach((s: Record<string, unknown>) => {
+            if (s.type === 'form') {
+              s.name = 'form';
+              if (s.data && Object.keys(model).length === 0) {
+                model = s.data;
+              } else if (!s.data && Object.keys(model).length > 0) {
+                s.data = model;
+              }
+            }
+          });
+        }
       }
       return {
         path: fullPath,

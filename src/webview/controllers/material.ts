@@ -11,7 +11,7 @@ import { IMessage } from '../type';
 const material = {
   getLocalMaterials: (message: IMessage<'blocks' | 'snippets'>) => {
     if (message.data === 'blocks') {
-      const materials = getLocalMaterials(message.data, blockMaterialsPath);
+      const materials = getLocalMaterials('blocks', blockMaterialsPath);
       return materials;
     }
     const materials = getSnippets().filter(

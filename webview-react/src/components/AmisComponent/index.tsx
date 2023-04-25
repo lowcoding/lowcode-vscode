@@ -80,7 +80,7 @@ export default (props: IProps) => {
             props.onFormChange(values);
           }}
         >
-          重新生成模板数据
+          生成模板数据
         </Button>
       </Space>
     </>
