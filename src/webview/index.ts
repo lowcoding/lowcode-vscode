@@ -42,11 +42,15 @@ let webviewPanels: {
 }[] = [];
 
 const setWebviewHtml = (panel: vscode.WebviewPanel) => {
-  const scriptPathOnDisk = vscode.Uri.file(
+  const mainScriptPathOnDisk = vscode.Uri.file(
     path.join(getExtensionPath(), 'webview-dist', 'main.js'),
   );
+  const vendorsScriptPathOnDisk = vscode.Uri.file(
+    path.join(getExtensionPath(), 'webview-dist', 'vendors.js'),
+  );
   // const scriptUri = 'http://localhost:8000/main.js';
-  const scriptUri = panel.webview.asWebviewUri(scriptPathOnDisk);
+  const mianScriptUri = panel.webview.asWebviewUri(mainScriptPathOnDisk);
+  const vendorsScriptUri = panel.webview.asWebviewUri(vendorsScriptPathOnDisk);
 
   panel.webview.html = `
 			<!DOCTYPE html>
@@ -69,7 +73,8 @@ const setWebviewHtml = (panel: vscode.WebviewPanel) => {
 			</head>
 			<body>
 				<div id="root"></div>
-				<script src="${scriptUri}"></script>
+				<script src="${vendorsScriptUri}"></script>
+				<script src="${mianScriptUri}"></script>
 			</body>
 		</html>
 `;

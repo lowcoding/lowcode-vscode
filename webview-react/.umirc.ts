@@ -46,12 +46,18 @@ export default defineConfig({
   ],
   outputPath: '../webview-dist',
   //mpa: { path: '/', component: '@/pages/index' },
-  chunks: ['main'],
+  chunks: ['vendors', 'main'],
 	chainWebpack: function(config, { webpack }) {
     config.merge({
       optimization: {
         splitChunks: {
-          chunks: 'all',
+					cacheGroups: {
+						vendors: {
+							name: 'vendors',
+							test: /[\\/]node_modules[\\/]/,
+							chunks: 'all'
+						}
+					}
         },
       },
     });
