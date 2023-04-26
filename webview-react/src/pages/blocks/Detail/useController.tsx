@@ -16,6 +16,9 @@ const useController = () => {
       model.setMaterials(data);
       if (data.length) {
         const selected = data.find((s: any) => s.name === params.name);
+        if (selected && !selected.preview.schema) {
+          selected.preview.schema = 'form-render';
+        }
         model.setSelectedMaterial(selected!);
         model.setData(selected?.model);
         form.setValues(selected?.model);

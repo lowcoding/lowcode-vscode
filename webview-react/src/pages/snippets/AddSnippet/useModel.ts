@@ -6,9 +6,11 @@ const useModel = () => {
     template: string;
     model: string;
     schema: string;
+    schemaType: 'form-render' | 'amis' | 'formily';
     preview: string;
   }>({
     model: '{}',
+    schemaType: 'amis',
     schema: '{}',
     preview: JSON.stringify(
       {
@@ -21,6 +23,7 @@ const useModel = () => {
         notShowInCommand: false,
         notShowInSnippetsList: false,
         notShowInintellisense: false,
+        schema: 'amis',
       },
       null,
       2,

@@ -1,4 +1,4 @@
-import useModel from './useModel';
+import useModel from './model';
 
 const useService = () => {
   const model = useModel();

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Form, Input, message } from 'antd';
+import { Button, Form, Input, message, Select } from 'antd';
 import { history, useModel } from 'umi';
 import CodeMirror from '@/components/CodeMirror';
 import useController from './useController';
@@ -54,6 +54,23 @@ export default () => {
               model.setFormData((s) => ({
                 ...s,
                 model: value,
+              }));
+            }}
+          />
+        </Form.Item>
+        <Form.Item label="Schema 类型" required>
+          <Select
+            value={model.formData.name}
+            placeholder="输入名称"
+            options={[
+              { label: 'form-render', value: 'form-render' },
+              { label: 'amis', value: 'amis' },
+              { label: 'formily', value: 'formily' },
+            ]}
+            onChange={(value) => {
+              model.setFormData((s) => ({
+                ...s,
+                schemaType: value as any,
               }));
             }}
           />
