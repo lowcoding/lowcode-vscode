@@ -73,7 +73,7 @@ export const getLocalMaterials = (
         }
         schema = schema.formSchema.schema;
       }
-      if (preview.schema === 'amis') {
+      if (Object.keys(schema).length > 0 && preview.schema === 'amis') {
         // 设置 page 默认 name
         schema.name = 'page';
         if (schema.body && Array.isArray(schema.body)) {
