@@ -1,10 +1,17 @@
 import React, { useRef } from 'react';
-import { Button, Space } from 'antd';
+import { Button, Space, message } from 'antd';
+import { MessageType } from 'antd/lib/message';
 import { render } from 'amis';
-import 'amis/lib/themes/cxd.css';
-import 'amis/lib/helper.css';
+import './cxd.css';
+import './helper.css';
+// import 'amis/lib/helper.css';
 import 'amis/sdk/iconfont.css';
 import axios from 'axios';
+
+const request: { count: number; hideLoading?: MessageType } = {
+  count: 0,
+  hideLoading: undefined,
+};
 
 interface IProps {
   schema: object;
@@ -28,16 +35,47 @@ export default (props: IProps) => {
       responseType && (config.responseType = responseType);
 
       if (config.cancelExecutor) {
-        config.cancelToken = new (axios as any).CancelToken(config.cancelExecutor);
+        config.cancelToken = new axios.CancelToken(config.cancelExecutor);
       }
 
       config.headers = headers || {};
-
+      if (request.count === 0) {
+        request.count += 1;
+        request.hideLoading = message.loading('loading...', 0);
+      }
       if (method !== 'post' && method !== 'put' && method !== 'patch') {
         if (data) {
           config.params = data;
         }
-        return (axios as any)[method](url, config);
+        // (axios as any)[method](url, config)
+        return axios
+          .request({
+            ...config,
+            url,
+            method,
+          })
+          .then((res) => {
+            if (res.data?.code !== 0 || res.data?.code !== 200) {
+              message.error(res.data?.msg || res.data?.message || '请求异常');
+            }
+            return res;
+          })
+          .catch((err) => {
+            message.error(
+              err?.response?.data?.msg ||
+                err?.response?.data?.message ||
+                err.message,
+            );
+            return Promise.reject(err);
+          })
+          .finally(() => {
+            if (request.count > 0) {
+              request.count -= 1;
+            }
+            if (request.count <= 0 && request.hideLoading) {
+              request.hideLoading();
+            }
+          });
       }
       if (data && data instanceof FormData) {
         config.headers = config.headers || {};
@@ -53,9 +91,38 @@ export default (props: IProps) => {
         config.headers['Content-Type'] = 'application/json';
       }
 
-      return (axios as any)[method](url, data, config);
+      return axios
+        .request({
+          ...config,
+          url,
+          method,
+          data,
+        })
+        .then((res) => {
+          if (res.data?.code !== 0 || res.data?.code !== 200) {
+            message.error(res.data?.msg || res.data?.message || '请求异常');
+          }
+          return res;
+        })
+        .catch((err) => {
+          message.error(
+            err?.response?.data?.msg ||
+              err?.response?.data?.message ||
+              err.message,
+          );
+          return Promise.reject(err);
+        })
+        .finally(() => {
+          if (request.count > 0) {
+            request.count -= 1;
+          }
+          if (request.count <= 0 && request.hideLoading) {
+            request.hideLoading();
+          }
+        });
     },
-    isCancel: (value: any) => (axios as any).isCancel(value),
+    isCancel: (value: any) => axios.isCancel(value),
+    useMobileUI: false,
   };
   return (
     <>
@@ -65,6 +132,7 @@ export default (props: IProps) => {
           scopeRef: (ref: any) => {
             amisScoped.current = ref;
           },
+          useMobileUI: false,
         },
         env,
       )}

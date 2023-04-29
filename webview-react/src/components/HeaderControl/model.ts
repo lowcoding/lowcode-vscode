@@ -4,6 +4,7 @@ export const useModel = () => {
   const [blockModal, setBlockModal] = useState({
     visible: false,
     name: '',
+    schemaType: 'amis',
     processing: false,
   });
 

@@ -8,7 +8,6 @@ export default [
     },
     schema: {
       type: 'page',
-      title: 'Hello world',
       name: 'page',
       body: [
         {
@@ -17,30 +16,116 @@ export default [
           title: '',
           body: [
             {
-              label: '文本框',
-              type: 'input-text',
-              name: 'text',
-              id: 'u:dd1aea5a9004',
-            },
-            {
-              type: 'checkbox',
-              label: '3434',
-              name: 'ghghgh',
-              id: 'u:dd52ab21a30f',
-            },
-            {
-              type: 'input-number',
-              label: '3434',
-              name: 'ghhgh',
-              id: 'u:994720d89709',
+              type: 'combo',
+              label: '组合输入',
+              name: 'combo',
+              multiple: true,
+              addable: true,
+              removable: true,
+              removableMode: 'icon',
+              addBtn: {
+                label: '新增',
+                icon: 'fa fa-plus',
+                level: 'primary',
+                size: 'sm',
+                id: 'u:0015b453e1e9',
+              },
+              items: [
+                {
+                  type: 'grid',
+                  columns: [
+                    {
+                      body: [
+                        {
+                          type: 'input-text',
+                          label: '文本',
+                          name: 'name',
+                          id: 'u:2191438a6251',
+                          autoFill: {},
+                          autoComplete:
+                            'http://127.0.0.1:3001/options/autoComplete?term=$term',
+                          selectMode: 'group',
+                          searchResultMode: 'group',
+                          multiple: false,
+                          size: 'full',
+                        },
+                      ],
+                      id: 'u:3c12ba36624e',
+                    },
+                    {
+                      body: [
+                        {
+                          type: 'select',
+                          label: '选项自动补全',
+                          name: 'select',
+                          autoComplete:
+                            'http://127.0.0.1:3001/options/autoComplete?term=$term',
+                          placeholder: '请输入',
+                          id: 'u:8f5cc9abb73b',
+                          multiple: false,
+                          creatable: false,
+                          editable: false,
+                          removable: false,
+                        },
+                      ],
+                      id: 'u:db4556a4adea',
+                    },
+                  ],
+                  id: 'u:af9411354435',
+                },
+                {
+                  type: 'select',
+                  label: '选项',
+                  name: 'name',
+                  selectMode: 'table',
+                  columns: [
+                    {
+                      name: 'label',
+                      label: '英雄',
+                    },
+                    {
+                      name: 'position',
+                      label: '位置',
+                    },
+                  ],
+                  id: 'u:b64d3a5709a6',
+                  autoComplete:
+                    'http://127.0.0.1:3001/options/autoComplete?term=$term',
+                  searchable: true,
+                  searchApi:
+                    'http://127.0.0.1:3001/options/autoComplete?term=$term',
+                },
+              ],
+              id: 'u:511b04658e5b',
+              strictMode: true,
+              syncFields: [],
+              placeholder: '7878787878',
+              draggable: true,
+              tabsMode: true,
+              tabsStyle: 'radio',
+              size: 'full',
+              canAccessSuperData: false,
+              multiLine: true,
+              deleteConfirmText: '确认要删除吗？',
+              deleteApi: {
+                url: '',
+                method: 'get',
+                messages: {
+                  failed: 'tytyty',
+                  success: 'erererer',
+                },
+              },
+              description: '',
             },
           ],
-          id: 'u:e83e3a31608d',
+          id: 'u:67967afb0e69',
           submitText: '',
-          actions: [],
+          data: {
+            combo: [{}],
+          },
         },
       ],
-      id: 'u:62cd03947c5f',
+      id: 'u:d87dbf6bf8df',
       asideResizor: false,
       style: {
         boxShadow: ' 0px 0px 0px 0px transparent',
@@ -48,7 +133,6 @@ export default [
       pullRefresh: {
         disabled: true,
       },
-      aside: [],
       regions: ['body'],
     },
     preview: {

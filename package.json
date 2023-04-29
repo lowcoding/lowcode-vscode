@@ -1,7 +1,7 @@
 {
 	"name": "lowcode",
 	"displayName": "lowcode",
-	"description": "低代码工具",
+	"description": "lowcode tool",
 	"author": "wjkang <ruoxieme@gmail.com>",
 	"version": "1.4.2",
 	"icon": "asset/icon.png",
@@ -28,10 +28,22 @@
 	],
 	"keywords": [
 		"yapi",
-		"typescript",
+		"yapi to ts",
+		"typescript to json",
+		"ts to json",
+		"json to ts",
+		"json to typescript",
+		"json mock",
+		"typescript mock",
+		"ts mock",
+		"mock",
 		"generate code",
 		"json",
-		"lowcode"
+		"lowcode",
+		"low-code",
+		"form-render",
+		"amis",
+		"formily"
 	],
 	"activationEvents": [
 		"*"

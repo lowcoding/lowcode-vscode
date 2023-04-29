@@ -1,6 +1,6 @@
 import React from 'react';
 import { history, useModel } from 'umi';
-import { Radio, Menu, Dropdown, message, Modal, Form, Input } from 'antd';
+import { Radio, Menu, Dropdown, message, Modal, Form, Input, Select } from 'antd';
 import { executeVscodeCommand, refreshIntelliSense } from '@/webview/service';
 import { usePresenter } from './presenter';
 
@@ -103,6 +103,21 @@ export default () => {
                 });
               }}
               placeholder="请输入"
+            />
+          </Form.Item>
+          <Form.Item label="schema 类型">
+            <Select
+              value={model.blockModal.schemaType}
+              options={[
+                { label: 'form-render', value: 'form-render' },
+                { label: 'amis', value: 'amis' },
+                { label: 'formily', value: 'formily' },
+              ]}
+              onChange={(value) => {
+                model.setBlockModal((s) => {
+                  s.schemaType = value;
+                });
+              }}
             />
           </Form.Item>
         </Form>

@@ -58,9 +58,9 @@ export default () => {
             }}
           />
         </Form.Item>
-        <Form.Item label="Schema 类型" required>
+        <Form.Item label="Schema 类型">
           <Select
-            value={model.formData.name}
+            value={model.formData.schemaType}
             placeholder="输入名称"
             options={[
               { label: 'form-render', value: 'form-render' },
@@ -88,7 +88,7 @@ export default () => {
             }}
           />
         </Form.Item>
-        <Form.Item label="更多描述">
+        <Form.Item label="更多配置">
           <CodeMirror
             domId="previewCodeMirror"
             lint

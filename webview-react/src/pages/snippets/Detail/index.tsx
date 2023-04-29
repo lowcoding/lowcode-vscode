@@ -19,7 +19,7 @@ export default () => {
     <div>
       <Form layout="vertical">
         <Form.Item
-          label="模板"
+          label={<span style={{ fontWeight: 'bold' }}>模板</span>}
           style={{ display: model.selectedMaterial.path ? 'flex' : 'none' }}
         >
           <CodeMirror
@@ -53,48 +53,48 @@ export default () => {
           />
         </Form.Item> */}
         {Object.keys(model.selectedMaterial.schema).length > 0 && (
-          <Form.Item label="Schema 表单">
-            <div style={{ padding: '24px' }}>
-              {model.selectedMaterial.preview.schema === 'form-render' && (
-                <>
-                  <FormRender
-                    schema={model.selectedMaterial.schema}
-                    form={controller.form}
-                    watch={controller.watch}
-                  />
-                  <br></br>
-                  <Space>
-                    <Button
-                      type="primary"
-                      size="small"
-                      onClick={() => {
-                        model.setSelectedMaterial((s) => ({
-                          ...s,
-                          model: model.formData,
-                        }));
-                      }}
-                    >
-                      重新生成模板数据
-                    </Button>
-                  </Space>
-                </>
-              )}
-              {model.selectedMaterial.preview.schema === 'amis' && (
-                <AmisComponent
+          <Form.Item
+            label={<span style={{ fontWeight: 'bold' }}>Schema 表单</span>}
+          >
+            {model.selectedMaterial.preview.schema === 'form-render' && (
+              <>
+                <FormRender
                   schema={model.selectedMaterial.schema}
-                  onFormChange={(values) => {
-                    model.setSelectedMaterial((s) => ({
-                      ...s,
-                      model: values,
-                    }));
-                  }}
+                  form={controller.form}
+                  watch={controller.watch}
                 />
-              )}
-            </div>
+                <br></br>
+                <Space>
+                  <Button
+                    type="primary"
+                    size="small"
+                    onClick={() => {
+                      model.setSelectedMaterial((s) => ({
+                        ...s,
+                        model: model.formData,
+                      }));
+                    }}
+                  >
+                    重新生成模板数据
+                  </Button>
+                </Space>
+              </>
+            )}
+            {model.selectedMaterial.preview.schema === 'amis' && (
+              <AmisComponent
+                schema={model.selectedMaterial.schema}
+                onFormChange={(values) => {
+                  model.setSelectedMaterial((s) => ({
+                    ...s,
+                    model: values,
+                  }));
+                }}
+              />
+            )}
           </Form.Item>
         )}
         <Form.Item
-          label="模板数据"
+          label={<span style={{ fontWeight: 'bold' }}>模板数据</span>}
           style={{ display: model.selectedMaterial.path ? 'flex' : 'none' }}
         >
           <CodeMirror
@@ -111,7 +111,10 @@ export default () => {
           <br></br>
           <Space>
             <Dropdown overlay={controller.menu}>
-              <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
+              <a
+                className="ant-dropdown-link"
+                onClick={(e) => e.preventDefault()}
+              >
                 更多功能 <DownOutlined />
               </a>
             </Dropdown>

@@ -1,5 +1,85 @@
 import { useState } from '@/hooks/useImmer';
 
+export const defaultSchema = {
+  formRender: {
+    model: JSON.stringify({ name: '6666' }, null, 2),
+    schema: JSON.stringify(
+      {
+        formSchema: {
+          schema: {
+            type: 'object',
+            column: 1,
+            labelWidth: 120,
+            displayType: 'row',
+            properties: {
+              name: {
+                title: '测试表单',
+                type: 'string',
+                props: {},
+              },
+            },
+          },
+        },
+      },
+      null,
+      2,
+    ),
+  },
+  amis: {
+    model: JSON.stringify({ name: '6666' }, null, 2),
+    schema: JSON.stringify(
+      {
+        formSchema: {
+          schema: {
+            type: 'page',
+            body: [
+              {
+                type: 'form',
+                title: '',
+                body: [
+                  {
+                    type: 'input-text',
+                    name: 'name',
+                    label: '测试表单',
+                    id: 'u:4886baa626cf',
+                    value: '',
+                  },
+                ],
+                id: 'u:67967afb0e69',
+                submitText: '',
+              },
+            ],
+            id: 'u:d87dbf6bf8df',
+            asideResizor: false,
+            style: {
+              boxShadow: ' 0px 0px 0px 0px transparent',
+            },
+            pullRefresh: {
+              disabled: true,
+            },
+            regions: ['body'],
+          },
+        },
+      },
+
+      null,
+      2,
+    ),
+  },
+  formily: {
+    model: JSON.stringify({}, null, 2),
+    schema: JSON.stringify(
+      {
+        formSchema: {
+          schema: {},
+        },
+      },
+      null,
+      2,
+    ),
+  },
+};
+
 const useModel = () => {
   const [formData, setFormData] = useState<{
     name: string;
