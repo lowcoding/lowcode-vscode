@@ -223,7 +223,7 @@ routes 目录下创建新的 mock 文件
 
 配置表单
 
-<p align="center"><a href="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5b24b7d804ac4db1a3673fd2aa4aa4cd~tplv-k3u1fbpfcp-zoom-1.image"><img style="height:500px;max-height:500px" src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5b24b7d804ac4db1a3673fd2aa4aa4cd~tplv-k3u1fbpfcp-zoom-1.image"/></a></p>
+https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5b24b7d804ac4db1a3673fd2aa4aa4cd~tplv-k3u1fbpfcp-zoom-1.image
 
 生成代码
 

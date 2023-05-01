@@ -18,8 +18,8 @@ const useController = () => {
         if (selected && !selected.preview.schema) {
           selected.preview.schema = 'form-render';
         }
-        model.setSelectedMaterial(selected!);
         model.setFormData(selected?.model);
+        model.setSelectedMaterial(selected!);
         form.setValues(selected?.model);
       }
     });

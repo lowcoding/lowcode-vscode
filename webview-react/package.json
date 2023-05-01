@@ -21,6 +21,9 @@
   },
   "dependencies": {
     "@ant-design/pro-layout": "^5.0.12",
+    "@formily/antd": "^2.2.22",
+    "@formily/core": "^2.2.22",
+    "@formily/react": "^2.2.22",
     "@umijs/preset-react": "1.x",
     "@umijs/test": "^3.2.19",
     "ahooks": "^2.9.4",

@@ -5,7 +5,7 @@ const useModel = () => {
     path: string;
     name: string;
     model: object;
-    schema: object;
+    schema: any;
     preview: {
       title?: string;
       description?: string;

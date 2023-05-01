@@ -9,6 +9,7 @@ import JsonToTs from '@/components/JsonToTs';
 import useController from './useController';
 import { genCodeBySnippetMaterial } from '@/webview/service';
 import AmisComponent from '@/components/AmisComponent';
+import FormilyComponent from '@/components/FormilyComponent';
 
 export default () => {
   const controller = useController();
@@ -82,6 +83,18 @@ export default () => {
             )}
             {model.selectedMaterial.preview.schema === 'amis' && (
               <AmisComponent
+                schema={model.selectedMaterial.schema}
+                onFormChange={(values) => {
+                  model.setSelectedMaterial((s) => ({
+                    ...s,
+                    model: values,
+                  }));
+                }}
+              />
+            )}
+            {model.selectedMaterial.preview.schema === 'formily' && (
+              <FormilyComponent
+                initialValues={model.formData}
                 schema={model.selectedMaterial.schema}
                 onFormChange={(values) => {
                   model.setSelectedMaterial((s) => ({
