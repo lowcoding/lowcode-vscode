@@ -3295,7 +3295,7 @@
   --Tabs--chrome-right-border-color: var(--colors-neutral-line-5);
   --Panel-bg: var(--colors-neutral-fill-11);
   --Panel-marginTop: var(--sizes-size-0);
-  --Panel-marginBottom: var(--sizes-base-10);
+  --Panel-marginBottom: 0px;
   --Panel-marginLeft: var(--sizes-size-0);
   --Panel-marginRight: var(--sizes-size-0);
   --Panel-top-border-color: var(--colors-neutral-line-8);
