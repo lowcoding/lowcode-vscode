@@ -31,5 +31,19 @@ export const CommonCommands = (context: vscode.ExtensionContext) => {
         task: { task: 'route', data: { path: '/downloadMaterials' } },
       });
     }),
+    vscode.commands.registerCommand(commands.showChatGPTView, () => {
+      vscode.commands.executeCommand(
+        'setContext',
+        'lowcode.showChatGPTView',
+        true,
+      );
+    }),
+    vscode.commands.registerCommand(commands.hideChatGPTView, () => {
+      vscode.commands.executeCommand(
+        'setContext',
+        'lowcode.showChatGPTView',
+        false,
+      );
+    }),
   );
 };

@@ -1,39 +1,13 @@
 import * as path from 'path';
 import * as vscode from 'vscode';
-import { WebviewPanel, window } from 'vscode';
+import { window } from 'vscode';
 import { getExtensionPath, setLastActiveTextEditorId } from '../context';
-
 import { routes } from './routes';
+import { invokeCallback, invokeErrorCallback } from './callback';
 
-type WebViewKeys = 'main' | 'createApp' | 'downloadMaterials';
+type WebViewKeys = 'main' | 'createApp' | 'downloadMaterials' | 'ChatGPT';
 
 type Tasks = 'addSnippets' | 'openSnippet' | 'route' | 'updateSelectedFolder';
-
-export function invokeCallback<T = any>(
-  panel: WebviewPanel,
-  cbid: string,
-  res: T,
-) {
-  panel.webview.postMessage({
-    cmd: 'vscodeCallback',
-    cbid,
-    data: res,
-    code: 200,
-  });
-}
-
-export function invokeErrorCallback(
-  panel: WebviewPanel,
-  cbid: string,
-  res: any,
-) {
-  panel.webview.postMessage({
-    cmd: 'vscodeCallback',
-    cbid,
-    data: res,
-    code: 400,
-  });
-}
 
 let webviewPanels: {
   key: WebViewKeys;
@@ -41,7 +15,7 @@ let webviewPanels: {
   disposables: vscode.Disposable[];
 }[] = [];
 
-const setWebviewHtml = (panel: vscode.WebviewPanel) => {
+const getHtmlForWebview = (webview: vscode.Webview) => {
   const mainScriptPathOnDisk = vscode.Uri.file(
     path.join(getExtensionPath(), 'webview-dist', 'main.js'),
   );
@@ -49,10 +23,10 @@ const setWebviewHtml = (panel: vscode.WebviewPanel) => {
     path.join(getExtensionPath(), 'webview-dist', 'vendors.js'),
   );
   // const scriptUri = 'http://localhost:8000/main.js';
-  const mianScriptUri = panel.webview.asWebviewUri(mainScriptPathOnDisk);
-  const vendorsScriptUri = panel.webview.asWebviewUri(vendorsScriptPathOnDisk);
+  const mianScriptUri = webview.asWebviewUri(mainScriptPathOnDisk);
+  const vendorsScriptUri = webview.asWebviewUri(vendorsScriptPathOnDisk);
 
-  panel.webview.html = `
+  return `
 			<!DOCTYPE html>
 			<html>
 			<head>
@@ -116,7 +90,7 @@ export const showWebView = (options: {
         retainContextWhenHidden: true, // webview被隐藏时保持状态，避免被重置
       },
     );
-    setWebviewHtml(panel);
+    panel.webview.html = getHtmlForWebview(panel.webview);
     const disposables: vscode.Disposable[] = [];
     panel.webview.onDidReceiveMessage(
       async (message: {
@@ -128,16 +102,16 @@ export const showWebView = (options: {
         if (routes[message.cmd]) {
           try {
             const res = await routes[message.cmd](message);
-            invokeCallback(panel, message.cbid, res);
+            invokeCallback(panel.webview, message.cbid, res);
           } catch (ex: any) {
             if (!message.skipError) {
               window.showErrorMessage(ex.toString());
             }
-            invokeErrorCallback(panel, message.cbid, ex);
+            invokeErrorCallback(panel.webview, message.cbid, ex);
           }
         } else {
           invokeErrorCallback(
-            panel,
+            panel.webview,
             message.cbid,
             `未找到名为 ${message.cmd} 回调方法!`,
           );
@@ -176,4 +150,72 @@ export const showWebView = (options: {
       });
     }
   }
+};
+
+class ChatGPTViewProvider implements vscode.WebviewViewProvider {
+  private view?: vscode.WebviewView;
+
+  resolveWebviewView(
+    webviewView: vscode.WebviewView,
+    context: vscode.WebviewViewResolveContext<unknown>,
+    token: vscode.CancellationToken,
+  ): void | Thenable<void> {
+    this.view = webviewView;
+    webviewView.webview.options = {
+      enableScripts: true,
+      localResourceRoots: [
+        vscode.Uri.file(path.join(getExtensionPath(), 'webview-dist')),
+      ],
+    };
+    webviewView.webview.html = getHtmlForWebview(webviewView.webview);
+
+    webviewView.webview.onDidReceiveMessage(
+      async (message: {
+        cmd: string;
+        cbid: string;
+        data: any;
+        skipError?: boolean;
+      }) => {
+        if (routes[message.cmd]) {
+          try {
+            const res = await routes[message.cmd](message);
+            invokeCallback(webviewView.webview, message.cbid, res);
+          } catch (ex: any) {
+            if (!message.skipError) {
+              vscode.window.showErrorMessage(ex.toString());
+            }
+            invokeErrorCallback(webviewView.webview, message.cbid, ex);
+          }
+        } else {
+          invokeErrorCallback(
+            webviewView.webview,
+            message.cbid,
+            `未找到名为 ${message.cmd} 回调方法!`,
+          );
+          vscode.window.showWarningMessage(
+            `未找到名为 ${message.cmd} 回调方法!`,
+          );
+        }
+      },
+    );
+
+    webviewView.webview.postMessage({
+      cmd: 'vscodePushTask',
+      task: 'route',
+      data: { path: '/config' },
+    });
+  }
+}
+
+export const registerChatGPTViewProvider = (
+  context: vscode.ExtensionContext,
+) => {
+  const provider = new ChatGPTViewProvider();
+  context.subscriptions.push(
+    vscode.window.registerWebviewViewProvider('lowcode.chatGPTView', provider, {
+      webviewOptions: {
+        retainContextWhenHidden: true,
+      },
+    }),
+  );
 };

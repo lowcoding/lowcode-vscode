@@ -21,7 +21,7 @@
 		"test": "node ./build/test/runTest.js"
 	},
 	"engines": {
-		"vscode": "^1.42.0"
+		"vscode": "^1.72.0"
 	},
 	"categories": [
 		"Other"
@@ -69,6 +69,16 @@
 			{
 				"command": "lowcode.quickGenerateBlock",
 				"title": "快速创建区块"
+			},
+			{
+				"command": "lowcode.hideChatGPTView",
+				"title": "关闭",
+				"icon": "$(close)"
+			},
+			{
+				"command": "lowcode.clearChatGPTViewContent",
+				"title": "清空内容",
+				"icon": "$(clear-all)"
 			}
 		],
 		"menus": {
@@ -116,16 +126,30 @@
 					"command": "lowcode.openDownloadMaterials",
 					"group": "lowcode@3"
 				}
+			],
+			"view/title": [
+				{
+					"command": "lowcode.hideChatGPTView",
+					"when": "view == lowcode.chatGPTView",
+					"group": "navigation@4"
+				},
+				{
+					"command": "lowcode.clearChatGPTViewContent",
+					"when": "view == lowcode.chatGPTView",
+					"group": "navigation@3"
+				}
 			]
 		},
 		"submenus": [
 			{
 				"id": "lowcode/editor/context",
-				"label": "Low Code"
+				"label": "Low Code",
+				"icon": "$(octoface)"
 			},
 			{
 				"id": "lowcode/explorer/context",
-				"label": "Low Code"
+				"label": "Low Code",
+				"icon": "$(octoface)"
 			}
 		],
 		"viewsContainers": {
@@ -141,14 +165,22 @@
 			"lowcodeApp": [
 				{
 					"id": "lowcode.welcome",
-					"name": "Welcome"
+					"name": "home",
+					"icon": "$(octoface)",
+					"when": "!lowcode.showChatGPTView"
+				},
+				{
+					"type": "webview",
+					"id": "lowcode.chatGPTView",
+					"name": "chatGPT",
+					"when": "lowcode.showChatGPTView"
 				}
 			]
 		},
 		"viewsWelcome": [
 			{
 				"view": "lowcode.welcome",
-				"contents": "[打开文件夹](command:lowcode.openFolderForceNewWindow)\n[创建应用](command:lowcode.openScaffold)\n[设置](command:lowcode.openConfig)\n查看[文档](https://lowcoding.gitee.io)以学习如何在 VS Code 中如何使用 lowcode。"
+				"contents": "[打开文件夹](command:lowcode.openFolderForceNewWindow)\n[创建应用](command:lowcode.openScaffold)\n[ChatGPT](command:lowcode.showChatGPTView)\n[设置](command:lowcode.openConfig)\n查看[文档](https://lowcoding.gitee.io)以学习如何在 VS Code 中如何使用 lowcode。"
 			}
 		]
 	},
@@ -163,7 +195,7 @@
 		"@types/prettier": "^2.0.2",
 		"@types/readable-stream": "^2.3.9",
 		"@types/urijs": "^1.19.9",
-		"@types/vscode": "1.42.0",
+		"@types/vscode": "1.72.0",
 		"@typescript-eslint/eslint-plugin": "^4.18.0",
 		"@typescript-eslint/parser": "^4.18.0",
 		"eslint": "^6.8.0",

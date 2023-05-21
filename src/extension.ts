@@ -7,6 +7,7 @@ import { openSnippet } from './commands/openSnippet';
 import { CommonCommands } from './commands/common';
 import { init, setLastActiveTextEditorId } from './context';
 import { registerQuickGenerateBlock } from './commands/quickGenerateBlock';
+import { registerChatGPTViewProvider } from './webview';
 
 export function activate(context: vscode.ExtensionContext) {
   vscode.window.onDidChangeActiveTextEditor(
@@ -33,6 +34,8 @@ export function activate(context: vscode.ExtensionContext) {
   openSnippet(context);
 
   registerQuickGenerateBlock(context);
+
+  registerChatGPTViewProvider(context);
 
   const statusBarItem = vscode.window.createStatusBarItem(
     vscode.StatusBarAlignment.Left,

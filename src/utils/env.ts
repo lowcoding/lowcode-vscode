@@ -3,6 +3,9 @@ import * as os from 'os';
 
 export const commands = {
   openDownloadMaterials: 'lowcode.openDownloadMaterials',
+  showChatGPTView: 'lowcode.showChatGPTView',
+  hideChatGPTView: 'lowcode.hideChatGPTView',
+  clearChatGPTViewContent: 'lowcode.clearChatGPTViewContent',
 };
 
 export const materialsDir = 'materials';
