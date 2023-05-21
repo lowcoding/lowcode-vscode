@@ -153,14 +153,14 @@ export const showWebView = (options: {
 };
 
 class ChatGPTViewProvider implements vscode.WebviewViewProvider {
-  private view?: vscode.WebviewView;
+  public webview?: vscode.WebviewView['webview'];
 
   resolveWebviewView(
     webviewView: vscode.WebviewView,
     context: vscode.WebviewViewResolveContext<unknown>,
     token: vscode.CancellationToken,
   ): void | Thenable<void> {
-    this.view = webviewView;
+    this.webview = webviewView.webview;
     webviewView.webview.options = {
       enableScripts: true,
       localResourceRoots: [
@@ -207,10 +207,13 @@ class ChatGPTViewProvider implements vscode.WebviewViewProvider {
   }
 }
 
+let chatGPTViewProvider: ChatGPTViewProvider | undefined;
+
 export const registerChatGPTViewProvider = (
   context: vscode.ExtensionContext,
 ) => {
   const provider = new ChatGPTViewProvider();
+  chatGPTViewProvider = provider;
   context.subscriptions.push(
     vscode.window.registerWebviewViewProvider('lowcode.chatGPTView', provider, {
       webviewOptions: {
@@ -219,3 +222,5 @@ export const registerChatGPTViewProvider = (
     }),
   );
 };
+
+export const getChatGPTViewProvider = () => chatGPTViewProvider;
