@@ -5,7 +5,7 @@ import { getExtensionPath, setLastActiveTextEditorId } from '../context';
 import { routes } from './routes';
 import { invokeCallback, invokeErrorCallback } from './callback';
 
-type WebViewKeys = 'main' | 'createApp' | 'downloadMaterials' | 'ChatGPT';
+type WebViewKeys = 'main' | 'createApp' | 'downloadMaterials' | 'chatGPT';
 
 type Tasks = 'addSnippets' | 'openSnippet' | 'route' | 'updateSelectedFolder';
 
@@ -223,4 +223,9 @@ export const registerChatGPTViewProvider = (
   );
 };
 
-export const getChatGPTViewProvider = () => chatGPTViewProvider;
+export const getWebView = (webviewKeys: WebViewKeys) => {
+  if (webviewKeys === 'chatGPT') {
+    return chatGPTViewProvider?.webview;
+  }
+  return webviewPanels.find((s) => s.key === webviewKeys)?.panel.webview;
+};
