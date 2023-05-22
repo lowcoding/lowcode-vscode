@@ -13,6 +13,10 @@ export default defineConfig({
       path: '/downloadMaterials',
       component: '@/pages/downloadMaterials',
     },
+		{
+			path: '/chatGPT',
+			component: '@/pages/chatGPT',
+		},
     {
       path: '/',
       component: '@/layout/index',

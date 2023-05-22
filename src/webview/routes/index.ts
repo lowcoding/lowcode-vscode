@@ -11,6 +11,7 @@ import * as json from '../controllers/json';
 import * as config from '../controllers/config';
 import * as intelliSense from '../controllers/intelliSense';
 import * as reqeust from '../controllers/request';
+import * as openai from '../controllers/openai';
 
 export const routes: Record<string, any> = {
   alert: alert.alert,
@@ -48,4 +49,6 @@ export const routes: Record<string, any> = {
 
   refreshIntelliSense: intelliSense.refreshIntelliSense,
   request: reqeust.axiosRequest,
+
+  askChatGPT: openai.askChatGPT,
 };

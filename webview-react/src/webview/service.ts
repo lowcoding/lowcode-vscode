@@ -473,3 +473,10 @@ export function nodeRequest<IResult = unknown>(config: AxiosRequestConfig) {
     },
   });
 }
+
+export function askChatGPT(data: { prompt: string }) {
+  return request<string>({
+    cmd: 'askChatGPT',
+    data,
+  });
+}

@@ -85,6 +85,10 @@ window.addEventListener('message', (event) => {
       delete callbacks[message.cbid]; // 执行完回调删除
       delete errorCallbacks[message.cbid]; // 执行完回调删除
       break;
+    // 来自 vscode chatgpt chunck 的回调
+    case 'vscodeChatGPTChunkCallback':
+      console.log(1212, message);
+      break;
     // vscode推送task
     case 'vscodePushTask': {
       if (taskHandler[message.task]) {

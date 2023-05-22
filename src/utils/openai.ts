@@ -8,7 +8,7 @@ export const createChatCompletion = (options: {
   text: string;
   lastMessage: string;
   maxTokens: number;
-  handleChunk?: () => void;
+  handleChunk?: (data: { text?: string; hasMore: boolean }) => void;
 }) =>
   new Promise<string>((resolve, reject) => {
     let combinedResult = '';
@@ -26,22 +26,21 @@ export const createChatCompletion = (options: {
       (res) => {
         res.on('data', async (chunk) => {
           const text = new TextDecoder('utf-8').decode(chunk);
-          console.log(text, 666);
           const data = text.split('\n\n').filter((s) => s);
           for (let i = 0; i < data.length; i++) {
             try {
               const element = data[i];
               if (element.includes('data: ')) {
                 if (element.includes('[DONE]')) {
+                  options.handleChunk &&
+                    options.handleChunk({ hasMore: false });
                   return;
                 }
                 // remove 'data: '
                 const data = JSON.parse(element.slice(6));
                 if (data.finish_reason === 'stop') {
-                  // callback({
-                  //   type: 'isStreaming',
-                  //   ok: false,
-                  // });
+                  options.handleChunk &&
+                    options.handleChunk({ hasMore: false });
                   return;
                 }
                 const openaiRes = data.choices[0].delta.content;
@@ -52,6 +51,11 @@ export const createChatCompletion = (options: {
                   //   text: openaiResp.replaceAll('\\n', '\n'),
                   //   uniqueId,
                   // });
+                  options.handleChunk &&
+                    options.handleChunk({
+                      text: openaiRes.replaceAll('\\n', '\n'),
+                      hasMore: false,
+                    });
                   combinedResult += openaiRes;
                 }
               }

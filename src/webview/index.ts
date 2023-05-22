@@ -101,7 +101,7 @@ export const showWebView = (options: {
       }) => {
         if (routes[message.cmd]) {
           try {
-            const res = await routes[message.cmd](message);
+            const res = await routes[message.cmd](message, panel.webview);
             invokeCallback(panel.webview, message.cbid, res);
           } catch (ex: any) {
             if (!message.skipError) {
@@ -178,7 +178,7 @@ class ChatGPTViewProvider implements vscode.WebviewViewProvider {
       }) => {
         if (routes[message.cmd]) {
           try {
-            const res = await routes[message.cmd](message);
+            const res = await routes[message.cmd](message, webviewView.webview);
             invokeCallback(webviewView.webview, message.cbid, res);
           } catch (ex: any) {
             if (!message.skipError) {
@@ -202,7 +202,7 @@ class ChatGPTViewProvider implements vscode.WebviewViewProvider {
     webviewView.webview.postMessage({
       cmd: 'vscodePushTask',
       task: 'route',
-      data: { path: '/config' },
+      data: { path: '/chatGPT' },
     });
   }
 }
