@@ -85,9 +85,13 @@ window.addEventListener('message', (event) => {
       delete callbacks[message.cbid]; // 执行完回调删除
       delete errorCallbacks[message.cbid]; // 执行完回调删除
       break;
-    // 来自 vscode chatgpt chunck 的回调
+    // 来自 chatgpt chunck 的回调
     case 'vscodeChatGPTChunkCallback':
-      console.log(1212, message);
+      if (taskHandler[message.task]) {
+        taskHandler[message.task](message.data);
+      } else {
+        antdMessage.error(`未找到名为 ${message.task} 回调方法!`);
+      }
       break;
     // vscode推送task
     case 'vscodePushTask': {

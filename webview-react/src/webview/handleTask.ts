@@ -1,4 +1,5 @@
 import { history } from 'umi';
+import { emitter } from '@/utils/emitter';
 
 export const taskHandler: {
   [propName: string]: (data: any) => void;
@@ -15,5 +16,8 @@ export const taskHandler: {
   },
   updateSelectedFolder: (data: { selectedFolder: string }) => {
     localStorage.setItem('selectedFolder', data.selectedFolder || '');
+  },
+  handleChatGPTChunk: (data: string) => {
+    emitter.emit('chatGPTChunk', data);
   },
 };

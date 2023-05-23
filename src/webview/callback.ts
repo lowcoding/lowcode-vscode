@@ -20,6 +20,7 @@ export function invokeChatGPTChunkCallback<T = any>(
 ) {
   webview.postMessage({
     cmd: 'vscodeChatGPTChunkCallback',
+    task: 'handleChatGPTChunk',
     cbid,
     data: res,
     code: 200,
