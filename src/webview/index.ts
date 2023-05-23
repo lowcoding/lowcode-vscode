@@ -199,11 +199,13 @@ class ChatGPTViewProvider implements vscode.WebviewViewProvider {
       },
     );
 
-    webviewView.webview.postMessage({
-      cmd: 'vscodePushTask',
-      task: 'route',
-      data: { path: '/chatGPT' },
-    });
+    setTimeout(() => {
+      webviewView.webview.postMessage({
+        cmd: 'vscodePushTask',
+        task: 'route',
+        data: { path: '/chatGPT' },
+      });
+    }, 500);
   }
 }
 

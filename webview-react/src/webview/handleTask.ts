@@ -17,7 +17,10 @@ export const taskHandler: {
   updateSelectedFolder: (data: { selectedFolder: string }) => {
     localStorage.setItem('selectedFolder', data.selectedFolder || '');
   },
-  handleChatGPTChunk: (data: string) => {
+  handleChatGPTChunk: (data: {
+    text?: string | undefined;
+    hasMore: boolean;
+  }) => {
     emitter.emit('chatGPTChunk', data);
   },
 };

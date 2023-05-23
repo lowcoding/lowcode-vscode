@@ -10,12 +10,25 @@ const View = () => {
 
   return (
     <div>
-      <div>result: {model.chatRes}</div>
+      <div>
+        {model.chatList.map((s) => (
+          <div>
+            <div>{s.prompt}</div>
+            <div>{s.res}</div>
+          </div>
+        ))}
+        {model.current.prompt && (
+          <div>
+            <div>{model.current.prompt}</div>
+            <div>{model.current.res}</div>
+          </div>
+        )}
+      </div>
       <TextArea
-        value={model.chatPrompt}
+        value={model.inputChatPrompt}
         onChange={(e) => {
           const { value } = e.target;
-          model.setChatPrompt(value);
+          model.setInputChatPrompt(value);
         }}
       ></TextArea>
       <Button onClick={presenter.handleSubmit}>确定</Button>

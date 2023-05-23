@@ -6,12 +6,13 @@ export const createChatCompletion = (options: {
   apiKey: string;
   model: string;
   text: string;
-  lastMessage: string;
+  context?: string;
   maxTokens: number;
   handleChunk?: (data: { text?: string; hasMore: boolean }) => void;
 }) =>
   new Promise<string>((resolve, reject) => {
     let combinedResult = '';
+    console.log(1);
     const request = https.request(
       {
         hostname: 'api.chatanywhere.cn',
@@ -26,6 +27,7 @@ export const createChatCompletion = (options: {
       (res) => {
         res.on('data', async (chunk) => {
           const text = new TextDecoder('utf-8').decode(chunk);
+          console.log(2, text);
           const data = text.split('\n\n').filter((s) => s);
           for (let i = 0; i < data.length; i++) {
             try {
@@ -68,6 +70,7 @@ export const createChatCompletion = (options: {
           }
         });
         res.on('error', (e) => {
+          console.log(3);
           // if (isStreaming) {
           //   const errorMessage = `OpenAI: API Response was: Error ${e.message} ${URL_ERRORS.OpenAI}`;
           //   vscode.window.showErrorMessage(errorMessage);
@@ -86,6 +89,7 @@ export const createChatCompletion = (options: {
           reject(e);
         });
         res.on('end', () => {
+          console.log(4);
           resolve(combinedResult);
         });
       },
@@ -96,7 +100,7 @@ export const createChatCompletion = (options: {
         {
           role: 'system',
           content: `You are an AI programming assistent. - Follow the user's requirements carefully & to the letter. -Then ouput the code in a sigle code block - Minimize any other prose.${
-            options.lastMessage || ''
+            options.context || ''
           }`,
         },
         {
@@ -110,22 +114,3 @@ export const createChatCompletion = (options: {
     request.write(JSON.stringify(body));
     request.end();
   });
-
-createChatCompletion({
-  apiKey: '',
-  model: 'gpt-3.5-turbo',
-  text: `interface FormData {
-		"成本中心编码"?: string;
-		"成本中心名称"?: string;
-		"账套编码"?: string;
-		"银行核算编码"?: string;
-		"订单号"?: string;
-		"订单金额"?: string;
-		"确收时间"?: string;
-		"劳务成本-不含税"?: string;
-	} 将中文字段翻译为英文，使用驼峰格式，并将中文作为字段注释`,
-  lastMessage: '',
-  maxTokens: 2000,
-}).then((res) => {
-  console.log(1212, res);
-});

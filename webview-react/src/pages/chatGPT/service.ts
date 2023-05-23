@@ -6,4 +6,10 @@ export default class Service {
   constructor(model: Model) {
     this.model = model;
   }
+
+  receiveChatGPTChunk(data: { text?: string | undefined; hasMore: boolean }) {
+    this.model.setCurrent((s) => {
+      s.res += data.text;
+    });
+  }
 }
