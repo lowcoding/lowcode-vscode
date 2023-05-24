@@ -4184,6 +4184,11 @@ hash.js@^1.0.0, hash.js@^1.0.3, hash.js@^1.1.7:
     inherits "^2.0.3"
     minimalistic-assert "^1.0.1"
 
+highlight.js@^11.8.0:
+  version "11.8.0"
+  resolved "https://registry.npmmirror.com/highlight.js/-/highlight.js-11.8.0.tgz#966518ea83257bae2e7c9a48596231856555bb65"
+  integrity sha512-MedQhoqVdr0U6SSnWPzfiadUcDHfN/Wzq25AkXiQv9oiOO/sG0S7XkvpFIqWBl9Yq1UYyYOOVORs5UW2XlPyzg==
+
 history-with-query@4.10.4:
   version "4.10.4"
   resolved "https://registry.nlark.com/history-with-query/download/history-with-query-4.10.4.tgz#8161ff3c5044e29dfaeb73e7587eb3d4c1a8090e"
@@ -5805,6 +5810,11 @@ markdown-it@^12.0.6, markdown-it@^12.3.2:
     linkify-it "^3.0.1"
     mdurl "^1.0.1"
     uc.micro "^1.0.5"
+
+marked-highlight@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.npmmirror.com/marked-highlight/-/marked-highlight-2.0.0.tgz#e7f4944afc5997a134a88c6aada742dd226e550c"
+  integrity sha512-UjpDrs8TJh7dWdKzdnkt/aXdQEQ1FW5Jy6tRTjvWdUgsev2srAAgh8l04JoQUyzD3qP8UDrhHAa6seHUyPXg/w==
 
 marked@^5.0.2:
   version "5.0.2"

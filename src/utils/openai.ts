@@ -35,14 +35,14 @@ export const createChatCompletion = (options: {
               if (element.includes('data: ')) {
                 if (element.includes('[DONE]')) {
                   options.handleChunk &&
-                    options.handleChunk({ hasMore: false });
+                    options.handleChunk({ hasMore: false, text: '' });
                   return;
                 }
                 // remove 'data: '
                 const data = JSON.parse(element.slice(6));
                 if (data.finish_reason === 'stop') {
                   options.handleChunk &&
-                    options.handleChunk({ hasMore: false });
+                    options.handleChunk({ hasMore: false, text: '' });
                   return;
                 }
                 const openaiRes = data.choices[0].delta.content;
@@ -56,7 +56,7 @@ export const createChatCompletion = (options: {
                   options.handleChunk &&
                     options.handleChunk({
                       text: openaiRes.replaceAll('\\n', '\n'),
-                      hasMore: false,
+                      hasMore: true,
                     });
                   combinedResult += openaiRes;
                 }
@@ -99,9 +99,7 @@ export const createChatCompletion = (options: {
       messages: [
         {
           role: 'system',
-          content: `You are an AI programming assistent. - Follow the user's requirements carefully & to the letter. -Then ouput the code in a sigle code block - Minimize any other prose.${
-            options.context || ''
-          }`,
+          content: options.context || '',
         },
         {
           role: 'user',
