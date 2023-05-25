@@ -1,4 +1,3 @@
-import { Configuration, OpenAIApi } from 'openai';
 import * as https from 'https';
 import { TextDecoder } from 'util';
 
@@ -39,7 +38,7 @@ export const createChatCompletion = (options: {
                   return;
                 }
                 // remove 'data: '
-                const data = JSON.parse(element.slice(6));
+                const data = JSON.parse(element.replace('data: ', ''));
                 if (data.finish_reason === 'stop') {
                   options.handleChunk &&
                     options.handleChunk({ hasMore: false, text: '' });

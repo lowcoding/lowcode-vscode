@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import marked from 'marked';
+import { marked } from 'marked';
 import { markedHighlight } from 'marked-highlight';
 import 'highlight.js/styles/agate.css';
 import hljs from 'highlight.js';
