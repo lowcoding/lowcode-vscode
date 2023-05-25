@@ -18,6 +18,9 @@ export const usePresenter = () => {
   }, []);
 
   const handleSubmit = () => {
+    if (!model.inputChatPrompt.trim()) {
+      return;
+    }
     const context = model.current.res;
     askChatGPT({ prompt: model.inputChatPrompt, context }).then((res) => {
       // console.log(222, res);

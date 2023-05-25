@@ -11,7 +11,6 @@ export const createChatCompletion = (options: {
 }) =>
   new Promise<string>((resolve, reject) => {
     let combinedResult = '';
-    console.log(1);
     const request = https.request(
       {
         hostname: 'api.chatanywhere.cn',
@@ -30,7 +29,16 @@ export const createChatCompletion = (options: {
           const data = text.split('\n\n').filter((s) => s);
           for (let i = 0; i < data.length; i++) {
             try {
-              const element = data[i];
+              let element = data[i];
+              if (element.includes('data: ')) {
+                if (element.trim() === 'data:') {
+                  // 处理只返回了 data: 的情况
+                  return;
+                }
+              } else if (element.includes('delta')) {
+                // 处理没有 data 开头
+                element = `data: ${element}`;
+              }
               if (element.includes('data: ')) {
                 if (element.includes('[DONE]')) {
                   options.handleChunk &&
@@ -46,12 +54,6 @@ export const createChatCompletion = (options: {
                 }
                 const openaiRes = data.choices[0].delta.content;
                 if (openaiRes) {
-                  // callback({
-                  //   type: 'showResponse',
-                  //   ok: true,
-                  //   text: openaiResp.replaceAll('\\n', '\n'),
-                  //   uniqueId,
-                  // });
                   options.handleChunk &&
                     options.handleChunk({
                       text: openaiRes.replaceAll('\\n', '\n'),
@@ -59,6 +61,10 @@ export const createChatCompletion = (options: {
                     });
                   combinedResult += openaiRes;
                 }
+              } else {
+                options.handleChunk &&
+                  options.handleChunk({ hasMore: false, text: element });
+                return;
               }
             } catch (e) {
               console.error({
@@ -69,26 +75,11 @@ export const createChatCompletion = (options: {
           }
         });
         res.on('error', (e) => {
-          console.log(3);
-          // if (isStreaming) {
-          //   const errorMessage = `OpenAI: API Response was: Error ${e.message} ${URL_ERRORS.OpenAI}`;
-          //   vscode.window.showErrorMessage(errorMessage);
-          //   callback({
-          //     type: 'showResponse',
-          //     ok: true,
-          //     text: errorMessage,
-          //     uniqueId,
-          //   });
-          //   notStream = errorMessage;
-          // }
-          // callback({
-          //   type: 'isStreaming',
-          //   ok: false,
-          // });
+          options.handleChunk &&
+            options.handleChunk({ hasMore: false, text: e.toString() });
           reject(e);
         });
         res.on('end', () => {
-          console.log(4);
           resolve(combinedResult);
         });
       },
