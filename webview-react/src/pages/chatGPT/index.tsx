@@ -40,14 +40,44 @@ const View = () => {
           </div>
         )}
       </div>
-      <TextArea
-        value={model.inputChatPrompt}
-        onChange={(e) => {
-          const { value } = e.target;
-          model.setInputChatPrompt(value);
-        }}
-      ></TextArea>
-      <Button onClick={presenter.handleSubmit}>确定</Button>
+      <div className={styles.footer}>
+        <div className={styles.formWrapper}>
+          <TextArea
+            className={styles.input}
+            bordered={false}
+            autoSize
+            value={model.inputChatPrompt}
+            onChange={(e) => {
+              const { value } = e.target;
+              model.setInputChatPrompt(value);
+            }}
+          ></TextArea>
+          <div className={styles.btn} onClick={presenter.handleSubmit}>
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M18.3334 1.66669L9.16675 10.8334"
+                stroke="white"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M18.3334 1.66669L12.5001 18.3334L9.16675 10.8334L1.66675 7.50002L18.3334 1.66669Z"
+                stroke="white"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+        </div>
+
+        {/* <Button onClick={presenter.handleSubmit}>确定</Button> */}
+      </div>
     </div>
   );
 };

@@ -26,4 +26,45 @@
       color: #ffffff;
     }
   }
+  .footer {
+    padding: 0px 8px 8px 8px;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    .form-wrapper {
+      position: relative;
+      border-radius: 8px;
+      background: #494a53;
+      border: 1px solid rgba(255, 255, 255, 0.32);
+      border-radius: 8px;
+      padding: 8px;
+      .input {
+        min-height: 36px;
+        line-height: 20px;
+        background: #494a53;
+        border: none;
+        padding: 0;
+        padding-right: 32px;
+        padding-top: 8px;
+        padding-bottom: 8px;
+        color: #ffffff;
+        &::focus {
+          border: none;
+        }
+      }
+      .btn {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        bottom: 8px;
+        right: 8px;
+        width: 36px;
+        height: 36px;
+        background: #10a37f;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+    }
+  }
 }
