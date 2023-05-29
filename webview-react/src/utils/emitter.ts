@@ -5,6 +5,7 @@ type Events = {
     text?: string | undefined;
     hasMore: boolean;
   };
+  askChatGPT: string;
 };
 
 export const emitter = mitt<Events>();

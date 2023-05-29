@@ -11,10 +11,12 @@ export const createOrShowWebview = (context: vscode.ExtensionContext) => {
         showWebView({
           key: 'main',
           viewColumn: vscode.ViewColumn.Two,
-          task: {
-            task: 'updateSelectedFolder',
-            data: { selectedFolder: path },
-          },
+          task: path
+            ? {
+                task: 'updateSelectedFolder',
+                data: { selectedFolder: path },
+              }
+            : undefined,
         });
       },
     ),

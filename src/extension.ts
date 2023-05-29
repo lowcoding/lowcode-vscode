@@ -8,6 +8,7 @@ import { CommonCommands } from './commands/common';
 import { init, setLastActiveTextEditorId } from './context';
 import { registerQuickGenerateBlock } from './commands/quickGenerateBlock';
 import { registerChatGPTViewProvider } from './webview';
+import { registerChatGPTCommand } from './commands/chatGPT';
 
 export function activate(context: vscode.ExtensionContext) {
   vscode.window.onDidChangeActiveTextEditor(
@@ -47,5 +48,6 @@ export function activate(context: vscode.ExtensionContext) {
   statusBarItem.show();
 
   CommonCommands(context);
+  registerChatGPTCommand(context);
 }
 export function deactivate() {}

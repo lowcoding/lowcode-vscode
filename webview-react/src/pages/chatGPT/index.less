@@ -1,23 +1,36 @@
 .chat-gpt {
   background-color: #343541;
-  min-height: 100vh;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
   .list {
     padding: 10px;
+    padding-bottom: 50px;
+    flex: 1;
+    overflow: auto;
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
   .promptWrapper {
-    padding-left: 20px;
+    display: flex;
+    flex-direction: row-reverse;
     margin-bottom: 20px;
     .prompt {
+      display: flex;
+      flex-direction: row-reverse;
       background: #10a37f;
       border-radius: 8px 8px 0px 8px;
       word-wrap: break-word;
       white-space: pre-wrap;
+      word-break: break-all;
       color: #ffffff;
       padding: 12px;
+      max-width: 80%;
     }
   }
   .resWrapper {
-    padding-right: 20px;
+    max-width: 80%;
     margin-bottom: 20px;
     .res {
       background: rgba(255, 255, 255, 0.2);
@@ -26,11 +39,14 @@
       color: #ffffff;
     }
   }
+  @media (max-width: 450px) {
+    .resWrapper {
+      max-width: 100%;
+    }
+  }
   .footer {
     padding: 0px 8px 8px 8px;
     width: 100%;
-    position: fixed;
-    bottom: 0;
     .form-wrapper {
       position: relative;
       border-radius: 8px;
@@ -44,12 +60,12 @@
         background: #494a53;
         border: none;
         padding: 0;
-        padding-right: 32px;
+        padding-right: 40px;
         padding-top: 8px;
         padding-bottom: 8px;
         color: #ffffff;
-        &::focus {
-          border: none;
+        &::-webkit-scrollbar {
+          display: none;
         }
       }
       .btn {
@@ -64,6 +80,12 @@
         background: #10a37f;
         border-radius: 4px;
         cursor: pointer;
+        .animateSpin {
+          color: white;
+        }
+        &Wait {
+          cursor: wait;
+        }
       }
     }
   }

@@ -12,6 +12,7 @@ import * as config from '../controllers/config';
 import * as intelliSense from '../controllers/intelliSense';
 import * as reqeust from '../controllers/request';
 import * as openai from '../controllers/openai';
+import * as task from '../controllers/task';
 
 export const routes: Record<string, any> = {
   alert: alert.alert,
@@ -51,4 +52,6 @@ export const routes: Record<string, any> = {
   request: reqeust.axiosRequest,
 
   askChatGPT: openai.askChatGPT,
+
+  getTask: task.getTask,
 };

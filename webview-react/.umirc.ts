@@ -8,18 +8,30 @@ export default defineConfig({
     {
       path: '/scaffold',
       component: '@/pages/scaffold/List',
+			wrappers: [
+        '@/components/RouteWrapper',
+      ],
     },
     {
       path: '/downloadMaterials',
       component: '@/pages/downloadMaterials',
+			wrappers: [
+        '@/components/RouteWrapper',
+      ],
     },
 		{
 			path: '/chatGPT',
 			component: '@/pages/chatGPT',
+			wrappers: [
+        '@/components/RouteWrapper',
+      ],
 		},
     {
       path: '/',
       component: '@/layout/index',
+			wrappers: [
+        '@/components/RouteWrapper',
+      ],
       routes: [
         {
           path: '/config',

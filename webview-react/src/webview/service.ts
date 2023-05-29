@@ -480,3 +480,12 @@ export function askChatGPT(data: { prompt: string; context?: string }) {
     data,
   });
 }
+
+export function getTask() {
+  return request<{
+    task: 'addSnippets' | 'openSnippet' | 'route' | 'updateSelectedFolder';
+    data?: unknown;
+  }>({
+    cmd: 'getTask',
+  });
+}

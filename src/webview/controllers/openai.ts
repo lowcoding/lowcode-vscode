@@ -5,7 +5,9 @@ import { invokeChatGPTChunkCallback } from '../callback';
 
 export const askChatGPT = async (
   message: IMessage<{ prompt: string; context?: string }>,
-  webview: vscode.Webview,
+  context: {
+    webview: vscode.Webview;
+  },
 ) => {
   const res = await createChatCompletion({
     apiKey: '',
@@ -14,7 +16,7 @@ export const askChatGPT = async (
     context: message.data.context,
     maxTokens: 2000,
     handleChunk: (data) => {
-      invokeChatGPTChunkCallback(webview, message.cbid, data);
+      invokeChatGPTChunkCallback(context.webview, message.cbid, data);
     },
   });
   return res;

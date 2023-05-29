@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import * as path from 'path';
 import * as vscode from 'vscode';
 import { window } from 'vscode';
@@ -5,7 +6,7 @@ import { getExtensionPath, setLastActiveTextEditorId } from '../context';
 import { routes } from './routes';
 import { invokeCallback, invokeErrorCallback } from './callback';
 
-type WebViewKeys = 'main' | 'createApp' | 'downloadMaterials' | 'chatGPT';
+type WebViewKeys = 'main' | 'createApp' | 'downloadMaterials';
 
 type Tasks = 'addSnippets' | 'openSnippet' | 'route' | 'updateSelectedFolder';
 
@@ -101,7 +102,11 @@ export const showWebView = (options: {
       }) => {
         if (routes[message.cmd]) {
           try {
-            const res = await routes[message.cmd](message, panel.webview);
+            const res = await routes[message.cmd](message, {
+              webview: panel.webview,
+              webviewKey: options.key,
+              task: options.task,
+            });
             invokeCallback(panel.webview, message.cbid, res);
           } catch (ex: any) {
             if (!message.skipError) {
@@ -155,6 +160,20 @@ export const showWebView = (options: {
 class ChatGPTViewProvider implements vscode.WebviewViewProvider {
   public webview?: vscode.WebviewView['webview'];
 
+  private _task: { task: string; data?: any } | undefined;
+
+  setTask(task?: { task: string; data?: any }) {
+    this._task = task;
+  }
+
+  removeTask() {
+    this._task = undefined;
+  }
+
+  removeWebView() {
+    this.webview = undefined;
+  }
+
   resolveWebviewView(
     webviewView: vscode.WebviewView,
     context: vscode.WebviewViewResolveContext<unknown>,
@@ -178,7 +197,11 @@ class ChatGPTViewProvider implements vscode.WebviewViewProvider {
       }) => {
         if (routes[message.cmd]) {
           try {
-            const res = await routes[message.cmd](message, webviewView.webview);
+            const res = await routes[message.cmd](message, {
+              webview: webviewView.webview,
+              webviewKey: 'chatGPT',
+              task: this._task || { task: 'route', data: { path: '/chatGPT' } },
+            });
             invokeCallback(webviewView.webview, message.cbid, res);
           } catch (ex: any) {
             if (!message.skipError) {
@@ -199,13 +222,13 @@ class ChatGPTViewProvider implements vscode.WebviewViewProvider {
       },
     );
 
-    setTimeout(() => {
-      webviewView.webview.postMessage({
-        cmd: 'vscodePushTask',
-        task: 'route',
-        data: { path: '/chatGPT' },
-      });
-    }, 500);
+    // setTimeout(() => {
+    //   webviewView.webview.postMessage({
+    //     cmd: 'vscodePushTask',
+    //     task: 'route',
+    //     data: { path: '/chatGPT' },
+    //   });
+    // }, 500);
   }
 }
 
@@ -225,9 +248,45 @@ export const registerChatGPTViewProvider = (
   );
 };
 
-export const getWebView = (webviewKeys: WebViewKeys) => {
-  if (webviewKeys === 'chatGPT') {
-    return chatGPTViewProvider?.webview;
-  }
-  return webviewPanels.find((s) => s.key === webviewKeys)?.panel.webview;
+let chatGPTViewVisible = false;
+
+export const checkChatGPTViewVisible = () => chatGPTViewVisible;
+
+export const showChatGPTView = (options?: {
+  task?: { task: string; data?: any };
+}) => {
+  chatGPTViewProvider?.setTask(options?.task);
+  vscode.commands
+    .executeCommand('workbench.view.extension.lowcodeApp')
+    .then(() => {
+      setTimeout(() => {
+        vscode.commands
+          .executeCommand('setContext', 'lowcode.showChatGPTView', true)
+          .then(() => {
+            const interval = setInterval(() => {
+              if (chatGPTViewProvider?.webview) {
+                clearInterval(interval);
+                if (options?.task) {
+                  chatGPTViewProvider.webview.postMessage({
+                    cmd: 'vscodePushTask',
+                    task: options.task.task,
+                    data: options.task.data,
+                  });
+                }
+              }
+            }, 300);
+            chatGPTViewVisible = true;
+          });
+      }, 500);
+    });
+};
+
+export const hideChatGPTView = () => {
+  vscode.commands
+    .executeCommand('setContext', 'lowcode.showChatGPTView', false)
+    .then(() => {
+      chatGPTViewVisible = false;
+      chatGPTViewProvider?.removeWebView();
+      chatGPTViewProvider?.removeTask();
+    });
 };

@@ -25,7 +25,6 @@ export const createChatCompletion = (options: {
       (res) => {
         res.on('data', async (chunk) => {
           const text = new TextDecoder('utf-8').decode(chunk);
-          console.log(2, text);
           const data = text.split('\n\n').filter((s) => s);
           for (let i = 0; i < data.length; i++) {
             try {

@@ -71,6 +71,10 @@
 				"title": "快速创建区块"
 			},
 			{
+				"command": "lowcode.showChatGPTView",
+				"title": "ChatGPT"
+			},
+			{
 				"command": "lowcode.hideChatGPTView",
 				"title": "关闭",
 				"icon": "$(close)"
@@ -79,6 +83,14 @@
 				"command": "lowcode.clearChatGPTViewContent",
 				"title": "清空内容",
 				"icon": "$(clear-all)"
+			},
+			{
+				"command": "lowcode.askChatGPT",
+				"title": "Ask ChatGPT"
+			},
+			{
+				"command": "lowcode.askChatGPTWithTemplate",
+				"title": "Ask ChatGPT With Template"
 			}
 		],
 		"menus": {
@@ -111,6 +123,14 @@
 				{
 					"command": "yapi-code.addSnippet",
 					"group": "lowcode@4"
+				},
+				{
+					"command": "lowcode.askChatGPT",
+					"group": "lowcode@5"
+				},
+				{
+					"command": "lowcode.askChatGPTWithTemplate",
+					"group": "lowcode@5"
 				}
 			],
 			"lowcode/explorer/context": [

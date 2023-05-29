@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import Service from './service';
 import { useModel } from './model';
-import { askChatGPT } from '@/webview/service';
 import { emitter } from '@/utils/emitter';
 
 export const usePresenter = () => {
@@ -11,31 +10,31 @@ export const usePresenter = () => {
   useEffect(() => {
     emitter.on('chatGPTChunk', (data) => {
       service.receiveChatGPTChunk(data);
+      model.listRef.current?.scrollTo(0, model.listRef.current.scrollHeight);
     });
+
+    emitter.on('askChatGPT', (data) => {
+      service.startAsk(data, '');
+    });
+
+    const initPrompt = localStorage.getItem('askChatGPT');
+    localStorage.removeItem('askChatGPT');
+    if (initPrompt && initPrompt !== model.current.prompt) {
+      service.startAsk(initPrompt, '');
+    }
+
     return () => {
       emitter.off('chatGPTChunk');
+      emitter.off('askChatGPT');
     };
   }, []);
 
   const handleSubmit = () => {
-    if (!model.inputChatPrompt.trim()) {
+    if (!model.inputChatPrompt.trim() || model.loading) {
       return;
     }
     const context = model.current.res;
-    askChatGPT({ prompt: model.inputChatPrompt, context }).then((res) => {
-      // console.log(222, res);
-      // model.setChatRes(res);
-    });
-    if (model.current.prompt) {
-      model.setChatList([
-        ...model.chatList,
-        { prompt: model.current.prompt, res: model.current.res },
-      ]);
-    }
-    model.setCurrent((s) => {
-      s.prompt = model.inputChatPrompt;
-      s.res = '';
-    });
+    service.startAsk(model.inputChatPrompt, context);
     model.setInputChatPrompt('');
   };
 

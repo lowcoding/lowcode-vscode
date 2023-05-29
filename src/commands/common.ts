@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import { commands } from '../utils/env';
-import { showWebView } from '../webview';
+import { hideChatGPTView, showChatGPTView, showWebView } from '../webview';
 
 export const CommonCommands = (context: vscode.ExtensionContext) => {
   context.subscriptions.push(
@@ -30,20 +30,6 @@ export const CommonCommands = (context: vscode.ExtensionContext) => {
         viewColumn: vscode.ViewColumn.One,
         task: { task: 'route', data: { path: '/downloadMaterials' } },
       });
-    }),
-    vscode.commands.registerCommand(commands.showChatGPTView, () => {
-      vscode.commands.executeCommand(
-        'setContext',
-        'lowcode.showChatGPTView',
-        true,
-      );
-    }),
-    vscode.commands.registerCommand(commands.hideChatGPTView, () => {
-      vscode.commands.executeCommand(
-        'setContext',
-        'lowcode.showChatGPTView',
-        false,
-      );
     }),
   );
 };
