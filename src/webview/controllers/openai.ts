@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import { IMessage } from '../type';
 import { createChatCompletion } from '../../utils/openai';
 import { invokeChatGPTChunkCallback } from '../callback';
+import { pasteToEditor } from '../../utils/editor';
 
 export const askChatGPT = async (
   message: IMessage<{ prompt: string; context?: string }>,
@@ -20,4 +21,9 @@ export const askChatGPT = async (
     },
   });
   return res;
+};
+
+export const insertCode = async (message: IMessage<string>) => {
+  await pasteToEditor(message.data);
+  return true;
 };

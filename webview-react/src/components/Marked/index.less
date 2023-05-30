@@ -2,4 +2,173 @@
   .header {
     height: 45px;
   }
+  :global {
+    pre {
+      position: relative;
+    }
+    code {
+      border-radius: 8px;
+    }
+    .div-copy {
+      position: absolute;
+      top: 0;
+      right: 0;
+      opacity: 0.5;
+    }
+    .div-copy:hover {
+      opacity: 1;
+    }
+
+    .div-copy .icon-copy {
+      opacity: 0;
+      transition: opacity 0.3s;
+      height: 15px;
+      width: 15px;
+      cursor: pointer;
+      padding: 10px;
+      box-sizing: content-box;
+    }
+
+    .div-copy.active .icon-copy {
+      opacity: 1;
+    }
+
+    .div-copy .tooltip-copy {
+      position: relative;
+    }
+
+    .div-copy .tooltip-copy::before {
+      content: 'Copied';
+      position: absolute;
+
+      /* vertically center */
+      top: 50%;
+      transform: translateY(-50%);
+
+      /* move to right */
+      right: 100%;
+      margin-right: 5px; /* and add a small left margin */
+
+      /* basic styles */
+      padding: 2px 7px;
+      border-radius: 5px;
+      background: #444;
+      color: #fff;
+      text-align: center;
+
+      opacity: 0; /* hide by default */
+      transition: opacity 0.3s;
+    }
+
+    .div-copy.click .tooltip-copy::before {
+      opacity: 1;
+      z-index: 99;
+    }
+
+    .div-copy .tooltip-copy::after {
+      content: '';
+      position: absolute;
+
+      /* position tooltip correctly */
+      right: 100%;
+      margin-right: -5px;
+
+      /* vertically center */
+      top: 50%;
+      transform: translateY(-50%);
+
+      /* the arrow */
+      border-style: solid;
+      border-width: 2px 2px 5px 8px;
+      border-color: transparent transparent transparent #444;
+
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .div-copy.click .tooltip-copy::after {
+      opacity: 1;
+    }
+
+    // insert
+    .div-insert {
+      position: absolute;
+      top: 0;
+      right: 35px;
+      opacity: 0.5;
+    }
+    .div-insert:hover {
+      opacity: 1;
+    }
+
+    .div-insert .icon-insert {
+      opacity: 0;
+      transition: opacity 0.3s;
+      height: 23px;
+      width: 23px;
+      cursor: pointer;
+      padding: 5px;
+      box-sizing: content-box;
+    }
+
+    .div-insert.active .icon-insert {
+      opacity: 1;
+    }
+
+    .div-insert .tooltip-insert {
+      position: relative;
+    }
+
+    .div-insert .tooltip-insert::before {
+      content: 'Inserted';
+      position: absolute;
+
+      /* vertically center */
+      top: 50%;
+      transform: translateY(-50%);
+
+      /* move to right */
+      right: 100%;
+      margin-right: 5px; /* and add a small left margin */
+
+      /* basic styles */
+      padding: 2px 7px;
+      border-radius: 5px;
+      background: #444;
+      color: #fff;
+      text-align: center;
+
+      opacity: 0; /* hide by default */
+      transition: opacity 0.3s;
+    }
+
+    .div-insert.click .tooltip-insert::before {
+      opacity: 1;
+    }
+
+    .div-insert .tooltip-insert::after {
+      content: '';
+      position: absolute;
+
+      /* position tooltip correctly */
+      right: 100%;
+      margin-right: -5px;
+
+      /* vertically center */
+      top: 50%;
+      transform: translateY(-50%);
+
+      /* the arrow */
+      border-style: solid;
+      border-width: 2px 2px 5px 8px;
+      border-color: transparent transparent transparent #444;
+
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .div-insert.click .tooltip-insert::after {
+      opacity: 1;
+    }
+  }
 }

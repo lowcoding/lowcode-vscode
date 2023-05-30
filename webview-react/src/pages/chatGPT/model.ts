@@ -18,6 +18,8 @@ export const useModel = () => {
 
   const listRef = useRef<HTMLDivElement | null>(null);
 
+  const [complete, setComplete] = useState(false);
+
   return {
     inputChatPrompt,
     setInputChatPrompt,
@@ -28,6 +30,8 @@ export const useModel = () => {
     loading,
     setLoading,
     listRef,
+    complete,
+    setComplete,
   };
 };
 

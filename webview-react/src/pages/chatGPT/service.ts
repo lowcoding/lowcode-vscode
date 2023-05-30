@@ -22,6 +22,7 @@ export default class Service {
       return;
     }
     this.model.setLoading(true);
+    this.model.setComplete((s) => false);
     if (globalPrompt) {
       this.model.setChatList((s) => {
         const ss = [
@@ -39,9 +40,13 @@ export default class Service {
       s.prompt = '';
       s.res = '';
     });
-    askChatGPT({ prompt, context }).finally(() => {
-      this.model.setLoading(false);
-    });
+    askChatGPT({ prompt, context })
+      .then(() => {
+        this.model.setComplete((s) => true);
+      })
+      .finally(() => {
+        this.model.setLoading(false);
+      });
     this.model.listRef.current?.scrollTo(
       0,
       this.model.listRef.current.scrollHeight,

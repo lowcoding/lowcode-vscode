@@ -22,7 +22,7 @@ const View = () => {
             {s.res && (
               <div className={styles.resWrapper}>
                 <div className={styles.res}>
-                  <Marked text={s.res}></Marked>
+                  <Marked text={s.res} complete></Marked>
                 </div>
               </div>
             )}
@@ -40,7 +40,10 @@ const View = () => {
             {model.current.res && (
               <div className={styles.resWrapper}>
                 <div className={styles.res}>
-                  <Marked text={model.current.res}></Marked>
+                  <Marked
+                    text={model.current.res}
+                    complete={model.complete}
+                  ></Marked>
                 </div>
               </div>
             )}

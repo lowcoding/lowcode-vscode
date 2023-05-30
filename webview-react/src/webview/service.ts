@@ -489,3 +489,10 @@ export function getTask() {
     cmd: 'getTask',
   });
 }
+
+export function insertCode(code: string) {
+  return request<boolean>({
+    cmd: 'insertCode',
+    data: code,
+  });
+}
