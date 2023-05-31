@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { message } from 'antd';
 import Service from './service';
 import { useModel } from './model';
 import { emitter } from '@/utils/emitter';
@@ -45,10 +46,32 @@ export const usePresenter = () => {
     model.setInputChatPrompt('');
   };
 
+  const handleCopy = (isListItem: boolean, item?: typeof model.chatList[0]) => {
+    if (isListItem) {
+      navigator.clipboard.writeText(item?.res || '');
+    } else {
+      navigator.clipboard.writeText(model.current.res || '');
+    }
+    message.success('已写入剪切板');
+  };
+
+  const handleRetry = (
+    isListItem: boolean,
+    item?: typeof model.chatList[0],
+  ) => {};
+
+  const handleDel = (
+    isListItem: boolean,
+    item?: typeof model.chatList[0],
+  ) => {};
+
   return {
     model,
     service,
     handleSubmit,
     handleInputKeyDown,
+    handleCopy,
+    handleRetry,
+    handleDel,
   };
 };

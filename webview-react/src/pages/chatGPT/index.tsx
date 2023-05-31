@@ -40,9 +40,30 @@ const View = () => {
                     <Marked text={s.res} complete></Marked>
                   </div>
                   <div className={styles.itemBtns}>
-                    <div className={styles.btn}>复制</div>
-                    <div className={styles.btn}>重试</div>
-                    <div className={styles.btn}>删除</div>
+                    <div
+                      className={styles.btn}
+                      onClick={() => {
+                        presenter.handleCopy(true, s);
+                      }}
+                    >
+                      复制
+                    </div>
+                    <div
+                      className={styles.btn}
+                      onClick={() => {
+                        presenter.handleRetry(true, s);
+                      }}
+                    >
+                      重试
+                    </div>
+                    <div
+                      className={styles.btn}
+                      onClick={() => {
+                        presenter.handleDel(true, s);
+                      }}
+                    >
+                      删除
+                    </div>
                   </div>
                 </div>
               </>
@@ -80,9 +101,30 @@ const View = () => {
                     ></Marked>
                   </div>
                   <div className={styles.itemBtns}>
-                    <div className={styles.btn}>复制</div>
-                    <div className={styles.btn}>重试</div>
-                    <div className={styles.btn}>删除</div>
+                    <div
+                      className={styles.btn}
+                      onClick={() => {
+                        presenter.handleCopy(false);
+                      }}
+                    >
+                      复制
+                    </div>
+                    <div
+                      className={styles.btn}
+                      onClick={() => {
+                        presenter.handleRetry(false);
+                      }}
+                    >
+                      重试
+                    </div>
+                    <div
+                      className={styles.btn}
+                      onClick={() => {
+                        presenter.handleDel(false);
+                      }}
+                    >
+                      删除
+                    </div>
                   </div>
                 </div>
               </>
@@ -97,7 +139,7 @@ const View = () => {
             bordered={false}
             autoSize={{ maxRows: 6 }}
             value={model.inputChatPrompt}
-            placeholder="Ctrl + Enter 发送"
+            placeholder="Ctrl + Enter 或 ⌘ + Enter 发送"
             onChange={(e) => {
               const { value } = e.target;
               model.setInputChatPrompt(value);

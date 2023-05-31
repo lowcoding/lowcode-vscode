@@ -80,11 +80,6 @@
 				"icon": "$(close)"
 			},
 			{
-				"command": "lowcode.clearChatGPTViewContent",
-				"title": "清空内容",
-				"icon": "$(clear-all)"
-			},
-			{
 				"command": "lowcode.askChatGPT",
 				"title": "Ask ChatGPT"
 			},
@@ -152,11 +147,6 @@
 					"command": "lowcode.hideChatGPTView",
 					"when": "view == lowcode.chatGPTView",
 					"group": "navigation@4"
-				},
-				{
-					"command": "lowcode.clearChatGPTViewContent",
-					"when": "view == lowcode.chatGPTView",
-					"group": "navigation@3"
 				}
 			]
 		},
