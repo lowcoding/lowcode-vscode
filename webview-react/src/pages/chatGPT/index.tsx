@@ -109,22 +109,26 @@ const View = () => {
                     >
                       复制
                     </div>
-                    <div
-                      className={styles.btn}
-                      onClick={() => {
-                        presenter.handleRetry(false);
-                      }}
-                    >
-                      重试
-                    </div>
-                    <div
-                      className={styles.btn}
-                      onClick={() => {
-                        presenter.handleDel(false);
-                      }}
-                    >
-                      删除
-                    </div>
+                    {model.complete && (
+                      <div
+                        className={styles.btn}
+                        onClick={() => {
+                          presenter.handleRetry(false);
+                        }}
+                      >
+                        重试
+                      </div>
+                    )}
+                    {model.complete && (
+                      <div
+                        className={styles.btn}
+                        onClick={() => {
+                          presenter.handleDel(false);
+                        }}
+                      >
+                        删除
+                      </div>
+                    )}
                   </div>
                 </div>
               </>

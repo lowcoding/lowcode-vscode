@@ -52,18 +52,28 @@ export const usePresenter = () => {
     } else {
       navigator.clipboard.writeText(model.current.res || '');
     }
-    message.success('已写入剪切板');
+    message.success({
+      content: '内容已写入剪切板',
+    });
   };
 
   const handleRetry = (
     isListItem: boolean,
     item?: typeof model.chatList[0],
-  ) => {};
+  ) => {
+    if (model.loading) {
+      return;
+    }
+    if (isListItem) {
+      service.startAsk(item?.prompt || '', '');
+    } else {
+      service.startAsk(model.current.prompt, '');
+    }
+  };
 
-  const handleDel = (
-    isListItem: boolean,
-    item?: typeof model.chatList[0],
-  ) => {};
+  const handleDel = (isListItem: boolean, item?: typeof model.chatList[0]) => {
+    service.delItem(isListItem, item);
+  };
 
   return {
     model,

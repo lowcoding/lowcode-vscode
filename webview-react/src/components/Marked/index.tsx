@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { message } from 'antd';
 import { marked } from 'marked';
 import { markedHighlight } from 'marked-highlight';
 import 'highlight.js/styles/agate.css';
@@ -51,24 +52,19 @@ const Marked: React.FC<IProps> = (props) => {
 
     const allPres = containerRef.current?.querySelectorAll('pre');
     allPres?.forEach((pre) => {
-      let timeout: NodeJS.Timeout | undefined;
       const copy = div.cloneNode(true) as HTMLDivElement;
       pre.appendChild(copy);
       pre.addEventListener('mouseover', () => {
         copy.classList.add('active');
       });
       pre.addEventListener('mouseleave', () => {
-        timeout && clearTimeout(timeout);
         copy.classList.remove('active');
-        copy.classList.remove('click');
       });
       copy.onclick = function () {
         navigator.clipboard.writeText(pre.textContent || '');
-        copy.classList.add('click');
-        timeout && clearTimeout(timeout);
-        timeout = setTimeout(() => {
-          copy.classList.remove('click');
-        }, 2000);
+        message.success({
+          content: '内容已写入剪切板',
+        });
       };
     });
   };
@@ -81,24 +77,20 @@ const Marked: React.FC<IProps> = (props) => {
 
     const allPres = containerRef.current?.querySelectorAll('pre');
     allPres?.forEach((pre) => {
-      let timeout: NodeJS.Timeout | undefined;
       const insert = div.cloneNode(true) as HTMLDivElement;
       pre.appendChild(insert);
       pre.addEventListener('mouseover', () => {
         insert.classList.add('active');
       });
       pre.addEventListener('mouseleave', () => {
-        timeout && clearTimeout(timeout);
         insert.classList.remove('active');
-        insert.classList.remove('click');
       });
       insert.onclick = function () {
-        insert.classList.add('click');
-        timeout && clearTimeout(timeout);
-        timeout = setTimeout(() => {
-          insert.classList.remove('click');
-        }, 2000);
-        insertCode(pre.textContent || '');
+        insertCode(pre.textContent || '').then(() => {
+          message.success({
+            content: '内容已插入',
+          });
+        });
       };
     });
   };

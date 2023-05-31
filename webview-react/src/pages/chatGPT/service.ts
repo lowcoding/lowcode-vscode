@@ -40,13 +40,10 @@ export default class Service {
       s.prompt = '';
       s.res = '';
     });
-    askChatGPT({ prompt, context })
-      .then(() => {
-        this.model.setComplete((s) => true);
-      })
-      .finally(() => {
-        this.model.setLoading(false);
-      });
+    askChatGPT({ prompt, context }).finally(() => {
+      this.model.setLoading(false);
+      this.model.setComplete((s) => true);
+    });
     this.model.listRef.current?.scrollTo(
       0,
       this.model.listRef.current.scrollHeight,
@@ -65,5 +62,18 @@ export default class Service {
         this.model.listRef.current.scrollHeight,
       );
     }, 2000);
+  }
+
+  delItem(isListItem: boolean, item?: Model['chatList'][0]) {
+    if (isListItem) {
+      this.model.setChatList((s) => s.filter((p) => p.key !== item?.key));
+    } else {
+      this.model.setCurrent((s) => {
+        s.prompt = '';
+        s.res = '';
+      });
+      globalPrompt = '';
+      globalRes = '';
+    }
   }
 }
