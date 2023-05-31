@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Input } from 'antd';
+import { Input } from 'antd';
 import { usePresenter } from './presenter';
 import Marked from '@/components/Marked';
 import styles from './index.less';
@@ -15,39 +15,79 @@ const View = () => {
     <div className={styles.chatGpt}>
       <div className={styles.list} ref={model.listRef}>
         {model.chatList.map((s) => (
-          <div key={s.key}>
+          <div key={s.key} className={styles.itemContainer}>
+            <div className={styles.promptIcon}>
+              <img
+                width="20"
+                height="20"
+                src="https://gitee.com/img-hosting/img-hosting/raw/master/2023/05/31/1685507810271.svg"
+              ></img>
+            </div>
             <div className={styles.promptWrapper}>
               <div className={styles.prompt}>{s.prompt}</div>
             </div>
             {s.res && (
-              <div className={styles.resWrapper}>
-                <div className={styles.res}>
-                  <Marked text={s.res} complete></Marked>
+              <>
+                <div className={styles.resIcon}>
+                  <img
+                    width="20"
+                    height="20"
+                    src="https://gitee.com/img-hosting/img-hosting/raw/master/2023/05/31/1685511791755.svg"
+                  ></img>
                 </div>
-              </div>
+                <div className={styles.resWrapper}>
+                  <div className={styles.res}>
+                    <Marked text={s.res} complete></Marked>
+                  </div>
+                  <div className={styles.itemBtns}>
+                    <div className={styles.btn}>复制</div>
+                    <div className={styles.btn}>重试</div>
+                    <div className={styles.btn}>删除</div>
+                  </div>
+                </div>
+              </>
             )}
           </div>
         ))}
         {model.current.prompt && (
-          <>
-            <div className={styles.promptWrapper}>
-              <div
-                className={`${styles.prompt} animate__animated animate__backInUp`}
-              >
-                {model.current.prompt}
-              </div>
+          <div className={styles.itemContainer}>
+            <div className={styles.promptIcon}>
+              <img
+                width="20"
+                height="20"
+                src="https://gitee.com/img-hosting/img-hosting/raw/master/2023/05/31/1685507810271.svg"
+              ></img>
+            </div>
+            <div
+              className={`${styles.promptWrapper} animate__animated animate__backInUps`}
+            >
+              <div className={styles.prompt}>{model.current.prompt}</div>
             </div>
             {model.current.res && (
-              <div className={styles.resWrapper}>
-                <div className={styles.res}>
-                  <Marked
-                    text={model.current.res}
-                    complete={model.complete}
-                  ></Marked>
+              <>
+                <div className={styles.resIcon}>
+                  <img
+                    width="20"
+                    height="20"
+                    src="https://gitee.com/img-hosting/img-hosting/raw/master/2023/05/31/1685511791755.svg"
+                  ></img>
                 </div>
-              </div>
+                <div className={styles.resWrapper}>
+                  <div className={styles.res}>
+                    <Marked
+                      text={model.current.res}
+                      complete={model.complete}
+                    ></Marked>
+                  </div>
+                  <div className={styles.itemBtns}>
+                    <div className={styles.btn}>复制</div>
+                    <div className={styles.btn}>重试</div>
+                    <div className={styles.btn}>删除</div>
+                  </div>
+                </div>
+              </>
             )}
-          </>
+          </div>
         )}
       </div>
       <div className={styles.footer}>
@@ -57,11 +97,12 @@ const View = () => {
             bordered={false}
             autoSize={{ maxRows: 6 }}
             value={model.inputChatPrompt}
-            placeholder="请输入"
+            placeholder="Ctrl + Enter 发送"
             onChange={(e) => {
               const { value } = e.target;
               model.setInputChatPrompt(value);
             }}
+            onKeyDown={presenter.handleInputKeyDown}
           ></TextArea>
           <div className={styles.btn} onClick={presenter.handleSubmit}>
             {!model.loading && (
@@ -110,8 +151,6 @@ const View = () => {
             )}
           </div>
         </div>
-
-        {/* <Button onClick={presenter.handleSubmit}>确定</Button> */}
       </div>
     </div>
   );

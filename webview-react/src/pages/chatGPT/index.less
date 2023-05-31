@@ -12,6 +12,11 @@
       display: none;
     }
   }
+  .promptIcon {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 5px;
+  }
   .promptWrapper {
     display: flex;
     flex-direction: row-reverse;
@@ -20,7 +25,7 @@
       display: flex;
       flex-direction: row-reverse;
       background: #10a37f;
-      border-radius: 8px 8px 0px 8px;
+      border-radius: 8px 0px 8px 8px;
       word-wrap: break-word;
       white-space: pre-wrap;
       word-break: break-all;
@@ -29,17 +34,49 @@
       max-width: 80%;
     }
   }
+  .resIcon {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 5px;
+  }
   .resWrapper {
     max-width: 80%;
     margin-bottom: 20px;
+    position: relative;
     .res {
       background: rgba(255, 255, 255, 0.2);
-      border-radius: 8px 8px 8px 0px;
+      border-radius: 0px 8px 8px 8px;
       padding: 12px;
       color: #ffffff;
     }
+    .itemBtns {
+      position: absolute;
+      right: 20px;
+      top: -17px;
+      transition: all 0.3s ease;
+      opacity: 0;
+      display: flex;
+      color: #ffffff;
+      font-size: 12px;
+      .btn {
+        cursor: pointer;
+        margin-left: 10px;
+      }
+    }
+    &:hover {
+      .itemBtns {
+        opacity: 1;
+        right: 10px;
+        .btn {
+          opacity: 0.5;
+          &:hover {
+            opacity: 1;
+          }
+        }
+      }
+    }
   }
-  @media (max-width: 450px) {
+  @media (max-width: 700px) {
     .resWrapper {
       max-width: 100%;
     }

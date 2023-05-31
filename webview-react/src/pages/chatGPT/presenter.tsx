@@ -29,6 +29,13 @@ export const usePresenter = () => {
     };
   }, []);
 
+  const handleInputKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
+      handleSubmit();
+      e.preventDefault();
+    }
+  };
+
   const handleSubmit = () => {
     if (!model.inputChatPrompt.trim() || model.loading) {
       return;
@@ -42,5 +49,6 @@ export const usePresenter = () => {
     model,
     service,
     handleSubmit,
+    handleInputKeyDown,
   };
 };
