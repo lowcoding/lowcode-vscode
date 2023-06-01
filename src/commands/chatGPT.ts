@@ -13,6 +13,12 @@ export const registerChatGPTCommand = (context: vscode.ExtensionContext) => {
     vscode.commands.registerCommand(commands.hideChatGPTView, () => {
       hideChatGPTView();
     }),
+    vscode.commands.registerCommand('lowcode.openSettingsChatGPT', () => {
+      vscode.commands.executeCommand(
+        'workbench.action.openSettings',
+        'lowcode.chatGPT',
+      );
+    }),
     vscode.commands.registerCommand('lowcode.askChatGPT', () => {
       showChatGPTView({
         task: {

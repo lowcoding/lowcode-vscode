@@ -80,6 +80,11 @@
 				"icon": "$(close)"
 			},
 			{
+				"command": "lowcode.openSettingsChatGPT",
+				"title": "Open Setting",
+				"icon": "$(settings-gear)"
+			},
+			{
 				"command": "lowcode.askChatGPT",
 				"title": "Ask ChatGPT"
 			},
@@ -147,6 +152,11 @@
 					"command": "lowcode.hideChatGPTView",
 					"when": "view == lowcode.chatGPTView",
 					"group": "navigation@4"
+				},
+				{
+					"command": "lowcode.openSettingsChatGPT",
+					"when": "view == lowcode.chatGPTView",
+					"group": "navigation@3"
 				}
 			]
 		},
@@ -195,12 +205,39 @@
 		],
 		"configuration": {
 			"type": "object",
-			"title": "lowcode.ChatGPT",
+			"title": "lowcode.chatGPT",
 			"properties": {
-				"lowcode.HostName": {
+				"lowcode.hostname": {
 					"type": "string",
-					"default": "api.chatanywhere.cn",
-					"description": "ChatGPT HostName"
+					"default": "api.openai.com",
+					"description": "chatGPT hostname"
+				},
+				"lowcode.apiPath": {
+					"type": "string",
+					"default": "/v1/chat/completions",
+					"description": "chatGPT api path"
+				},
+				"lowcode.apiKey": {
+					"type": "string",
+					"default": "",
+					"description": "chatGPT api key"
+				},
+				"lowcode.model": {
+					"type": "string",
+					"default": "gpt-3.5-turbo",
+					"description": "chatGPT model"
+				},
+				"lowcode.maxTokens": {
+					"type": "number",
+					"default": 2000,
+					"minimum": 100,
+					"markdownDescription": "maximum number of tokens for each request"
+				},
+				"lowcode.temperature": {
+					"type": "number",
+					"default": 0.3,
+					"minimum": 0,
+					"maximum": 1
 				}
 			}
 		}

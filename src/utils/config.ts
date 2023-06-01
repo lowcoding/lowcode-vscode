@@ -1,5 +1,6 @@
 import * as path from 'path';
 import * as fs from 'fs-extra';
+import { ConfigurationTarget, workspace } from 'vscode';
 import { getFileContent } from './file';
 import { rootPath } from './vscodeEnv';
 
@@ -34,6 +35,15 @@ export type Config = {
   commonlyUsedBlock?: string[];
 };
 
+type ChatGPTConfig = {
+  hostname: string;
+  apiPath: string;
+  apiKey: string;
+  model: string;
+  maxTokens: number;
+  temperature: number;
+};
+
 export const getConfig = () => {
   let config: Config;
   if (fs.existsSync(path.join(rootPath, '.lowcoderc'))) {
@@ -49,6 +59,36 @@ export const saveConfig = (config: Config) => {
     path.join(rootPath, '.lowcoderc'),
     JSON.stringify(config, null, 2),
   );
+};
+
+export const getChatGPTConfig = () => {
+  const hostname = workspace
+    .getConfiguration('lowcode')
+    .get<string>('hostname', 'api.openai.com');
+  const apiPath = workspace
+    .getConfiguration('lowcode')
+    .get<string>('apiPath', '/v1/chat/completions');
+  const apiKey = workspace
+    .getConfiguration('lowcode')
+    .get<string>('apiKey', '');
+  const model = workspace
+    .getConfiguration('lowcode')
+    .get<string>('model', 'gpt-3.5-turbo');
+  const maxTokens = workspace
+    .getConfiguration('lowcode')
+    .get<number>('maxTokens', 2000);
+  const temperature = workspace
+    .getConfiguration('lowcode')
+    .get<number>('temperature', 0.3);
+
+  return {
+    hostname,
+    apiPath,
+    apiKey,
+    model,
+    maxTokens,
+    temperature,
+  };
 };
 
 /**

@@ -5,17 +5,19 @@ export const createChatCompletion = (options: {
   apiKey: string;
   model: string;
   text: string;
-  context?: string;
   maxTokens: number;
+  context?: string;
+  hostname?: string;
+  apiPath?: string;
   handleChunk?: (data: { text?: string; hasMore: boolean }) => void;
 }) =>
   new Promise<string>((resolve, reject) => {
     let combinedResult = '';
     const request = https.request(
       {
-        hostname: 'api.chatanywhere.cn',
+        hostname: options.hostname || 'api.openai.com',
         port: 443,
-        path: '/v1/chat/completions',
+        path: options.apiPath || '/v1/chat/completions',
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

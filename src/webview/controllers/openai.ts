@@ -3,6 +3,7 @@ import { IMessage } from '../type';
 import { createChatCompletion } from '../../utils/openai';
 import { invokeChatGPTChunkCallback } from '../callback';
 import { pasteToEditor } from '../../utils/editor';
+import { getChatGPTConfig } from '../../utils/config';
 
 export const askChatGPT = async (
   message: IMessage<{ prompt: string; context?: string }>,
@@ -10,12 +11,15 @@ export const askChatGPT = async (
     webview: vscode.Webview;
   },
 ) => {
+  const config = getChatGPTConfig();
   const res = await createChatCompletion({
-    apiKey: '',
-    model: 'gpt-3.5-turbo',
+    hostname: config.hostname,
+    apiPath: config.apiPath,
+    apiKey: config.apiKey,
+    model: config.model,
     text: message.data.prompt,
     context: message.data.context,
-    maxTokens: 2000,
+    maxTokens: config.maxTokens,
     handleChunk: (data) => {
       invokeChatGPTChunkCallback(context.webview, message.cbid, data);
     },
