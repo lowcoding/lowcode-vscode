@@ -31,3 +31,15 @@ export const insertCode = async (message: IMessage<string>) => {
   await pasteToEditor(message.data);
   return true;
 };
+
+export const exportChatGPTContent = async (message: IMessage<string>) => {
+  const document = await vscode.workspace.openTextDocument({
+    language: 'markdown',
+  });
+  const edit = new vscode.TextEdit(new vscode.Range(0, 0, 0, 0), message.data);
+  const workspaceEdit = new vscode.WorkspaceEdit();
+  workspaceEdit.set(document.uri, [edit]);
+  await vscode.workspace.applyEdit(workspaceEdit);
+  await vscode.window.showTextDocument(document);
+  return true;
+};

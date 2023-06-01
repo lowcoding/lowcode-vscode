@@ -136,6 +136,17 @@ const View = () => {
           </div>
         )}
       </div>
+      <div className={styles.actionPanel}>
+        <div className={styles.action} onClick={presenter.handleOpenList}>
+          <img src="https://gitee.com/img-host/img-host/raw/master/2023/06/01/1685629856184.svg"></img>
+        </div>
+        <div className={styles.action} onClick={presenter.handleExportContent}>
+          <img src="https://gitee.com/img-host/img-host/raw/master/2023/06/01/1685631928751.svg"></img>
+        </div>
+        <div className={styles.action} onClick={presenter.handleClearContext}>
+          <img src="https://gitee.com/img-host/img-host/raw/master/2023/06/01/1685631448493.svg"></img>
+        </div>
+      </div>
       <div className={styles.footer}>
         <div className={styles.formWrapper}>
           <TextArea

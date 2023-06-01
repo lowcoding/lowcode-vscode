@@ -76,4 +76,28 @@ export default class Service {
       globalRes = '';
     }
   }
+
+  resetCurrent() {
+    if (globalPrompt) {
+      const prompt = globalPrompt;
+      const res = globalRes;
+      this.model.setChatList((s) => {
+        const ss = [
+          ...s,
+          {
+            prompt,
+            res,
+            key: new Date().getTime(),
+          },
+        ];
+        return ss;
+      });
+      this.model.setCurrent((s) => {
+        s.prompt = '';
+        s.res = '';
+      });
+      globalPrompt = '';
+      globalRes = '';
+    }
+  }
 }

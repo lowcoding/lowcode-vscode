@@ -5,7 +5,7 @@
   flex-direction: column;
   .list {
     padding: 10px;
-    padding-bottom: 50px;
+    padding-bottom: 15px;
     flex: 1;
     overflow: auto;
     &::-webkit-scrollbar {
@@ -79,6 +79,31 @@
   @media (max-width: 700px) {
     .resWrapper {
       max-width: 100%;
+    }
+  }
+  .actionPanel {
+    display: flex;
+    align-items: center;
+    height: 32px;
+    padding-left: 10px;
+    color: #ffffff;
+    width: 100%;
+    border-top: 1px solid #5d5d67;
+    border-radius: 8px;
+    .action {
+      width: 15px;
+      height: 15px;
+      line-height: 15px;
+      margin-right: 8px;
+      cursor: pointer;
+      opacity: 0.5;
+      img {
+        height: 100%;
+        width: 100%;
+      }
+      &:hover {
+        opacity: 0.8;
+      }
     }
   }
   .footer {

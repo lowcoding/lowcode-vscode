@@ -231,13 +231,14 @@
 					"type": "number",
 					"default": 2000,
 					"minimum": 100,
-					"markdownDescription": "maximum number of tokens for each request"
+					"markdownDescription": "chatGPT max tokens"
 				},
 				"lowcode.temperature": {
 					"type": "number",
 					"default": 0.3,
 					"minimum": 0,
-					"maximum": 1
+					"maximum": 1,
+					"description": "chatGPT temperature"
 				}
 			}
 		}

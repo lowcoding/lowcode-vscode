@@ -3,6 +3,7 @@ import { message } from 'antd';
 import Service from './service';
 import { useModel } from './model';
 import { emitter } from '@/utils/emitter';
+import { exportChatGPTContent } from '@/webview/service';
 
 export const usePresenter = () => {
   const model = useModel();
@@ -75,6 +76,27 @@ export const usePresenter = () => {
     service.delItem(isListItem, item);
   };
 
+  const handleClearContext = () => {
+    service.resetCurrent();
+    message.success('上下文已清除');
+  };
+
+  const handleOpenList = () => {
+    message.success('功能开发中...');
+  };
+
+  const handleExportContent = () => {
+    let content = model.chatList
+      .map((s) => `## ${s.prompt}\r\n\r\n${s.res}\r\n\r\n`)
+      .join();
+    if (model.current.res) {
+      content += `## ${model.current.prompt}\r\n\r\n${model.current.res}\r\n\r\n`;
+    }
+    exportChatGPTContent(content).then(() => {
+      message.success('导出成功');
+    });
+  };
+
   return {
     model,
     service,
@@ -83,5 +105,8 @@ export const usePresenter = () => {
     handleCopy,
     handleRetry,
     handleDel,
+    handleClearContext,
+    handleOpenList,
+    handleExportContent,
   };
 };

@@ -53,6 +53,7 @@ export const routes: Record<string, any> = {
 
   askChatGPT: openai.askChatGPT,
   insertCode: openai.insertCode,
+  exportChatGPTContent: openai.exportChatGPTContent,
 
   getTask: task.getTask,
 };

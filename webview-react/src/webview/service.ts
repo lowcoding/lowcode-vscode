@@ -496,3 +496,10 @@ export function insertCode(code: string) {
     data: code,
   });
 }
+
+export function exportChatGPTContent(content: string) {
+  return request<boolean>({
+    cmd: 'exportChatGPTContent',
+    data: content,
+  });
+}
