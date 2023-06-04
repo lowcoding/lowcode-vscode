@@ -33,7 +33,6 @@
     "codemirror": "^5.58.1",
     "form-render": "^1.9.2",
     "highlight.js": "^11.8.0",
-    "hox": "1.0.2",
     "immer": "^8.0.1",
     "jsonlint": "^1.6.3",
     "lint-staged": "^10.0.7",
@@ -48,7 +47,8 @@
     "use-immer": "^0.9.0",
     "viewerjs": "^1.11.3",
     "yarn": "^1.22.19",
-    "yorkie": "^2.0.0"
+    "yorkie": "^2.0.0",
+    "zustand": "^4.3.8"
   },
   "devDependencies": {
     "@types/codemirror": "^0.0.98",

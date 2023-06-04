@@ -4255,13 +4255,6 @@ hotkeys-js@^3.8.7:
   resolved "https://registry.npmmirror.com/hotkeys-js/-/hotkeys-js-3.10.2.tgz#cf52661904f5a13a973565cb97085fea2f5ae257"
   integrity sha512-Z6vLmJTYzkbZZXlBkhrYB962Q/rZGc/WHQiyEGu9ZZVF7bAeFDjjDa31grWREuw9Ygb4zmlov2bTkPYqj0aFnQ==
 
-hox@1.0.2:
-  version "1.0.2"
-  resolved "https://registry.nlark.com/hox/download/hox-1.0.2.tgz?cache=0&sync_timestamp=1619510612529&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fhox%2Fdownload%2Fhox-1.0.2.tgz#c4ccbc1dc2815d398a29d973c8cefb9732b999b4"
-  integrity sha1-xMy8HcKBXTmKKdlzyM77lzK5mbQ=
-  dependencies:
-    "@types/hoist-non-react-statics" "^3.3.1"
-
 html-encoding-sniffer@^1.0.2:
   version "1.0.2"
   resolved "https://registry.nlark.com/html-encoding-sniffer/download/html-encoding-sniffer-1.0.2.tgz#e70d84b94da53aa375e11fe3a351be6642ca46f8"
@@ -9502,6 +9495,11 @@ use-subscription@1.5.1:
   dependencies:
     object-assign "^4.1.1"
 
+use-sync-external-store@1.2.0:
+  version "1.2.0"
+  resolved "https://registry.npmmirror.com/use-sync-external-store/-/use-sync-external-store-1.2.0.tgz#7dbefd6ef3fe4e767a0cf5d7287aacfb5846928a"
+  integrity sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==
+
 use@^3.1.0:
   version "3.1.1"
   resolved "https://registry.nlark.com/use/download/use-3.1.1.tgz#d50c8cac79a19fbc20f2911f56eb973f4e10070f"
@@ -9915,3 +9913,10 @@ zscroller@~0.4.0:
   integrity sha1-ae7WhpCAju34H5cUAUNWs2zdIPQ=
   dependencies:
     babel-runtime "6.x"
+
+zustand@^4.3.8:
+  version "4.3.8"
+  resolved "https://registry.npmmirror.com/zustand/-/zustand-4.3.8.tgz#37113df8e9e1421b0be1b2dca02b49b76210e7c4"
+  integrity sha512-4h28KCkHg5ii/wcFFJ5Fp+k1J3gJoasaIbppdgZFO4BPJnsNxL0mQXBSFgOgAdCdBj35aDTPvdAJReTMntFPGg==
+  dependencies:
+    use-sync-external-store "1.2.0"
