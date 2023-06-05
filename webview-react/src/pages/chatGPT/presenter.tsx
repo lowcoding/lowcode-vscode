@@ -4,14 +4,21 @@ import Service from './service';
 import { useModel } from './model';
 import { emitter } from '@/utils/emitter';
 import { exportChatGPTContent } from '@/webview/service';
+import { useChatStore } from './store';
 
 export const usePresenter = () => {
   const model = useModel();
   const service = new Service(model);
+  const chatStore = useChatStore();
 
   useEffect(() => {
     emitter.on('chatGPTChunk', (data) => {
       service.receiveChatGPTChunk(data);
+      chatStore.updateMessageByChunck(
+        data.sessionId,
+        data.messageId,
+        data.chunck,
+      );
       model.listRef.current?.scrollTo(0, model.listRef.current.scrollHeight);
     });
 

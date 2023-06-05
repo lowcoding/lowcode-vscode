@@ -20,7 +20,17 @@ type ChatStore = {
   currentSessionIndex: number;
   currentSession: () => ChatSession;
   newSession: () => void;
-  newSessionWithPrompt: (prompt: string) => void;
+  newSessionWithPrompt: (prompt: string) => {
+    sessionId: number;
+    messageId: number;
+  };
+  newMessage: (
+    sessionId: number,
+    prompt: string,
+  ) => {
+    sessionId: number;
+    messageId: number;
+  };
   updateMessageByChunck: (
     sessionId: number,
     messageId: number,
@@ -54,17 +64,46 @@ export const useChatStore = create<ChatStore>()(
       },
       newSessionWithPrompt(prompt: string) {
         const session = createEmptySession();
+        const id = new Date().getTime();
         session.messages = [
           {
-            id: new Date().getTime(),
+            id,
             content: prompt,
             role: 'user',
+            loading: true,
+          },
+          {
+            id,
+            content: '',
+            role: 'assistant',
+            loading: true,
           },
         ];
         setState((state) => ({
           currentSessionIndex: 0,
           sessions: [session].concat(state.sessions),
         }));
+        return {
+          sessionId: session.id,
+          messageId: id,
+        };
+      },
+      newMessage(sessionId: number, prompt: string) {
+        const sessions = getStore().sessions;
+        const session = sessions.find((s) => s.id === sessionId);
+        const messageId = new Date().getTime();
+        if (session) {
+          session.messages = [
+            ...session.messages,
+            { id: messageId, content: prompt, role: 'user' },
+            { id: messageId, content: '', role: 'assistant', loading: true },
+          ];
+        }
+        setState(() => ({ sessions }));
+        return {
+          sessionId,
+          messageId,
+        };
       },
       updateMessageByChunck(
         sessionId: number,
@@ -74,7 +113,9 @@ export const useChatStore = create<ChatStore>()(
         const sessions = getStore().sessions;
         const session = sessions.find((s) => s.id === sessionId);
         if (session) {
-          const message = session.messages.find((s) => s.id === messageId);
+          const message = session.messages.find(
+            (s) => s.id === messageId && s.role === 'assistant',
+          );
           if (message) {
             message.content += chunck;
           }

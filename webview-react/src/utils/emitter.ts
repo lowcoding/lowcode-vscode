@@ -2,7 +2,9 @@ import mitt from 'mitt';
 
 type Events = {
   chatGPTChunk: {
-    text?: string | undefined;
+    chunck: string;
+    sessionId: number;
+    messageId: number;
     hasMore: boolean;
   };
   askChatGPT: string;
