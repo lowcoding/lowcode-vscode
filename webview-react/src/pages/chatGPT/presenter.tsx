@@ -4,7 +4,7 @@ import Service from './service';
 import { useModel } from './model';
 import { emitter } from '@/utils/emitter';
 import { exportChatGPTContent } from '@/webview/service';
-import { useChatStore } from './store';
+import { ChatMessage, useChatStore } from './store';
 
 export const usePresenter = () => {
   const model = useModel();
@@ -13,7 +13,6 @@ export const usePresenter = () => {
 
   useEffect(() => {
     emitter.on('chatGPTChunk', (data) => {
-      // service.receiveChatGPTChunk(data);
       chatStore.updateMessageByChunck(
         data.sessionId,
         data.messageId,
@@ -22,16 +21,18 @@ export const usePresenter = () => {
       model.listRef.current?.scrollTo(0, model.listRef.current.scrollHeight);
     });
 
+    const initPrompt = localStorage.getItem('askChatGPT');
+    let askPrompt = '';
     emitter.on('askChatGPT', (data) => {
+      askPrompt = data;
+      if (initPrompt && initPrompt === data) {
+        return;
+      }
       service.startAsk('NewSessionWithPrompt', data);
     });
-
-    const initPrompt = localStorage.getItem('askChatGPT');
     localStorage.removeItem('askChatGPT');
-    if (initPrompt && initPrompt !== model.current.prompt) {
+    if (initPrompt && initPrompt !== askPrompt) {
       service.startAsk('NewSessionWithPrompt', initPrompt);
-    } else {
-      chatStore.newSession();
     }
 
     return () => {
@@ -48,30 +49,21 @@ export const usePresenter = () => {
   };
 
   const handleSubmit = () => {
-    if (!model.inputChatPrompt.trim() || model.loading) {
+    if (!model.inputChatPrompt.trim()) {
       return;
     }
     service.startAsk('NewMessage', model.inputChatPrompt);
     model.setInputChatPrompt('');
   };
 
-  const handleCopy = (isListItem: boolean, item?: typeof model.chatList[0]) => {
-    if (isListItem) {
-      navigator.clipboard.writeText(item?.res || '');
-    } else {
-      navigator.clipboard.writeText(model.current.res || '');
-    }
+  const handleCopy = (item: ChatMessage) => {
+    navigator.clipboard.writeText(item.content || '');
     message.success({
       content: '内容已写入剪切板',
     });
   };
 
-  const handleRetry = (
-    isListItem: boolean,
-    item?: typeof model.chatList[0],
-  ) => {
-    if (model.loading) {
-    }
+  const handleRetry = (item: ChatMessage) => {
     // if (isListItem) {
     //   service.startAsk(item?.prompt || '', '');
     // } else {
@@ -79,26 +71,23 @@ export const usePresenter = () => {
     // }
   };
 
-  const handleDel = (isListItem: boolean, item?: typeof model.chatList[0]) => {
-    service.delItem(isListItem, item);
-  };
+  const handleDel = (item: ChatMessage) => {};
 
   const handleClearContext = () => {
-    service.resetCurrent();
     message.success('上下文已清除');
   };
 
   const handleOpenList = () => {
-    message.success('功能开发中...');
+    model.setListVisible(true);
   };
 
   const handleExportContent = () => {
-    let content = model.chatList
-      .map((s) => `## ${s.prompt}\r\n\r\n${s.res}\r\n\r\n`)
+    const content = chatStore
+      .currentSession()
+      ?.messages.map((s) =>
+        s.role === 'user' ? `## ${s.content}\r\n\r\n` : `${s.content}\r\n\r\n`,
+      )
       .join();
-    if (model.current.res) {
-      content += `## ${model.current.prompt}\r\n\r\n${model.current.res}\r\n\r\n`;
-    }
     exportChatGPTContent(content).then(() => {
       message.success('导出成功');
     });

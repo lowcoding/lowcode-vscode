@@ -4,6 +4,7 @@ import { usePresenter } from './presenter';
 import Marked from '@/components/Marked';
 import styles from './index.less';
 import 'animate.css';
+import ChatList from './components/ChatList';
 
 const { TextArea } = Input;
 
@@ -33,7 +34,7 @@ const View = () => {
                   </div>
                 </>
               )}
-              {s.role === 'assistant' && s.content && (
+              {s.role === 'assistant' && (
                 <>
                   <div className={styles.resIcon}>
                     <img
@@ -41,38 +42,50 @@ const View = () => {
                       height="20"
                       src="https://gitee.com/img-hosting/img-hosting/raw/master/2023/05/31/1685511791755.svg"
                     ></img>
+                    {s.loading && (
+                      <img
+                        style={{ marginLeft: '10px', height: '20px' }}
+                        src="https://gitee.com/img-host/img-host/raw/master/2023/06/06/1686064559649.svg"
+                      ></img>
+                    )}
                   </div>
-                  <div className={styles.resWrapper}>
-                    <div className={styles.res}>
-                      <Marked text={s.content} complete></Marked>
+                  {s.content && (
+                    <div className={styles.resWrapper}>
+                      <div className={styles.res}>
+                        <Marked text={s.content} complete></Marked>
+                      </div>
+                      <div className={styles.itemBtns}>
+                        <div
+                          className={styles.btn}
+                          onClick={() => {
+                            // presenter.handleCopy(true, s);
+                          }}
+                        >
+                          复制
+                        </div>
+                        {!s.loading && (
+                          <div
+                            className={styles.btn}
+                            onClick={() => {
+                              // presenter.handleRetry(true, s);
+                            }}
+                          >
+                            重试
+                          </div>
+                        )}
+                        {!s.loading && (
+                          <div
+                            className={styles.btn}
+                            onClick={() => {
+                              // presenter.handleDel(true, s);
+                            }}
+                          >
+                            删除
+                          </div>
+                        )}
+                      </div>
                     </div>
-                    <div className={styles.itemBtns}>
-                      <div
-                        className={styles.btn}
-                        onClick={() => {
-                          // presenter.handleCopy(true, s);
-                        }}
-                      >
-                        复制
-                      </div>
-                      <div
-                        className={styles.btn}
-                        onClick={() => {
-                          // presenter.handleRetry(true, s);
-                        }}
-                      >
-                        重试
-                      </div>
-                      <div
-                        className={styles.btn}
-                        onClick={() => {
-                          // presenter.handleDel(true, s);
-                        }}
-                      >
-                        删除
-                      </div>
-                    </div>
-                  </div>
+                  )}
                 </>
               )}
             </div>
@@ -151,6 +164,12 @@ const View = () => {
           </div>
         </div>
       </div>
+      <ChatList
+        visible={model.listVisible}
+        onClose={() => {
+          model.setListVisible(false);
+        }}
+      ></ChatList>
     </div>
   );
 };

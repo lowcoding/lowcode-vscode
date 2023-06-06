@@ -12,6 +12,7 @@ export const createChatCompletion = (options: {
 }) =>
   new Promise<string>((resolve, reject) => {
     let combinedResult = '';
+    let error = '发生错误：';
     const request = https.request(
       {
         hostname: options.hostname || 'api.openai.com',
@@ -42,14 +43,14 @@ export const createChatCompletion = (options: {
               if (element.includes('data: ')) {
                 if (element.includes('[DONE]')) {
                   options.handleChunk &&
-                    options.handleChunk({ hasMore: false, text: '' });
+                    options.handleChunk({ hasMore: true, text: '' });
                   return;
                 }
                 // remove 'data: '
                 const data = JSON.parse(element.replace('data: ', ''));
                 if (data.finish_reason === 'stop') {
                   options.handleChunk &&
-                    options.handleChunk({ hasMore: false, text: '' });
+                    options.handleChunk({ hasMore: true, text: '' });
                   return;
                 }
                 const openaiRes = data.choices[0].delta.content;
@@ -63,7 +64,7 @@ export const createChatCompletion = (options: {
                 }
               } else {
                 options.handleChunk &&
-                  options.handleChunk({ hasMore: false, text: element });
+                  options.handleChunk({ hasMore: true, text: element });
                 return;
               }
             } catch (e) {
@@ -71,16 +72,21 @@ export const createChatCompletion = (options: {
                 e,
                 element: data[i],
               });
+              error = (e as Error).toString();
             }
           }
         });
         res.on('error', (e) => {
           options.handleChunk &&
-            options.handleChunk({ hasMore: false, text: e.toString() });
+            options.handleChunk({ hasMore: true, text: e.toString() });
           reject(e);
         });
         res.on('end', () => {
-          resolve(combinedResult);
+          if (error !== '发生错误：') {
+            options.handleChunk &&
+              options.handleChunk({ hasMore: true, text: error });
+          }
+          resolve(combinedResult || error);
         });
       },
     );

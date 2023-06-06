@@ -26,6 +26,7 @@ export type ChatStore = {
     messageId: number,
     chunck: string,
   ) => void;
+  updateMessageLoading: (sessionId: number, messageId: number) => void;
 };
 
 const createEmptySession: () => ChatSession = () => ({
@@ -77,8 +78,8 @@ export const useChatStore = create<ChatStore>()(
         return session;
       },
       newMessage(prompt: string) {
-        const sessions = getStore().sessions;
-        const session = getStore().currentSession();
+        let sessions = getStore().sessions;
+        let session = getStore().currentSession();
         const messageId = new Date().getTime();
         if (session) {
           session.messages = [
@@ -86,9 +87,16 @@ export const useChatStore = create<ChatStore>()(
             { id: messageId, content: prompt, role: 'user' },
             { id: messageId, content: '', role: 'assistant', loading: true },
           ];
+        } else {
+          session = getStore().newSession();
+          session.messages = [
+            { id: messageId, content: prompt, role: 'user' },
+            { id: messageId, content: '', role: 'assistant', loading: true },
+          ];
+          sessions = [session, ...sessions];
         }
         setState(() => ({ sessions }));
-        return session!;
+        return session;
       },
       updateMessageByChunck(
         sessionId: number,
@@ -106,6 +114,19 @@ export const useChatStore = create<ChatStore>()(
           }
         }
         setState(() => ({ sessions }));
+      },
+      updateMessageLoading(sessionId: number, messageId: number) {
+        const sessions = getStore().sessions;
+        const session = sessions.find((s) => s.id === sessionId);
+        if (session) {
+          const message = session.messages.find(
+            (s) => s.id === messageId && s.role === 'assistant',
+          );
+          if (message) {
+            message.loading = false;
+            setState(() => ({ sessions }));
+          }
+        }
       },
     }),
     { name: 'lowcode.ChatStore' },
