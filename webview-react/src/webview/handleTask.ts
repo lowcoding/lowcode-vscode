@@ -23,10 +23,15 @@ export const taskHandler: {
     toDefaultPage();
   },
   handleChatGPTChunk: (data: {
-    text?: string | undefined;
-    hasMore: boolean;
+    sessionId: number;
+    messageId: number;
+    content: string;
   }) => {
-    emitter.emit('chatGPTChunk', data);
+    emitter.emit('chatGPTChunk', {
+      sessionId: data.sessionId,
+      messageId: data.messageId,
+      chunck: data.content,
+    });
   },
   askChatGPT: (data: string) => {
     if (

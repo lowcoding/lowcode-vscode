@@ -2,35 +2,25 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
-type ChatMessage = {
+export type ChatMessage = {
   role: 'system' | 'user' | 'assistant';
   content: string;
   id: number;
   loading?: boolean;
 };
-
 type ChatSession = {
   id: number;
   topic: string;
   messages: ChatMessage[];
 };
 
-type ChatStore = {
+export type ChatStore = {
   sessions: ChatSession[];
   currentSessionIndex: number;
   currentSession: () => ChatSession;
-  newSession: () => void;
-  newSessionWithPrompt: (prompt: string) => {
-    sessionId: number;
-    messageId: number;
-  };
-  newMessage: (
-    sessionId: number,
-    prompt: string,
-  ) => {
-    sessionId: number;
-    messageId: number;
-  };
+  newSession: () => ChatSession;
+  newSessionWithPrompt: (prompt: string) => ChatSession;
+  newMessage: (prompt: string) => ChatSession;
   updateMessageByChunck: (
     sessionId: number,
     messageId: number,
@@ -52,7 +42,7 @@ export const useChatStore = create<ChatStore>()(
       currentSession() {
         const sessions = getStore().sessions;
         const index = getStore().currentSessionIndex;
-        const session = sessions[index] || 0;
+        const session = sessions[index || 0];
         return session;
       },
       newSession() {
@@ -61,6 +51,7 @@ export const useChatStore = create<ChatStore>()(
           currentSessionIndex: 0,
           sessions: [session].concat(state.sessions),
         }));
+        return session;
       },
       newSessionWithPrompt(prompt: string) {
         const session = createEmptySession();
@@ -83,14 +74,11 @@ export const useChatStore = create<ChatStore>()(
           currentSessionIndex: 0,
           sessions: [session].concat(state.sessions),
         }));
-        return {
-          sessionId: session.id,
-          messageId: id,
-        };
+        return session;
       },
-      newMessage(sessionId: number, prompt: string) {
+      newMessage(prompt: string) {
         const sessions = getStore().sessions;
-        const session = sessions.find((s) => s.id === sessionId);
+        const session = getStore().currentSession();
         const messageId = new Date().getTime();
         if (session) {
           session.messages = [
@@ -100,10 +88,7 @@ export const useChatStore = create<ChatStore>()(
           ];
         }
         setState(() => ({ sessions }));
-        return {
-          sessionId,
-          messageId,
-        };
+        return session!;
       },
       updateMessageByChunck(
         sessionId: number,

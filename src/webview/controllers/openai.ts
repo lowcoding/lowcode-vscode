@@ -6,7 +6,11 @@ import { pasteToEditor } from '../../utils/editor';
 import { getChatGPTConfig } from '../../utils/config';
 
 export const askChatGPT = async (
-  message: IMessage<{ prompt: string; context?: string }>,
+  message: IMessage<{
+    sessionId: number;
+    messageId: number;
+    messages: { role: 'system' | 'user' | 'assistant'; content: string }[];
+  }>,
   context: {
     webview: vscode.Webview;
   },
@@ -17,14 +21,21 @@ export const askChatGPT = async (
     apiPath: config.apiPath,
     apiKey: config.apiKey,
     model: config.model,
-    text: message.data.prompt,
-    context: message.data.context,
+    messages: message.data.messages,
     maxTokens: config.maxTokens,
     handleChunk: (data) => {
-      invokeChatGPTChunkCallback(context.webview, message.cbid, data);
+      invokeChatGPTChunkCallback(context.webview, message.cbid, {
+        sessionId: message.data.sessionId,
+        messageId: message.data.messageId,
+        content: data.text,
+      });
     },
   });
-  return res;
+  return {
+    sessionId: message.data.sessionId,
+    messageId: message.data.messageId,
+    content: res,
+  };
 };
 
 export const insertCode = async (message: IMessage<string>) => {

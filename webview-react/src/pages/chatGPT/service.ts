@@ -1,67 +1,63 @@
 import { askChatGPT } from '@/webview/service';
 import { Model } from './model';
+import { ChatMessage, ChatStore } from './store';
 
 let globalPrompt = ''; // emitter 回调中获取不到最新 state ，使用全局变量
 let globalRes = '';
 export default class Service {
   private model: Model;
 
-  constructor(model: Model) {
+  private chatStore: ChatStore;
+
+  constructor(model: Model, chatStore: ChatStore) {
     this.model = model;
+    this.chatStore = chatStore;
   }
 
-  receiveChatGPTChunk(data: { text?: string | undefined; hasMore: boolean }) {
+  receiveChatGPTChunk(data: { text?: string | undefined }) {
     this.model.setCurrent((s) => {
       s.res += data.text;
     });
     globalRes += data.text;
   }
 
-  startAsk(prompt: string, context: string) {
-    if (!prompt.trim() || this.model.loading) {
-      return;
+  startAsk(type: 'NewSessionWithPrompt' | 'NewMessage', prompt: string) {
+    let sessionId = 0;
+    let messageId = 0;
+    let messages: Pick<ChatMessage, 'role' | 'content'>[] = [];
+    if (type === 'NewSessionWithPrompt') {
+      const session = this.chatStore.newSessionWithPrompt(prompt);
+      sessionId = session.id;
+      messageId = session.messages[0].id;
+      messages = session.messages.filter((s) => s.content);
+    } else if (type === 'NewMessage') {
+      const session = this.chatStore.newMessage(prompt);
+      sessionId = session.id;
+      messageId = session.messages[session.messages.length - 1].id;
+      messages = session.messages.filter((s) => s.content);
     }
-    this.model.setLoading(true);
-    this.model.setComplete((s) => false);
-    if (globalPrompt) {
-      this.model.setChatList((s) => {
-        const ss = [
-          ...s,
-          {
-            prompt: globalPrompt,
-            res: globalRes,
-            key: new Date().getTime(),
-          },
-        ];
-        return ss;
-      });
-    }
-    this.model.setCurrent((s) => {
-      s.prompt = '';
-      s.res = '';
-    });
-    askChatGPT({ prompt, context }).finally(() => {
+    askChatGPT({ sessionId, messageId, messages }).finally(() => {
       this.model.setLoading(false);
       this.model.setComplete((s) => true);
     });
-    this.model.listRef.current?.scrollTo(
-      0,
-      this.model.listRef.current.scrollHeight,
-    );
-    setTimeout(() => {
-      this.model.setCurrent((s) => {
-        s.prompt = prompt;
-        s.res = '';
-      });
-      globalPrompt = prompt;
-      globalRes = '';
-    }, 50);
-    setTimeout(() => {
-      this.model.listRef.current?.scrollTo(
-        0,
-        this.model.listRef.current.scrollHeight,
-      );
-    }, 2000);
+    // this.model.listRef.current?.scrollTo(
+    //   0,
+    //   this.model.listRef.current.scrollHeight,
+    // );
+    // setTimeout(() => {
+    //   this.model.setCurrent((s) => {
+    //     s.prompt = prompt;
+    //     s.res = '';
+    //   });
+    //   globalPrompt = prompt;
+    //   globalRes = '';
+    // }, 50);
+    // setTimeout(() => {
+    //   this.model.listRef.current?.scrollTo(
+    //     0,
+    //     this.model.listRef.current.scrollHeight,
+    //   );
+    // }, 2000);
   }
 
   delItem(isListItem: boolean, item?: Model['chatList'][0]) {

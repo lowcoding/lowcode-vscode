@@ -9,132 +9,74 @@ const { TextArea } = Input;
 
 const View = () => {
   const presenter = usePresenter();
-  const { model } = presenter;
+  const { model, chatStore } = presenter;
 
   return (
     <div className={styles.chatGpt}>
       <div className={styles.list} ref={model.listRef}>
-        {model.chatList.map((s) => (
-          <div key={s.key} className={styles.itemContainer}>
-            <div className={styles.promptIcon}>
-              <img
-                width="20"
-                height="20"
-                src="https://gitee.com/img-hosting/img-hosting/raw/master/2023/05/31/1685507810271.svg"
-              ></img>
-            </div>
-            <div className={styles.promptWrapper}>
-              <div className={styles.prompt}>{s.prompt}</div>
-            </div>
-            {s.res && (
-              <>
-                <div className={styles.resIcon}>
-                  <img
-                    width="20"
-                    height="20"
-                    src="https://gitee.com/img-hosting/img-hosting/raw/master/2023/05/31/1685511791755.svg"
-                  ></img>
-                </div>
-                <div className={styles.resWrapper}>
-                  <div className={styles.res}>
-                    <Marked text={s.res} complete></Marked>
+        {chatStore
+          .currentSession()
+          ?.messages.filter((s) => s.role !== 'system')
+          .map((s) => (
+            <div key={`${s.role}-${s.id}`} className={styles.itemContainer}>
+              {s.role === 'user' && (
+                <>
+                  <div className={styles.promptIcon}>
+                    <img
+                      width="20"
+                      height="20"
+                      src="https://gitee.com/img-hosting/img-hosting/raw/master/2023/05/31/1685507810271.svg"
+                    ></img>
                   </div>
-                  <div className={styles.itemBtns}>
-                    <div
-                      className={styles.btn}
-                      onClick={() => {
-                        presenter.handleCopy(true, s);
-                      }}
-                    >
-                      复制
-                    </div>
-                    <div
-                      className={styles.btn}
-                      onClick={() => {
-                        presenter.handleRetry(true, s);
-                      }}
-                    >
-                      重试
-                    </div>
-                    <div
-                      className={styles.btn}
-                      onClick={() => {
-                        presenter.handleDel(true, s);
-                      }}
-                    >
-                      删除
-                    </div>
+                  <div className={styles.promptWrapper}>
+                    <div className={styles.prompt}>{s.content}</div>
                   </div>
-                </div>
-              </>
-            )}
-          </div>
-        ))}
-        {model.current.prompt && (
-          <div className={styles.itemContainer}>
-            <div className={styles.promptIcon}>
-              <img
-                width="20"
-                height="20"
-                src="https://gitee.com/img-hosting/img-hosting/raw/master/2023/05/31/1685507810271.svg"
-              ></img>
-            </div>
-            <div
-              className={`${styles.promptWrapper} animate__animated animate__backInUps`}
-            >
-              <div className={styles.prompt}>{model.current.prompt}</div>
-            </div>
-            {model.current.res && (
-              <>
-                <div className={styles.resIcon}>
-                  <img
-                    width="20"
-                    height="20"
-                    src="https://gitee.com/img-hosting/img-hosting/raw/master/2023/05/31/1685511791755.svg"
-                  ></img>
-                </div>
-                <div className={styles.resWrapper}>
-                  <div className={styles.res}>
-                    <Marked
-                      text={model.current.res}
-                      complete={model.complete}
-                    ></Marked>
+                </>
+              )}
+              {s.role === 'assistant' && s.content && (
+                <>
+                  <div className={styles.resIcon}>
+                    <img
+                      width="20"
+                      height="20"
+                      src="https://gitee.com/img-hosting/img-hosting/raw/master/2023/05/31/1685511791755.svg"
+                    ></img>
                   </div>
-                  <div className={styles.itemBtns}>
-                    <div
-                      className={styles.btn}
-                      onClick={() => {
-                        presenter.handleCopy(false);
-                      }}
-                    >
-                      复制
+                  <div className={styles.resWrapper}>
+                    <div className={styles.res}>
+                      <Marked text={s.content} complete></Marked>
                     </div>
-                    {model.complete && (
+                    <div className={styles.itemBtns}>
                       <div
                         className={styles.btn}
                         onClick={() => {
-                          presenter.handleRetry(false);
+                          // presenter.handleCopy(true, s);
+                        }}
+                      >
+                        复制
+                      </div>
+                      <div
+                        className={styles.btn}
+                        onClick={() => {
+                          // presenter.handleRetry(true, s);
                         }}
                       >
                         重试
                       </div>
-                    )}
-                    {model.complete && (
                       <div
                         className={styles.btn}
                         onClick={() => {
-                          presenter.handleDel(false);
+                          // presenter.handleDel(true, s);
                         }}
                       >
                         删除
                       </div>
-                    )}
+                    </div>
                   </div>
-                </div>
-              </>
-            )}
-          </div>
-        )}
+                </>
+              )}
+            </div>
+          ))}
       </div>
       <div className={styles.actionPanel}>
         <div className={styles.action} onClick={presenter.handleOpenList}>

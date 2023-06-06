@@ -4,11 +4,10 @@ import { TextDecoder } from 'util';
 export const createChatCompletion = (options: {
   apiKey: string;
   model: string;
-  text: string;
   maxTokens: number;
-  context?: string;
   hostname?: string;
   apiPath?: string;
+  messages: { role: 'system' | 'user' | 'assistant'; content: string }[];
   handleChunk?: (data: { text?: string; hasMore: boolean }) => void;
 }) =>
   new Promise<string>((resolve, reject) => {
@@ -87,16 +86,7 @@ export const createChatCompletion = (options: {
     );
     const body = {
       model: options.model,
-      messages: [
-        {
-          role: 'system',
-          content: options.context || '',
-        },
-        {
-          role: 'user',
-          content: options.text,
-        },
-      ],
+      messages: options.messages,
       stream: true,
       max_tokens: options.maxTokens,
     };

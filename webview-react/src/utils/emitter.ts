@@ -5,7 +5,6 @@ type Events = {
     chunck: string;
     sessionId: number;
     messageId: number;
-    hasMore: boolean;
   };
   askChatGPT: string;
 };

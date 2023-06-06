@@ -8,12 +8,12 @@ import { useChatStore } from './store';
 
 export const usePresenter = () => {
   const model = useModel();
-  const service = new Service(model);
   const chatStore = useChatStore();
+  const service = new Service(model, chatStore);
 
   useEffect(() => {
     emitter.on('chatGPTChunk', (data) => {
-      service.receiveChatGPTChunk(data);
+      // service.receiveChatGPTChunk(data);
       chatStore.updateMessageByChunck(
         data.sessionId,
         data.messageId,
@@ -23,13 +23,15 @@ export const usePresenter = () => {
     });
 
     emitter.on('askChatGPT', (data) => {
-      service.startAsk(data, '');
+      service.startAsk('NewSessionWithPrompt', data);
     });
 
     const initPrompt = localStorage.getItem('askChatGPT');
     localStorage.removeItem('askChatGPT');
     if (initPrompt && initPrompt !== model.current.prompt) {
-      service.startAsk(initPrompt, '');
+      service.startAsk('NewSessionWithPrompt', initPrompt);
+    } else {
+      chatStore.newSession();
     }
 
     return () => {
@@ -49,8 +51,7 @@ export const usePresenter = () => {
     if (!model.inputChatPrompt.trim() || model.loading) {
       return;
     }
-    const context = model.current.res;
-    service.startAsk(model.inputChatPrompt, context);
+    service.startAsk('NewMessage', model.inputChatPrompt);
     model.setInputChatPrompt('');
   };
 
@@ -70,13 +71,12 @@ export const usePresenter = () => {
     item?: typeof model.chatList[0],
   ) => {
     if (model.loading) {
-      return;
     }
-    if (isListItem) {
-      service.startAsk(item?.prompt || '', '');
-    } else {
-      service.startAsk(model.current.prompt, '');
-    }
+    // if (isListItem) {
+    //   service.startAsk(item?.prompt || '', '');
+    // } else {
+    //   service.startAsk(model.current.prompt, '');
+    // }
   };
 
   const handleDel = (isListItem: boolean, item?: typeof model.chatList[0]) => {
@@ -106,6 +106,7 @@ export const usePresenter = () => {
 
   return {
     model,
+    chatStore,
     service,
     handleSubmit,
     handleInputKeyDown,
