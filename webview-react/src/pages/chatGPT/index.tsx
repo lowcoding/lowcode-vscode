@@ -3,7 +3,6 @@ import { Input } from 'antd';
 import { usePresenter } from './presenter';
 import Marked from '@/components/Marked';
 import styles from './index.less';
-import 'animate.css';
 import ChatList from './components/ChatList';
 
 const { TextArea } = Input;
@@ -26,7 +25,7 @@ const View = () => {
                     <img
                       width="20"
                       height="20"
-                      src="https://gitee.com/img-hosting/img-hosting/raw/master/2023/05/31/1685507810271.svg"
+                      src="https://gitee.com/img-host/img-host/raw/master/2023/06/07/1686145202178.svg"
                     ></img>
                   </div>
                   <div className={styles.promptWrapper}>
@@ -35,8 +34,8 @@ const View = () => {
                 </>
               )}
               {s.role === 'assistant' && (
-                <>
-                  <div className={styles.resIcon}>
+                <div className={styles.resItem}>
+                  <div className={styles.resHeader}>
                     <img
                       width="20"
                       height="20"
@@ -48,45 +47,53 @@ const View = () => {
                         src="https://gitee.com/img-host/img-host/raw/master/2023/06/06/1686064559649.svg"
                       ></img>
                     )}
+                    <div className={styles.itemBtns}>
+                      <div
+                        className={styles.btn}
+                        onClick={() => {
+                          presenter.handleCopy(s);
+                        }}
+                      >
+                        复制
+                      </div>
+                      <div
+                        className={styles.btn}
+                        onClick={() => {
+                          presenter.handleRetry(s);
+                        }}
+                      >
+                        重试
+                      </div>
+                      {!s.loading && (
+                        <div
+                          className={styles.btn}
+                          onClick={() => {
+                            presenter.handleUpdateAsContext(s);
+                          }}
+                        >
+                          {s.asContext ? '从上下文移除' : '加入上下文'}
+                        </div>
+                      )}
+                      {!s.loading && (
+                        <div
+                          className={styles.btn}
+                          onClick={() => {
+                            presenter.handleDel(s.id);
+                          }}
+                        >
+                          删除
+                        </div>
+                      )}
+                    </div>
                   </div>
                   {s.content && (
                     <div className={styles.resWrapper}>
                       <div className={styles.res}>
                         <Marked text={s.content} complete></Marked>
                       </div>
-                      <div className={styles.itemBtns}>
-                        <div
-                          className={styles.btn}
-                          onClick={() => {
-                            // presenter.handleCopy(true, s);
-                          }}
-                        >
-                          复制
-                        </div>
-                        {!s.loading && (
-                          <div
-                            className={styles.btn}
-                            onClick={() => {
-                              // presenter.handleRetry(true, s);
-                            }}
-                          >
-                            重试
-                          </div>
-                        )}
-                        {!s.loading && (
-                          <div
-                            className={styles.btn}
-                            onClick={() => {
-                              // presenter.handleDel(true, s);
-                            }}
-                          >
-                            删除
-                          </div>
-                        )}
-                      </div>
                     </div>
                   )}
-                </>
+                </div>
               )}
             </div>
           ))}
@@ -100,6 +107,9 @@ const View = () => {
         </div>
         <div className={styles.action} onClick={presenter.handleClearContext}>
           <img src="https://gitee.com/img-host/img-host/raw/master/2023/06/01/1685631448493.svg"></img>
+        </div>
+        <div className={styles.action} onClick={presenter.handleNewSession}>
+          <img src="https://gitee.com/img-host/img-host/raw/master/2023/06/08/1686155702318.svg"></img>
         </div>
       </div>
       <div className={styles.footer}>

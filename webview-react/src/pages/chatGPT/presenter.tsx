@@ -3,8 +3,7 @@ import { message } from 'antd';
 import Service from './service';
 import { useModel } from './model';
 import { emitter } from '@/utils/emitter';
-import { exportChatGPTContent } from '@/webview/service';
-import { ChatMessage, useChatStore } from './store';
+import { ChatMessage, exportSession, useChatStore } from './store';
 
 export const usePresenter = () => {
   const model = useModel();
@@ -64,17 +63,22 @@ export const usePresenter = () => {
   };
 
   const handleRetry = (item: ChatMessage) => {
-    // if (isListItem) {
-    //   service.startAsk(item?.prompt || '', '');
-    // } else {
-    //   service.startAsk(model.current.prompt, '');
-    // }
+    const seesion = chatStore.currentSession();
+    if (seesion) {
+      const prompt = seesion.messages.find(
+        (s) => s.id === item.id && s.role === 'user',
+      );
+      if (prompt) {
+        chatStore.delMessage(chatStore.currentSession().id, item.id);
+        setTimeout(() => {
+          service.startAsk('NewMessage', prompt.content);
+        }, 200);
+      }
+    }
   };
 
-  const handleDel = (item: ChatMessage) => {};
-
-  const handleClearContext = () => {
-    message.success('上下文已清除');
+  const handleDel = (messageId: number) => {
+    chatStore.delMessage(chatStore.currentSession().id, messageId);
   };
 
   const handleOpenList = () => {
@@ -82,15 +86,26 @@ export const usePresenter = () => {
   };
 
   const handleExportContent = () => {
-    const content = chatStore
-      .currentSession()
-      ?.messages.map((s) =>
-        s.role === 'user' ? `## ${s.content}\r\n\r\n` : `${s.content}\r\n\r\n`,
-      )
-      .join('');
-    exportChatGPTContent(content).then(() => {
+    exportSession(chatStore.currentSession()).then(() => {
       message.success('导出成功');
     });
+  };
+
+  const handleClearContext = () => {
+    chatStore.removeSessionContext(chatStore.currentSession().id);
+    message.success('上下文已清除');
+  };
+
+  const handleNewSession = () => {
+    chatStore.newSession();
+  };
+
+  const handleUpdateAsContext = (message: ChatMessage) => {
+    chatStore.updateMessageAsContext(
+      chatStore.currentSession().id,
+      message.id,
+      !message.asContext,
+    );
   };
 
   return {
@@ -105,5 +120,7 @@ export const usePresenter = () => {
     handleClearContext,
     handleOpenList,
     handleExportContent,
+    handleNewSession,
+    handleUpdateAsContext,
   };
 };

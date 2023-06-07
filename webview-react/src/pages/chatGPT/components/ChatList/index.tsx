@@ -1,7 +1,7 @@
-import { Drawer, List } from 'antd';
+import { Drawer, List, message } from 'antd';
 import React from 'react';
 import styles from './index.less';
-import { useChatStore } from '../../store';
+import { exportSession, useChatStore } from '../../store';
 
 interface IProps {
   visible: boolean;
@@ -23,31 +23,56 @@ const ChatList: React.FC<IProps> = (props) => {
       <List
         itemLayout="horizontal"
         dataSource={chatStore.sessions}
-        renderItem={(item, index) => (
-          <List.Item
-            actions={[
-              chatStore.currentSessionIndex !== index && (
-                <a
-                  key="切换"
-                  onClick={() => {
-                    chatStore.changeSession(index);
-                    props.onClose();
-                  }}
-                >
-                  切换
-                </a>
-              ),
-              <a key="导出">导出</a>,
-              <a key="删除">删除</a>,
-            ]}
-          >
-            <List.Item.Meta
-              avatar={<div />}
-              title={item.topic}
-              description={`${item.messages.length}条对话`}
-            />
-          </List.Item>
-        )}
+        renderItem={(item, index) => {
+          const actions = [];
+          if (chatStore.currentSessionIndex !== index) {
+            actions.push(
+              <a
+                key="切换"
+                onClick={() => {
+                  chatStore.changeSession(index);
+                  props.onClose();
+                }}
+              >
+                切换
+              </a>,
+            );
+          }
+          actions.push(
+            <a
+              key="导出"
+              onClick={() => {
+                exportSession(item).then(() => {
+                  message.success('导出成功');
+                });
+              }}
+            >
+              导出
+            </a>,
+          );
+          if (chatStore.currentSessionIndex !== index) {
+            actions.push(
+              <a
+                key="删除"
+                onClick={() => {
+                  chatStore.delSeesion(item.id);
+                  message.success('删除成功');
+                }}
+              >
+                删除
+              </a>,
+            );
+          }
+          return (
+            <List.Item actions={actions}>
+              <List.Item.Meta
+                avatar={<div />}
+                title={item.topic}
+                description={`${item.messages.length}条对话`}
+              />
+            </List.Item>
+          );
+        }}
       />
     </Drawer>
   );

@@ -20,12 +20,16 @@ export default class Service {
       const session = this.chatStore.newSessionWithPrompt(prompt);
       sessionId = session.id;
       messageId = session.messages[0].id;
-      messages = session.messages.filter((s) => s.content);
+      messages = session.messages.filter(
+        (s) => s.content && !s.loading && s.asContext,
+      );
     } else if (type === 'NewMessage') {
       const session = this.chatStore.newMessage(prompt);
       sessionId = session.id;
       messageId = session.messages[session.messages.length - 1].id;
-      messages = session.messages.filter((s) => s.content);
+      messages = session.messages.filter(
+        (s) => s.content && !s.loading && s.asContext,
+      );
     }
     askChatGPT({ sessionId, messageId, messages }).finally(() => {
       this.chatStore.updateMessageLoading(sessionId, messageId);
