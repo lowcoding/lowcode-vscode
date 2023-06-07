@@ -23,17 +23,28 @@ const ChatList: React.FC<IProps> = (props) => {
       <List
         itemLayout="horizontal"
         dataSource={chatStore.sessions}
-        renderItem={(item) => (
+        renderItem={(item, index) => (
           <List.Item
             actions={[
-              <a key="list-loadmore-edit">edit</a>,
-              <a key="list-loadmore-more">more</a>,
+              chatStore.currentSessionIndex !== index && (
+                <a
+                  key="切换"
+                  onClick={() => {
+                    chatStore.changeSession(index);
+                    props.onClose();
+                  }}
+                >
+                  切换
+                </a>
+              ),
+              <a key="导出">导出</a>,
+              <a key="删除">删除</a>,
             ]}
           >
             <List.Item.Meta
-              avatar={45454}
+              avatar={<div />}
               title={item.topic}
-              description={item.messages.length}
+              description={`${item.messages.length}条对话`}
             />
           </List.Item>
         )}

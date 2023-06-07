@@ -1907,7 +1907,7 @@ antd-mobile@^2.3.1:
     rmc-tabs "~1.2.0"
     rmc-tooltip "~1.0.0"
 
-antd@^4.1.2, antd@^4.1.3:
+antd@4.16.7, antd@^4.1.2, antd@^4.1.3:
   version "4.16.7"
   resolved "https://registry.nlark.com/antd/download/antd-4.16.7.tgz?cache=0&sync_timestamp=1626060682594&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fantd%2Fdownload%2Fantd-4.16.7.tgz#c51fb143288adb8b008a786efe8d5df13320ac4c"
   integrity sha1-xR+xQyiK24sAinhu/o1d8TMgrEw=

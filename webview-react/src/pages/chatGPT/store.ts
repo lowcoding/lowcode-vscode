@@ -18,6 +18,7 @@ export type ChatStore = {
   sessions: ChatSession[];
   currentSessionIndex: number;
   currentSession: () => ChatSession;
+  changeSession: (index: number) => void;
   newSession: () => ChatSession;
   newSessionWithPrompt: (prompt: string) => ChatSession;
   newMessage: (prompt: string) => ChatSession;
@@ -45,6 +46,9 @@ export const useChatStore = create<ChatStore>()(
         const index = getStore().currentSessionIndex;
         const session = sessions[index || 0];
         return session;
+      },
+      changeSession(index: number) {
+        setState(() => ({ currentSessionIndex: index }));
       },
       newSession() {
         const session = createEmptySession();

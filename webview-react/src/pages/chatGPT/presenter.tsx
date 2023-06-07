@@ -87,7 +87,7 @@ export const usePresenter = () => {
       ?.messages.map((s) =>
         s.role === 'user' ? `## ${s.content}\r\n\r\n` : `${s.content}\r\n\r\n`,
       )
-      .join();
+      .join('');
     exportChatGPTContent(content).then(() => {
       message.success('导出成功');
     });
