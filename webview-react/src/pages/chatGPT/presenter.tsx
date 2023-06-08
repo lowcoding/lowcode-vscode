@@ -17,7 +17,7 @@ export const usePresenter = () => {
         data.messageId,
         data.chunck,
       );
-      model.listRef.current?.scrollTo(0, model.listRef.current.scrollHeight);
+      // model.listRef.current?.scrollTo(0, model.listRef.current.scrollHeight);
     });
 
     const initPrompt = localStorage.getItem('askChatGPT');
@@ -98,6 +98,7 @@ export const usePresenter = () => {
 
   const handleNewSession = () => {
     chatStore.newSession();
+    message.success('新建会话成功');
   };
 
   const handleUpdateAsContext = (message: ChatMessage) => {

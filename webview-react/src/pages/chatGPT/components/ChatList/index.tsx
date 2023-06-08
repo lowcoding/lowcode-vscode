@@ -1,5 +1,6 @@
 import { Drawer, List, message } from 'antd';
 import React from 'react';
+import dayjs from 'dayjs';
 import styles from './index.less';
 import { exportSession, useChatStore } from '../../store';
 
@@ -25,7 +26,10 @@ const ChatList: React.FC<IProps> = (props) => {
         dataSource={chatStore.sessions}
         renderItem={(item, index) => {
           const actions = [];
-          if (chatStore.currentSessionIndex !== index) {
+          if (
+            chatStore.currentSessionIndex !== index &&
+            chatStore.sessions.length > 1
+          ) {
             actions.push(
               <a
                 key="切换"
@@ -50,7 +54,10 @@ const ChatList: React.FC<IProps> = (props) => {
               导出
             </a>,
           );
-          if (chatStore.currentSessionIndex !== index) {
+          if (
+            chatStore.currentSessionIndex !== index &&
+            chatStore.sessions.length > 1
+          ) {
             actions.push(
               <a
                 key="删除"
@@ -68,7 +75,14 @@ const ChatList: React.FC<IProps> = (props) => {
               <List.Item.Meta
                 avatar={<div />}
                 title={item.topic}
-                description={`${item.messages.length}条对话`}
+                description={
+                  <span>
+                    {item.messages.length}条对话
+                    <span style={{ marginLeft: '10px' }}>
+                      {dayjs(item.id).format('YYYY-MM-DD HH:mm:ss')}
+                    </span>
+                  </span>
+                }
               />
             </List.Item>
           );

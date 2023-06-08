@@ -1,5 +1,6 @@
 import React from 'react';
-import { Input } from 'antd';
+import { Input, Tooltip } from 'antd';
+import dayjs from 'dayjs';
 import { usePresenter } from './presenter';
 import Marked from '@/components/Marked';
 import styles from './index.less';
@@ -93,24 +94,36 @@ const View = () => {
                       </div>
                     </div>
                   )}
+                  <div> {dayjs(s.id).format('YYYY-MM-DD HH:mm:ss')}</div>
                 </div>
               )}
             </div>
           ))}
       </div>
       <div className={styles.actionPanel}>
-        <div className={styles.action} onClick={presenter.handleOpenList}>
-          <img src="https://gitee.com/img-host/img-host/raw/master/2023/06/01/1685629856184.svg"></img>
-        </div>
-        <div className={styles.action} onClick={presenter.handleExportContent}>
-          <img src="https://gitee.com/img-host/img-host/raw/master/2023/06/01/1685631928751.svg"></img>
-        </div>
-        <div className={styles.action} onClick={presenter.handleClearContext}>
-          <img src="https://gitee.com/img-host/img-host/raw/master/2023/06/01/1685631448493.svg"></img>
-        </div>
-        <div className={styles.action} onClick={presenter.handleNewSession}>
-          <img src="https://gitee.com/img-host/img-host/raw/master/2023/06/08/1686155702318.svg"></img>
-        </div>
+        <Tooltip placement="topLeft" title="会话列表" arrowPointAtCenter>
+          <div className={styles.action} onClick={presenter.handleOpenList}>
+            <img src="https://gitee.com/img-host/img-host/raw/master/2023/06/01/1685629856184.svg"></img>
+          </div>
+        </Tooltip>
+        <Tooltip placement="top" title="导出当前回话" arrowPointAtCenter>
+          <div
+            className={styles.action}
+            onClick={presenter.handleExportContent}
+          >
+            <img src="https://gitee.com/img-host/img-host/raw/master/2023/06/01/1685631928751.svg"></img>
+          </div>
+        </Tooltip>
+        <Tooltip placement="top" title="清除上下文" arrowPointAtCenter>
+          <div className={styles.action} onClick={presenter.handleClearContext}>
+            <img src="https://gitee.com/img-host/img-host/raw/master/2023/06/01/1685631448493.svg"></img>
+          </div>
+        </Tooltip>
+        <Tooltip placement="top" title="新建会话" arrowPointAtCenter>
+          <div className={styles.action} onClick={presenter.handleNewSession}>
+            <img src="https://gitee.com/img-host/img-host/raw/master/2023/06/08/1686155702318.svg"></img>
+          </div>
+        </Tooltip>
       </div>
       <div className={styles.footer}>
         <div className={styles.formWrapper}>
