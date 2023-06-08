@@ -10,7 +10,7 @@ export type ChatMessage = {
   asContext: boolean;
 };
 
-type ChatSession = {
+export type ChatSession = {
   id: number;
   topic: string;
   messages: ChatMessage[];
@@ -21,9 +21,10 @@ export type ChatStore = {
   currentSessionIndex: number;
   currentSession: () => ChatSession;
   changeSession: (index: number) => void;
-  newSession: () => ChatSession;
+  newSession: (topic?: string) => ChatSession;
   newSessionWithPrompt: (prompt: string) => ChatSession;
   delSeesion: (sessionId: number) => void;
+  updateSessionTopic: (topic: string, sessionId: number) => void;
   removeSessionContext: (seeesionId: number) => void;
   newMessage: (prompt: string) => ChatSession;
   delMessage: (sessionId: number, messageId: number) => void;
@@ -40,9 +41,11 @@ export type ChatStore = {
   updateMessageLoading: (sessionId: number, messageId: number) => void;
 };
 
-const createEmptySession: () => ChatSession = () => ({
+const createEmptySession: (topic?: string) => ChatSession = (
+  topic?: string,
+) => ({
   id: new Date().getTime(),
-  topic: '新的话题',
+  topic: topic || '新的话题',
   messages: [],
 });
 
@@ -54,16 +57,16 @@ export const useChatStore = create<ChatStore>()(
       currentSession() {
         const sessions = getStore().sessions;
         const index = getStore().currentSessionIndex;
-        const session = sessions[index || 0];
-        return session;
+        const session = sessions.find((s) => s.id === index);
+        return session || sessions[0];
       },
       changeSession(index: number) {
         setState(() => ({ currentSessionIndex: index }));
       },
-      newSession() {
-        const session = createEmptySession();
+      newSession(topic?: string) {
+        const session = createEmptySession(topic);
         setState((state) => ({
-          currentSessionIndex: 0,
+          currentSessionIndex: session.id,
           sessions: [session].concat(state.sessions),
         }));
         return session;
@@ -88,16 +91,26 @@ export const useChatStore = create<ChatStore>()(
           },
         ];
         setState((state) => ({
-          currentSessionIndex: 0,
+          currentSessionIndex: session.id,
           sessions: [session].concat(state.sessions),
         }));
         return session;
       },
       delSeesion(sessionId: number) {
-        const sesssions = getStore().sessions;
+        const sessions = getStore().sessions;
         setState(() => ({
-          sessions: sesssions.filter((s) => s.id !== sessionId),
+          sessions: sessions.filter((s) => s.id !== sessionId),
         }));
+      },
+      updateSessionTopic(topic: string, sessionId: number) {
+        const sessions = getStore().sessions;
+        const session = sessions.find((s) => s.id === sessionId);
+        if (session) {
+          session.topic = topic;
+          setState(() => ({
+            sessions,
+          }));
+        }
       },
       removeSessionContext(seeesionId: number) {
         const sessions = getStore().sessions;

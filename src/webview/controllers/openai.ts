@@ -4,6 +4,8 @@ import { createChatCompletion } from '../../utils/openai';
 import { invokeChatGPTChunkCallback } from '../callback';
 import { pasteToEditor } from '../../utils/editor';
 import { getChatGPTConfig } from '../../utils/config';
+import { compile as compileEjs, Model } from '../../utils/ejs';
+import { showChatGPTView } from '..';
 
 export const askChatGPT = async (
   message: IMessage<{
@@ -52,5 +54,15 @@ export const exportChatGPTContent = async (message: IMessage<string>) => {
   workspaceEdit.set(document.uri, [edit]);
   await vscode.workspace.applyEdit(workspaceEdit);
   await vscode.window.showTextDocument(document);
+  return true;
+};
+
+export const askChatGPTWithEjsTemplate = (
+  message: IMessage<{ template: string; model: object }>,
+) => {
+  const code = compileEjs(message.data.template, message.data.model as Model);
+  showChatGPTView({
+    task: { task: 'askChatGPT', data: code },
+  });
   return true;
 };

@@ -10,6 +10,8 @@ export const useModel = () => {
 
   const [listVisible, setListVisible] = useState(false);
 
+  const [updateTitleVisible, setUpdateTitleVisible] = useState(false);
+
   return {
     inputChatPrompt,
     setInputChatPrompt,
@@ -18,6 +20,8 @@ export const useModel = () => {
     setLoading,
     listVisible,
     setListVisible,
+    updateTitleVisible,
+    setUpdateTitleVisible,
   };
 };
 

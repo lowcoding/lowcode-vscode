@@ -52,6 +52,7 @@ export const routes: Record<string, any> = {
   request: reqeust.axiosRequest,
 
   askChatGPT: openai.askChatGPT,
+  askChatGPTWithEjsTemplate: openai.askChatGPTWithEjsTemplate,
   insertCode: openai.insertCode,
   exportChatGPTContent: openai.exportChatGPTContent,
 

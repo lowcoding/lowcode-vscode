@@ -11,6 +11,7 @@ const useModel = () => {
       description: string;
       img?: string[] | string;
       schema?: 'form-render' | 'formily' | 'amis';
+      chatGPT?: { viewPrompt?: string };
     };
     template: string;
   }>({ schema: {}, model: {} } as any);

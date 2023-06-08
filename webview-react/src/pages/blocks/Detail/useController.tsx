@@ -1,9 +1,12 @@
 import React, { useEffect } from 'react';
-import { Menu } from 'antd';
+import { Menu, message } from 'antd';
 import { useParams } from 'umi';
 import { useForm } from 'form-render';
 import useService from './useService';
-import { getLocalMaterials } from '@/webview/service';
+import {
+  askChatGPTWithEjsTemplate,
+  getLocalMaterials,
+} from '@/webview/service';
 
 const useController = () => {
   const service = useService();
@@ -38,6 +41,17 @@ const useController = () => {
     },
   };
 
+  const handleAskChatGPT = () => {
+    if (!model.selectedMaterial.preview.chatGPT?.viewPrompt) {
+      message.warn('未配置 preview.chatGPT.viewPrompt');
+    }
+    askChatGPTWithEjsTemplate({
+      template:
+        model.selectedMaterial.preview.chatGPT?.viewPrompt || '<%- model %>',
+      model: { model: JSON.stringify(model.selectedMaterial.model, null, 2) },
+    });
+  };
+
   const menu = (
     <Menu>
       <Menu.Item
@@ -62,6 +76,7 @@ const useController = () => {
     menu,
     form,
     watch,
+    handleAskChatGPT,
   };
 };
 

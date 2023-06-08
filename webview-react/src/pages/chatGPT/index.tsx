@@ -5,6 +5,7 @@ import { usePresenter } from './presenter';
 import Marked from '@/components/Marked';
 import styles from './index.less';
 import ChatList from './components/ChatList';
+import UpdateSeesionTitle from './components/UpdateSeesionTitle';
 
 const { TextArea } = Input;
 
@@ -94,7 +95,9 @@ const View = () => {
                       </div>
                     </div>
                   )}
-                  <div> {dayjs(s.id).format('YYYY-MM-DD HH:mm:ss')}</div>
+                  <div className={styles.time}>
+                    {dayjs(s.id).format('YYYY-MM-DD HH:mm:ss')}
+                  </div>
                 </div>
               )}
             </div>
@@ -193,6 +196,14 @@ const View = () => {
           model.setListVisible(false);
         }}
       ></ChatList>
+      <UpdateSeesionTitle
+        visible={model.updateTitleVisible}
+        title="新的话题"
+        onCancel={() => {
+          model.setUpdateTitleVisible(false);
+        }}
+        onOk={presenter.handleSessionTitleOk}
+      ></UpdateSeesionTitle>
     </div>
   );
 };

@@ -12,6 +12,7 @@ export interface IGetLocalMaterialsResult {
     img?: string | string[];
     category?: string[];
     schema?: 'form-render' | 'formily' | 'amis';
+    chatGPT?: { viewPrompt?: string };
   };
   template: string;
 }
@@ -481,6 +482,16 @@ export function askChatGPT(data: {
 }) {
   return request<{ sessionId: number; messageId: number; content: string }>({
     cmd: 'askChatGPT',
+    data,
+  });
+}
+
+export function askChatGPTWithEjsTemplate(data: {
+  template: string;
+  model: object;
+}) {
+  return request<boolean>({
+    cmd: 'askChatGPTWithEjsTemplate',
     data,
   });
 }

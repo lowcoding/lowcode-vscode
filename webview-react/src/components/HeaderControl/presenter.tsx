@@ -139,6 +139,12 @@ export const usePresenter = () => {
           ],
           category: [],
           schema: model.blockModal.schemaType,
+          chatGPT: {
+            commandPrompt:
+              '<%- rawSelectedText||rawClipboardText %> 解释这段代码的意思',
+            viewPrompt:
+              '<%- model %> \r\n将这段 json 中，中文 key 翻译为英文，使用驼峰语法，返回翻译后的markdown语法的代码块',
+          },
         },
         null,
         2,

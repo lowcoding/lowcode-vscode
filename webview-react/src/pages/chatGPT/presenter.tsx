@@ -97,7 +97,12 @@ export const usePresenter = () => {
   };
 
   const handleNewSession = () => {
-    chatStore.newSession();
+    model.setUpdateTitleVisible(true);
+  };
+
+  const handleSessionTitleOk = (title: string) => {
+    chatStore.newSession(title);
+    model.setUpdateTitleVisible(false);
     message.success('新建会话成功');
   };
 
@@ -123,5 +128,6 @@ export const usePresenter = () => {
     handleExportContent,
     handleNewSession,
     handleUpdateAsContext,
+    handleSessionTitleOk,
   };
 };

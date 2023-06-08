@@ -35,24 +35,6 @@ export default () => {
             }}
           />
         </Form.Item>
-        {/* <Form.Item
-          label="模板 Schema"
-          style={{ display: model.selectedMaterial.path ? 'flex' : 'none' }}
-        >
-          <CodeMirror
-            domId="schemaCodeMirror"
-            lint
-            value={JSON.stringify(model.selectedMaterial.schema, null, 2)}
-            onChange={value => {
-              model.setSelectedMaterial(s => {
-                return {
-                  ...s,
-                  schema: JSON.parse(value),
-                };
-              });
-            }}
-          />
-        </Form.Item> */}
         {Object.keys(model.selectedMaterial.schema).length > 0 && (
           <Form.Item
             label={<span style={{ fontWeight: 'bold' }}>Schema 表单</span>}
@@ -145,6 +127,13 @@ export default () => {
               }}
             >
               生成代码
+            </Button>
+            <Button
+              type="primary"
+              size="small"
+              onClick={controller.handleAskChatGPT}
+            >
+              Ask ChatGPT
             </Button>
           </Space>
         </Form.Item>
