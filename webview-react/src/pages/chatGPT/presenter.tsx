@@ -114,6 +114,10 @@ export const usePresenter = () => {
     );
   };
 
+  const handleSync = () => {
+    message.warn('功能开发中...');
+  };
+
   return {
     model,
     chatStore,
@@ -129,5 +133,6 @@ export const usePresenter = () => {
     handleNewSession,
     handleUpdateAsContext,
     handleSessionTitleOk,
+    handleSync,
   };
 };

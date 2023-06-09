@@ -109,6 +109,11 @@ const View = () => {
             <img src="https://gitee.com/img-host/img-host/raw/master/2023/06/01/1685629856184.svg"></img>
           </div>
         </Tooltip>
+        <Tooltip placement="top" title="同步" arrowPointAtCenter>
+          <div className={styles.action} onClick={presenter.handleSync}>
+            <img src="https://gitee.com/img-hosting/img-hosting/raw/master/2023/06/09/1686284730956.svg"></img>
+          </div>
+        </Tooltip>
         <Tooltip placement="top" title="导出当前回话" arrowPointAtCenter>
           <div
             className={styles.action}
