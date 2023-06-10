@@ -1,7 +1,7 @@
 {
 	"name": "lowcode",
 	"displayName": "lowcode",
-	"description": "lowcode tool",
+	"description": "lowcode tool,support ChatGPT",
 	"author": "wjkang <ruoxieme@gmail.com>",
 	"version": "1.4.3",
 	"icon": "asset/icon.png",
@@ -27,6 +27,9 @@
 		"Other"
 	],
 	"keywords": [
+		"ChatGPT",
+		"openai",
+		"GPT",
 		"yapi",
 		"yapi to ts",
 		"typescript to json",
@@ -282,7 +285,6 @@
 		"globby": "^11.0.1",
 		"is-url": "^1.2.4",
 		"json-schema-to-typescript": "^9.1.1",
-		"openai": "^3.2.1",
 		"strip-comments": "^2.0.1",
 		"strip-json-comments": "^3.1.1",
 		"tar": "^6.0.5",

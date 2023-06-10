@@ -1,9 +1,10 @@
 import React from 'react';
-import { Button, Form, Input, message, Select } from 'antd';
+import { Button, Form, Input, message, Select, Space } from 'antd';
 import { history, useModel } from 'umi';
 import CodeMirror from '@/components/CodeMirror';
 import useController from './useController';
 import { addSnippets } from '@/webview/service';
+import { getSchemaWebUrl } from '@/utils/schema';
 
 export default () => {
   const { setTab } = useModel('tab');
@@ -59,21 +60,29 @@ export default () => {
           />
         </Form.Item>
         <Form.Item label="Schema 类型">
-          <Select
-            value={model.formData.schemaType}
-            placeholder="输入名称"
-            options={[
-              { label: 'form-render', value: 'form-render' },
-              { label: 'amis', value: 'amis' },
-              { label: 'formily', value: 'formily' },
-            ]}
-            onChange={(value) => {
-              model.setFormData((s) => ({
-                ...s,
-                schemaType: value as any,
-              }));
-            }}
-          />
+          <div style={{ display: 'flex' }}>
+            <Select
+              value={model.formData.schemaType}
+              placeholder="输入名称"
+              options={[
+                { label: 'form-render', value: 'form-render' },
+                { label: 'amis', value: 'amis' },
+                { label: 'formily', value: 'formily' },
+              ]}
+              onChange={(value) => {
+                model.setFormData((s) => ({
+                  ...s,
+                  schemaType: value as any,
+                }));
+              }}
+            />
+            <Button
+              href={getSchemaWebUrl(model.formData.schemaType)}
+              type="link"
+            >
+              可视化配置
+            </Button>
+          </div>
         </Form.Item>
         <Form.Item label="模板 Schema">
           <CodeMirror

@@ -15,7 +15,12 @@ const View = () => {
 
   return (
     <div className={styles.chatGpt}>
-      <div className={styles.list} ref={model.listRef}>
+      <div
+        className={`${styles.list} ${
+          model.listVisible ? styles.listMarginTop : ''
+        }`}
+        ref={model.listRef}
+      >
         {chatStore
           .currentSession()
           ?.messages.filter((s) => s.role !== 'system')
@@ -114,7 +119,7 @@ const View = () => {
             <img src="https://gitee.com/img-hosting/img-hosting/raw/master/2023/06/09/1686284730956.svg"></img>
           </div>
         </Tooltip>
-        <Tooltip placement="top" title="导出当前回话" arrowPointAtCenter>
+        <Tooltip placement="top" title="导出当前会话" arrowPointAtCenter>
           <div
             className={styles.action}
             onClick={presenter.handleExportContent}
@@ -125,6 +130,14 @@ const View = () => {
         <Tooltip placement="top" title="清除上下文" arrowPointAtCenter>
           <div className={styles.action} onClick={presenter.handleClearContext}>
             <img src="https://gitee.com/img-host/img-host/raw/master/2023/06/01/1685631448493.svg"></img>
+          </div>
+        </Tooltip>
+        <Tooltip placement="top" title="预置 Prompt 模板" arrowPointAtCenter>
+          <div
+            className={styles.action}
+            onClick={presenter.handleAddPromptTemplate}
+          >
+            <img src="https://gitee.com/img-host/img-host/raw/master/2023/06/10/1686326918582.svg"></img>
           </div>
         </Tooltip>
         <Tooltip placement="top" title="新建会话" arrowPointAtCenter>

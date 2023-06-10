@@ -4,6 +4,7 @@ import Service from './service';
 import { useModel } from './model';
 import { emitter } from '@/utils/emitter';
 import { ChatMessage, exportSession, useChatStore } from './store';
+import { executeVscodeCommand } from '@/webview/service';
 
 export const usePresenter = () => {
   const model = useModel();
@@ -17,7 +18,7 @@ export const usePresenter = () => {
         data.messageId,
         data.chunck,
       );
-      // model.listRef.current?.scrollTo(0, model.listRef.current.scrollHeight);
+      model.listRef.current?.scrollTo(0, model.listRef.current.scrollHeight);
     });
 
     const initPrompt = localStorage.getItem('askChatGPT');
@@ -82,7 +83,7 @@ export const usePresenter = () => {
   };
 
   const handleOpenList = () => {
-    model.setListVisible(true);
+    model.setListVisible(!model.listVisible);
   };
 
   const handleExportContent = () => {
@@ -118,6 +119,10 @@ export const usePresenter = () => {
     message.warn('功能开发中...');
   };
 
+  const handleAddPromptTemplate = () => {
+    executeVscodeCommand({ command: 'lowcode.addPromptTemplate' });
+  };
+
   return {
     model,
     chatStore,
@@ -134,5 +139,6 @@ export const usePresenter = () => {
     handleUpdateAsContext,
     handleSessionTitleOk,
     handleSync,
+    handleAddPromptTemplate,
   };
 };

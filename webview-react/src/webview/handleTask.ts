@@ -8,8 +8,8 @@ const toDefaultPage = () => {
 export const taskHandler: {
   [propName: string]: (data: any) => void;
 } = {
-  addSnippets: (data: { content: string }) => {
-    localStorage.setItem('addSnippets', data.content || '');
+  addSnippets: (data?: { content?: string }) => {
+    localStorage.setItem('addSnippets', data?.content || '');
     history.push(`/snippets/add/${new Date().getTime()}`);
   },
   openSnippet: (data: { name: string }) => {

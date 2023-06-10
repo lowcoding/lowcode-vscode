@@ -34,12 +34,12 @@ export const registerChatGPTCommand = (context: vscode.ExtensionContext) => {
           (s) => s.preview.chatGPT && s.preview.chatGPT.commandPrompt,
         );
         if (templateList.length === 0) {
-          vscode.window.showErrorMessage('请配置模板');
+          vscode.window.showErrorMessage('请配置 Prompt 模板');
           return;
         }
         const templateResult = await vscode.window.showQuickPick(
           templateList.map((s) => s.name),
-          { placeHolder: '请选择模板' },
+          { placeHolder: '请选择 Prompt 模板' },
         );
         if (!templateResult) {
           return;

@@ -14,6 +14,7 @@ const useController = () => {
       ...s,
       template: localStorage.getItem('addSnippets') || '<%= name %>',
     }));
+    // localStorage.removeItem('addSnippets');
   }, [params.time]);
 
   useEffect(() => {

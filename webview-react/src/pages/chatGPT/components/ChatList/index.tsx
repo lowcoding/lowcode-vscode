@@ -1,4 +1,4 @@
-import { Drawer, List, message } from 'antd';
+import { Button, Drawer, List, Space, message } from 'antd';
 import React from 'react';
 import dayjs from 'dayjs';
 import styles from './index.less';
@@ -33,17 +33,18 @@ const ChatList: React.FC<IProps> = (props) => {
 
   return (
     <Drawer
-      className={styles.drawer}
+      className={`${styles.drawer} ${props.visible ? styles.drawerShow : ''}`}
       visible={props.visible}
       onClose={props.onClose}
-      placement="left"
+      placement="top"
       width="100vw"
+      mask={false}
       bodyStyle={{ backgroundColor: '#343541', color: '#ffffff' }}
     >
       <List
-        style={{ marginTop: '20px' }}
         itemLayout="horizontal"
         dataSource={chatStore.sessions}
+        locale={{ emptyText: ' ' }}
         renderItem={(item) => {
           const actions = [];
           if (
@@ -55,7 +56,6 @@ const ChatList: React.FC<IProps> = (props) => {
                 key="切换"
                 onClick={() => {
                   chatStore.changeSession(item.id);
-                  props.onClose();
                 }}
               >
                 切换
@@ -84,22 +84,17 @@ const ChatList: React.FC<IProps> = (props) => {
               编辑
             </a>,
           );
-          if (
-            chatStore.currentSessionIndex !== item.id &&
-            chatStore.sessions.length > 1
-          ) {
-            actions.push(
-              <a
-                key="删除"
-                onClick={() => {
-                  chatStore.delSeesion(item.id);
-                  message.success('删除成功');
-                }}
-              >
-                删除
-              </a>,
-            );
-          }
+          actions.push(
+            <a
+              key="删除"
+              onClick={() => {
+                chatStore.delSeesion(item.id);
+                message.success('删除成功');
+              }}
+            >
+              删除
+            </a>,
+          );
           return (
             <List.Item actions={actions}>
               <List.Item.Meta

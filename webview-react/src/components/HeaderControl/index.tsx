@@ -1,8 +1,19 @@
 import React from 'react';
 import { history, useModel } from 'umi';
-import { Radio, Menu, Dropdown, message, Modal, Form, Input, Select } from 'antd';
+import {
+  Radio,
+  Menu,
+  Dropdown,
+  message,
+  Modal,
+  Form,
+  Input,
+  Select,
+  Button,
+} from 'antd';
 import { executeVscodeCommand, refreshIntelliSense } from '@/webview/service';
 import { usePresenter } from './presenter';
+import { getSchemaWebUrl } from '@/utils/schema';
 
 export default () => {
   const { tab, setTab } = useModel('tab');
@@ -106,19 +117,27 @@ export default () => {
             />
           </Form.Item>
           <Form.Item label="schema 类型">
-            <Select
-              value={model.blockModal.schemaType}
-              options={[
-                { label: 'form-render', value: 'form-render' },
-                { label: 'amis', value: 'amis' },
-                { label: 'formily', value: 'formily' },
-              ]}
-              onChange={(value) => {
-                model.setBlockModal((s) => {
-                  s.schemaType = value;
-                });
-              }}
-            />
+            <div style={{ display: 'flex' }}>
+              <Select
+                value={model.blockModal.schemaType}
+                options={[
+                  { label: 'form-render', value: 'form-render' },
+                  { label: 'amis', value: 'amis' },
+                  { label: 'formily', value: 'formily' },
+                ]}
+                onChange={(value) => {
+                  model.setBlockModal((s) => {
+                    s.schemaType = value;
+                  });
+                }}
+              />
+              <Button
+                href={getSchemaWebUrl(model.blockModal.schemaType)}
+                type="link"
+              >
+                可视化配置
+              </Button>
+            </div>
           </Form.Item>
         </Form>
       </Modal>

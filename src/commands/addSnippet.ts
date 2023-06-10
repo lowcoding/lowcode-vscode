@@ -11,5 +11,11 @@ export const createOrShowWebview = (context: vscode.ExtensionContext) => {
         task: { task: 'addSnippets', data: { content } },
       });
     }),
+    vscode.commands.registerCommand('lowcode.addPromptTemplate', () => {
+      showWebView({
+        key: 'main',
+        task: { task: 'addSnippets' },
+      });
+    }),
   );
 };

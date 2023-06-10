@@ -1,10 +1,42 @@
 ## 关于
 
-低代码工具
+低代码工具，支持 ChatGPT
 
 [详细文档](https://lowcoding.gitee.io/)
 
-## 常用功能
+> 文档不经常更新，新功能使用方法可查看 [releases](https://github.com/lowcoding/lowcode-vscode/releases)
+
+## 支持 ChatGPT
+
+![gpt1.gif](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c30eede4784e4f81a61102c3e85ed06c~tplv-k3u1fbpfcp-zoom-1.image?)
+
+![gpt2.gif](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9e27171a5e6f4d128f6193628a48adb5~tplv-k3u1fbpfcp-zoom-1.image?)
+
+### 配置 ChatGPT
+
+![gpt.png](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/647980a8dddd403bab7fd15194ee16f2~tplv-k3u1fbpfcp-zoom-1.image?)
+
+### 预置 Prompt 模板
+
+使用 lowcode 原有代码片段功能，可以随意预置 Prompt，支持 EJS 模板语法，可快速创建分析代码、重构代码、代码添加注释等 Prompt。
+
+![gpt1.png](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c121c1cf260e4f96b2b68bbcdc3cd5d4~tplv-k3u1fbpfcp-zoom-1.image?)
+
+拉到最底部，配置 chatGPT 字段：
+
+![gpt2.png](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b9366c6928c445eb984e9eb036c3d55d~tplv-k3u1fbpfcp-zoom-1.image?)
+
+commandPrompt 既右键菜单选择模板后发送的内容，支持 EJS 模板语法。
+
+viewPrompt 为 代码片段或者区块物料可视化详情页点 Ask ChatGPT 按钮后发送的内容。
+
+### lowcode 代码生成功能结合 ChatGPT
+
+很好的解决了代码变量的命名难题。
+
+![gpt.gif](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e74e5ce7c3c4462e8ad7ff099b3dca80~tplv-k3u1fbpfcp-zoom-1.image?)
+
+## 不用 ChatGPT ，也可以使用一些常用功能
 
 ### 快速创建组件
 
@@ -351,5 +383,3 @@ https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5b24b7d804ac4db1a3673fd2aa4aa4
 ![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1ff82a358f9c4934859330099386d21d~tplv-k3u1fbpfcp-zoom-1.image)
 
 ![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7c7954e3951049a69eb29d938d9823ca~tplv-k3u1fbpfcp-zoom-1.image)
-
-[xrender 文档](https://xrender.fun/form-render)
