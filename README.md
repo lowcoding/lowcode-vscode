@@ -10,7 +10,11 @@
 
 ![gpt1.gif](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c30eede4784e4f81a61102c3e85ed06c~tplv-k3u1fbpfcp-zoom-1.image?)
 
+[清晰动图点这里](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c30eede4784e4f81a61102c3e85ed06c~tplv-k3u1fbpfcp-zoom-1.image?)
+
 ![gpt2.gif](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9e27171a5e6f4d128f6193628a48adb5~tplv-k3u1fbpfcp-zoom-1.image?)
+
+[清晰动图点这里](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9e27171a5e6f4d128f6193628a48adb5~tplv-k3u1fbpfcp-zoom-1.image?)
 
 ### 配置 ChatGPT
 
@@ -34,7 +38,9 @@ viewPrompt 为 代码片段或者区块物料可视化详情页点 Ask ChatGPT �
 
 很好的解决了代码变量的命名难题。
 
-![gpt.gif](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e74e5ce7c3c4462e8ad7ff099b3dca80~tplv-k3u1fbpfcp-zoom-1.image?)
+![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e74e5ce7c3c4462e8ad7ff099b3dca80~tplv-k3u1fbpfcp-zoom-1.image?)
+
+[清晰动图点这里](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e74e5ce7c3c4462e8ad7ff099b3dca80~tplv-k3u1fbpfcp-zoom-1.image?)
 
 ## 不用 ChatGPT ，也可以使用一些常用功能
 
