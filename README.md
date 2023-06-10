@@ -253,7 +253,7 @@ routes 目录下创建新的 mock 文件
 ### 常规查询列表页
 
 以下面原型为例
-![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/729bdeac96ca4bf78ca50ca41c3a4418~tplv-k3u1fbpfcp-zoom-1.image)
+![](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f8176d2115934947bbf43590f5b06949~tplv-k3u1fbpfcp-zoom-1.image?)
 
 选择列表页区块
 
