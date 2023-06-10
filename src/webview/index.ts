@@ -23,10 +23,10 @@ const getHtmlForWebview = (webview: vscode.Webview) => {
   const vendorsScriptPathOnDisk = vscode.Uri.file(
     path.join(getExtensionPath(), 'webview-dist', 'vendors.js'),
   );
-  const mianScriptUri = 'http://localhost:8000/main.js';
-  const vendorsScriptUri = 'http://localhost:8000/vendors.js';
-  // const mianScriptUri = webview.asWebviewUri(mainScriptPathOnDisk);
-  // const vendorsScriptUri = webview.asWebviewUri(vendorsScriptPathOnDisk);
+  // const mianScriptUri = 'http://localhost:8000/main.js';
+  // const vendorsScriptUri = 'http://localhost:8000/vendors.js';
+  const mianScriptUri = webview.asWebviewUri(mainScriptPathOnDisk);
+  const vendorsScriptUri = webview.asWebviewUri(vendorsScriptPathOnDisk);
 
   return `
 			<!DOCTYPE html>
