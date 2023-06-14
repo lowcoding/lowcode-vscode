@@ -96,6 +96,11 @@ export const createChatCompletion = (options: {
       stream: true,
       max_tokens: options.maxTokens,
     };
+    request.on('error', (error) => {
+      options.handleChunk &&
+        options.handleChunk({ hasMore: true, text: error.toString() });
+      resolve(error.toString());
+    });
     request.write(JSON.stringify(body));
     request.end();
   });

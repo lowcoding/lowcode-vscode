@@ -1,9 +1,9 @@
 {
 	"name": "lowcode",
 	"displayName": "lowcode",
-	"description": "lowcode tool,support ChatGPT",
+	"description": "lowcode tool, support ChatGPT",
 	"author": "wjkang <ruoxieme@gmail.com>",
-	"version": "1.4.3",
+	"version": "1.4.4",
 	"icon": "asset/icon.png",
 	"publisher": "wjkang",
 	"repository": "https://github.com/lowcoding/lowcode-vscode",
