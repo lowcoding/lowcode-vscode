@@ -27,7 +27,14 @@ export default class Service {
       messageId = session.messages[session.messages.length - 1].id;
       messages = session.messages.filter((s) => s.content && s.asContext);
     }
-    askChatGPT({ sessionId, messageId, messages }).finally(() => {
+    askChatGPT({
+      sessionId,
+      messageId,
+      messages: messages.map((s) => ({
+        content: s.content,
+        role: s.role,
+      })),
+    }).finally(() => {
       this.chatStore.updateMessageLoading(sessionId, messageId);
     });
     // this.model.listRef.current?.scrollTo(
