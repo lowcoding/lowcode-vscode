@@ -26,9 +26,9 @@
 
 ![gpt1.png](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c121c1cf260e4f96b2b68bbcdc3cd5d4~tplv-k3u1fbpfcp-zoom-1.image?)
 
-拉到最底部，配置 chatGPT 字段：
+配置 chatGPT 字段：
 
-![gpt2.png](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b9366c6928c445eb984e9eb036c3d55d~tplv-k3u1fbpfcp-zoom-1.image?)
+![image.png](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5552fb27cb3947b89fb91d948ca3e0aa~tplv-k3u1fbpfcp-zoom-1.image?)
 
 commandPrompt 既右键菜单选择模板后发送的内容，支持 EJS 模板语法。
 

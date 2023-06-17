@@ -2,7 +2,7 @@ import { useState } from '@/hooks/useImmer';
 
 export const defaultSchema = {
   formRender: {
-    model: JSON.stringify({ name: '6666' }, null, 2),
+    model: JSON.stringify({ name: 'lowcode' }, null, 2),
     schema: JSON.stringify(
       {
         formSchema: {
@@ -26,7 +26,7 @@ export const defaultSchema = {
     ),
   },
   amis: {
-    model: JSON.stringify({ name: '6666' }, null, 2),
+    model: JSON.stringify({ name: 'lowcode' }, null, 2),
     schema: JSON.stringify(
       {
         formSchema: {
@@ -88,6 +88,8 @@ const useModel = () => {
     schema: string;
     schemaType: 'form-render' | 'amis' | 'formily';
     preview: string;
+    commandPrompt: string;
+    viewPrompt: string;
   }>({
     model: '{}',
     schemaType: 'amis',
@@ -104,16 +106,14 @@ const useModel = () => {
         notShowInSnippetsList: false,
         notShowInintellisense: false,
         schema: 'amis',
-        chatGPT: {
-          commandPrompt:
-            '<%- rawSelectedText || rawClipboardText %> 解释这段代码的意思',
-          viewPrompt:
-            '<%- model %> \r\n将这段 json 中，中文 key 翻译为英文，使用驼峰语法，返回翻译后的markdown语法的代码块',
-        },
       },
       null,
       2,
     ),
+    commandPrompt:
+      '<%- rawSelectedText || rawClipboardText %>\r\n解释这段代码的意思',
+    viewPrompt:
+      '<%- model %> \r\n将这段 json 中，中文 key 翻译为英文，\r\n使用驼峰语法，返回翻译后的 markdown 语法的代码块',
   } as any);
 
   return {

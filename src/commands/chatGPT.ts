@@ -31,7 +31,9 @@ export const registerChatGPTCommand = (context: vscode.ExtensionContext) => {
       'lowcode.askChatGPTWithTemplate',
       async () => {
         const templateList = getSnippets().filter(
-          (s) => s.preview.chatGPT && s.preview.chatGPT.commandPrompt,
+          (s) =>
+            s.commandPrompt ||
+            (s.preview.chatGPT && s.preview.chatGPT.commandPrompt),
         );
         if (templateList.length === 0) {
           vscode.window.showErrorMessage('请配置 Prompt 模板');
@@ -50,7 +52,7 @@ export const registerChatGPTCommand = (context: vscode.ExtensionContext) => {
           rawClipboardText: getClipboardText() || '',
         };
         const code = compileEjs(
-          template!.preview.chatGPT?.commandPrompt!,
+          template?.commandPrompt || template!.preview.chatGPT?.commandPrompt!,
           model as Model,
         );
         showChatGPTView({

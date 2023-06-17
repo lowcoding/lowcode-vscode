@@ -11,9 +11,9 @@ const useModel = () => {
       description: string;
       img?: string[] | string;
       schema?: 'form-render' | 'formily' | 'amis';
-      chatGPT?: { viewPrompt?: string };
     };
     template: string;
+    viewPrompt?: string;
   }>({ schema: {}, model: {} } as any);
   const [formData, setFormData] = useState({});
   const [yapiModalVsible, setYapiModalVsible] = useState(false);

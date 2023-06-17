@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Form, Input, message, Select, Space } from 'antd';
+import { Button, Form, Input, message, Select } from 'antd';
 import { history, useModel } from 'umi';
 import CodeMirror from '@/components/CodeMirror';
 import useController from './useController';
@@ -14,12 +14,7 @@ export default () => {
 
   return (
     <div>
-      <Form
-        {...{
-          labelCol: { span: 4 },
-          wrapperCol: { span: 14 },
-        }}
-      >
+      <Form layout="vertical">
         <Form.Item label="名称" required>
           <Input
             value={model.formData.name}
@@ -42,6 +37,35 @@ export default () => {
               model.setFormData((s) => ({
                 ...s,
                 template: value,
+              }));
+            }}
+          />
+        </Form.Item>
+        <Form.Item label="ChatGPT CommandPrompt" tooltip="右键菜单 Prompt 模板">
+          <CodeMirror
+            domId="commandPromptCodeMirror"
+            lint={false}
+            value={model.formData.commandPrompt}
+            onChange={(value) => {
+              model.setFormData((s) => ({
+                ...s,
+                commandPrompt: value,
+              }));
+            }}
+          />
+        </Form.Item>
+        <Form.Item
+          label="ChatGPT ViewPrompt"
+          tooltip="可视化动态表单 Prompt 模板"
+        >
+          <CodeMirror
+            domId="viewPromptCodeMirror"
+            lint={false}
+            value={model.formData.viewPrompt}
+            onChange={(value) => {
+              model.setFormData((s) => ({
+                ...s,
+                viewPrompt: value,
               }));
             }}
           />

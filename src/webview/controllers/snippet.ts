@@ -15,6 +15,8 @@ export const addSnippets = (
     model: string;
     schema: string;
     preview: string;
+    commandPrompt: string;
+    viewPrompt: string;
   }>,
 ) => {
   const snippetPath = path.join(snippetMaterialsPath, message.data.name);
@@ -33,6 +35,14 @@ export const addSnippets = (
   fs.outputFileSync(
     path.join(snippetPath, 'config', 'preview.json'),
     message.data.preview,
+  );
+  fs.outputFileSync(
+    path.join(snippetPath, 'config', 'commandPrompt.ejs'),
+    message.data.commandPrompt,
+  );
+  fs.outputFileSync(
+    path.join(snippetPath, 'config', 'viewPrompt.ejs'),
+    message.data.viewPrompt,
   );
   fs.outputFileSync(
     path.join(snippetPath, 'script', 'index.js'),

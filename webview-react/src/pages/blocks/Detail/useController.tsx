@@ -42,12 +42,11 @@ const useController = () => {
   };
 
   const handleAskChatGPT = () => {
-    if (!model.selectedMaterial.preview.chatGPT?.viewPrompt) {
-      message.warn('未配置 preview.chatGPT.viewPrompt');
+    if (!model.selectedMaterial.viewPrompt) {
+      message.warn('未配置 viewPrompt，直接输入 model');
     }
     askChatGPTWithEjsTemplate({
-      template:
-        model.selectedMaterial.preview.chatGPT?.viewPrompt || '<%- model %>',
+      template: model.selectedMaterial.viewPrompt || '<%- model %>',
       model: { model: JSON.stringify(model.selectedMaterial.model, null, 2) },
     });
   };

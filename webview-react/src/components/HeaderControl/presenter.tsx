@@ -6,7 +6,7 @@ import { useModel } from './model';
 export const defaultSchema: Record<string, { model: string; schema: string }> =
   {
     'form-render': {
-      model: JSON.stringify({ name: '6666' }, null, 2),
+      model: JSON.stringify({ name: 'lowcode' }, null, 2),
       schema: JSON.stringify(
         {
           formSchema: {
@@ -37,7 +37,7 @@ export const defaultSchema: Record<string, { model: string; schema: string }> =
       ),
     },
     amis: {
-      model: JSON.stringify({ name: '6666' }, null, 2),
+      model: JSON.stringify({ name: 'lowcode' }, null, 2),
       schema: JSON.stringify(
         {
           formSchema: {
@@ -139,16 +139,14 @@ export const usePresenter = () => {
           ],
           category: [],
           schema: model.blockModal.schemaType,
-          chatGPT: {
-            commandPrompt:
-              '<%- rawSelectedText || rawClipboardText %> 解释这段代码的意思',
-            viewPrompt:
-              '<%- model %> \r\n将这段 json 中，中文 key 翻译为英文，使用驼峰语法，返回翻译后的markdown语法的代码块',
-          },
         },
         null,
         2,
       ),
+      commandPrompt:
+        '<%- rawSelectedText || rawClipboardText %>\r\n解释这段代码的意思',
+      viewPrompt:
+        '<%- model %> \r\n将这段 json 中，中文 key 翻译为英文，使用驼峰语法，\r\n返回翻译后的markdown语法的代码块',
     })
       .then(() => {
         closeBlockModal();

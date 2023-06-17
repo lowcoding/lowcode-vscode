@@ -32,6 +32,8 @@ export const getLocalMaterials = (
         viewPrompt?: string;
       };
     };
+    commandPrompt?: string; // 优先级比 preview.chatGPT 高
+    viewPrompt?: string; // 优先级比 preview.chatGPT 高
     template: string;
   }[] = [];
   try {
@@ -39,8 +41,15 @@ export const getLocalMaterials = (
       const fullPath = path.join(materialsFullPath, s);
       let model = {} as any;
       let schema = {} as any;
-      let preview = { img: '', category: [], schema: 'form-render' };
+      let preview = {
+        img: '',
+        category: [],
+        schema: 'form-render',
+        chatGPT: { commandPrompt: '', viewPrompt: '' },
+      };
       let template = '';
+      let commandPrompt = '';
+      let viewPrompt = '';
       try {
         model = JSON.parse(
           getFileContent(path.join(fullPath, 'config', 'model.json'), true),
@@ -56,6 +65,18 @@ export const getLocalMaterials = (
           getFileContent(path.join(fullPath, 'config', 'preview.json'), true),
         );
       } catch {}
+      try {
+        commandPrompt = getFileContent(
+          path.join(fullPath, 'config', 'commandPrompt.ejs'),
+          true,
+        );
+      } catch {}
+      try {
+        viewPrompt = getFileContent(
+          path.join(fullPath, 'config', 'viewPrompt.ejs'),
+          true,
+        );
+      } catch {}
       if (!preview.img) {
         preview.img =
           'https://gitee.com/img-host/img-host/raw/master/2020/11/05/1604587962875.jpg';
@@ -63,6 +84,13 @@ export const getLocalMaterials = (
       if (!preview.schema) {
         preview.schema = 'form-render';
       }
+      if (!commandPrompt) {
+        commandPrompt = preview.chatGPT?.commandPrompt;
+      }
+      if (!viewPrompt) {
+        viewPrompt = preview.chatGPT?.viewPrompt;
+      }
+
       if (type === 'snippets') {
         try {
           template = getFileContent(
@@ -100,6 +128,8 @@ export const getLocalMaterials = (
         schema,
         preview,
         template,
+        commandPrompt,
+        viewPrompt,
       };
     });
   } catch {}
@@ -127,7 +157,7 @@ export const getCodeTemplateListFromFiles = () => {
 };
 
 /**
- * 获取 codeTemplate 目录下ejs文件作为代码模板并且合并代码片段
+ * 获取 codeTemplate 目录下ejs文件作为代码模板并且合并代码片段 (兼容以前旧代码)
  *
  * @export
  * @returns
@@ -152,6 +182,8 @@ export function getSnippets() {
         viewPrompt?: string;
       };
     };
+    commandPrompt?: string; // 优先级比 preview.chatGPT 高
+    viewPrompt?: string; // 优先级比 preview.chatGPT 高
     template: string;
   }[] = getCodeTemplateListFromFiles().map((s) => ({
     path: s.name,

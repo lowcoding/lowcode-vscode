@@ -10,6 +10,8 @@ export const createBlock = (
     model: string;
     schema: string;
     preview: string;
+    commandPrompt: string;
+    viewPrompt: string;
   }>,
 ) => {
   const blockPath = path.join(blockMaterialsPath, message.data.name);
@@ -31,6 +33,14 @@ export const createBlock = (
   fs.outputFileSync(
     path.join(blockPath, 'config', 'preview.json'),
     message.data.preview,
+  );
+  fs.outputFileSync(
+    path.join(blockPath, 'config', 'commandPrompt.ejs'),
+    message.data.commandPrompt,
+  );
+  fs.outputFileSync(
+    path.join(blockPath, 'config', 'viewPrompt.ejs'),
+    message.data.viewPrompt,
   );
   fs.outputFileSync(
     path.join(blockPath, 'script', 'index.js'),

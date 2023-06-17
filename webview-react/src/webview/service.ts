@@ -257,6 +257,8 @@ export function addSnippets(data: {
   model: string;
   schema: string;
   preview: string;
+  commandPrompt: string;
+  viewPrompt: string;
 }) {
   return request<string>({
     cmd: 'addSnippets',
@@ -282,6 +284,8 @@ export function createBlockTemplate(data: {
   model: string;
   schema: string;
   preview: string;
+  commandPrompt: string;
+  viewPrompt: string;
 }) {
   return request<string>({
     cmd: 'createBlockTemplate',
