@@ -83,7 +83,11 @@ export const genCodeByBlock = async (data: {
         ...extendModel,
       };
     }
-    await renderEjsTemplates(data.model, tempWorkPath, excludeCompile);
+    await renderEjsTemplates(
+      data.model,
+      path.join(tempWorkPath, 'src'),
+      excludeCompile,
+    );
     await hook.afterCompile(context);
     fs.copySync(
       path.join(tempWorkPath, 'src'),
