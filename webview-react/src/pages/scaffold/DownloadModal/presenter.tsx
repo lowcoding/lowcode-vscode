@@ -1,11 +1,15 @@
 import React, { useEffect } from 'react';
 import { message } from 'antd';
-import useService from './useService';
+import Service from './service';
 import { downloadScaffoldByVsCode } from '@/webview/service';
+import { useModel } from './model';
 
-const useController = (props: { visible: boolean; onClose: () => void }) => {
-  const service = useService();
-  const { model } = service;
+export const usePresenter = (props: {
+  visible: boolean;
+  onClose: () => void;
+}) => {
+  const model = useModel();
+  const service = new Service(model);
 
   useEffect(() => {
     if (props.visible) {
@@ -35,9 +39,8 @@ const useController = (props: { visible: boolean; onClose: () => void }) => {
   };
 
   return {
+    model,
     service,
     downloadScaffold,
   };
 };
-
-export default useController;

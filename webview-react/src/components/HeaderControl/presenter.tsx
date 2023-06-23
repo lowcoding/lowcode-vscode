@@ -13,8 +13,7 @@ export const defaultSchema: Record<string, { model: string; schema: string }> =
             schema: {
               type: 'object',
               column: 1,
-              labelWidth: 120,
-              displayType: 'row',
+              displayType: 'column',
               properties: {
                 name: {
                   title: '测试表单',
@@ -85,13 +84,46 @@ export const defaultSchema: Record<string, { model: string; schema: string }> =
       ),
     },
     formily: {
-      model: JSON.stringify({}, null, 2),
+      model: JSON.stringify({ name: 'lowcode' }, null, 2),
       schema: JSON.stringify(
         {
           formSchema: {
-            schema: {},
-            conditionFiles: {},
+            schema: {
+              form: {
+                labelCol: 6,
+                wrapperCol: 12,
+                layout: 'vertical',
+                labelAlign: 'left',
+                fullness: false,
+                inset: false,
+              },
+              schema: {
+                type: 'object',
+                properties: {
+                  name: {
+                    type: 'string',
+                    title: '测试表单',
+                    'x-decorator': 'FormItem',
+                    'x-component': 'Input',
+                    'x-validator': [],
+                    'x-component-props': {},
+                    'x-decorator-props': {},
+                    'x-designable-id': 'v3zwx2xtcfx',
+                    'x-index': 0,
+                    name: 'name',
+                  },
+                },
+                'x-designable-id': 'd4ogui2afmr',
+              },
+            },
           },
+          conditionFiles: {
+            name: {
+              value: '123',
+              exclude: ['当表单name的值为123,删除这个数组里的文件.ejs'],
+            },
+          },
+          excludeCompile: ['不需要编译的文件,不会被删除.ejs'],
         },
         null,
         2,
@@ -139,6 +171,12 @@ export const usePresenter = () => {
           ],
           category: [],
           schema: model.blockModal.schemaType,
+          scripts: [
+            {
+              method: 'test',
+              remark: '测试一下',
+            },
+          ],
         },
         null,
         2,

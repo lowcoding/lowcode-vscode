@@ -1,5 +1,8 @@
 import { message } from 'antd';
-import { IDownloadMaterialsResult, saveDownloadMaterials } from '@/webview/service';
+import {
+  IDownloadMaterialsResult,
+  saveDownloadMaterials,
+} from '@/webview/service';
 import { useModel } from './model';
 import Service from './service';
 

@@ -522,3 +522,15 @@ export function exportChatGPTContent(content: string) {
     data: content,
   });
 }
+
+export function runScript(data: {
+  materialPath: string;
+  script: string;
+  params: string;
+  model: object;
+}) {
+  return request<object>({
+    cmd: 'runScript',
+    data,
+  });
+}

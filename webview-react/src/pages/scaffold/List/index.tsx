@@ -1,16 +1,15 @@
 import React from 'react';
 import { Row, Col, Spin, Button, Tooltip } from 'antd';
 import { SyncOutlined, QuestionCircleOutlined } from '@ant-design/icons';
-import useController from './useController';
+import { usePresenter } from './presenter';
 import './index.less';
 import FormModal from '../FormModal';
 import DownloadModal from '../DownloadModal';
 import LocalProjectModal from '../LocalProjectModal';
 
 const View = () => {
-  const controller = useController();
-  const { service } = controller;
-  const { model } = service;
+  const presenter = usePresenter();
+  const { model } = presenter;
 
   return (
     <Spin
@@ -29,7 +28,7 @@ const View = () => {
             <SyncOutlined
               spin={model.loading.fetch}
               onClick={() => {
-                controller.fetchScaffolds();
+                presenter.fetchScaffolds();
               }}
             />
           </Col>
@@ -44,7 +43,7 @@ const View = () => {
                   }`}
                   key={item.uuid}
                   onClick={() => {
-                    controller.changeCategory(item.uuid);
+                    presenter.changeCategory(item.uuid);
                   }}
                 >
                   <div className="icon">
@@ -84,7 +83,7 @@ const View = () => {
                   key={s.uuid}
                   className="scaffold-item"
                   onClick={() => {
-                    controller.downloadScaffold(s);
+                    presenter.downloadScaffold(s);
                   }}
                 >
                   <div className="screenshot">

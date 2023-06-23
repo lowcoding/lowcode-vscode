@@ -1,0 +1,16 @@
+{
+  "yapi": {
+    "domain": "",
+    "projects": []
+  },
+  "mock": {
+    "mockNumber": "Random.natural(1000,1000)",
+    "mockBoolean": "false",
+    "mockString": "Random.cword(5, 7)",
+    "mockKeyWordEqual": [],
+    "mockKeyWordLike": []
+  },
+  "commonlyUsedBlock": [
+    "react-mvp模块"
+  ]
+}

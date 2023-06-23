@@ -1,6 +1,6 @@
 import { useState } from '@/hooks/useImmer';
 
-const useModel = () => {
+export const useModel = () => {
   const [formData, setFormData] = useState<{
     type: 'git' | 'npm';
     url: string;
@@ -25,4 +25,4 @@ const useModel = () => {
   };
 };
 
-export default useModel;
+export type Model = ReturnType<typeof useModel>;

@@ -9,8 +9,7 @@ export const defaultSchema = {
           schema: {
             type: 'object',
             column: 1,
-            labelWidth: 120,
-            displayType: 'row',
+            displayType: 'column',
             properties: {
               name: {
                 title: '测试表单',
@@ -67,11 +66,38 @@ export const defaultSchema = {
     ),
   },
   formily: {
-    model: JSON.stringify({}, null, 2),
+    model: JSON.stringify({ name: 'lowcode' }, null, 2),
     schema: JSON.stringify(
       {
         formSchema: {
-          schema: {},
+          schema: {
+            form: {
+              labelCol: 6,
+              wrapperCol: 12,
+              layout: 'vertical',
+              labelAlign: 'left',
+              fullness: false,
+              inset: false,
+            },
+            schema: {
+              type: 'object',
+              properties: {
+                name: {
+                  type: 'string',
+                  title: '测试表单',
+                  'x-decorator': 'FormItem',
+                  'x-component': 'Input',
+                  'x-validator': [],
+                  'x-component-props': {},
+                  'x-decorator-props': {},
+                  'x-designable-id': 'v3zwx2xtcfx',
+                  'x-index': 0,
+                  name: 'name',
+                },
+              },
+              'x-designable-id': 'd4ogui2afmr',
+            },
+          },
         },
       },
       null,
@@ -80,7 +106,7 @@ export const defaultSchema = {
   },
 };
 
-const useModel = () => {
+export const useModel = () => {
   const [formData, setFormData] = useState<{
     name: string;
     template: string;
@@ -106,6 +132,12 @@ const useModel = () => {
         notShowInSnippetsList: false,
         notShowInintellisense: false,
         schema: 'amis',
+        scripts: [
+          {
+            method: 'test',
+            remark: '测试一下',
+          },
+        ],
       },
       null,
       2,
@@ -122,4 +154,4 @@ const useModel = () => {
   };
 };
 
-export default useModel;
+export type Model = ReturnType<typeof useModel>;

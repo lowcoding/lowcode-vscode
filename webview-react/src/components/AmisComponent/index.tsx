@@ -7,6 +7,8 @@ import './helper.css';
 // import 'amis/lib/helper.css';
 import 'amis/sdk/iconfont.css';
 import axios from 'axios';
+import RunScript from '../RunScript';
+import { useState } from '@/hooks/useImmer';
 
 const request: { count: number; hideLoading?: MessageType } = {
   count: 0,
@@ -15,10 +17,19 @@ const request: { count: number; hideLoading?: MessageType } = {
 
 interface IProps {
   schema: object;
+  scripts?: [
+    {
+      method: string;
+      remark: string;
+    },
+  ];
+  path: string;
   onFormChange: (values: object) => void;
 }
 
 export default (props: IProps) => {
+  const [scriptModalVisible, setScriptModalVisible] = useState(false);
+  const [model, setModel] = useState({} as object);
   const amisScoped = useRef<any>();
   const env = {
     // 下面三个接口必须实现
@@ -124,6 +135,21 @@ export default (props: IProps) => {
     isCancel: (value: any) => axios.isCancel(value),
     useMobileUI: false,
   };
+
+  const handleOpenRunScriptModal = () => {
+    const values = amisScoped.current
+      .getComponentByName('page.form')
+      .getValues();
+    setModel(values);
+    setScriptModalVisible(true);
+  };
+
+  const handleRunScriptResult = (result: object) => {
+    amisScoped.current.getComponentByName('page.form').setValues(result);
+    props.onFormChange(result);
+    setScriptModalVisible(false);
+  };
+
   return (
     <>
       {render(
@@ -138,6 +164,9 @@ export default (props: IProps) => {
       )}
       <br></br>
       <Space>
+        <Button type="primary" size="small" onClick={handleOpenRunScriptModal}>
+          执行脚本设置模板数据
+        </Button>
         <Button
           type="primary"
           size="small"
@@ -151,6 +180,16 @@ export default (props: IProps) => {
           生成模板数据
         </Button>
       </Space>
+      <RunScript
+        visible={scriptModalVisible}
+        materialPath={props.path}
+        model={model}
+        scripts={props.scripts}
+        onCancel={() => {
+          setScriptModalVisible(false);
+        }}
+        onOk={handleRunScriptResult}
+      />
     </>
   );
 };

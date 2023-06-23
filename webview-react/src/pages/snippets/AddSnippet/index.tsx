@@ -2,15 +2,14 @@ import React from 'react';
 import { Button, Form, Input, message, Select } from 'antd';
 import { history, useModel } from 'umi';
 import CodeMirror from '@/components/CodeMirror';
-import useController from './useController';
+import { usePresenter } from './presenter';
 import { addSnippets } from '@/webview/service';
 import { getSchemaWebUrl } from '@/utils/schema';
 
 export default () => {
   const { setTab } = useModel('tab');
-  const controller = useController();
-  const { service } = controller;
-  const { model } = service;
+  const presenter = usePresenter();
+  const { model } = presenter;
 
   return (
     <div>

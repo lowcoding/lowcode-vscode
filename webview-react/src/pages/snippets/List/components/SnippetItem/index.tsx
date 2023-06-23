@@ -89,6 +89,15 @@ export default (props: { snippetItem: Model['materials'][0] }) => {
               type="primary"
               style={{ width: '34%', borderRadius: 'none' }}
               onClick={() => {
+                history.push(`/snippets/detail/${props.snippetItem.name}`);
+              }}
+            >
+              使用模板
+            </Button>
+            <Button
+              type="primary"
+              style={{ width: '34%', borderRadius: 'none' }}
+              onClick={() => {
                 if (!props.snippetItem.template) {
                   message.error('添加失败，模板为空');
                   return;
@@ -101,15 +110,6 @@ export default (props: { snippetItem: Model['materials'][0] }) => {
               }}
             >
               直接添加
-            </Button>
-            <Button
-              type="primary"
-              style={{ width: '34%', borderRadius: 'none' }}
-              onClick={() => {
-                history.push(`/snippets/detail/${props.snippetItem.name}`);
-              }}
-            >
-              使用模板
             </Button>
             <Button
               type="primary"

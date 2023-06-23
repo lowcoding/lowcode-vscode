@@ -31,6 +31,7 @@ export const getLocalMaterials = (
         commandPrompt?: string;
         viewPrompt?: string;
       };
+      scripts?: [{ method: string; remark: string }];
     };
     commandPrompt?: string; // 优先级比 preview.chatGPT 高
     viewPrompt?: string; // 优先级比 preview.chatGPT 高

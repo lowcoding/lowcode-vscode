@@ -7,15 +7,16 @@ import YapiModal from '@/components/YapiModal';
 import SelectDirectory from '@/components/SelectDirectory';
 import CodeMirror from '@/components/CodeMirror';
 import JsonToTs from '@/components/JsonToTs';
-import useController from './useController';
+import { usePresenter } from './presenter';
 import { genCodeByBlockMaterial } from '@/webview/service';
 import AmisComponent from '@/components/AmisComponent';
 import FormilyComponent from '@/components/FormilyComponent';
+import RunScript from '@/components/RunScript';
+import './index.less';
 
 export default () => {
-  const controller = useController();
-  const { service } = controller;
-  const { model } = service;
+  const presenter = usePresenter();
+  const { model } = presenter;
 
   return (
     <div>
@@ -27,12 +28,21 @@ export default () => {
             {model.selectedMaterial.preview.schema === 'form-render' && (
               <>
                 <FormRender
-                  form={controller.form}
+                  form={presenter.form}
                   schema={model.selectedMaterial.schema}
-                  watch={controller.watch}
+                  watch={presenter.watch}
                 />
                 <br></br>
                 <Space>
+                  <Button
+                    type="primary"
+                    size="small"
+                    onClick={() => {
+                      model.setScriptModalVisible(true);
+                    }}
+                  >
+                    执行脚本设置模板数据
+                  </Button>
                   <Button
                     type="primary"
                     size="small"
@@ -51,6 +61,8 @@ export default () => {
             {model.selectedMaterial.preview.schema === 'amis' && (
               <AmisComponent
                 schema={model.selectedMaterial.schema}
+                path={model.selectedMaterial.path}
+                scripts={model.selectedMaterial.preview.scripts}
                 onFormChange={(values) => {
                   model.setSelectedMaterial((s) => ({
                     ...s,
@@ -63,6 +75,8 @@ export default () => {
               <FormilyComponent
                 initialValues={model.formData}
                 schema={model.selectedMaterial.schema}
+                path={model.selectedMaterial.path}
+                scripts={model.selectedMaterial.preview.scripts}
                 onFormChange={(values) => {
                   model.setSelectedMaterial((s) => ({
                     ...s,
@@ -90,7 +104,7 @@ export default () => {
           />
           <br></br>
           <Space>
-            <Dropdown overlay={controller.menu}>
+            <Dropdown overlay={presenter.menu}>
               <a
                 className="ant-dropdown-link"
                 onClick={(e) => e.preventDefault()}
@@ -110,7 +124,7 @@ export default () => {
             <Button
               type="primary"
               size="small"
-              onClick={controller.handleAskChatGPT}
+              onClick={presenter.handleAskChatGPT}
             >
               Ask ChatGPT
             </Button>
@@ -171,6 +185,16 @@ export default () => {
           }));
           model.setJsonToTsModalVisble(false);
         }}
+      />
+      <RunScript
+        visible={model.scriptModalVisible}
+        materialPath={model.selectedMaterial.path}
+        model={model.selectedMaterial.model}
+        scripts={model.selectedMaterial.preview?.scripts}
+        onCancel={() => {
+          model.setScriptModalVisible(false);
+        }}
+        onOk={presenter.handleRunScriptResult}
       />
     </div>
   );

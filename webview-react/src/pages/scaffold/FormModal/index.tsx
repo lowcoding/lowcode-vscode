@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal, Form, Input, Checkbox } from 'antd';
 import FormRender from 'form-render';
-import useController from './useController';
+import { usePresenter } from './presenter';
 
 interface IProps {
   visible: boolean;
@@ -12,9 +12,8 @@ interface IProps {
 }
 
 const View: React.FC<IProps> = ({ visible, config, onClose }) => {
-  const controller = useController({ visible, config, onClose });
-  const { service } = controller;
-  const { model } = service;
+  const presenter = usePresenter({ visible, config, onClose });
+  const { model } = presenter;
 
   return (
     <Modal
@@ -24,18 +23,18 @@ const View: React.FC<IProps> = ({ visible, config, onClose }) => {
         onClose();
       }}
       onOk={() => {
-        controller.createProjectByVsCode();
+        presenter.createProjectByVsCode();
       }}
       cancelText="取消"
       okText="确定"
     >
       {config.formSchema && (
         <FormRender
-          form={controller.form}
+          form={presenter.form}
           schema={config.formSchema?.schema || {}}
           displayType="column"
           labelWidth={config.formSchema?.labelWidth}
-          watch={controller.watch}
+          watch={presenter.watch}
         />
       )}
       <Form layout="vertical">
@@ -55,7 +54,7 @@ const View: React.FC<IProps> = ({ visible, config, onClose }) => {
             value={model.config.createDir}
             readOnly
             onClick={() => {
-              controller.selectDirectoryByVsCode();
+              presenter.selectDirectoryByVsCode();
             }}
           />
         </Form.Item>

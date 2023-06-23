@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal, Form, Input, Checkbox, Select } from 'antd';
-import useController from './useController';
+import { usePresenter } from './presenter';
 import FormModal from '../FormModal';
 
 interface IProps {
@@ -9,9 +9,8 @@ interface IProps {
 }
 
 const View: React.FC<IProps> = ({ visible, onClose }) => {
-  const controller = useController({ visible, onClose });
-  const { service } = controller;
-  const { model } = service;
+  const presenter = usePresenter({ visible, onClose });
+  const { model } = presenter;
 
   return (
     <Modal
@@ -24,7 +23,7 @@ const View: React.FC<IProps> = ({ visible, onClose }) => {
         onClose();
       }}
       onOk={() => {
-        controller.downloadScaffold();
+        presenter.downloadScaffold();
       }}
       okText="确定"
       cancelText="取消"

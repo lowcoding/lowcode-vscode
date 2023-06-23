@@ -46,10 +46,18 @@ export const createBlock = (
     path.join(blockPath, 'script', 'index.js'),
     `const path = require("path");
 module.exports = {
-  beforeCompile: (context) => {},
-  afterCompile: (context) => {
-    context.outputChannel.appendLine("compile ${message.data.name} end");
-  },
+  beforeCompile: (context) => {
+		context.outputChannel.appendLine("compile ${message.data.name} start");
+	},
+	afterCompile: (context) => {
+		context.outputChannel.appendLine("compile ${message.data.name} end");
+	},
+	test: (context) => {
+		context.outputChannel.appendLine(Object.keys(context))
+		context.outputChannel.appendLine(JSON.stringify(context.model))
+		context.outputChannel.appendLine(context.params)
+		return { ...context.model, name: "测试一下", }
+	},
 };`,
   );
   return '添加成功';

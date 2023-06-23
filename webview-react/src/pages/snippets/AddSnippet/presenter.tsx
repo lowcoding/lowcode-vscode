@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useParams } from 'umi';
-import { defaultSchema } from './useModel';
-import useService from './useService';
+import { defaultSchema, useModel } from './model';
+import Service from './service';
 
-const useController = () => {
-  const service = useService();
-  const { model } = service;
+export const usePresenter = () => {
+  const model = useModel();
+  const service = new Service(model);
 
   const params = useParams<{ time: string }>();
 
@@ -52,8 +52,7 @@ const useController = () => {
   }, [model.formData.schemaType]);
 
   return {
+    model,
     service,
   };
 };
-
-export default useController;

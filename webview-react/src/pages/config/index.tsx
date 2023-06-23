@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, message } from 'antd';
 import FormRender from 'form-render';
-import useController from './useController';
+import { usePresenter } from './presenter';
 import { savePluginConfig } from '@/webview/service';
 
 const schame: any = {
@@ -129,20 +129,19 @@ const schame: any = {
   },
 };
 export default () => {
-  const controller = useController();
-  const { service } = controller;
-  const { model } = service;
+  const presenter = usePresenter();
+  const { model } = presenter;
 
   return (
     <div>
       <FormRender
-        form={controller.form}
+        form={presenter.form}
         displayType="column"
         // showDescIcon={true}
         labelWidth={170}
         column={1}
         schema={schame}
-        watch={controller.watch}
+        watch={presenter.watch}
       />
       <div style={{ textAlign: 'center' }}>
         <Button
