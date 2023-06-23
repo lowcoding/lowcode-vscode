@@ -29,9 +29,11 @@ import {
   ArrayTable,
   ArrayCards,
 } from '@formily/antd';
-import { Card, Slider, Rate } from 'antd';
+import { Card, Slider, Rate, Button } from 'antd';
 import * as ICONS from '@ant-design/icons';
 import { onFormValuesChange } from '@formily/core/esm/effects';
+import { useState } from '@/hooks/useImmer';
+import RunScript from '../RunScript';
 
 const Text: React.FC<{
   value?: string;
@@ -87,16 +89,27 @@ interface IProps {
     schema: object;
   };
   initialValues: object;
+  scripts?: [
+    {
+      method: string;
+      remark: string;
+    },
+  ];
+  path: string;
   onFormChange: (values: object) => void;
 }
 
 export default (props: IProps) => {
+  const [init, setInit] = useState(false);
+  const [scriptModalVisible, setScriptModalVisible] = useState(false);
+  const [model, setModel] = useState({} as object);
   const form = useMemo(
     () =>
       createForm({
         effects() {
           onFormValuesChange((f) => {
             props.onFormChange(JSON.parse(JSON.stringify(f.values)));
+            setModel(JSON.parse(JSON.stringify(f.values)));
           });
         },
       }),
@@ -104,14 +117,59 @@ export default (props: IProps) => {
   );
 
   useEffect(() => {
-    form.setInitialValues(props.initialValues);
-  }, []);
+    if (
+      props.initialValues &&
+      Object.keys(props.initialValues).length &&
+      !init
+    ) {
+      form.setInitialValues(props.initialValues);
+      setModel(props.initialValues);
+      setInit(true);
+    }
+  }, [props.initialValues]);
+
+  const handleRunScriptResult = (result: object) => {
+    setModel(props.initialValues);
+    props.onFormChange(result);
+    form.setValues(result);
+    setScriptModalVisible(false);
+  };
 
   return (
     <div>
       <Form {...props.schema.form} form={form}>
         <SchemaField schema={props.schema.schema} />
       </Form>
+      <Space>
+        <Button
+          type="primary"
+          size="small"
+          onClick={() => {
+            setScriptModalVisible(true);
+          }}
+        >
+          执行脚本设置模板数据
+        </Button>
+        <Button
+          type="primary"
+          size="small"
+          onClick={() => {
+            props.onFormChange(JSON.parse(JSON.stringify(form.values)));
+          }}
+        >
+          重新生成模板数据
+        </Button>
+      </Space>
+      <RunScript
+        visible={scriptModalVisible}
+        materialPath={props.path}
+        model={model}
+        scripts={props.scripts}
+        onCancel={() => {
+          setScriptModalVisible(false);
+        }}
+        onOk={handleRunScriptResult}
+      />
     </div>
   );
 };

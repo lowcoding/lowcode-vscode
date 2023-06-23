@@ -1,6 +1,6 @@
 import { useState } from '@/hooks/useImmer';
 
-const useModel = () => {
+export const useModel = () => {
   const [selectedMaterial, setSelectedMaterial] = useState<{
     path: string;
     name: string;
@@ -11,6 +11,7 @@ const useModel = () => {
       description?: string;
       img?: string | string[];
       schema?: 'form-render' | 'formily' | 'amis';
+      scripts?: [{ method: string; remark: string }];
     };
     template: string;
     viewPrompt?: string;
@@ -20,6 +21,8 @@ const useModel = () => {
   const [yapiModalVsible, setYapiModalVsible] = useState(false);
   const [directoryModalVsible, setDirectoryModalVsible] = useState(false);
   const [jsonToTsModalVisble, setJsonToTsModalVisble] = useState(false);
+  const [scriptModalVisible, setScriptModalVisible] = useState(false);
+
   return {
     selectedMaterial,
     setSelectedMaterial,
@@ -33,7 +36,9 @@ const useModel = () => {
     setDirectoryModalVsible,
     jsonToTsModalVisble,
     setJsonToTsModalVisble,
+    scriptModalVisible,
+    setScriptModalVisible,
   };
 };
 
-export default useModel;
+export type Model = ReturnType<typeof useModel>;

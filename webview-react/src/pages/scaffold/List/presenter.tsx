@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react';
-import { useMount } from 'ahooks';
-import useService from './useService';
+import { useEffect } from 'react';
+import Service from './service';
 import { downloadScaffoldByVsCode, getScaffolds } from '@/webview/service';
 import useCheckVankeInternal from '@/hooks/useCheckVankeInternal';
+import { useModel } from './model';
 
-const useController = () => {
-  const service = useService();
-  const { model } = service;
+export const usePresenter = () => {
+  const model = useModel();
+  const service = new Service(model);
   const isVankeInternal = useCheckVankeInternal();
 
   useEffect(() => {
@@ -104,11 +104,10 @@ const useController = () => {
   };
 
   return {
+    model,
     service,
     fetchScaffolds,
     changeCategory,
     downloadScaffold,
   };
 };
-
-export default useController;

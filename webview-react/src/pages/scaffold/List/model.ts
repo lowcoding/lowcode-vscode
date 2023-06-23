@@ -1,6 +1,6 @@
 import { useState } from '@/hooks/useImmer';
 
-const useModel = () => {
+export const useModel = () => {
   const [categories, setCategories] = useState<
     { name: string; icon: string; uuid: string }[]
   >([]);
@@ -69,4 +69,4 @@ const useModel = () => {
   };
 };
 
-export default useModel;
+export type Model = ReturnType<typeof useModel>;

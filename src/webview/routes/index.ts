@@ -13,6 +13,7 @@ import * as intelliSense from '../controllers/intelliSense';
 import * as reqeust from '../controllers/request';
 import * as openai from '../controllers/openai';
 import * as task from '../controllers/task';
+import * as script from '../controllers/script';
 
 export const routes: Record<string, any> = {
   alert: alert.alert,
@@ -57,4 +58,6 @@ export const routes: Record<string, any> = {
   exportChatGPTContent: openai.exportChatGPTContent,
 
   getTask: task.getTask,
+
+  runScript: script.runScript,
 };

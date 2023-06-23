@@ -2,18 +2,18 @@ import React, { useEffect } from 'react';
 import { message } from 'antd';
 import { useForm } from 'form-render';
 import { createProject, selectDirectory } from '@/webview/service';
-import { defaultConfig } from './useModel';
-import useService from './useService';
+import { defaultConfig, useModel } from './model';
+import Service from './service';
 
-const useController = (props: {
+export const usePresenter = (props: {
   visible: boolean;
   config: {
     formSchema?: { schema?: object; formData?: object; [key: string]: any };
   };
   onClose: (ok?: boolean) => void;
 }) => {
-  const service = useService();
-  const { model } = service;
+  const model = useModel();
+  const service = new Service(model);
   const form = useForm();
 
   useEffect(() => {
@@ -61,6 +61,7 @@ const useController = (props: {
   };
 
   return {
+    model,
     service,
     selectDirectoryByVsCode,
     createProjectByVsCode,
@@ -68,5 +69,3 @@ const useController = (props: {
     watch,
   };
 };
-
-export default useController;

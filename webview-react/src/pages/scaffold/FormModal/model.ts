@@ -6,7 +6,7 @@ export const defaultConfig = {
   immediateOpen: true,
 };
 
-const useModel = () => {
+export const useModel = () => {
   const [formData, setFormData] = useState<any>({});
 
   const [config, setConfig] = useState<{
@@ -23,4 +23,4 @@ const useModel = () => {
   };
 };
 
-export default useModel;
+export type Model = ReturnType<typeof useModel>;

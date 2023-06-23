@@ -1,11 +1,12 @@
 import { useForm } from 'form-render';
 import React, { useEffect } from 'react';
 import { getLocalMaterials, getPluginConfig } from '@/webview/service';
-import useService from './useService';
+import Service from './service';
+import { useModel } from './model';
 
-const useController = () => {
-  const service = useService();
-  const { model } = service;
+export const usePresenter = () => {
+  const model = useModel();
+  const service = new Service(model);
   const form = useForm();
 
   useEffect(() => {
@@ -28,10 +29,9 @@ const useController = () => {
   };
 
   return {
+    model,
     service,
     form,
     watch,
   };
 };
-
-export default useController;
