@@ -1,6 +1,6 @@
 import * as path from 'path';
 import * as fs from 'fs-extra';
-import { ConfigurationTarget, workspace } from 'vscode';
+import { workspace } from 'vscode';
 import { getFileContent } from './file';
 import { rootPath } from './vscodeEnv';
 
@@ -33,6 +33,7 @@ export type Config = {
     }[];
   };
   commonlyUsedBlock?: string[];
+  syncFolder?: string;
 };
 
 type ChatGPTConfig = {
@@ -44,24 +45,26 @@ type ChatGPTConfig = {
   temperature: number;
 };
 
-export const getConfig = () => {
+export const getConfig: () => Config = () => {
   let config: Config;
   if (fs.existsSync(path.join(rootPath, '.lowcoderc'))) {
     config = JSON.parse(getFileContent('.lowcoderc') || '{}');
   } else {
     config = getAllConfig();
   }
-  return { ...defaultConfig, ...config };
+  return { ...defaultConfig, ...config, syncFolder: getSyncFolder() };
 };
 
 export const saveConfig = (config: Config) => {
+  saveSyncFolder(config.syncFolder);
+  delete config.syncFolder;
   fs.writeFileSync(
     path.join(rootPath, '.lowcoderc'),
     JSON.stringify(config, null, 2),
   );
 };
 
-export const getChatGPTConfig = () => {
+export const getChatGPTConfig: () => ChatGPTConfig = () => {
   const hostname = workspace
     .getConfiguration('lowcode')
     .get<string>('hostname', 'api.openai.com');
@@ -90,6 +93,13 @@ export const getChatGPTConfig = () => {
     temperature,
   };
 };
+
+export const saveSyncFolder = (syncFolder?: string) => {
+  workspace.getConfiguration('lowcode').update('syncFolder', syncFolder);
+};
+
+export const getSyncFolder = () =>
+  workspace.getConfiguration('lowcode').get<string>('syncFolder', '');
 
 /**
  * 获取域名
