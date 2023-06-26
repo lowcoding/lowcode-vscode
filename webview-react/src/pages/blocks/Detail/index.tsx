@@ -12,7 +12,6 @@ import { genCodeByBlockMaterial } from '@/webview/service';
 import AmisComponent from '@/components/AmisComponent';
 import FormilyComponent from '@/components/FormilyComponent';
 import RunScript from '@/components/RunScript';
-import './index.less';
 
 export default () => {
   const presenter = usePresenter();
@@ -32,7 +31,6 @@ export default () => {
                   schema={model.selectedMaterial.schema}
                   watch={presenter.watch}
                 />
-                <br></br>
                 <Space>
                   <Button
                     type="primary"
