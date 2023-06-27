@@ -1,6 +1,12 @@
 import * as path from 'path';
 import * as fs from 'fs-extra';
-import { Config, getConfig, saveConfig } from '../../utils/config';
+import {
+  Config,
+  getConfig,
+  getSyncFolder,
+  saveSyncFolder,
+  saveConfig,
+} from '../../utils/config';
 import { IMessage } from '../type';
 import { rootPath } from '../../utils/vscodeEnv';
 
@@ -33,4 +39,11 @@ export const savePluginConfig = (message: IMessage<Config>) => {
 
   saveConfig(message.data);
   return '保存成功';
+};
+
+export const getSyncFolderConfig = () => getSyncFolder();
+
+export const saveSyncFolderConfig = (message: IMessage<string>) => {
+  saveSyncFolder(message.data);
+  return true;
 };

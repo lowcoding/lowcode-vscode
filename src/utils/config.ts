@@ -33,7 +33,6 @@ export type Config = {
     }[];
   };
   commonlyUsedBlock?: string[];
-  syncFolder?: string;
 };
 
 type ChatGPTConfig = {
@@ -49,6 +48,9 @@ export const getConfig: () => Config = () => {
   let config: Config;
   if (fs.existsSync(path.join(rootPath, '.lowcoderc'))) {
     config = JSON.parse(getFileContent('.lowcoderc') || '{}');
+    config.yapi?.projects?.forEach((s) => {
+      s.domain = s.domain || config.yapi?.domain || '';
+    });
   } else {
     config = getAllConfig();
   }
@@ -56,8 +58,6 @@ export const getConfig: () => Config = () => {
 };
 
 export const saveConfig = (config: Config) => {
-  saveSyncFolder(config.syncFolder);
-  delete config.syncFolder;
   fs.writeFileSync(
     path.join(rootPath, '.lowcoderc'),
     JSON.stringify(config, null, 2),
@@ -95,7 +95,7 @@ export const getChatGPTConfig: () => ChatGPTConfig = () => {
 };
 
 export const saveSyncFolder = (syncFolder?: string) => {
-  workspace.getConfiguration('lowcode').update('syncFolder', syncFolder);
+  workspace.getConfiguration('lowcode').update('syncFolder', syncFolder, true);
 };
 
 export const getSyncFolder = () =>

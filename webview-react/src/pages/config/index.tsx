@@ -8,7 +8,7 @@ const schame: any = {
   type: 'object',
   properties: {
     yapi: {
-      title: 'yapi配置',
+      title: 'yapi 配置',
       type: 'object',
       properties: {
         domain: {

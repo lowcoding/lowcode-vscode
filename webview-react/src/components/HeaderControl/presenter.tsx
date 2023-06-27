@@ -134,6 +134,7 @@ export const defaultSchema: Record<string, { model: string; schema: string }> =
 export const usePresenter = () => {
   const model = useModel();
   const { setTab } = useUmiModel('tab');
+  const syncFolderModal = useUmiModel('syncFolder');
 
   const closeBlockModal = () => {
     model.setBlockModal((s) => {
@@ -197,5 +198,15 @@ export const usePresenter = () => {
       });
   };
 
-  return { model, closeBlockModal, createBlock, handleChangeRoute };
+  const handleOpenConfigSyncFolder = () => {
+    syncFolderModal.setVisible(true);
+  };
+
+  return {
+    model,
+    closeBlockModal,
+    createBlock,
+    handleChangeRoute,
+    handleOpenConfigSyncFolder,
+  };
 };

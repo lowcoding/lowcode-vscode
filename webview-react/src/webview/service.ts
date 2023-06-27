@@ -534,3 +534,16 @@ export function runScript(data: {
     data,
   });
 }
+
+export function getSyncFolder() {
+  return request<string>({
+    cmd: 'getSyncFolder',
+  });
+}
+
+export function saveSyncFolder(syncFolder: string) {
+  return request<boolean>({
+    cmd: 'saveSyncFolder',
+    data: syncFolder,
+  });
+}
