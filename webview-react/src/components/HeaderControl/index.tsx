@@ -10,6 +10,7 @@ import {
   Input,
   Select,
   Button,
+  Switch,
 } from 'antd';
 import { executeVscodeCommand, refreshIntelliSense } from '@/webview/service';
 import { usePresenter } from './presenter';
@@ -142,6 +143,16 @@ export default () => {
                 可视化配置
               </Button>
             </div>
+          </Form.Item>
+          <Form.Item label="保存到私有文件夹">
+            <Switch
+              checked={model.blockModal.private}
+              onChange={(checked) => {
+                model.setBlockModal((s) => {
+                  s.private = checked;
+                });
+              }}
+            ></Switch>
           </Form.Item>
         </Form>
       </Modal>

@@ -286,6 +286,7 @@ export function createBlockTemplate(data: {
   preview: string;
   commandPrompt: string;
   viewPrompt: string;
+  private?: boolean;
 }) {
   return request<string>({
     cmd: 'createBlockTemplate',

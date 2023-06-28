@@ -140,6 +140,7 @@ export const usePresenter = () => {
     model.setBlockModal((s) => {
       s.visible = false;
       s.name = '';
+      s.private = false;
     });
   };
 
@@ -186,6 +187,7 @@ export const usePresenter = () => {
         '<%- rawSelectedText || rawClipboardText %>\r\n解释这段代码的意思',
       viewPrompt:
         '<%- model %> \r\n将这段 json 中，中文 key 翻译为英文，使用驼峰语法，\r\n返回翻译后的markdown语法的代码块',
+      private: model.blockModal.private,
     })
       .then(() => {
         closeBlockModal();

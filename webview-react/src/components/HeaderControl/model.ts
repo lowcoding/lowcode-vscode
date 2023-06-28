@@ -5,6 +5,7 @@ export const useModel = () => {
     visible: false,
     name: '',
     schemaType: 'amis',
+    private: false,
     processing: false,
   });
 

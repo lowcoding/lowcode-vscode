@@ -2,6 +2,7 @@ import * as fs from 'fs-extra';
 import * as path from 'path';
 import { blockMaterialsPath } from '../../utils/vscodeEnv';
 import { IMessage } from '../type';
+import { getSyncFolder } from '../../utils/config';
 
 export const createBlock = (
   message: IMessage<{
@@ -12,9 +13,17 @@ export const createBlock = (
     preview: string;
     commandPrompt: string;
     viewPrompt: string;
+    private?: boolean;
   }>,
 ) => {
-  const blockPath = path.join(blockMaterialsPath, message.data.name);
+  let blockPath = path.join(blockMaterialsPath, message.data.name);
+  if (message.data.private) {
+    const syncFolder = getSyncFolder();
+    if (!syncFolder) {
+      return { code: 404, msg: '私有目录未配置', result: false };
+    }
+    blockPath = path.join(syncFolder, 'materials', 'blocks', message.data.name);
+  }
   if (fs.existsSync(blockPath)) {
     throw new Error('区块名称已经存在');
   }
@@ -60,5 +69,5 @@ module.exports = {
 	},
 };`,
   );
-  return '添加成功';
+  return { code: 200, msg: '私有目录未配置', result: false };
 };
