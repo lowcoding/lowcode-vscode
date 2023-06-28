@@ -189,9 +189,14 @@ export const usePresenter = () => {
         '<%- model %> \r\n将这段 json 中，中文 key 翻译为英文，使用驼峰语法，\r\n返回翻译后的markdown语法的代码块',
       private: model.blockModal.private,
     })
-      .then(() => {
-        closeBlockModal();
-        message.success('创建成功');
+      .then((res) => {
+        if (res.code === 200) {
+          closeBlockModal();
+          message.success('创建成功');
+        } else if (res.code === 404) {
+          message.error('请先配置私有目录');
+          syncFolderModal.setVisible(true);
+        }
       })
       .finally(() => {
         model.setBlockModal((s) => {

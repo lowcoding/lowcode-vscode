@@ -107,6 +107,7 @@ export default () => {
           disabled: model.blockModal.processing,
           loading: model.blockModal.processing,
         }}
+        zIndex={99}
       >
         <Form layout="vertical">
           <Form.Item label="名称" required>

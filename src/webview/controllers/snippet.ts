@@ -1,7 +1,10 @@
 import * as fs from 'fs-extra';
 import * as path from 'path';
 import { pasteToEditor } from '../../utils/editor';
-import { snippetMaterialsPath } from '../../utils/vscodeEnv';
+import {
+  getPrivateSnippetMaterialsPath,
+  snippetMaterialsPath,
+} from '../../utils/vscodeEnv';
 import { IMessage } from '../type';
 
 export const insertSnippet = (message: IMessage<{ template: string }>) => {
@@ -17,9 +20,17 @@ export const addSnippets = (
     preview: string;
     commandPrompt: string;
     viewPrompt: string;
+    private?: boolean;
   }>,
 ) => {
-  const snippetPath = path.join(snippetMaterialsPath, message.data.name);
+  let snippetPath = path.join(snippetMaterialsPath, message.data.name);
+  if (message.data.private) {
+    snippetPath = getPrivateSnippetMaterialsPath();
+    if (!snippetPath) {
+      return { code: 404, msg: '私有目录未配置', result: false };
+    }
+    snippetPath = path.join(snippetPath, message.data.name);
+  }
   fs.outputFileSync(
     path.join(snippetPath, 'src', 'template.ejs'),
     message.data.template,
@@ -62,5 +73,5 @@ module.exports = {
 	},
 };`,
   );
-  return '添加成功';
+  return { code: 200, msg: '', result: true };
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Modal } from 'antd';
+import { Button, Form, Input, Modal } from 'antd';
 import { usePresenter } from './presenter';
 
 const ConfigSyncFolder = () => {
@@ -17,15 +17,25 @@ const ConfigSyncFolder = () => {
       okButtonProps={{ loading: model.loading, disabled: !model.syncFolder }}
       okText="确定"
       cancelText="取消"
+      zIndex={999}
     >
       <Form layout="vertical">
         <Form.Item label="选择目录">
-          <Input
-            readOnly
-            placeholder="请选择"
-            value={model.syncFolder}
-            onClick={presenter.handleselectDirectory}
-          ></Input>
+          <div style={{ display: 'flex' }}>
+            <Input
+              readOnly
+              placeholder="请选择"
+              value={model.syncFolder}
+              onClick={presenter.handleselectDirectory}
+            ></Input>
+            <Button
+              type="link"
+              disabled={!model.syncFolder}
+              onClick={presenter.handleOpenUriByVscode}
+            >
+              vscode 中打开
+            </Button>
+          </div>
         </Form.Item>
       </Form>
     </Modal>

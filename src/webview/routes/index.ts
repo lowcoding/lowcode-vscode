@@ -23,6 +23,7 @@ export const routes: Record<string, any> = {
   saveDownloadMaterials: material.saveDownloadMaterials,
 
   executeVscodeCommand: command.executeVscodeCommand,
+  openUriByVscode: command.openUri,
 
   getScaffolds: scaffold.getScaffolds,
   downloadScaffold: scaffold.downloadScaffold,

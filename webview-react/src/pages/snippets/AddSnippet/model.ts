@@ -116,6 +116,7 @@ export const useModel = () => {
     preview: string;
     commandPrompt: string;
     viewPrompt: string;
+    private?: boolean;
   }>({
     model: '{}',
     schemaType: 'amis',

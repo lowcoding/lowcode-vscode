@@ -7,6 +7,7 @@ import {
   selectDirectory,
   saveSyncFolder,
   getSyncFolder,
+  openUriByVscode,
 } from '@/webview/service';
 
 export const usePresenter = () => {
@@ -35,6 +36,10 @@ export const usePresenter = () => {
       });
   };
 
+  const handleOpenUriByVscode = () => {
+    openUriByVscode(model.syncFolder);
+  };
+
   const handleOk = () => {
     saveSyncFolder(model.syncFolder).then(() => {
       message.success('保存成功');
@@ -47,5 +52,6 @@ export const usePresenter = () => {
     syncFolderModal,
     handleselectDirectory,
     handleOk,
+    handleOpenUriByVscode,
   };
 };

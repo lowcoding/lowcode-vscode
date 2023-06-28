@@ -259,8 +259,9 @@ export function addSnippets(data: {
   preview: string;
   commandPrompt: string;
   viewPrompt: string;
+  private?: boolean;
 }) {
-  return request<string>({
+  return request<{ code: number; msg: string; result: boolean }>({
     cmd: 'addSnippets',
     data,
   });
@@ -288,7 +289,7 @@ export function createBlockTemplate(data: {
   viewPrompt: string;
   private?: boolean;
 }) {
-  return request<string>({
+  return request<{ code: number; msg: string; result: boolean }>({
     cmd: 'createBlockTemplate',
     data,
   });
@@ -546,5 +547,12 @@ export function saveSyncFolder(syncFolder: string) {
   return request<boolean>({
     cmd: 'saveSyncFolder',
     data: syncFolder,
+  });
+}
+
+export function openUriByVscode(uri: string) {
+  return request<boolean>({
+    cmd: 'openUriByVscode',
+    data: uri,
   });
 }

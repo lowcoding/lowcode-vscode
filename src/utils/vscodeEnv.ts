@@ -1,5 +1,6 @@
 import * as path from 'path';
 import { workspace } from 'vscode';
+import { getSyncFolder } from './config';
 
 export const rootPath = path.join(workspace.rootPath || '');
 
@@ -14,6 +15,22 @@ export const snippetMaterialsPath = path.join(
   'materials',
   'snippets',
 );
+
+export const getPrivateBlockMaterialsPath = () => {
+  const syncFolder = getSyncFolder();
+  if (!syncFolder) {
+    return '';
+  }
+  return path.join(syncFolder, 'materials', 'blocks');
+};
+
+export const getPrivateSnippetMaterialsPath = () => {
+  const syncFolder = getSyncFolder();
+  if (!syncFolder) {
+    return '';
+  }
+  return path.join(syncFolder, 'materials', 'snippets');
+};
 
 export const getEnv = () => ({
   rootPath,
