@@ -2,7 +2,11 @@ import * as path from 'path';
 import * as fs from 'fs';
 import { getFileContent } from './file';
 import { getTemplateFilePath } from './config';
-import { rootPath, snippetMaterialsPath } from './vscodeEnv';
+import {
+  rootPath,
+  snippetMaterialsPath,
+  getPrivateSnippetMaterialsPath,
+} from './vscodeEnv';
 
 /**
  * 获取本地 物料模板
@@ -12,6 +16,7 @@ import { rootPath, snippetMaterialsPath } from './vscodeEnv';
 export const getLocalMaterials = (
   type: 'blocks' | 'snippets',
   materialsFullPath: string,
+  privateMaterials?: boolean,
 ) => {
   let materials: {
     path: string;
@@ -36,6 +41,7 @@ export const getLocalMaterials = (
     commandPrompt?: string; // 优先级比 preview.chatGPT 高
     viewPrompt?: string; // 优先级比 preview.chatGPT 高
     template: string;
+    privateMaterials?: boolean;
   }[] = [];
   try {
     materials = fs.readdirSync(materialsFullPath).map((s) => {
@@ -131,6 +137,7 @@ export const getLocalMaterials = (
         template,
         commandPrompt,
         viewPrompt,
+        privateMaterials,
       };
     });
   } catch {}
@@ -197,5 +204,14 @@ export function getSnippets() {
     },
     template: s.template,
   }));
-  return templates.concat(getLocalMaterials('snippets', snippetMaterialsPath));
+  let snippetsMaterials = getLocalMaterials('snippets', snippetMaterialsPath);
+  if (getPrivateSnippetMaterialsPath()) {
+    const privateSnippetsMaterials = getLocalMaterials(
+      'snippets',
+      getPrivateSnippetMaterialsPath(),
+      true,
+    );
+    snippetsMaterials = snippetsMaterials.concat(privateSnippetsMaterials);
+  }
+  return templates.concat(snippetsMaterials);
 }
