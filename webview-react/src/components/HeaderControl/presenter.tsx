@@ -134,11 +134,13 @@ export const defaultSchema: Record<string, { model: string; schema: string }> =
 export const usePresenter = () => {
   const model = useModel();
   const { setTab } = useUmiModel('tab');
+  const syncFolderModal = useUmiModel('syncFolder');
 
   const closeBlockModal = () => {
     model.setBlockModal((s) => {
       s.visible = false;
       s.name = '';
+      s.private = false;
     });
   };
 
@@ -185,10 +187,16 @@ export const usePresenter = () => {
         '<%- rawSelectedText || rawClipboardText %>\r\n解释这段代码的意思',
       viewPrompt:
         '<%- model %> \r\n将这段 json 中，中文 key 翻译为英文，使用驼峰语法，\r\n返回翻译后的markdown语法的代码块',
+      private: model.blockModal.private,
     })
-      .then(() => {
-        closeBlockModal();
-        message.success('创建成功');
+      .then((res) => {
+        if (res.code === 200) {
+          closeBlockModal();
+          message.success('创建成功');
+        } else if (res.code === 404) {
+          message.error('请先配置私有目录');
+          syncFolderModal.setVisible(true);
+        }
       })
       .finally(() => {
         model.setBlockModal((s) => {
@@ -197,5 +205,15 @@ export const usePresenter = () => {
       });
   };
 
-  return { model, closeBlockModal, createBlock, handleChangeRoute };
+  const handleOpenConfigSyncFolder = () => {
+    syncFolderModal.setVisible(true);
+  };
+
+  return {
+    model,
+    closeBlockModal,
+    createBlock,
+    handleChangeRoute,
+    handleOpenConfigSyncFolder,
+  };
 };

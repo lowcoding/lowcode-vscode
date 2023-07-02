@@ -45,7 +45,7 @@ export default () => {
       </div>
       <Row gutter={[16, 16]}>
         {model.materials.map((s) => (
-          <SnippetItem snippetItem={s} key={s.name}></SnippetItem>
+          <SnippetItem snippetItem={s} key={s.id}></SnippetItem>
         ))}
       </Row>
     </div>

@@ -23,6 +23,7 @@ export const routes: Record<string, any> = {
   saveDownloadMaterials: material.saveDownloadMaterials,
 
   executeVscodeCommand: command.executeVscodeCommand,
+  openUriByVscode: command.openUri,
 
   getScaffolds: scaffold.getScaffolds,
   downloadScaffold: scaffold.downloadScaffold,
@@ -48,6 +49,8 @@ export const routes: Record<string, any> = {
 
   getPluginConfig: config.getPluginConfig,
   savePluginConfig: config.savePluginConfig,
+  getSyncFolder: config.getSyncFolderConfig,
+  saveSyncFolder: config.saveSyncFolderConfig,
 
   refreshIntelliSense: intelliSense.refreshIntelliSense,
   request: reqeust.axiosRequest,

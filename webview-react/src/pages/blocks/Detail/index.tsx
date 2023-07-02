@@ -12,7 +12,6 @@ import { genCodeByBlockMaterial } from '@/webview/service';
 import AmisComponent from '@/components/AmisComponent';
 import FormilyComponent from '@/components/FormilyComponent';
 import RunScript from '@/components/RunScript';
-import './index.less';
 
 export default () => {
   const presenter = usePresenter();
@@ -32,7 +31,6 @@ export default () => {
                   schema={model.selectedMaterial.schema}
                   watch={presenter.watch}
                 />
-                <br></br>
                 <Space>
                   <Button
                     type="primary"
@@ -167,6 +165,7 @@ export default () => {
             model: model.selectedMaterial.model,
             path,
             createPath,
+            privateMaterials: model.selectedMaterial.privateMaterials,
           }).then(() => {
             message.success('生成成功');
           });
@@ -191,6 +190,7 @@ export default () => {
         materialPath={model.selectedMaterial.path}
         model={model.selectedMaterial.model}
         scripts={model.selectedMaterial.preview?.scripts}
+        privateMaterials={model.selectedMaterial.privateMaterials}
         onCancel={() => {
           model.setScriptModalVisible(false);
         }}

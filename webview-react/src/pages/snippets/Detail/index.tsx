@@ -10,7 +10,6 @@ import { usePresenter } from './presenter';
 import { genCodeBySnippetMaterial } from '@/webview/service';
 import AmisComponent from '@/components/AmisComponent';
 import FormilyComponent from '@/components/FormilyComponent';
-import './index.less';
 import RunScript from '@/components/RunScript';
 
 export default () => {
@@ -47,7 +46,6 @@ export default () => {
                   form={presenter.form}
                   watch={presenter.watch}
                 />
-                <br></br>
                 <Space>
                   <Button
                     type="primary"
@@ -219,6 +217,7 @@ export default () => {
         materialPath={model.selectedMaterial.path}
         model={model.selectedMaterial.model}
         scripts={model.selectedMaterial.preview?.scripts}
+        privateMaterials={model.selectedMaterial.privateMaterials}
         onCancel={() => {
           model.setScriptModalVisible(false);
         }}

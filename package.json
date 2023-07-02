@@ -3,7 +3,7 @@
 	"displayName": "lowcode",
 	"description": "lowcode tool, support ChatGPT",
 	"author": "wjkang <ruoxieme@gmail.com>",
-	"version": "1.4.7",
+	"version": "1.4.8",
 	"icon": "asset/icon.png",
 	"publisher": "wjkang",
 	"repository": "https://github.com/lowcoding/lowcode-vscode",
@@ -208,7 +208,7 @@
 		],
 		"configuration": {
 			"type": "object",
-			"title": "lowcode.chatGPT",
+			"title": "lowcode",
 			"properties": {
 				"lowcode.hostname": {
 					"type": "string",
@@ -242,6 +242,11 @@
 					"minimum": 0,
 					"maximum": 1,
 					"description": "chatGPT temperature"
+				},
+				"lowcode.syncFolder": {
+					"type": "string",
+					"default": "",
+					"description": "sync folder"
 				}
 			}
 		}

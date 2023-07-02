@@ -16,7 +16,7 @@ export const registerChatGPTCommand = (context: vscode.ExtensionContext) => {
     vscode.commands.registerCommand('lowcode.openSettingsChatGPT', () => {
       vscode.commands.executeCommand(
         'workbench.action.openSettings',
-        'lowcode.chatGPT',
+        'lowcode',
       );
     }),
     vscode.commands.registerCommand('lowcode.askChatGPT', () => {

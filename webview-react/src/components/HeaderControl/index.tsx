@@ -10,10 +10,12 @@ import {
   Input,
   Select,
   Button,
+  Switch,
 } from 'antd';
 import { executeVscodeCommand, refreshIntelliSense } from '@/webview/service';
 import { usePresenter } from './presenter';
 import { getSchemaWebUrl } from '@/utils/schema';
+import ConfigSyncFolder from './components/ConfigSyncFolder';
 
 export default () => {
   const { tab, setTab } = useModel('tab');
@@ -47,6 +49,9 @@ export default () => {
         }}
       >
         创建区块模板
+      </Menu.Item>
+      <Menu.Item key="4" onClick={presenter.handleOpenConfigSyncFolder}>
+        配置同步目录
       </Menu.Item>
       <Menu.Item
         key="2"
@@ -102,6 +107,7 @@ export default () => {
           disabled: model.blockModal.processing,
           loading: model.blockModal.processing,
         }}
+        zIndex={99}
       >
         <Form layout="vertical">
           <Form.Item label="名称" required>
@@ -139,8 +145,19 @@ export default () => {
               </Button>
             </div>
           </Form.Item>
+          <Form.Item label="保存到私有文件夹">
+            <Switch
+              checked={model.blockModal.private}
+              onChange={(checked) => {
+                model.setBlockModal((s) => {
+                  s.private = checked;
+                });
+              }}
+            ></Switch>
+          </Form.Item>
         </Form>
       </Modal>
+      <ConfigSyncFolder />
     </div>
   );
 };

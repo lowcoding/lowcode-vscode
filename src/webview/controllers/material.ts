@@ -5,17 +5,29 @@ import {
 } from '../../utils/download';
 import { tempDir } from '../../utils/env';
 import { getLocalMaterials, getSnippets } from '../../utils/materials';
-import { blockMaterialsPath, materialsPath } from '../../utils/vscodeEnv';
+import {
+  blockMaterialsPath,
+  getPrivateBlockMaterialsPath,
+  materialsPath,
+} from '../../utils/vscodeEnv';
 import { IMessage } from '../type';
 
 const material = {
   getLocalMaterials: (message: IMessage<'blocks' | 'snippets'>) => {
     if (message.data === 'blocks') {
-      const materials = getLocalMaterials('blocks', blockMaterialsPath);
+      let materials = getLocalMaterials('blocks', blockMaterialsPath);
+      if (getPrivateBlockMaterialsPath()) {
+        const privateBlockMaterials = getLocalMaterials(
+          'blocks',
+          getPrivateBlockMaterialsPath(),
+          true,
+        );
+        materials = materials.concat(privateBlockMaterials);
+      }
       return materials;
     }
     const materials = getSnippets().filter(
-      (s) => !s.preview.notShowInSnippetsList,
+      (s) => !s.preview.notShowInSnippetsList, // webview 获取列表，过滤掉不需要显示的
     );
     return materials;
   },

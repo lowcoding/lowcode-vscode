@@ -1,9 +1,8 @@
 import React from 'react';
-import { Button, Form, Input, message, Select } from 'antd';
+import { Button, Form, Input, Select, Switch } from 'antd';
 import { history, useModel } from 'umi';
 import CodeMirror from '@/components/CodeMirror';
 import { usePresenter } from './presenter';
-import { addSnippets } from '@/webview/service';
 import { getSchemaWebUrl } from '@/utils/schema';
 
 export default () => {
@@ -133,20 +132,22 @@ export default () => {
             }}
           />
         </Form.Item>
+        <Form.Item label="保存到私有文件夹">
+          <Switch
+            checked={model.formData.private}
+            onChange={(checked) => {
+              model.setFormData((s) => {
+                s.private = checked;
+              });
+            }}
+          ></Switch>
+        </Form.Item>
       </Form>
       <div style={{ textAlign: 'center', width: '100%' }}>
         <Button
           shape="round"
           type="primary"
-          onClick={() => {
-            if (!model.formData.name || !model.formData.template) {
-              message.error('请完善必填信息');
-              return;
-            }
-            addSnippets(model.formData).then(() => {
-              message.success('添加成功');
-            });
-          }}
+          onClick={presenter.handleCreate}
           style={{ width: '50%' }}
         >
           添加代码片段

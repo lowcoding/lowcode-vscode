@@ -15,6 +15,7 @@ export interface IGetLocalMaterialsResult {
     chatGPT?: { viewPrompt?: string };
   };
   template: string;
+  privateMaterials?: boolean;
 }
 /**
  * 获取本地物料列表
@@ -159,6 +160,7 @@ export function genCodeByBlockMaterial(data: {
   model: object;
   path: string;
   createPath: string[];
+  privateMaterials?: boolean;
 }) {
   return request<string>({
     cmd: 'genCodeByBlockMaterial',
@@ -259,8 +261,9 @@ export function addSnippets(data: {
   preview: string;
   commandPrompt: string;
   viewPrompt: string;
+  private?: boolean;
 }) {
-  return request<string>({
+  return request<{ code: number; msg: string; result: boolean }>({
     cmd: 'addSnippets',
     data,
   });
@@ -286,8 +289,9 @@ export function createBlockTemplate(data: {
   preview: string;
   commandPrompt: string;
   viewPrompt: string;
+  private?: boolean;
 }) {
-  return request<string>({
+  return request<{ code: number; msg: string; result: boolean }>({
     cmd: 'createBlockTemplate',
     data,
   });
@@ -528,9 +532,30 @@ export function runScript(data: {
   script: string;
   params: string;
   model: object;
+  privateMaterials?: boolean;
 }) {
   return request<object>({
     cmd: 'runScript',
     data,
+  });
+}
+
+export function getSyncFolder() {
+  return request<string>({
+    cmd: 'getSyncFolder',
+  });
+}
+
+export function saveSyncFolder(syncFolder: string) {
+  return request<boolean>({
+    cmd: 'saveSyncFolder',
+    data: syncFolder,
+  });
+}
+
+export function openUriByVscode(uri: string) {
+  return request<boolean>({
+    cmd: 'openUriByVscode',
+    data: uri,
   });
 }

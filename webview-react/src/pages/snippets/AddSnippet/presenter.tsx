@@ -1,11 +1,14 @@
 import { useEffect } from 'react';
-import { useParams } from 'umi';
+import { useParams, useModel as useUmiModel } from 'umi';
+import { message } from 'antd';
 import { defaultSchema, useModel } from './model';
 import Service from './service';
+import { addSnippets } from '@/webview/service';
 
 export const usePresenter = () => {
   const model = useModel();
   const service = new Service(model);
+  const syncFolderModal = useUmiModel('syncFolder');
 
   const params = useParams<{ time: string }>();
 
@@ -51,8 +54,24 @@ export const usePresenter = () => {
     }
   }, [model.formData.schemaType]);
 
+  const handleCreate = () => {
+    if (!model.formData.name || !model.formData.template) {
+      message.error('请完善必填信息');
+      return;
+    }
+    addSnippets(model.formData).then((res) => {
+      if (res.code === 200) {
+        message.success('添加成功');
+      } else if (res.code === 404) {
+        message.error('请先配置私有目录');
+        syncFolderModal.setVisible(true);
+      }
+    });
+  };
+
   return {
     model,
     service,
+    handleCreate,
   };
 };

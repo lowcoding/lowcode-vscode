@@ -20,19 +20,27 @@ export const genTemplateModelByYapi = async (
   );
   return model;
 };
+
 export const genCodeByBlockMaterial = async (
   message: IMessage<{
     material: string;
     model: object;
     path: string;
     createPath: string[];
+    privateMaterials?: boolean;
   }>,
 ) => {
   await genCodeByBlock(message.data);
   return '生成成功';
 };
+
 export const genCodeBySnippetMaterial = async (
-  message: IMessage<{ model: any; template: string; name: string }>,
+  message: IMessage<{
+    model: any;
+    template: string;
+    name: string;
+    privateMaterials?: boolean;
+  }>,
 ) => {
   await genCodeBySnippet(message.data);
   return '生成成功';

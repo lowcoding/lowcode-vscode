@@ -15,6 +15,7 @@ export const useModel = () => {
     };
     template: string;
     viewPrompt?: string;
+    privateMaterials?: boolean;
   }>({ schema: {}, model: {} } as any);
   const [materials, setMaterials] = useState<typeof selectedMaterial[]>([]);
   const [formData, setData] = useState({});
