@@ -15,6 +15,7 @@ export interface IGetLocalMaterialsResult {
     chatGPT?: { viewPrompt?: string };
   };
   template: string;
+  privateMaterials?: boolean;
 }
 /**
  * 获取本地物料列表
@@ -159,6 +160,7 @@ export function genCodeByBlockMaterial(data: {
   model: object;
   path: string;
   createPath: string[];
+  privateMaterials?: boolean;
 }) {
   return request<string>({
     cmd: 'genCodeByBlockMaterial',
@@ -530,6 +532,7 @@ export function runScript(data: {
   script: string;
   params: string;
   model: object;
+  privateMaterials?: boolean;
 }) {
   return request<object>({
     cmd: 'runScript',

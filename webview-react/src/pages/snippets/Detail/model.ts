@@ -15,6 +15,7 @@ export const useModel = () => {
     };
     template: string;
     viewPrompt?: string;
+    privateMaterials?: boolean;
   }>({ schema: {}, model: {} } as any);
   const [formData, setFormData] = useState({});
   const [yapiModalVsible, setYapiModalVsible] = useState(false);

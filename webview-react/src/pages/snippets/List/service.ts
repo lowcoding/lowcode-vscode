@@ -45,8 +45,9 @@ export default class Service {
         }
       });
     });
-    const list: Model['materials'] = res.map((s) => ({
+    const list: Model['materials'] = res.map((s, index) => ({
       ...s,
+      id: index,
       preview: {
         ...s.preview,
         img:

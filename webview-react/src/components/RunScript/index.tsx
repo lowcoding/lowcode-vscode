@@ -8,6 +8,7 @@ interface IProps {
   materialPath: string;
   model: object;
   scripts?: [{ method: string; remark: string }];
+  privateMaterials?: boolean;
   onCancel: () => void;
   onOk: (model: object) => void;
 }
@@ -32,6 +33,7 @@ const RunScript: React.FC<IProps> = (props) => {
       params,
       model: props.model,
       materialPath: props.materialPath,
+      privateMaterials: props.privateMaterials,
     })
       .then((result) => {
         props.onOk(result);

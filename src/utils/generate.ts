@@ -5,9 +5,11 @@ import * as fs from 'fs-extra';
 import {
   blockMaterialsPath,
   getEnv,
+  getPrivateBlockMaterialsPath,
+  getPrivateSnippetMaterialsPath,
   rootPath,
   snippetMaterialsPath,
-  tempWorkPath,
+  tempWorkPath as defaultTempWorkPath,
 } from './vscodeEnv';
 import { renderEjsTemplates, compile } from './ejs';
 import { pasteToEditor } from './editor';
@@ -15,18 +17,29 @@ import { getFileContent } from './file';
 import { getInnerLibs } from './lib';
 import { getOutputChannel } from './outputChannel';
 import { getLastAcitveTextEditor } from '../context';
+import { getSyncFolder } from './config';
 
 export const genCodeByBlock = async (data: {
   material: string;
   model: object;
   path: string;
   createPath: string[];
+  privateMaterials?: boolean;
 }) => {
+  let tempWorkPath = defaultTempWorkPath;
+  if (data.privateMaterials) {
+    tempWorkPath = path.join(getSyncFolder(), '.lowcode');
+  }
   try {
-    const materialsPath = path.join(blockMaterialsPath, data.material);
-    const schemaFile = path.join(materialsPath, 'config/schema.json');
+    const block = path.join(
+      data.privateMaterials
+        ? getPrivateBlockMaterialsPath()
+        : blockMaterialsPath,
+      data.material,
+    );
+    const schemaFile = path.join(block, 'config/schema.json');
     const schama = fs.readJSONSync(schemaFile);
-    fs.copySync(materialsPath, tempWorkPath);
+    fs.copySync(block, tempWorkPath);
     let excludeCompile: string[] = [];
     if (schama.excludeCompile) {
       excludeCompile = schama.excludeCompile;
@@ -128,8 +141,14 @@ export const genCodeBySnippet = async (data: {
   model: any;
   template: string;
   name: string;
+  privateMaterials?: boolean;
 }) => {
-  const snippetPath = path.join(snippetMaterialsPath, data.name);
+  const snippetPath = path.join(
+    data.privateMaterials
+      ? getPrivateSnippetMaterialsPath()
+      : snippetMaterialsPath,
+    data.name,
+  );
   const scriptFile = path.join(snippetPath, 'script/index.js');
   const hook = {
     beforeCompile: (context: any) =>

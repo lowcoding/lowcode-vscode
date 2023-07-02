@@ -217,6 +217,7 @@ export default () => {
         materialPath={model.selectedMaterial.path}
         model={model.selectedMaterial.model}
         scripts={model.selectedMaterial.preview?.scripts}
+        privateMaterials={model.selectedMaterial.privateMaterials}
         onCancel={() => {
           model.setScriptModalVisible(false);
         }}

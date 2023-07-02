@@ -47,7 +47,7 @@ export default () => {
       <Row gutter={[16, 16]}>
         {model.materials.map((s) => (
           <BlockItem
-            key={s.name}
+            key={s.id}
             blockItem={s}
             onDefaultClick={() => {
               model.setDirectoryModalVsible(true);

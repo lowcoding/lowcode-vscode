@@ -14,6 +14,8 @@ export const useModel = () => {
         category?: string[];
       };
       template: string;
+      privateMaterials?: boolean;
+      id: number;
     }[]
   >([]);
   const [oriMaterials, setOriMaterials] = useState<typeof materials>([]);
