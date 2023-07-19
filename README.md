@@ -10,7 +10,7 @@
 
 ## 支持 ChatGPT
 
-![](https://i.imgur.com/ZoiNQNV.gif)
+![](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c30eede4784e4f81a61102c3e85ed06c~tplv-k3u1fbpfcp-zoom-1.image?)
 
 [清晰动图点这里](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c30eede4784e4f81a61102c3e85ed06c~tplv-k3u1fbpfcp-zoom-1.image?)
 
@@ -188,7 +188,7 @@ routes 目录下创建新的 mock 文件
 
 ### 根据 ts 类型生成 mock
 
-复制 ts 类型，比如（不需要复制 `export interface IFetchOrgnizationListResult`）：
+复制 ts 类型，比如（不需要复制类型名称）：
 
 ```ts
 {
@@ -274,104 +274,6 @@ https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5b24b7d804ac4db1a3673fd2aa4aa4
 ![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f2f5863ce23b485bb1144c4d56829c6b~tplv-k3u1fbpfcp-zoom-1.image)
 ![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/853eadf031e049c0ac22d63771b4ab7f~tplv-k3u1fbpfcp-zoom-1.image)
 
-根据生成的 ts 类型，可直接生成对应 mock 服务。
-
-```json
-{
-  "filters": [
-    {
-      "label": "商户",
-      "key": "merchant",
-      "component": "input",
-      "placeholder": "输入查询"
-    },
-    {
-      "key": "orderNo",
-      "label": "订单号",
-      "component": "input",
-      "placeholder": "输入查询"
-    },
-    {
-      "key": "status",
-      "label": "订单状态",
-      "component": "select",
-      "placeholder": "请选择"
-    },
-    {
-      "label": "收货手机号",
-      "key": "mobile",
-      "component": "select",
-      "placeholder": "输入查询"
-    },
-    {
-      "key": "time",
-      "label": "时间",
-      "component": "select"
-    }
-  ],
-  "columns": [
-    {
-      "title": "订单号",
-      "dataIndex": "orderNo",
-      "key": "orderNo",
-      "slot": true
-    },
-    {
-      "title": "订单付款时间",
-      "dataIndex": "payTime",
-      "key": "payTime"
-    },
-    {
-      "title": "订单状态",
-      "dataIndex": "orderStatus",
-      "key": "orderStatus"
-    },
-    {
-      "title": "订单金额",
-      "dataIndex": "orderAmount",
-      "key": "orderAmount"
-    },
-    {
-      "title": "商户",
-      "dataIndex": "merchantInfo",
-      "key": "merchantInfo",
-      "slot": true
-    },
-    {
-      "title": "客户信息",
-      "dataIndex": "customerInfo",
-      "key": "customerInfo",
-      "slot": true
-    },
-    {
-      "title": "关联合同",
-      "dataIndex": "contractInfo",
-      "key": "contractInfo",
-      "slot": true
-    }
-  ],
-  "includeModifyModal": false,
-  "pagination": {
-    "show": true,
-    "page": "page",
-    "size": "size",
-    "total": "result.total"
-  },
-  "fetchName": "fetchTableList",
-  "result": "[\"result\"][\"records\"]",
-  "serviceName": "getTableList",
-  "modifyModal": {
-    "formItems": [
-      {
-        "showMore": true,
-        "component": "textarea",
-        "required": true
-      }
-    ]
-  }
-}
-```
-
 ### 表单
 
 选择表单区块，配置 Schema 表单
@@ -386,8 +288,4 @@ https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5b24b7d804ac4db1a3673fd2aa4aa4
 
 ![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ca76e8e939334df48d7bd3512dadf40a~tplv-k3u1fbpfcp-zoom-1.image)
 
-配置 Schema 表单：复制旧区块的 schema.json 内容覆盖到当前区块的 schema.json 文件内。将 schema 字段内容导入网页 https://xrender.fun/~demos/docs-generator-demo-0 中重新配置。
-
-![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1ff82a358f9c4934859330099386d21d~tplv-k3u1fbpfcp-zoom-1.image)
-
-![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7c7954e3951049a69eb29d938d9823ca~tplv-k3u1fbpfcp-zoom-1.image)
+配置 Schema 表单：支持 amis、formily、form-render，创建区块的时候根据自己需要选择相应的类型。
