@@ -1,3 +1,5 @@
+<meta name="referrer" content="no-referrer" />
+
 ## 关于
 
 低代码工具，支持 ChatGPT
@@ -8,27 +10,27 @@
 
 ## 支持 ChatGPT
 
-![gpt1.gif](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c30eede4784e4f81a61102c3e85ed06c~tplv-k3u1fbpfcp-zoom-1.image?)
+![](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c30eede4784e4f81a61102c3e85ed06c~tplv-k3u1fbpfcp-zoom-1.image?)
 
 [清晰动图点这里](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c30eede4784e4f81a61102c3e85ed06c~tplv-k3u1fbpfcp-zoom-1.image?)
 
-![gpt2.gif](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9e27171a5e6f4d128f6193628a48adb5~tplv-k3u1fbpfcp-zoom-1.image?)
+![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9e27171a5e6f4d128f6193628a48adb5~tplv-k3u1fbpfcp-zoom-1.image?)
 
 [清晰动图点这里](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9e27171a5e6f4d128f6193628a48adb5~tplv-k3u1fbpfcp-zoom-1.image?)
 
 ### 配置 ChatGPT
 
-![gpt.png](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/647980a8dddd403bab7fd15194ee16f2~tplv-k3u1fbpfcp-zoom-1.image?)
+![](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/647980a8dddd403bab7fd15194ee16f2~tplv-k3u1fbpfcp-zoom-1.image?)
 
 ### 预置 Prompt 模板
 
 使用 lowcode 原有代码片段功能，可以随意预置 Prompt，支持 EJS 模板语法，可快速创建分析代码、重构代码、代码添加注释等 Prompt。
 
-![gpt1.png](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c121c1cf260e4f96b2b68bbcdc3cd5d4~tplv-k3u1fbpfcp-zoom-1.image?)
+![](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c121c1cf260e4f96b2b68bbcdc3cd5d4~tplv-k3u1fbpfcp-zoom-1.image?)
 
 配置 chatGPT 字段：
 
-![image.png](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5552fb27cb3947b89fb91d948ca3e0aa~tplv-k3u1fbpfcp-zoom-1.image?)
+![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5552fb27cb3947b89fb91d948ca3e0aa~tplv-k3u1fbpfcp-zoom-1.image?)
 
 commandPrompt 既右键菜单选择模板后发送的内容，支持 EJS 模板语法。
 
@@ -46,7 +48,7 @@ viewPrompt 为 代码片段或者区块物料可视化详情页点 Ask ChatGPT �
 
 ### 快速创建组件
 
-<p align="center"><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8a4d59c06c364d86b9bffb964844b87f~tplv-k3u1fbpfcp-zoom-1.image"/></p>
+<p align="center"><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8a4d59c06c364d86b9bffb964844b87f~tplv-k3u1fbpfcp-zoom-1.image" referrerpolicy="no-referrer" /></p>
 
 ### 根据 yapi 接口文档生成请求方法
 
@@ -55,7 +57,7 @@ viewPrompt 为 代码片段或者区块物料可视化详情页点 Ask ChatGPT �
 ![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e61758ab997d4d5ab81bb5cef3702b11~tplv-k3u1fbpfcp-zoom-1.image)
 
 写好接口方法，选中然后右键
-![56.gif](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/31ec37302871463b8164fede1f35c845~tplv-k3u1fbpfcp-zoom-1.image?)
+![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/31ec37302871463b8164fede1f35c845~tplv-k3u1fbpfcp-zoom-1.image?)
 
 > 生成的 ts 类型可能不完全正确，需要手动调整
 
@@ -180,7 +182,7 @@ routes 目录下创建新的 mock 文件
 
 复制接口 id
 
-![image.png](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a0fa6a6f3ed7442cbf6798ae50893e6e~tplv-k3u1fbpfcp-zoom-1.image?)
+![](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a0fa6a6f3ed7442cbf6798ae50893e6e~tplv-k3u1fbpfcp-zoom-1.image?)
 
 ![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a21bf99aaca14b3ab6a530cec784b6c2~tplv-k3u1fbpfcp-zoom-1.image)
 
