@@ -82,6 +82,7 @@ export const genTemplateModelByYapi = async (
     funcName.slice(0, 1).toUpperCase() + funcName.slice(1);
   if (res.data.data.res_body_type === 'json') {
     const schema = JSON.parse(stripJsonComments(res.data.data.res_body));
+    fixSchema(schema);
     delete schema.title;
     let ts = await compile(schema, typeName, {
       bannerComment: '',
@@ -153,4 +154,20 @@ export const genTemplateModelByYapi = async (
     rawSelectedText: '',
   };
   return model;
+};
+
+const fixSchema = (obj: object) => {
+  // eslint-disable-next-line no-restricted-syntax
+  for (const key in obj) {
+    // @ts-ignore
+    if (typeof obj[key] === 'object' && obj[key] !== null) {
+      // @ts-ignore
+      if (obj[key].type === 'object' && !obj[key].properties) {
+        // @ts-ignore
+        delete obj[key];
+      }
+      // @ts-ignore
+      fixSchema(obj[key]); // 递归处理
+    }
+  }
 };
