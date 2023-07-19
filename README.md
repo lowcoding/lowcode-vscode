@@ -10,7 +10,7 @@
 
 ## 支持 ChatGPT
 
-![](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c30eede4784e4f81a61102c3e85ed06c~tplv-k3u1fbpfcp-zoom-1.image?)
+![](https://i.imgur.com/ZoiNQNV.gif)
 
 [清晰动图点这里](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c30eede4784e4f81a61102c3e85ed06c~tplv-k3u1fbpfcp-zoom-1.image?)
 
