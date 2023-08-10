@@ -3,7 +3,8 @@ import { IDownloadMaterialsResult } from '@/webview/service';
 
 export const useModel = () => {
   const [tab, setTab] = useState<'blocks' | 'snippets'>('snippets');
-  const [downloadMaterialsVisible, setDownloadMaterialsVisible] = useState(false);
+  const [downloadMaterialsVisible, setDownloadMaterialsVisible] =
+    useState(true);
 
   const [materials, setMaterials] = useState<IDownloadMaterialsResult>({
     blocks: [],
