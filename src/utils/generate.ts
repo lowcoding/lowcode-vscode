@@ -18,6 +18,7 @@ import { getInnerLibs } from './lib';
 import { getOutputChannel } from './outputChannel';
 import { getLastAcitveTextEditor } from '../context';
 import { getSyncFolder } from './config';
+import { createChatCompletionForScript } from './openai';
 
 export const genCodeByBlock = async (data: {
   material: string;
@@ -64,6 +65,8 @@ export const genCodeByBlock = async (data: {
         <object | undefined>Promise.resolve(undefined),
       afterCompile: (context: any) =>
         <object | undefined>Promise.resolve(undefined),
+      complete: (context: any) =>
+        <object | undefined>Promise.resolve(undefined),
     };
     if (fs.existsSync(scriptFile)) {
       delete eval('require').cache[eval('require').resolve(scriptFile)];
@@ -74,6 +77,9 @@ export const genCodeByBlock = async (data: {
       if (script.afterCompile) {
         hook.afterCompile = script.afterCompile;
       }
+      if (script.complete) {
+        hook.complete = script.complete;
+      }
     }
     const context = {
       model: data.model,
@@ -82,6 +88,11 @@ export const genCodeByBlock = async (data: {
       env: getEnv(),
       libs: getInnerLibs(),
       outputChannel: getOutputChannel(),
+      log: getOutputChannel(),
+      createBlockPath: path
+        .join(data.path, ...data.createPath)
+        .replace(/\\/g, '/'),
+      createChatCompletion: createChatCompletionForScript,
     };
     data.model = {
       ...data.model,
@@ -106,6 +117,7 @@ export const genCodeByBlock = async (data: {
       path.join(tempWorkPath, 'src'),
       path.join(data.path, ...data.createPath),
     );
+    await hook.complete(context);
     fs.removeSync(tempWorkPath);
   } catch (ex: any) {
     fs.remove(tempWorkPath);
@@ -182,6 +194,8 @@ export const genCodeBySnippet = async (data: {
     env: getEnv(),
     libs: getInnerLibs(),
     outputChannel: getOutputChannel(),
+    log: getOutputChannel(),
+    createChatCompletion: createChatCompletionForScript,
     code: '',
   };
   const extendModel = await hook.beforeCompile(context);
