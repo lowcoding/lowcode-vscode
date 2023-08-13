@@ -165,7 +165,7 @@ export default (props: IProps) => {
       <br></br>
       <Space>
         <Button type="primary" size="small" onClick={handleOpenRunScriptModal}>
-          执行脚本设置模板数据
+          执行脚本
         </Button>
         <Button
           type="primary"

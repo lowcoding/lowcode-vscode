@@ -148,7 +148,7 @@ export default (props: IProps) => {
             setScriptModalVisible(true);
           }}
         >
-          执行脚本设置模板数据
+          执行脚本
         </Button>
         <Button
           type="primary"

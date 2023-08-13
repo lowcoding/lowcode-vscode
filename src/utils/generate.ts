@@ -59,7 +59,7 @@ export const genCodeByBlock = async (data: {
         }
       });
     }
-    const scriptFile = path.join(tempWorkPath, 'script/index.js');
+    const scriptFile = path.join(block, 'script/index.js'); // 不能使用临时目录里的文件，会导致 ts-node 报错
     const hook = {
       beforeCompile: (context: any) =>
         <object | undefined>Promise.resolve(undefined),
