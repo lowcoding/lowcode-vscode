@@ -533,6 +533,7 @@ export function runScript(data: {
   params: string;
   model: object;
   privateMaterials?: boolean;
+  createBlockPath?: string;
 }) {
   return request<object>({
     cmd: 'runScript',

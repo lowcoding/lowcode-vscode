@@ -18,7 +18,7 @@ import { getSchemaWebUrl } from '@/utils/schema';
 import ConfigSyncFolder from './components/ConfigSyncFolder';
 
 export default () => {
-  const { tab, setTab } = useModel('tab');
+  const { tab } = useModel('tab');
   const presenter = usePresenter();
   const { model } = presenter;
   const menu = (
@@ -34,7 +34,6 @@ export default () => {
       <Menu.Item
         key="1"
         onClick={() => {
-          setTab('empty');
           history.push('/snippets/add/10086');
         }}
       >

@@ -1,5 +1,6 @@
 import * as https from 'https';
 import { TextDecoder } from 'util';
+import { getChatGPTConfig } from './config';
 
 export const createChatCompletion = (options: {
   apiKey: string;
@@ -104,3 +105,19 @@ export const createChatCompletion = (options: {
     request.write(JSON.stringify(body));
     request.end();
   });
+
+export const createChatCompletionForScript = (options: {
+  messages: { role: 'system' | 'user' | 'assistant'; content: string }[];
+  handleChunk?: (data: { text?: string; hasMore: boolean }) => void;
+}) => {
+  const config = getChatGPTConfig();
+  return createChatCompletion({
+    hostname: config.hostname,
+    apiPath: config.apiPath,
+    apiKey: config.apiKey,
+    model: config.model,
+    messages: options.messages,
+    maxTokens: config.maxTokens,
+    handleChunk: options.handleChunk,
+  });
+};

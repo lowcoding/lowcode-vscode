@@ -2,27 +2,28 @@ import { useState } from '@/hooks/useImmer';
 
 export const useModel = () => {
   const [materials, setMaterials] = useState<
-    {
-      path: string;
-      name: string;
-      model: object;
-      schema: object;
-      preview: {
-        title?: string;
-        description?: string;
-        img?: string[];
-        category?: string[];
-      };
-      template: string;
-      privateMaterials?: boolean;
-      id: number;
-    }[]
-  >([]);
+    | {
+        path: string;
+        name: string;
+        model: object;
+        schema: object;
+        preview: {
+          title?: string;
+          description?: string;
+          img?: string[];
+          category?: string[];
+        };
+        template: string;
+        privateMaterials?: boolean;
+        id: number;
+      }[]
+    | undefined
+  >(undefined);
   const [oriMaterials, setOriMaterials] = useState<typeof materials>([]);
 
-  const [selectedMaterial, setSelectedMaterial] = useState<typeof materials[0]>(
-    { schema: {}, model: {} } as any,
-  );
+  const [selectedMaterial, setSelectedMaterial] = useState<
+    NonNullable<typeof materials>[0]
+  >({ schema: {}, model: {} } as any);
 
   const [directoryModalVsible, setDirectoryModalVsible] = useState(false);
 

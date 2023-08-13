@@ -6,10 +6,12 @@ import { IMessage } from '../type';
 import { getEnv, rootPath } from '../../utils/vscodeEnv';
 import { getInnerLibs } from '../../utils/lib';
 import { getOutputChannel } from '../../utils/outputChannel';
+import { createChatCompletionForScript } from '../../utils/openai';
 
 export const runScript = async (
   message: IMessage<{
     materialPath: string;
+    createBlockPath?: string;
     script: string;
     params: string;
     model: object;
@@ -28,6 +30,9 @@ export const runScript = async (
         env: getEnv(),
         libs: getInnerLibs(),
         outputChannel: getOutputChannel(),
+        log: getOutputChannel(),
+        createBlockPath: message.data.createBlockPath,
+        createChatCompletion: createChatCompletionForScript,
       };
       const extendModel = await script[message.data.script](context);
       return extendModel;

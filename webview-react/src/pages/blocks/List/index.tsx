@@ -1,7 +1,10 @@
 import React from 'react';
-import { Input, Row, message, Select } from 'antd';
+import { Input, Row, message, Select, Empty, Space, Button } from 'antd';
 import styles from './index.less';
-import { genCodeByBlockMaterial } from '@/webview/service';
+import {
+  executeVscodeCommand,
+  genCodeByBlockMaterial,
+} from '@/webview/service';
 import SelectDirectory from '@/components/SelectDirectory';
 import { usePresenter } from './presenter';
 import BlockItem from './components/BlockItem';
@@ -45,7 +48,7 @@ export default () => {
         </div>
       </div>
       <Row gutter={[16, 16]}>
-        {model.materials.map((s) => (
+        {model.materials?.map((s) => (
           <BlockItem
             key={s.id}
             blockItem={s}
@@ -56,6 +59,28 @@ export default () => {
           ></BlockItem>
         ))}
       </Row>
+      {model.materials?.length === 0 && (
+        <Empty
+          image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+          imageStyle={{
+            height: 60,
+          }}
+          description={
+            <span>暂无数据，可点击上面更多菜单，选择创建区块模板</span>
+          }
+        >
+          <Button
+            type="primary"
+            onClick={() => {
+              executeVscodeCommand({
+                command: 'lowcode.openDownloadMaterials',
+              });
+            }}
+          >
+            下载物料
+          </Button>
+        </Empty>
+      )}
       <SelectDirectory
         visible={model.directoryModalVsible}
         onCancel={() => {
