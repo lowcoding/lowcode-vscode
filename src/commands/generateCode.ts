@@ -10,7 +10,7 @@ const { window } = vscode;
 export const generateCode = (context: vscode.ExtensionContext) => {
   context.subscriptions.push(
     vscode.commands.registerTextEditorCommand(
-      'yapi-code.generateCode',
+      'lowcode.generateCode',
       async () => {
         const rawClipboardText = getClipboardText();
         let clipboardText = rawClipboardText.trim();

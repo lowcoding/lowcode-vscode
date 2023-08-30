@@ -4,7 +4,7 @@ import { showWebView } from '../webview';
 
 export const createOrShowWebview = (context: vscode.ExtensionContext) => {
   context.subscriptions.push(
-    vscode.commands.registerTextEditorCommand('yapi-code.addSnippet', () => {
+    vscode.commands.registerTextEditorCommand('lowcode.addSnippet', () => {
       const content = getSelectedText() || getClipboardText();
       showWebView({
         key: 'main',

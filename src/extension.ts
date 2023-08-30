@@ -42,7 +42,7 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.StatusBarAlignment.Left,
     -1,
   );
-  statusBarItem.command = 'yapi-code.generateCodeByWebview';
+  statusBarItem.command = 'lowcode.generateCodeByWebview';
   statusBarItem.text = '$(octoface) Low Code';
   statusBarItem.tooltip = '可视化生成代码';
   statusBarItem.show();

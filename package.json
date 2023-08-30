@@ -54,11 +54,11 @@
 	"contributes": {
 		"commands": [
 			{
-				"command": "yapi-code.generateCodeByWebview",
+				"command": "lowcode.generateCodeByWebview",
 				"title": "可视化生成代码"
 			},
 			{
-				"command": "yapi-code.generateCode",
+				"command": "lowcode.generateCode",
 				"title": "生成代码"
 			},
 			{
@@ -66,7 +66,7 @@
 				"title": "下载物料"
 			},
 			{
-				"command": "yapi-code.addSnippet",
+				"command": "lowcode.addSnippet",
 				"title": "添加代码片段"
 			},
 			{
@@ -112,11 +112,11 @@
 			],
 			"lowcode/editor/context": [
 				{
-					"command": "yapi-code.generateCodeByWebview",
+					"command": "lowcode.generateCodeByWebview",
 					"group": "lowcode@1"
 				},
 				{
-					"command": "yapi-code.generateCode",
+					"command": "lowcode.generateCode",
 					"group": "lowcode@2"
 				},
 				{
@@ -124,7 +124,7 @@
 					"group": "lowcode@3"
 				},
 				{
-					"command": "yapi-code.addSnippet",
+					"command": "lowcode.addSnippet",
 					"group": "lowcode@4"
 				},
 				{
@@ -142,7 +142,7 @@
 					"group": "lowcode@1"
 				},
 				{
-					"command": "yapi-code.generateCodeByWebview",
+					"command": "lowcode.generateCodeByWebview",
 					"group": "lowcode@2"
 				},
 				{

@@ -8,7 +8,7 @@ import { showWebView } from '../webview';
 export const openSnippet = (context: vscode.ExtensionContext) => {
   context.subscriptions.push(
     vscode.commands.registerTextEditorCommand(
-      'yapi-code.openSnippetByWebview',
+      'lowcode.openSnippetByWebview',
       (textEditor: TextEditor, edit: TextEditorEdit, ...args: any[]) => {
         const name = args[0];
         const template = args[1];
