@@ -193,6 +193,7 @@ export function getSnippets() {
     commandPrompt?: string; // 优先级比 preview.chatGPT 高
     viewPrompt?: string; // 优先级比 preview.chatGPT 高
     template: string;
+    privateMaterials?: boolean;
   }[] = getCodeTemplateListFromFiles().map((s) => ({
     path: s.name,
     name: s.name,
@@ -203,6 +204,7 @@ export function getSnippets() {
       category: [],
     },
     template: s.template,
+    privateMaterials: false,
   }));
   let snippetsMaterials = getLocalMaterials('snippets', snippetMaterialsPath);
   if (getPrivateSnippetMaterialsPath()) {
