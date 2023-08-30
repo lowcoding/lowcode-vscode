@@ -34,7 +34,7 @@ export const registerCompletion = (context: vscode.ExtensionContext) => {
             // 无法直接通过 ejs 编译，说明模板中需要额外的数据，触发命令打开 webview
             completionItem.insertText = '';
             completionItem.command = {
-              command: 'yapi-code.openSnippetByWebview',
+              command: 'lowcode.openSnippetByWebview',
               title: '',
               arguments: [s.name, s.template],
             };

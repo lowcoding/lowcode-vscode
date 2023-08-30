@@ -9,6 +9,7 @@ import { init, setLastActiveTextEditorId } from './context';
 import { registerQuickGenerateBlock } from './commands/quickGenerateBlock';
 import { registerChatGPTViewProvider } from './webview';
 import { registerChatGPTCommand } from './commands/chatGPT';
+import { registerRunSnippetScript } from './commands/runSnippetScript';
 
 export function activate(context: vscode.ExtensionContext) {
   vscode.window.onDidChangeActiveTextEditor(
@@ -26,6 +27,8 @@ export function activate(context: vscode.ExtensionContext) {
 
   generateCode(context);
 
+  registerRunSnippetScript(context);
+
   createOrShowWebview(context);
 
   createOrShowAddSnippetWebview(context);
@@ -42,7 +45,7 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.StatusBarAlignment.Left,
     -1,
   );
-  statusBarItem.command = 'yapi-code.generateCodeByWebview';
+  statusBarItem.command = 'lowcode.generateCodeByWebview';
   statusBarItem.text = '$(octoface) Low Code';
   statusBarItem.tooltip = '可视化生成代码';
   statusBarItem.show();
