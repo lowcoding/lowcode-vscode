@@ -3,7 +3,7 @@
 	"displayName": "lowcode",
 	"description": "lowcode tool, support ChatGPT",
 	"author": "wjkang <ruoxieme@gmail.com>",
-	"version": "1.5.0",
+	"version": "1.6.0",
 	"icon": "asset/icon.png",
 	"publisher": "wjkang",
 	"repository": "https://github.com/lowcoding/lowcode-vscode",
@@ -94,6 +94,10 @@
 			{
 				"command": "lowcode.askChatGPTWithTemplate",
 				"title": "Ask ChatGPT With Template"
+			},
+			{
+				"command": "lowcode.runSnippetScript",
+				"title": "Run Snippet Script"
 			}
 		],
 		"menus": {
@@ -134,6 +138,10 @@
 				{
 					"command": "lowcode.askChatGPTWithTemplate",
 					"group": "lowcode@5"
+				},
+				{
+					"command": "lowcode.runSnippetScript",
+					"group": "lowcode@6"
 				}
 			],
 			"lowcode/explorer/context": [

@@ -93,6 +93,7 @@ export const genCodeByBlock = async (data: {
         .join(data.path, ...data.createPath)
         .replace(/\\/g, '/'),
       createChatCompletion: createChatCompletionForScript,
+      materialPath: block,
     };
     data.model = {
       ...data.model,
@@ -196,6 +197,7 @@ export const genCodeBySnippet = async (data: {
     outputChannel: getOutputChannel(),
     log: getOutputChannel(),
     createChatCompletion: createChatCompletionForScript,
+    materialPath: snippetPath,
     code: '',
   };
   const extendModel = await hook.beforeCompile(context);

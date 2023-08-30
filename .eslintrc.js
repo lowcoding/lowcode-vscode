@@ -37,5 +37,6 @@ module.exports = {
     'no-unused-expressions': 'off',
     'max-len': 'off',
     'class-methods-use-this': 'off',
+		'no-eval': 'off',
   },
 };
