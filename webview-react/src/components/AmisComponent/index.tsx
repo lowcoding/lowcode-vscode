@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Button, Space, message } from 'antd';
 import { MessageType } from 'antd/lib/message';
 import { render } from 'amis';
@@ -7,8 +7,16 @@ import './helper.css';
 // import 'amis/lib/helper.css';
 import 'amis/sdk/iconfont.css';
 import axios from 'axios';
+import {
+  ListenerAction,
+  ListenerContext,
+  registerAction,
+  RendererAction,
+  RendererEvent,
+} from 'amis-core';
 import RunScript from '../RunScript';
 import { useState } from '@/hooks/useImmer';
+import { runScript } from '@/webview/service';
 
 const request: { count: number; hideLoading?: MessageType } = {
   count: 0,
@@ -26,6 +34,44 @@ interface IProps {
   path: string;
   onFormChange: (values: object) => void;
 }
+
+// 动作定义
+interface IRunScriptAction extends ListenerAction {
+  actionType: 'runScript';
+  args: {
+    method: string; // 动作参数1
+    params: string; // 动作参数2
+  };
+}
+
+const componentData = {
+  model: {},
+  materialPath: '',
+  privateMaterials: false,
+};
+export class RunScriptAction implements RendererAction {
+  // @ts-ignore
+  run(
+    action: IRunScriptAction,
+    renderer: ListenerContext,
+    event: RendererEvent<any>,
+  ) {
+    const props = renderer.props;
+    const { method, params } = action.args;
+    runScript({
+      script: method,
+      params,
+      model: componentData.model,
+      materialPath: componentData.materialPath,
+      privateMaterials: componentData.privateMaterials,
+      createBlockPath: localStorage.getItem('selectedFolder') || undefined,
+    });
+  }
+}
+
+// 注册自定义动作
+// @ts-ignore
+registerAction('runScript', new RunScriptAction());
 
 export default (props: IProps) => {
   const [scriptModalVisible, setScriptModalVisible] = useState(false);
@@ -134,7 +180,16 @@ export default (props: IProps) => {
     },
     isCancel: (value: any) => axios.isCancel(value),
     useMobileUI: false,
+    copy: (contents: string, options?: any) => {
+      navigator.clipboard.writeText(contents);
+      message.success('已复制到剪贴板');
+    },
   };
+
+  useEffect(() => {
+    componentData.model = model;
+    componentData.materialPath = props.path;
+  }, [model, props.path]);
 
   const handleOpenRunScriptModal = () => {
     const values = amisScoped.current

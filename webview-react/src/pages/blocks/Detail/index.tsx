@@ -155,11 +155,12 @@ export default () => {
       />
       <SelectDirectory
         visible={model.directoryModalVsible}
+        loading={model.loading}
         onCancel={() => {
           model.setDirectoryModalVsible(false);
         }}
         onOk={(path, createPath = []) => {
-          model.setDirectoryModalVsible(false);
+          model.setLoding(true);
           genCodeByBlockMaterial({
             material: model.selectedMaterial.name,
             model: model.selectedMaterial.model,
@@ -167,6 +168,8 @@ export default () => {
             createPath,
             privateMaterials: model.selectedMaterial.privateMaterials,
           }).then(() => {
+            model.setDirectoryModalVsible(false);
+            model.setLoding(false);
             message.success('生成成功');
           });
         }}

@@ -34,7 +34,7 @@ const RunScript: React.FC<IProps> = (props) => {
       model: props.model,
       materialPath: props.materialPath,
       privateMaterials: props.privateMaterials,
-      createBlockPath: localStorage.getItem('selectedFolder'),
+      createBlockPath: localStorage.getItem('selectedFolder') || undefined,
     })
       .then((result) => {
         props.onOk(result);
