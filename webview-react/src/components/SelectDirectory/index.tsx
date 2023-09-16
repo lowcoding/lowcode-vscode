@@ -4,6 +4,7 @@ import { callVscode } from '@/webview';
 
 interface Iprops {
   visible: boolean;
+  loading?: boolean;
   onCancel: () => void;
   onOk: (path: string, createPath: string[]) => void;
 }
@@ -34,7 +35,12 @@ const formatTreeData = (node: OriDirectoryTreeNode) => {
   return formatedNode;
 };
 
-const SelectDirectory: React.FC<Iprops> = ({ visible, onOk, onCancel }) => {
+const SelectDirectory: React.FC<Iprops> = ({
+  visible,
+  onOk,
+  onCancel,
+  loading,
+}) => {
   const [tree, setTree] = useState<DirectoryTreeNode[]>([]);
   const [formData, setFormData] = useState<{
     path: string;
@@ -65,8 +71,12 @@ const SelectDirectory: React.FC<Iprops> = ({ visible, onOk, onCancel }) => {
       okText="确定"
       cancelText="关闭"
       onCancel={() => {
+        if (loading) {
+          return;
+        }
         onCancel();
       }}
+      okButtonProps={{ loading }}
       onOk={() => {
         if (!formData.path) {
           message.error('未选择目录');

@@ -3,7 +3,7 @@
 	"displayName": "lowcode",
 	"description": "lowcode tool, support ChatGPT",
 	"author": "wjkang <ruoxieme@gmail.com>",
-	"version": "1.6.0",
+	"version": "1.7.0",
 	"icon": "asset/icon.png",
 	"publisher": "wjkang",
 	"repository": "https://github.com/lowcoding/lowcode-vscode",

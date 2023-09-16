@@ -23,6 +23,7 @@ export const useModel = () => {
   const [directoryModalVsible, setDirectoryModalVsible] = useState(false);
   const [jsonToTsModalVisble, setJsonToTsModalVisble] = useState(false);
   const [scriptModalVisible, setScriptModalVisible] = useState(false);
+  const [loading, setLoding] = useState(false);
 
   return {
     selectedMaterial,
@@ -39,6 +40,8 @@ export const useModel = () => {
     setJsonToTsModalVisble,
     scriptModalVisible,
     setScriptModalVisible,
+    loading,
+    setLoding,
   };
 };
 
