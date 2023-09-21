@@ -33,6 +33,7 @@ export const runScript = async (
         log: getOutputChannel(),
         createBlockPath: message.data.createBlockPath,
         createChatCompletion: createChatCompletionForScript,
+        materialPath: message.data.materialPath,
       };
       const extendModel = await script[message.data.script](context);
       return extendModel;

@@ -8,6 +8,8 @@
 
 > 文档不经常更新，新功能使用方法可查看 [releases](https://github.com/lowcoding/lowcode-vscode/releases)
 
+[物料仓库](https://github.com/lowcode-scaffold/lowcode-materials)
+
 ## 支持 ChatGPT
 
 ![](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c30eede4784e4f81a61102c3e85ed06c~tplv-k3u1fbpfcp-zoom-1.image?)
