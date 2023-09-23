@@ -6,6 +6,7 @@ import { getEnv, rootPath } from '../utils/vscodeEnv';
 import { getInnerLibs } from '../utils/lib';
 import { getOutputChannel } from '../utils/outputChannel';
 import { createChatCompletionForScript } from '../utils/openai';
+import { getClipboardImage } from '../utils/clipboard';
 
 const { window } = vscode;
 
@@ -42,6 +43,7 @@ export const registerRunSnippetScript = (context: vscode.ExtensionContext) => {
               log: getOutputChannel(),
               createChatCompletion: createChatCompletionForScript,
               materialPath: template!.path,
+              getClipboardImage,
               code: '',
             };
             try {

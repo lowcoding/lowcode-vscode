@@ -107,6 +107,20 @@ const View = () => {
               )}
             </div>
           ))}
+        {chatStore.currentSession().messages.length === 0 && (
+          <div className={styles.resItem}>
+            <div className={styles.resHeader}>
+              <img
+                width="20"
+                height="20"
+                src="https://gitee.com/img-hosting/img-hosting/raw/master/2023/05/31/1685511791755.svg"
+              ></img>
+            </div>
+            <div className={styles.resWrapper}>
+              <div className={styles.res}>有什么可以帮你的吗</div>
+            </div>
+          </div>
+        )}
       </div>
       <div className={styles.actionPanel}>
         <Tooltip placement="topLeft" title="会话列表" arrowPointAtCenter>

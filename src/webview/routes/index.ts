@@ -63,4 +63,6 @@ export const routes: Record<string, any> = {
   getTask: task.getTask,
 
   runScript: script.runScript,
+
+  putClipboardImage: task.putClipboardImage,
 };

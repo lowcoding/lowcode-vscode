@@ -531,6 +531,7 @@ export function runScript(data: {
   materialPath: string;
   script: string;
   params: string;
+  clipboardImage: string;
   model: object;
   privateMaterials?: boolean;
   createBlockPath?: string;
@@ -558,5 +559,12 @@ export function openUriByVscode(uri: string) {
   return request<boolean>({
     cmd: 'openUriByVscode',
     data: uri,
+  });
+}
+
+export function putClipboardImage(image: string) {
+  return request<boolean>({
+    cmd: 'putClipboardImage',
+    data: image,
   });
 }

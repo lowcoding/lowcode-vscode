@@ -98,7 +98,10 @@ export const usePresenter = () => {
   };
 
   const handleNewSession = () => {
-    model.setUpdateTitleVisible(true);
+    //  model.setUpdateTitleVisible(true);
+    if (chatStore.currentSession().messages.length) {
+      chatStore.newSession('新的会话');
+    }
   };
 
   const handleSessionTitleOk = (title: string) => {

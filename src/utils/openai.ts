@@ -1,6 +1,8 @@
 import * as https from 'https';
 import { TextDecoder } from 'util';
 import { getChatGPTConfig } from './config';
+import { emitter } from './emitter';
+import { showChatGPTView } from '../webview';
 
 export const createChatCompletion = (options: {
   apiKey: string;
@@ -43,29 +45,46 @@ export const createChatCompletion = (options: {
               }
               if (element.includes('data: ')) {
                 if (element.includes('[DONE]')) {
-                  options.handleChunk &&
+                  if (options.handleChunk) {
                     options.handleChunk({ hasMore: true, text: '' });
+                    emitter.emit('chatGPTChunck', { hasMore: true, text: '' });
+                  }
                   return;
                 }
                 // remove 'data: '
                 const data = JSON.parse(element.replace('data: ', ''));
                 if (data.finish_reason === 'stop') {
-                  options.handleChunk &&
+                  if (options.handleChunk) {
                     options.handleChunk({ hasMore: true, text: '' });
+                    emitter.emit('chatGPTChunck', { hasMore: true, text: '' });
+                  }
                   return;
                 }
                 const openaiRes = data.choices[0].delta.content;
                 if (openaiRes) {
-                  options.handleChunk &&
+                  if (options.handleChunk) {
                     options.handleChunk({
                       text: openaiRes.replaceAll('\\n', '\n'),
                       hasMore: true,
                     });
+                    emitter.emit('chatGPTChunck', {
+                      text: openaiRes.replaceAll('\\n', '\n'),
+                      hasMore: true,
+                    });
+                  }
                   combinedResult += openaiRes;
                 }
               } else {
-                options.handleChunk &&
-                  options.handleChunk({ hasMore: true, text: element });
+                if (options.handleChunk) {
+                  options.handleChunk({
+                    hasMore: true,
+                    text: element,
+                  });
+                  emitter.emit('chatGPTChunck', {
+                    hasMore: true,
+                    text: element,
+                  });
+                }
                 return;
               }
             } catch (e) {
@@ -78,16 +97,33 @@ export const createChatCompletion = (options: {
           }
         });
         res.on('error', (e) => {
-          options.handleChunk &&
-            options.handleChunk({ hasMore: true, text: e.toString() });
+          if (options.handleChunk) {
+            options.handleChunk({
+              hasMore: true,
+              text: e.toString(),
+            });
+            emitter.emit('chatGPTChunck', {
+              hasMore: true,
+              text: e.toString(),
+            });
+          }
           reject(e);
         });
         res.on('end', () => {
           if (error !== '发生错误：') {
-            options.handleChunk &&
-              options.handleChunk({ hasMore: true, text: error });
+            if (options.handleChunk) {
+              options.handleChunk({
+                hasMore: true,
+                text: error,
+              });
+              emitter.emit('chatGPTChunck', {
+                hasMore: true,
+                text: error,
+              });
+            }
           }
           resolve(combinedResult || error);
+          emitter.emit('chatGPTComplete', combinedResult || error);
         });
       },
     );
@@ -101,6 +137,7 @@ export const createChatCompletion = (options: {
       options.handleChunk &&
         options.handleChunk({ hasMore: true, text: error.toString() });
       resolve(error.toString());
+      emitter.emit('chatGPTComplete', error.toString());
     });
     request.write(JSON.stringify(body));
     request.end();
@@ -109,15 +146,37 @@ export const createChatCompletion = (options: {
 export const createChatCompletionForScript = (options: {
   messages: { role: 'system' | 'user' | 'assistant'; content: string }[];
   handleChunk?: (data: { text?: string; hasMore: boolean }) => void;
+  showWebview?: boolean;
 }) => {
-  const config = getChatGPTConfig();
-  return createChatCompletion({
-    hostname: config.hostname,
-    apiPath: config.apiPath,
-    apiKey: config.apiKey,
-    model: config.model,
-    messages: options.messages,
-    maxTokens: config.maxTokens,
-    handleChunk: options.handleChunk,
+  if (!options.showWebview) {
+    const config = getChatGPTConfig();
+    return createChatCompletion({
+      hostname: config.hostname,
+      apiPath: config.apiPath,
+      apiKey: config.apiKey,
+      model: config.model,
+      messages: options.messages,
+      maxTokens: config.maxTokens,
+      handleChunk: options.handleChunk,
+    });
+  }
+  // 打开 webview，使用 emitter 监听结果，把结果回传给 script
+  showChatGPTView({
+    task: {
+      task: 'askChatGPT',
+      data: options.messages.map((m) => m.content).join('\n'),
+    },
+  });
+  return new Promise<string>((resolve, reject) => {
+    emitter.on('chatGPTChunck', (data) => {
+      if (options.handleChunk) {
+        options.handleChunk(data);
+      }
+    });
+    emitter.on('chatGPTComplete', (data) => {
+      resolve(data);
+      emitter.off('chatGPTChunck');
+      emitter.off('chatGPTComplete');
+    });
   });
 };

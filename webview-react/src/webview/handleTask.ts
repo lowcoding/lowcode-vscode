@@ -1,5 +1,7 @@
 import { history } from 'umi';
 import { emitter } from '@/utils/emitter';
+import { getClipboardImage } from '@/utils/clipboard';
+import { putClipboardImage } from './service';
 
 const toDefaultPage = () => {
   history.push('/snippets');
@@ -43,5 +45,8 @@ export const taskHandler: {
     } else {
       emitter.emit('askChatGPT', data);
     }
+  },
+  async getClipboardImage() {
+    history.push('getClipboardImage');
   },
 };

@@ -6,9 +6,18 @@ import { getExtensionPath, setLastActiveTextEditorId } from '../context';
 import { routes } from './routes';
 import { invokeCallback, invokeErrorCallback } from './callback';
 
-type WebViewKeys = 'main' | 'createApp' | 'downloadMaterials';
+type WebViewKeys =
+  | 'main'
+  | 'createApp'
+  | 'downloadMaterials'
+  | 'getClipboardImage';
 
-type Tasks = 'addSnippets' | 'openSnippet' | 'route' | 'updateSelectedFolder';
+type Tasks =
+  | 'addSnippets'
+  | 'openSnippet'
+  | 'route'
+  | 'updateSelectedFolder'
+  | 'getClipboardImage';
 
 let webviewPanels: {
   key: WebViewKeys;
@@ -82,7 +91,7 @@ export const showWebView = (options: {
       options.title || 'LOW-CODE可视化',
       {
         viewColumn: options.viewColumn || vscode.ViewColumn.Two,
-        preserveFocus: true,
+        preserveFocus: options.key === 'getClipboardImage' ? undefined : true,
       },
       {
         enableScripts: true,
@@ -91,6 +100,9 @@ export const showWebView = (options: {
         ],
         retainContextWhenHidden: true, // webview被隐藏时保持状态，避免被重置
       },
+    );
+    panel.iconPath = vscode.Uri.file(
+      path.join(getExtensionPath(), 'asset', 'icon.png'),
     );
     panel.webview.html = getHtmlForWebview(panel.webview);
     const disposables: vscode.Disposable[] = [];
@@ -156,6 +168,12 @@ export const showWebView = (options: {
       });
     }
   }
+};
+
+export const closeWebView = (key: WebViewKeys) => {
+  const webviewPanel = webviewPanels.find((s) => s.key === key);
+  webviewPanel?.panel.dispose();
+  webviewPanels = webviewPanels.filter((s) => s.key !== key);
 };
 
 class ChatGPTViewProvider implements vscode.WebviewViewProvider {

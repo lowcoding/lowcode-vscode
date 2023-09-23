@@ -11,6 +11,7 @@ import { genCodeBySnippetMaterial } from '@/webview/service';
 import AmisComponent from '@/components/AmisComponent';
 import FormilyComponent from '@/components/FormilyComponent';
 import RunScript from '@/components/RunScript';
+import Footer from '@/components/Footer';
 
 export default () => {
   const presenter = usePresenter();
@@ -115,52 +116,52 @@ export default () => {
               }));
             }}
           />
-          <br></br>
-          <Space>
-            <Dropdown overlay={presenter.menu}>
-              <a
-                className="ant-dropdown-link"
-                onClick={(e) => e.preventDefault()}
-              >
-                更多功能 <DownOutlined />
-              </a>
-            </Dropdown>
-            <Button
-              type="primary"
-              size="small"
-              onClick={() => {
-                genCodeBySnippetMaterial({
-                  model: model.selectedMaterial.model,
-                  template: model.selectedMaterial.template,
-                  name: model.selectedMaterial.name,
-                }).then(() => {
-                  message.success('生成成功');
-                });
-              }}
-            >
-              生成代码
-            </Button>
-            <Button
-              type="primary"
-              size="small"
-              onClick={presenter.handleAskChatGPT}
-            >
-              Ask ChatGPT
-            </Button>
-          </Space>
         </Form.Item>
       </Form>
-      <div style={{ textAlign: 'center', width: '100%' }}>
-        <Button
-          shape="round"
-          onClick={() => {
-            history.push('/snippets');
-          }}
-          style={{ width: '50%' }}
-        >
-          返回
-        </Button>
-      </div>
+      <Footer>
+        <Space style={{ width: '100%' }}>
+          <Dropdown overlay={presenter.menu}>
+            <a
+              className="ant-dropdown-link"
+              onClick={(e) => e.preventDefault()}
+              style={{
+                display: 'inline-block',
+                textAlign: 'center',
+                width: '100%',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              更多功能 <DownOutlined />
+            </a>
+          </Dropdown>
+          <Button
+            type="primary"
+            block
+            onClick={() => {
+              genCodeBySnippetMaterial({
+                model: model.selectedMaterial.model,
+                template: model.selectedMaterial.template,
+                name: model.selectedMaterial.name,
+              }).then(() => {
+                message.success('生成成功');
+              });
+            }}
+          >
+            生成代码
+          </Button>
+          <Button type="primary" block onClick={presenter.handleAskChatGPT}>
+            Ask ChatGPT
+          </Button>
+          <Button
+            onClick={() => {
+              history.push('/snippets');
+            }}
+            block
+          >
+            返回
+          </Button>
+        </Space>
+      </Footer>
       <YapiModal
         visible={model.yapiModalVsible}
         onOk={(m) => {

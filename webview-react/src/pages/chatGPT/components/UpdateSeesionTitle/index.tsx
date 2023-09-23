@@ -1,4 +1,4 @@
-import { Input, Modal } from 'antd';
+import { Checkbox, Input, Modal } from 'antd';
 import React, { FC, useEffect } from 'react';
 import { useState } from '@/hooks/useImmer';
 import styles from './index.less';

@@ -3,6 +3,7 @@ import { Button, message } from 'antd';
 import FormRender from 'form-render';
 import { usePresenter } from './presenter';
 import { savePluginConfig } from '@/webview/service';
+import Footer from '@/components/Footer';
 
 const schame: any = {
   type: 'object',
@@ -143,9 +144,9 @@ export default () => {
         schema={schame}
         watch={presenter.watch}
       />
-      <div style={{ textAlign: 'center' }}>
+      <Footer>
         <Button
-          shape="round"
+          block
           type="primary"
           onClick={() => {
             savePluginConfig(model.formData).then(() => {
@@ -155,7 +156,7 @@ export default () => {
         >
           保存
         </Button>
-      </div>
+      </Footer>
     </div>
   );
 };
