@@ -16,10 +16,12 @@ export const registerRunSnippetScript = (context: vscode.ExtensionContext) => {
       'lowcode.runSnippetScript',
       async () => {
         const templateList = getSnippets().filter(
-          (s) => !s.preview.notShowInCommand,
+          (s) => s.preview.showInRunSnippetScript,
         );
         if (templateList.length === 0) {
-          window.showErrorMessage('请配置模板(代码片段)');
+          window.showErrorMessage(
+            '请配置模板（通过 showInRunSnippetScript 字段开启）',
+          );
         }
         const templateResult = await window.showQuickPick(
           templateList.map((s) => s.name),

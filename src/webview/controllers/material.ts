@@ -1,3 +1,4 @@
+import { getSyncFolder } from '../../utils/config';
 import {
   copyMaterialsFromTemp,
   downloadMaterialsFromGit,
@@ -9,6 +10,7 @@ import {
   blockMaterialsPath,
   getPrivateBlockMaterialsPath,
   materialsPath,
+  rootPath,
 } from '../../utils/vscodeEnv';
 import { IMessage } from '../type';
 
@@ -16,7 +18,7 @@ const material = {
   getLocalMaterials: (message: IMessage<'blocks' | 'snippets'>) => {
     if (message.data === 'blocks') {
       let materials = getLocalMaterials('blocks', blockMaterialsPath);
-      if (getPrivateBlockMaterialsPath()) {
+      if (getPrivateBlockMaterialsPath() && getSyncFolder() !== rootPath) {
         const privateBlockMaterials = getLocalMaterials(
           'blocks',
           getPrivateBlockMaterialsPath(),
