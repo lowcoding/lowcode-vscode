@@ -11,7 +11,9 @@ export const useModel = () => {
       description: string;
       img?: string[] | string;
       schema?: 'form-render' | 'formily' | 'amis';
-      scripts?: [{ method: string; remark: string }];
+      scripts?: [
+        { method: string; remark: string; readClipboardImage?: boolean },
+      ];
     };
     template: string;
     viewPrompt?: string;

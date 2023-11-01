@@ -26,6 +26,10 @@ export default defineConfig({
         '@/components/RouteWrapper',
       ],
 		},
+		{
+			path: '/getClipboardImage',
+			component: '@/pages/getClipboardImage',
+		},
     {
       path: '/',
       component: '@/layout/index',

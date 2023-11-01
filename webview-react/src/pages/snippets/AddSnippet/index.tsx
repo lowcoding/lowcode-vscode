@@ -1,9 +1,10 @@
 import React from 'react';
-import { Button, Form, Input, Select, Switch } from 'antd';
+import { Button, Form, Input, Select, Space, Switch } from 'antd';
 import { history, useModel } from 'umi';
 import CodeMirror from '@/components/CodeMirror';
 import { usePresenter } from './presenter';
 import { getSchemaWebUrl } from '@/utils/schema';
+import Footer from '@/components/Footer';
 
 export default () => {
   const { setTab } = useModel('tab');
@@ -143,26 +144,22 @@ export default () => {
           ></Switch>
         </Form.Item>
       </Form>
-      <div style={{ textAlign: 'center', width: '100%' }}>
-        <Button
-          shape="round"
-          type="primary"
-          onClick={presenter.handleCreate}
-          style={{ width: '50%' }}
-        >
-          添加代码片段
-        </Button>
-        <Button
-          shape="round"
-          onClick={() => {
-            setTab('/snippets');
-            history.push('/snippets');
-          }}
-          style={{ width: '50%' }}
-        >
-          返回
-        </Button>
-      </div>
+      <Footer>
+        <Space style={{ width: '100%' }}>
+          <Button type="primary" block onClick={presenter.handleCreate}>
+            确定
+          </Button>
+          <Button
+            onClick={() => {
+              setTab('/snippets');
+              history.push('/snippets');
+            }}
+            block
+          >
+            返回
+          </Button>
+        </Space>
+      </Footer>
     </div>
   );
 };

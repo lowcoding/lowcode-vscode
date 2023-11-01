@@ -103,9 +103,9 @@ const ChatList: React.FC<IProps> = (props) => {
                 description={
                   <span>
                     {item.messages.length}条对话
-                    <span style={{ marginLeft: '10px' }}>
+                    <p style={{ marginBottom: 0 }}>
                       {dayjs(item.id).format('YYYY-MM-DD HH:mm:ss')}
-                    </span>
+                    </p>
                   </span>
                 }
               />

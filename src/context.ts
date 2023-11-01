@@ -23,10 +23,6 @@ export const setRootPath = (rootPath: string) => {
   data.rootPath = rootPath;
 };
 
-export const setExtensionPath = (extensionPath: string) => {
-  data.extensionPath = extensionPath;
-};
-
 export const setLastActiveTextEditorId = (activeTextEditorId: string) => {
   data.activeTextEditorId = activeTextEditorId;
 };

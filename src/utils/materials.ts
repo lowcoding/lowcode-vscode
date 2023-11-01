@@ -1,7 +1,7 @@
 import * as path from 'path';
 import * as fs from 'fs';
 import { getFileContent } from './file';
-import { getTemplateFilePath } from './config';
+import { getSyncFolder, getTemplateFilePath } from './config';
 import {
   rootPath,
   snippetMaterialsPath,
@@ -31,6 +31,7 @@ export const getLocalMaterials = (
       notShowInCommand?: boolean;
       notShowInSnippetsList?: boolean;
       notShowInintellisense?: boolean;
+      showInRunSnippetScript?: boolean;
       schema?: string;
       chatGPT?: {
         commandPrompt?: string;
@@ -184,6 +185,7 @@ export function getSnippets() {
       notShowInCommand?: boolean;
       notShowInSnippetsList?: boolean;
       notShowInintellisense?: boolean;
+      showInRunSnippetScript?: boolean;
       schema?: string;
       chatGPT?: {
         commandPrompt?: string;
@@ -207,7 +209,7 @@ export function getSnippets() {
     privateMaterials: false,
   }));
   let snippetsMaterials = getLocalMaterials('snippets', snippetMaterialsPath);
-  if (getPrivateSnippetMaterialsPath()) {
+  if (getPrivateSnippetMaterialsPath() && getSyncFolder() !== rootPath) {
     const privateSnippetsMaterials = getLocalMaterials(
       'snippets',
       getPrivateSnippetMaterialsPath(),

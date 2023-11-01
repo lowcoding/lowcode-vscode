@@ -6,6 +6,7 @@ import { getEnv, rootPath } from '../utils/vscodeEnv';
 import { getInnerLibs } from '../utils/lib';
 import { getOutputChannel } from '../utils/outputChannel';
 import { createChatCompletionForScript } from '../utils/openai';
+import { getClipboardImage } from '../utils/clipboard';
 
 const { window } = vscode;
 
@@ -15,10 +16,12 @@ export const registerRunSnippetScript = (context: vscode.ExtensionContext) => {
       'lowcode.runSnippetScript',
       async () => {
         const templateList = getSnippets().filter(
-          (s) => !s.preview.notShowInCommand,
+          (s) => s.preview.showInRunSnippetScript,
         );
         if (templateList.length === 0) {
-          window.showErrorMessage('请配置模板(代码片段)');
+          window.showErrorMessage(
+            '请配置模板（通过 showInRunSnippetScript 字段开启）',
+          );
         }
         const templateResult = await window.showQuickPick(
           templateList.map((s) => s.name),
@@ -42,6 +45,7 @@ export const registerRunSnippetScript = (context: vscode.ExtensionContext) => {
               log: getOutputChannel(),
               createChatCompletion: createChatCompletionForScript,
               materialPath: template!.path,
+              getClipboardImage,
               code: '',
             };
             try {

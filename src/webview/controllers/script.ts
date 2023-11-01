@@ -14,6 +14,7 @@ export const runScript = async (
     createBlockPath?: string;
     script: string;
     params: string;
+    clipboardImage?: string;
     model: object;
   }>,
 ) => {
@@ -25,6 +26,7 @@ export const runScript = async (
       const context = {
         model: message.data.model,
         params: message.data.params,
+        clipboardImage: message.data.clipboardImage,
         vscode,
         workspaceRootPath: rootPath,
         env: getEnv(),

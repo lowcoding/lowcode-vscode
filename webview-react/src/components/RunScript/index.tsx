@@ -2,12 +2,13 @@ import { Form, Input, Modal, Select } from 'antd';
 import React, { useEffect } from 'react';
 import { useState } from '@/hooks/useImmer';
 import { runScript } from '@/webview/service';
+import { getClipboardImage } from '@/utils/clipboard';
 
 interface IProps {
   visible: boolean;
   materialPath: string;
   model: object;
-  scripts?: [{ method: string; remark: string }];
+  scripts?: [{ method: string; remark: string; readClipboardImage?: boolean }];
   privateMaterials?: boolean;
   onCancel: () => void;
   onOk: (model: object) => void;
@@ -26,11 +27,13 @@ const RunScript: React.FC<IProps> = (props) => {
     }
   }, [props.visible]);
 
-  const handleOk = () => {
+  const handleOk = async () => {
     setLoading(true);
+    const image = await getClipboardImage().catch((e) => console.log(e));
     runScript({
       script,
       params,
+      clipboardImage: image || '',
       model: props.model,
       materialPath: props.materialPath,
       privateMaterials: props.privateMaterials,
