@@ -5,11 +5,13 @@
 		"target": "ES5",
 		"outDir": "build",
 		"allowSyntheticDefaultImports": true,
+		"suppressImplicitAnyIndexErrors": true,
 		"lib": [
 			"ES5"
 		],
 		"sourceMap": true,
 		"rootDir": "src",
+		"ignoreDeprecations": "5.0",
 		"strict": true /* enable all strict type-checking options */
 		/* Additional Checks */
 		// "noImplicitReturns": true, /* Report error when not all code paths in function return a value. */
