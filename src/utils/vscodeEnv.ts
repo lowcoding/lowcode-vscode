@@ -38,6 +38,7 @@ export const getEnv = () => ({
   materialsPath,
   blockMaterialsPath,
   snippetMaterialsPath,
+  privateMaterialsPath: getSyncFolder(),
 });
 
 export const checkRootPath = () => {
