@@ -168,11 +168,14 @@ export default () => {
             path,
             createPath,
             privateMaterials: model.selectedMaterial.privateMaterials,
-          }).then(() => {
-            model.setDirectoryModalVsible(false);
-            model.setLoding(false);
-            message.success('生成成功');
-          });
+          })
+            .then(() => {
+              model.setDirectoryModalVsible(false);
+              message.success('生成成功');
+            })
+            .finally(() => {
+              model.setLoding(false);
+            });
         }}
       />
       <JsonToTs
