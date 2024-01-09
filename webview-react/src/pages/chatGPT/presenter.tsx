@@ -21,7 +21,7 @@ export const usePresenter = () => {
       model.listRef.current?.scrollTo(0, model.listRef.current.scrollHeight);
     });
 
-    const initPrompt = localStorage.getItem('askChatGPT');
+    let initPrompt = localStorage.getItem('askChatGPT');
     let askPrompt = '';
     emitter.on('askChatGPT', (data) => {
       askPrompt = data;
@@ -30,10 +30,11 @@ export const usePresenter = () => {
       }
       service.startAsk('NewSessionWithPrompt', data);
     });
-    localStorage.removeItem('askChatGPT');
     if (initPrompt && initPrompt !== askPrompt) {
       service.startAsk('NewSessionWithPrompt', initPrompt);
     }
+    localStorage.removeItem('askChatGPT');
+    initPrompt = '';
 
     return () => {
       emitter.off('chatGPTChunk');
