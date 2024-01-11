@@ -107,7 +107,7 @@ const View = () => {
               )}
             </div>
           ))}
-        {chatStore.currentSession().messages.length === 0 && (
+        {chatStore.currentSession()?.messages.length === 0 && (
           <div className={styles.resItem}>
             <div className={styles.resHeader}>
               <img
