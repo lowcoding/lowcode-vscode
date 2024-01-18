@@ -65,6 +65,7 @@ export class RunScriptAction implements RendererAction {
       materialPath: componentData.materialPath,
       privateMaterials: componentData.privateMaterials,
       createBlockPath: localStorage.getItem('selectedFolder') || undefined,
+      clipboardImage: '',
     });
   }
 }

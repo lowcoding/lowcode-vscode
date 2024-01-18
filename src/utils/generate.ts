@@ -16,7 +16,7 @@ import { pasteToEditor } from './editor';
 import { getFileContent } from './file';
 import { getInnerLibs } from './lib';
 import { getOutputChannel } from './outputChannel';
-import { getLastAcitveTextEditor } from '../context';
+import { getLastActiveTextEditor } from '../context';
 import { getSyncFolder } from './config';
 import { createChatCompletionForScript } from './openai';
 
@@ -94,6 +94,7 @@ export const genCodeByBlock = async (data: {
         .replace(/\\/g, '/'),
       createChatCompletion: createChatCompletionForScript,
       materialPath: block,
+      activeTextEditor: getLastActiveTextEditor(),
     };
     data.model = {
       ...data.model,
@@ -178,7 +179,7 @@ export const genCodeBySnippet = async (data: {
       hook.afterCompile = script.afterCompile;
     }
   }
-  const activeTextEditor = getLastAcitveTextEditor();
+  const activeTextEditor = getLastActiveTextEditor();
   if (activeTextEditor) {
     data.model = {
       ...data.model,
@@ -199,6 +200,7 @@ export const genCodeBySnippet = async (data: {
     createChatCompletion: createChatCompletionForScript,
     materialPath: snippetPath,
     code: '',
+    activeTextEditor: getLastActiveTextEditor(),
   };
   const extendModel = await hook.beforeCompile(context);
   if (extendModel) {

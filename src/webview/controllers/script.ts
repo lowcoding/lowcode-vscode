@@ -7,6 +7,7 @@ import { getEnv, rootPath } from '../../utils/vscodeEnv';
 import { getInnerLibs } from '../../utils/lib';
 import { getOutputChannel } from '../../utils/outputChannel';
 import { createChatCompletionForScript } from '../../utils/openai';
+import { getLastActiveTextEditor } from '../../context';
 
 export const runScript = async (
   message: IMessage<{
@@ -36,6 +37,7 @@ export const runScript = async (
         createBlockPath: message.data.createBlockPath,
         createChatCompletion: createChatCompletionForScript,
         materialPath: message.data.materialPath,
+        activeTextEditor: getLastActiveTextEditor(),
       };
       const extendModel = await script[message.data.script](context);
       return extendModel;

@@ -1,6 +1,6 @@
 import * as copyPaste from 'copy-paste';
 import { OpenDialogOptions, Range, SnippetString, window } from 'vscode';
-import { getLastAcitveTextEditor } from '../context';
+import { getLastActiveTextEditor } from '../context';
 
 export const getClipboardText = () => copyPaste.paste();
 
@@ -14,7 +14,7 @@ export const pasteToEditor = (content: string, isInsertSnippet = true) => {
   if (isInsertSnippet) {
     return insertSnippet(content);
   }
-  const activeTextEditor = getLastAcitveTextEditor();
+  const activeTextEditor = getLastActiveTextEditor();
   if (activeTextEditor === undefined) {
     throw new Error('无打开文件');
   }
@@ -35,7 +35,7 @@ export const pasteToEditor = (content: string, isInsertSnippet = true) => {
 };
 
 export const insertSnippet = (content: string) => {
-  const activeTextEditor = window.activeTextEditor || getLastAcitveTextEditor();
+  const activeTextEditor = window.activeTextEditor || getLastActiveTextEditor();
   if (activeTextEditor === undefined) {
     throw new Error('无打开文件');
   }
