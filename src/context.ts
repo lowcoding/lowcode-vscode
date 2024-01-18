@@ -27,7 +27,7 @@ export const setLastActiveTextEditorId = (activeTextEditorId: string) => {
   data.activeTextEditorId = activeTextEditorId;
 };
 
-export const getLastAcitveTextEditor = () => {
+export const getLastActiveTextEditor = () => {
   const { visibleTextEditors } = window;
   const activeTextEditor = visibleTextEditors.find(
     (item: any) => item.id === data.activeTextEditorId,
