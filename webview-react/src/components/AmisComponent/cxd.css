@@ -22234,7 +22234,7 @@ input[type='button'].cxd-Button--block {
 .cxd-ButtonGroup > .cxd-Button {
   position: relative;
   flex: 0 1 auto;
-  max-width: 8.75rem;
+  max-width: none;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
