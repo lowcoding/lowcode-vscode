@@ -1,9 +1,8 @@
 import * as vscode from 'vscode';
 import { IMessage } from '../type';
-import { createChatCompletion } from '../../utils/openai';
+import { createChatCompletion } from '../../utils/llm';
 import { invokeChatGPTChunkCallback } from '../callback';
 import { pasteToEditor } from '../../utils/editor';
-import { getChatGPTConfig } from '../../utils/config';
 import { compile as compileEjs, Model } from '../../utils/ejs';
 import { showChatGPTView } from '..';
 
@@ -17,14 +16,8 @@ export const askChatGPT = async (
     webview: vscode.Webview;
   },
 ) => {
-  const config = getChatGPTConfig();
   const res = await createChatCompletion({
-    hostname: config.hostname,
-    apiPath: config.apiPath,
-    apiKey: config.apiKey,
-    model: config.model,
     messages: message.data.messages,
-    maxTokens: config.maxTokens,
     handleChunk: (data) => {
       invokeChatGPTChunkCallback(context.webview, message.cbid, {
         sessionId: message.data.sessionId,

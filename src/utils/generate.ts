@@ -18,7 +18,7 @@ import { getInnerLibs } from './lib';
 import { getOutputChannel } from './outputChannel';
 import { getLastActiveTextEditor } from '../context';
 import { getSyncFolder } from './config';
-import { createChatCompletionForScript } from './openai';
+import { createChatCompletionForScript } from './llm';
 
 export const genCodeByBlock = async (data: {
   material: string;
