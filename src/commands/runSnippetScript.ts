@@ -5,7 +5,7 @@ import { getSnippets } from '../utils/materials';
 import { getEnv, rootPath } from '../utils/vscodeEnv';
 import { getInnerLibs } from '../utils/lib';
 import { getOutputChannel } from '../utils/outputChannel';
-import { createChatCompletionForScript } from '../utils/openai';
+import { createChatCompletionForScript } from '../utils/llm';
 import { getClipboardImage } from '../utils/clipboard';
 import { formatPath } from '../utils/platform';
 

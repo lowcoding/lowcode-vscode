@@ -6,7 +6,7 @@ import { IMessage } from '../type';
 import { getEnv, rootPath } from '../../utils/vscodeEnv';
 import { getInnerLibs } from '../../utils/lib';
 import { getOutputChannel } from '../../utils/outputChannel';
-import { createChatCompletionForScript } from '../../utils/openai';
+import { createChatCompletionForScript } from '../../utils/llm';
 import { getLastActiveTextEditor } from '../../context';
 
 export const runScript = async (

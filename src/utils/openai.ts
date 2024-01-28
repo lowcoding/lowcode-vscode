@@ -1,30 +1,25 @@
 import * as https from 'https';
 import { TextDecoder } from 'util';
 import { getChatGPTConfig } from './config';
-import { emitter } from './emitter';
 import { showChatGPTView } from '../webview';
 
 export const createChatCompletion = (options: {
-  apiKey: string;
-  model: string;
-  maxTokens: number;
-  hostname?: string;
-  apiPath?: string;
   messages: { role: 'system' | 'user' | 'assistant'; content: string }[];
   handleChunk?: (data: { text?: string; hasMore: boolean }) => void;
 }) =>
-  new Promise<string>((resolve, reject) => {
+  new Promise<string>((resolve) => {
     let combinedResult = '';
     let error = '发生错误：';
+    const config = getChatGPTConfig();
     const request = https.request(
       {
-        hostname: options.hostname || 'api.openai.com',
+        hostname: config.hostname || 'api.openai.com',
         port: 443,
-        path: options.apiPath || '/v1/chat/completions',
+        path: config.apiPath || '/v1/chat/completions',
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${options.apiKey}`,
+          Authorization: `Bearer ${config.apiKey}`,
         },
       },
       (res) => {
@@ -47,7 +42,6 @@ export const createChatCompletion = (options: {
                 if (element.includes('[DONE]')) {
                   if (options.handleChunk) {
                     options.handleChunk({ hasMore: true, text: '' });
-                    emitter.emit('chatGPTChunck', { hasMore: true, text: '' });
                   }
                   return;
                 }
@@ -56,7 +50,6 @@ export const createChatCompletion = (options: {
                 if (data.finish_reason === 'stop') {
                   if (options.handleChunk) {
                     options.handleChunk({ hasMore: true, text: '' });
-                    emitter.emit('chatGPTChunck', { hasMore: true, text: '' });
                   }
                   return;
                 }
@@ -67,20 +60,12 @@ export const createChatCompletion = (options: {
                       text: openaiRes.replaceAll('\\n', '\n'),
                       hasMore: true,
                     });
-                    emitter.emit('chatGPTChunck', {
-                      text: openaiRes.replaceAll('\\n', '\n'),
-                      hasMore: true,
-                    });
                   }
                   combinedResult += openaiRes;
                 }
               } else {
                 if (options.handleChunk) {
                   options.handleChunk({
-                    hasMore: true,
-                    text: element,
-                  });
-                  emitter.emit('chatGPTChunck', {
                     hasMore: true,
                     text: element,
                   });
@@ -102,12 +87,9 @@ export const createChatCompletion = (options: {
               hasMore: true,
               text: e.toString(),
             });
-            emitter.emit('chatGPTChunck', {
-              hasMore: true,
-              text: e.toString(),
-            });
           }
-          reject(e);
+          // reject(e);
+          resolve(e.toString());
         });
         res.on('end', () => {
           if (error !== '发生错误：') {
@@ -116,67 +98,23 @@ export const createChatCompletion = (options: {
                 hasMore: true,
                 text: error,
               });
-              emitter.emit('chatGPTChunck', {
-                hasMore: true,
-                text: error,
-              });
             }
           }
           resolve(combinedResult || error);
-          emitter.emit('chatGPTComplete', combinedResult || error);
         });
       },
     );
     const body = {
-      model: options.model,
+      model: config.model,
       messages: options.messages,
       stream: true,
-      max_tokens: options.maxTokens,
+      max_tokens: config.maxTokens,
     };
     request.on('error', (error) => {
       options.handleChunk &&
         options.handleChunk({ hasMore: true, text: error.toString() });
       resolve(error.toString());
-      emitter.emit('chatGPTComplete', error.toString());
     });
     request.write(JSON.stringify(body));
     request.end();
   });
-
-export const createChatCompletionForScript = (options: {
-  messages: { role: 'system' | 'user' | 'assistant'; content: string }[];
-  handleChunk?: (data: { text?: string; hasMore: boolean }) => void;
-  showWebview?: boolean;
-}) => {
-  if (!options.showWebview) {
-    const config = getChatGPTConfig();
-    return createChatCompletion({
-      hostname: config.hostname,
-      apiPath: config.apiPath,
-      apiKey: config.apiKey,
-      model: config.model,
-      messages: options.messages,
-      maxTokens: config.maxTokens,
-      handleChunk: options.handleChunk,
-    });
-  }
-  // 打开 webview，使用 emitter 监听结果，把结果回传给 script
-  showChatGPTView({
-    task: {
-      task: 'askChatGPT',
-      data: options.messages.map((m) => m.content).join('\n'),
-    },
-  });
-  return new Promise<string>((resolve, reject) => {
-    emitter.on('chatGPTChunck', (data) => {
-      if (options.handleChunk) {
-        options.handleChunk(data);
-      }
-    });
-    emitter.on('chatGPTComplete', (data) => {
-      resolve(data);
-      emitter.off('chatGPTChunck');
-      emitter.off('chatGPTComplete');
-    });
-  });
-};
