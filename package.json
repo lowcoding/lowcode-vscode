@@ -1,7 +1,7 @@
 {
 	"name": "lowcode",
 	"displayName": "lowcode",
-	"description": "lowcode tool, support ChatGPT",
+	"description": "lowcode tool, support ChatGPT and other LLM",
 	"author": "wjkang <ruoxieme@gmail.com>",
 	"version": "1.7.8",
 	"icon": "asset/icon.png",
