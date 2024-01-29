@@ -1,11 +1,10 @@
 import * as https from 'https';
 import { TextDecoder } from 'util';
 import { getChatGPTConfig } from './config';
-import { showChatGPTView } from '../webview';
 
 export const createChatCompletion = (options: {
   messages: { role: 'system' | 'user' | 'assistant'; content: string }[];
-  handleChunk?: (data: { text?: string; hasMore: boolean }) => void;
+  handleChunk?: (data: { text?: string }) => void;
 }) =>
   new Promise<string>((resolve) => {
     let combinedResult = '';
@@ -41,7 +40,7 @@ export const createChatCompletion = (options: {
               if (element.includes('data: ')) {
                 if (element.includes('[DONE]')) {
                   if (options.handleChunk) {
-                    options.handleChunk({ hasMore: true, text: '' });
+                    options.handleChunk({ text: '' });
                   }
                   return;
                 }
@@ -49,7 +48,7 @@ export const createChatCompletion = (options: {
                 const data = JSON.parse(element.replace('data: ', ''));
                 if (data.finish_reason === 'stop') {
                   if (options.handleChunk) {
-                    options.handleChunk({ hasMore: true, text: '' });
+                    options.handleChunk({ text: '' });
                   }
                   return;
                 }
@@ -58,7 +57,6 @@ export const createChatCompletion = (options: {
                   if (options.handleChunk) {
                     options.handleChunk({
                       text: openaiRes.replaceAll('\\n', '\n'),
-                      hasMore: true,
                     });
                   }
                   combinedResult += openaiRes;
@@ -66,7 +64,6 @@ export const createChatCompletion = (options: {
               } else {
                 if (options.handleChunk) {
                   options.handleChunk({
-                    hasMore: true,
                     text: element,
                   });
                 }
@@ -84,7 +81,6 @@ export const createChatCompletion = (options: {
         res.on('error', (e) => {
           if (options.handleChunk) {
             options.handleChunk({
-              hasMore: true,
               text: e.toString(),
             });
           }
@@ -95,7 +91,6 @@ export const createChatCompletion = (options: {
           if (error !== '发生错误：') {
             if (options.handleChunk) {
               options.handleChunk({
-                hasMore: true,
                 text: error,
               });
             }
@@ -111,8 +106,7 @@ export const createChatCompletion = (options: {
       max_tokens: config.maxTokens,
     };
     request.on('error', (error) => {
-      options.handleChunk &&
-        options.handleChunk({ hasMore: true, text: error.toString() });
+      options.handleChunk && options.handleChunk({ text: error.toString() });
       resolve(error.toString());
     });
     request.write(JSON.stringify(body));

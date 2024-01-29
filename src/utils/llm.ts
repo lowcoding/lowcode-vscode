@@ -8,7 +8,7 @@ import { showChatGPTView } from '../webview';
 const LLMScript: {
   createChatCompletion?: (options: {
     messages: { role: 'system' | 'user' | 'assistant'; content: string }[];
-    handleChunk?: (data: { text?: string; hasMore: boolean }) => void;
+    handleChunk?: (data: { text?: string }) => void;
   }) => Promise<string>;
 } = {};
 
@@ -27,7 +27,7 @@ if (syncFolder) {
 
 export const createChatCompletion = async (options: {
   messages: { role: 'system' | 'user' | 'assistant'; content: string }[];
-  handleChunk?: (data: { text?: string; hasMore: boolean }) => void;
+  handleChunk?: (data: { text?: string }) => void;
 }) => {
   if (LLMScript.createChatCompletion) {
     const res = await LLMScript.createChatCompletion({
@@ -57,7 +57,7 @@ export const createChatCompletion = async (options: {
 
 export const createChatCompletionForScript = (options: {
   messages: { role: 'system' | 'user' | 'assistant'; content: string }[];
-  handleChunk?: (data: { text?: string; hasMore: boolean }) => void;
+  handleChunk?: (data: { text?: string }) => void;
   showWebview?: boolean;
 }) => {
   if (!options.showWebview) {
