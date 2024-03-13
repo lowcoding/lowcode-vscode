@@ -1,6 +1,7 @@
 import * as path from 'path';
 import { workspace } from 'vscode';
 import { getSyncFolder } from './config';
+import { getExtensionContext } from '../context';
 
 export const rootPath = path.join(workspace.rootPath || '');
 
@@ -39,6 +40,7 @@ export const getEnv = () => ({
   blockMaterialsPath,
   snippetMaterialsPath,
   privateMaterialsPath: getSyncFolder(),
+  extensionContext: getExtensionContext(),
 });
 
 export const checkRootPath = () => {

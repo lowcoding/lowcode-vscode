@@ -125,7 +125,7 @@ function mitt<Events extends Record<EventType, unknown>>(
 
 type Events = {
   clipboardImage: string;
-  chatGPTChunck: { text?: string; hasMore: boolean };
+  chatGPTChunck: { text?: string };
   chatGPTComplete: string;
 };
 

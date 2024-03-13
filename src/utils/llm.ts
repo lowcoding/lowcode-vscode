@@ -4,11 +4,13 @@ import { createChatCompletion as openaiCreateChatCompletion } from './openai';
 import { emitter } from './emitter';
 import { getSyncFolder } from './config';
 import { showChatGPTView } from '../webview';
+import { getEnv } from './vscodeEnv';
 
 const LLMScript: {
   createChatCompletion?: (options: {
     messages: { role: 'system' | 'user' | 'assistant'; content: string }[];
-    handleChunk?: (data: { text?: string; hasMore: boolean }) => void;
+    handleChunk?: (data: { text?: string }) => void;
+    lowcodeContext: object;
   }) => Promise<string>;
 } = {};
 
@@ -27,7 +29,7 @@ if (syncFolder) {
 
 export const createChatCompletion = async (options: {
   messages: { role: 'system' | 'user' | 'assistant'; content: string }[];
-  handleChunk?: (data: { text?: string; hasMore: boolean }) => void;
+  handleChunk?: (data: { text?: string }) => void;
 }) => {
   if (LLMScript.createChatCompletion) {
     const res = await LLMScript.createChatCompletion({
@@ -37,6 +39,9 @@ export const createChatCompletion = async (options: {
           options.handleChunk(data);
           emitter.emit('chatGPTChunck', data);
         }
+      },
+      lowcodeContext: {
+        env: getEnv(),
       },
     });
     emitter.emit('chatGPTComplete', res);
@@ -57,7 +62,7 @@ export const createChatCompletion = async (options: {
 
 export const createChatCompletionForScript = (options: {
   messages: { role: 'system' | 'user' | 'assistant'; content: string }[];
-  handleChunk?: (data: { text?: string; hasMore: boolean }) => void;
+  handleChunk?: (data: { text?: string }) => void;
   showWebview?: boolean;
 }) => {
   if (!options.showWebview) {
