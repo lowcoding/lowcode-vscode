@@ -10,6 +10,7 @@ import { registerQuickGenerateBlock } from './commands/quickGenerateBlock';
 import { registerChatGPTViewProvider } from './webview';
 import { registerChatGPTCommand } from './commands/chatGPT';
 import { registerRunSnippetScript } from './commands/runSnippetScript';
+import { runActivate } from './lifecycle';
 
 export function activate(context: vscode.ExtensionContext) {
   vscode.window.onDidChangeActiveTextEditor(
@@ -22,6 +23,8 @@ export function activate(context: vscode.ExtensionContext) {
     null,
     context.subscriptions,
   );
+
+  runActivate();
 
   init({ extensionContext: context, extensionPath: context.extensionPath });
 
