@@ -33,6 +33,7 @@ export const getLocalMaterials = (
       notShowInintellisense?: boolean;
       showInRunSnippetScript?: boolean;
       showInRunSnippetScriptOnExplorer?: boolean;
+      runActivate?: boolean;
       schema?: string;
       chatGPT?: {
         commandPrompt?: string;
@@ -188,6 +189,7 @@ export function getSnippets() {
       notShowInintellisense?: boolean;
       showInRunSnippetScript?: boolean;
       showInRunSnippetScriptOnExplorer?: boolean;
+      runActivate?: boolean;
       schema?: string;
       chatGPT?: {
         commandPrompt?: string;
