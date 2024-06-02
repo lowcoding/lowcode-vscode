@@ -47,11 +47,14 @@ export const getLocalMaterials = (
     privateMaterials?: boolean;
   }[] = [];
   try {
+    const splits = materialsFullPath.replace(/\\/g, '/').split('/');
+    const projectName = splits[splits.length - 3];
     materials = fs.readdirSync(materialsFullPath).map((s) => {
       const fullPath = path.join(materialsFullPath, s);
       let model = {} as any;
       let schema = {} as any;
       let preview = {
+        title: '',
         img: '',
         category: [],
         schema: 'form-render',
@@ -74,6 +77,9 @@ export const getLocalMaterials = (
         preview = JSON.parse(
           getFileContent(path.join(fullPath, 'config', 'preview.json'), true),
         );
+        if (preview.title && getSyncFolder()) {
+          preview.title = `[${projectName}] ${preview.title}`;
+        }
       } catch {}
       try {
         commandPrompt = getFileContent(
@@ -133,7 +139,7 @@ export const getLocalMaterials = (
       }
       return {
         path: fullPath,
-        name: s,
+        name: `[${projectName}] ${s}`,
         model,
         schema,
         preview,
@@ -144,7 +150,7 @@ export const getLocalMaterials = (
       };
     });
   } catch {}
-  return materials.filter((s) => s.name !== '.DS_Store');
+  return materials.filter((s) => !s.name.includes('.DS_Store'));
 };
 
 export const getCodeTemplateListFromFiles = () => {
