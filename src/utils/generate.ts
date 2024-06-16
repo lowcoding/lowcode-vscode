@@ -19,6 +19,7 @@ import { getOutputChannel } from './outputChannel';
 import { getLastActiveTextEditor } from '../context';
 import { getSyncFolder } from './config';
 import { createChatCompletionForScript } from './llm';
+import { resetMaterialName } from './name';
 
 export const genCodeByBlock = async (data: {
   material: string;
@@ -36,7 +37,7 @@ export const genCodeByBlock = async (data: {
       data.privateMaterials
         ? getPrivateBlockMaterialsPath()
         : blockMaterialsPath,
-      data.material,
+      resetMaterialName(data.material),
     );
     const schemaFile = path.join(block, 'config/schema.json');
     const schama = fs.readJSONSync(schemaFile);
@@ -161,7 +162,7 @@ export const genCodeBySnippet = async (data: {
     data.privateMaterials
       ? getPrivateSnippetMaterialsPath()
       : snippetMaterialsPath,
-    data.name,
+    resetMaterialName(data.name),
   );
   const scriptFile = path.join(snippetPath, 'script/index.js');
   const hook = {
