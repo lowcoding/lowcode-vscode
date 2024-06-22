@@ -1,12 +1,9 @@
 import React, { useEffect } from 'react';
-import { Menu, message } from 'antd';
 import { useParams } from 'umi';
 import { useForm } from 'form-render';
+import { message } from 'antd';
 import Service from './service';
-import {
-  askChatGPTWithEjsTemplate,
-  getLocalMaterials,
-} from '@/webview/service';
+import { getLocalMaterials } from '@/webview/service';
 import { useModel } from './model';
 
 export const usePresenter = () => {
@@ -24,70 +21,104 @@ export const usePresenter = () => {
           selected.preview.schema = 'form-render';
         }
         model.setSelectedMaterial(selected!);
-        model.setData(selected?.model);
         form.setValues(selected?.model);
       }
     });
   }, []);
-  useEffect(() => {
-    model.setSelectedMaterial((s) => ({
-      ...s,
-      model: { ...s.model, ...model.formData },
-    }));
-  }, [model.formData]);
 
   const watch = {
     '#': (val: any) => {
-      model.setData(JSON.parse(JSON.stringify(val)));
+      model.setSelectedMaterial((s) => ({
+        ...s,
+        model: { ...s.model, ...JSON.parse(JSON.stringify(val)) },
+      }));
     },
   };
 
-  const handleRunScriptResult = (result: object) => {
-    model.setSelectedMaterial((s) => ({
-      ...s,
-      model: result,
-    }));
-    model.setData(result);
-    form.setValues(result);
-    model.setScriptModalVisible(false);
+  const handleRunScriptResult = (result: {
+    /** 立即更新 model */
+    updateModelImmediately: boolean;
+    model: object;
+  }) => {
+    if (result.updateModelImmediately) {
+      model.setSelectedMaterial((s) => ({
+        ...s,
+        model: result.model,
+      }));
+      form.setValues(result.model);
+      if (
+        model.selectedMaterial.preview.schema === 'amis' &&
+        model.amisComponent.current
+      ) {
+        model.amisComponent.current!.setValues(result.model);
+      }
+      model.setScriptModalVisible(false);
+      message.success('执行成功');
+    } else {
+      message.success('执行成功');
+      model.setTempFormDataModal((s) => {
+        s.visible = true;
+        s.formData = result.model;
+      });
+    }
   };
 
-  const handleAskChatGPT = () => {
-    if (!model.selectedMaterial.viewPrompt) {
-      message.warn('未配置 viewPrompt，直接输入 model');
+  const handleUpdateModelOpen = () => {
+    if (
+      model.selectedMaterial.preview.schema === 'amis' &&
+      model.amisComponent.current
+    ) {
+      model.setSelectedMaterial((s) => {
+        s.model = model.amisComponent.current!.getValues();
+      });
+      model.setTempFormDataModal((s) => {
+        s.visible = true;
+        s.formData = model.amisComponent.current!.getValues();
+      });
+      return;
     }
-    askChatGPTWithEjsTemplate({
-      template: model.selectedMaterial.viewPrompt || '<%- model %>',
-      model: { model: JSON.stringify(model.selectedMaterial.model, null, 2) },
+    model.setTempFormDataModal((s) => {
+      s.visible = true;
+      s.formData = JSON.parse(JSON.stringify(model.selectedMaterial.model));
     });
   };
 
-  const menu = (
-    <Menu>
-      <Menu.Item
-        onClick={() => {
-          model.setJsonToTsModalVisble(true);
-        }}
-      >
-        JSON TO TS
-      </Menu.Item>
-      <Menu.Item
-        onClick={() => {
-          model.setYapiModalVsible(true);
-        }}
-      >
-        根据 YAPI 接口追加模板数据
-      </Menu.Item>
-    </Menu>
-  );
+  const handleUpdateModelOk = () => {
+    model.setSelectedMaterial((s) => ({
+      ...s,
+      model: JSON.parse(JSON.stringify(model.tempFormDataModal.formData)),
+    }));
+    form.setValues(
+      JSON.parse(JSON.stringify(model.tempFormDataModal.formData)),
+    );
+    if (
+      model.selectedMaterial.preview.schema === 'amis' &&
+      model.amisComponent.current
+    ) {
+      model.amisComponent.current!.setValues(
+        JSON.parse(JSON.stringify(model.tempFormDataModal.formData)),
+      );
+    }
+    model.setTempFormDataModal((s) => {
+      s.visible = false;
+    });
+    model.setScriptModalVisible(false);
+  };
+
+  const handleUpdateModelCancel = () => {
+    model.setTempFormDataModal((s) => {
+      s.visible = false;
+    });
+  };
 
   return {
     model,
     service,
-    menu,
     form,
     watch,
-    handleAskChatGPT,
     handleRunScriptResult,
+    handleUpdateModelOpen,
+    handleUpdateModelOk,
+    handleUpdateModelCancel,
   };
 };

@@ -1,4 +1,9 @@
-import React, { useEffect, useMemo } from 'react';
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+} from 'react';
 import { createForm } from '@formily/core';
 import { createSchemaField } from '@formily/react';
 import {
@@ -89,17 +94,11 @@ interface IProps {
     schema: object;
   };
   initialValues: object;
-  scripts?: [
-    {
-      method: string;
-      remark: string;
-    },
-  ];
   path: string;
   onFormChange: (values: object) => void;
 }
 
-export default (props: IProps) => {
+export default forwardRef((props: IProps, ref) => {
   const [init, setInit] = useState(false);
   const [scriptModalVisible, setScriptModalVisible] = useState(false);
   const [model, setModel] = useState({} as object);
@@ -115,6 +114,13 @@ export default (props: IProps) => {
       }),
     [],
   );
+
+  useImperativeHandle(ref, () => ({
+    getValues: () => form.values,
+    setValues: (values: object) => {
+      form.setValues(values);
+    },
+  }));
 
   useEffect(() => {
     if (
@@ -140,7 +146,7 @@ export default (props: IProps) => {
       <Form {...props.schema.form} form={form}>
         <SchemaField schema={props.schema.schema} />
       </Form>
-      <Space>
+      {/* <Space>
         <Button
           type="primary"
           size="small"
@@ -159,8 +165,8 @@ export default (props: IProps) => {
         >
           重新生成模板数据
         </Button>
-      </Space>
-      <RunScript
+      </Space> */}
+      {/* <RunScript
         visible={scriptModalVisible}
         materialPath={props.path}
         model={model}
@@ -169,7 +175,7 @@ export default (props: IProps) => {
           setScriptModalVisible(false);
         }}
         onOk={handleRunScriptResult}
-      />
+      /> */}
     </div>
   );
-};
+});

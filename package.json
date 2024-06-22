@@ -3,7 +3,7 @@
 	"displayName": "lowcode",
 	"description": "lowcode tool, support ChatGPT and other LLM",
 	"author": "wjkang <ruoxieme@gmail.com>",
-	"version": "1.8.2",
+	"version": "1.8.3",
 	"icon": "asset/icon.png",
 	"publisher": "wjkang",
 	"repository": "https://github.com/lowcoding/lowcode-vscode",
@@ -222,7 +222,7 @@
 		"viewsWelcome": [
 			{
 				"view": "lowcode.welcome",
-				"contents": "[打开文件夹](command:lowcode.openFolderForceNewWindow)\n[创建应用](command:lowcode.openScaffold)\n[ChatGPT](command:lowcode.showChatGPTView)\n[设置](command:lowcode.openConfig)\n查看[文档](https://lowcoding.gitee.io)以学习如何在 VS Code 中如何使用 lowcode。"
+				"contents": "[打开文件夹](command:lowcode.openFolderForceNewWindow)\n[创建应用](command:lowcode.openScaffold)\n[ChatGPT](command:lowcode.showChatGPTView)\n[设置](command:lowcode.openConfig)\n查看[文档](https://lowcoding.github.io/)以学习如何在 VS Code 中如何使用 lowcode。"
 			}
 		],
 		"configuration": {
