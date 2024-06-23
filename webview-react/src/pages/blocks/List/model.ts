@@ -19,7 +19,9 @@ export const useModel = () => {
       }[]
     | undefined
   >(undefined);
-  const [oriMaterials, setOriMaterials] = useState<typeof materials>([]);
+  const [oriMaterials, setOriMaterials] = useState<
+    NonNullable<typeof materials>
+  >([]);
 
   const [selectedMaterial, setSelectedMaterial] = useState<
     NonNullable<typeof materials>[0]

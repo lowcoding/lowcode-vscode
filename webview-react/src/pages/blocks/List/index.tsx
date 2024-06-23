@@ -20,6 +20,7 @@ export default () => {
       <div style={{ textAlign: 'center', marginBottom: '20px' }}>
         <Search
           placeholder="输入关键字查询"
+          value={model.searchValue}
           onChange={(el) => {
             const { value } = el.target;
             model.setSearchValue(value);

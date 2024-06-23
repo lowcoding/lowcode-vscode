@@ -54,7 +54,7 @@ const RunScript: React.FC<IProps> = (props) => {
           }
         } else {
           props.onOk({
-            updateModelImmediately: true,
+            updateModelImmediately: false,
             onlyUpdateParams: false,
             model: result, // 旧版本只返回 model
           });
