@@ -68,6 +68,7 @@ const SelectDirectory: React.FC<Iprops> = ({
       title="选择模块生成目录"
       visible={visible}
       closable={false}
+      maskClosable={false}
       okText="确定"
       cancelText="关闭"
       onCancel={() => {

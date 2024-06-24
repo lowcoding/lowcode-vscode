@@ -11,7 +11,15 @@ interface IProps {
   scripts?: [{ method: string; remark: string; readClipboardImage?: boolean }];
   privateMaterials?: boolean;
   onCancel: () => void;
-  onOk: (model: object) => void;
+  onOk: (result: {
+    /** 立即更新 model */
+    updateModelImmediately: boolean;
+    /** 仅更新参数 */
+    onlyUpdateParams: boolean;
+    /** 要更新的参数 */
+    params?: string;
+    model: object;
+  }) => void;
 }
 
 const RunScript: React.FC<IProps> = (props) => {
@@ -21,8 +29,6 @@ const RunScript: React.FC<IProps> = (props) => {
 
   useEffect(() => {
     if (props.visible) {
-      setScript('');
-      setParams('');
       setLoading(false);
     }
   }, [props.visible]);
@@ -40,7 +46,19 @@ const RunScript: React.FC<IProps> = (props) => {
       createBlockPath: localStorage.getItem('selectedFolder') || undefined,
     })
       .then((result) => {
-        props.onOk(result);
+        if (result.model) {
+          if (result.onlyUpdateParams) {
+            setParams(result.params || '');
+          } else {
+            props.onOk(result);
+          }
+        } else {
+          props.onOk({
+            updateModelImmediately: true,
+            onlyUpdateParams: false,
+            model: result, // 旧版本只返回 model
+          });
+        }
       })
       .finally(() => {
         setLoading(false);
@@ -55,17 +73,17 @@ const RunScript: React.FC<IProps> = (props) => {
       maskClosable={false}
       onCancel={props.onCancel}
       onOk={handleOk}
+      okText="确定"
+      cancelText="取消"
     >
       <Form layout="vertical">
         <Form.Item label="方法">
           <Select
-            mode="tags"
             placeholder="请输入或选择"
-            value={script ? [script] : undefined}
+            value={script || undefined}
             onChange={(value) => {
-              setScript(value && value.length ? value[value.length - 1] : '');
+              setScript(value);
             }}
-            notFoundContent={null}
           >
             {props.scripts?.map((item) => (
               <Select.Option value={item.method} key={item.method}>
@@ -77,6 +95,7 @@ const RunScript: React.FC<IProps> = (props) => {
         <Form.Item label="参数">
           <Input.TextArea
             value={params}
+            rows={6}
             onChange={(e) => {
               const value = e.target.value;
               setParams(value);

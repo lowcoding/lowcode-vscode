@@ -536,7 +536,15 @@ export function runScript(data: {
   privateMaterials?: boolean;
   createBlockPath?: string;
 }) {
-  return request<object>({
+  return request<{
+    /** 立即更新 model */
+    updateModelImmediately: boolean;
+    /** 仅更新参数 */
+    onlyUpdateParams: boolean;
+    /** 要更新的参数 */
+    params?: string;
+    model: object;
+  }>({
     cmd: 'runScript',
     data,
   });

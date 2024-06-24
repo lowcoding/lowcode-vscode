@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { useState } from '@/hooks/useImmer';
 
 export const useModel = () => {
@@ -20,30 +21,41 @@ export const useModel = () => {
     privateMaterials?: boolean;
   }>({ schema: {}, model: {} } as any);
   const [materials, setMaterials] = useState<typeof selectedMaterial[]>([]);
-  const [formData, setData] = useState({});
-  const [yapiModalVsible, setYapiModalVsible] = useState(false);
   const [directoryModalVsible, setDirectoryModalVsible] = useState(false);
-  const [jsonToTsModalVisble, setJsonToTsModalVisble] = useState(false);
   const [scriptModalVisible, setScriptModalVisible] = useState(false);
+
+  const amisComponent = useRef<{
+    getValues: () => object;
+    setValues: (values: object) => void;
+  } | null>(null);
+
+  const formilyComponent = useRef<{
+    getValues: () => object;
+    setValues: (values: object) => void;
+  } | null>(null);
+
   const [loading, setLoding] = useState(false);
+
+  const [tempFormDataModal, setTempFormDataModal] = useState<{
+    visible: boolean;
+    formData: object;
+  }>({ visible: false, formData: {} });
 
   return {
     selectedMaterial,
     setSelectedMaterial,
     materials,
     setMaterials,
-    formData,
-    setData,
-    yapiModalVsible,
-    setYapiModalVsible,
     directoryModalVsible,
     setDirectoryModalVsible,
-    jsonToTsModalVisble,
-    setJsonToTsModalVisble,
     scriptModalVisible,
     setScriptModalVisible,
+    amisComponent,
+    formilyComponent,
     loading,
     setLoding,
+    tempFormDataModal,
+    setTempFormDataModal,
   };
 };
 

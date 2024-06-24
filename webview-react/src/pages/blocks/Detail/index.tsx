@@ -1,12 +1,9 @@
 import React from 'react';
-import { Button, message, Form, Space, Dropdown } from 'antd';
-import { DownOutlined } from '@ant-design/icons';
+import { Button, message, Form, Space, Modal } from 'antd';
 import FormRender from 'form-render';
 import { history } from 'umi';
-import YapiModal from '@/components/YapiModal';
 import SelectDirectory from '@/components/SelectDirectory';
 import CodeMirror from '@/components/CodeMirror';
-import JsonToTs from '@/components/JsonToTs';
 import { usePresenter } from './presenter';
 import { genCodeByBlockMaterial } from '@/webview/service';
 import AmisComponent from '@/components/AmisComponent';
@@ -32,16 +29,7 @@ export default () => {
                   schema={model.selectedMaterial.schema}
                   watch={presenter.watch}
                 />
-                <Space>
-                  <Button
-                    type="primary"
-                    size="small"
-                    onClick={() => {
-                      model.setScriptModalVisible(true);
-                    }}
-                  >
-                    执行脚本
-                  </Button>
+                {/* <Space>
                   <Button
                     type="primary"
                     size="small"
@@ -54,28 +42,22 @@ export default () => {
                   >
                     重新生成模板数据
                   </Button>
-                </Space>
+                </Space> */}
               </>
             )}
             {model.selectedMaterial.preview.schema === 'amis' && (
               <AmisComponent
+                ref={model.amisComponent}
                 schema={model.selectedMaterial.schema}
                 path={model.selectedMaterial.path}
-                scripts={model.selectedMaterial.preview.scripts}
-                onFormChange={(values) => {
-                  model.setSelectedMaterial((s) => ({
-                    ...s,
-                    model: values,
-                  }));
-                }}
               />
             )}
             {model.selectedMaterial.preview.schema === 'formily' && (
               <FormilyComponent
-                initialValues={model.formData}
+                ref={model.formilyComponent}
+                initialValues={model.selectedMaterial.model}
                 schema={model.selectedMaterial.schema}
                 path={model.selectedMaterial.path}
-                scripts={model.selectedMaterial.preview.scripts}
                 onFormChange={(values) => {
                   model.setSelectedMaterial((s) => ({
                     ...s,
@@ -86,26 +68,10 @@ export default () => {
             )}
           </Form.Item>
         )}
-        <Form.Item
-          label={<span style={{ fontWeight: 'bold' }}>模板数据</span>}
-          style={{ display: model.selectedMaterial.path ? 'flex' : 'none' }}
-        >
-          <CodeMirror
-            domId="modelCodeMirror"
-            lint
-            value={JSON.stringify(model.selectedMaterial.model, null, 2)}
-            onChange={(value) => {
-              model.setSelectedMaterial((s) => ({
-                ...s,
-                model: JSON.parse(value),
-              }));
-            }}
-          />
-        </Form.Item>
       </Form>
       <Footer>
         <Space style={{ width: '100%' }}>
-          <Dropdown overlay={presenter.menu}>
+          {/* <Dropdown overlay={presenter.menu}>
             <a
               className="ant-dropdown-link"
               onClick={(e) => e.preventDefault()}
@@ -118,18 +84,47 @@ export default () => {
             >
               更多功能 <DownOutlined />
             </a>
-          </Dropdown>
+          </Dropdown> */}
           <Button
             type="primary"
             block
             onClick={() => {
+              if (
+                model.selectedMaterial.preview.schema === 'amis' &&
+                model.amisComponent.current
+              ) {
+                model.setSelectedMaterial((s) => {
+                  s.model = model.amisComponent.current!.getValues();
+                });
+              }
+              model.setScriptModalVisible(true);
+            }}
+          >
+            执行脚本
+          </Button>
+          <Button
+            type="primary"
+            block
+            onClick={presenter.handleUpdateModelOpen}
+          >
+            修改表单数据
+          </Button>
+          <Button
+            type="primary"
+            block
+            onClick={() => {
+              if (
+                model.selectedMaterial.preview.schema === 'amis' &&
+                model.amisComponent.current
+              ) {
+                model.setSelectedMaterial((s) => {
+                  s.model = model.amisComponent.current!.getValues();
+                });
+              }
               model.setDirectoryModalVsible(true);
             }}
           >
             生成代码
-          </Button>
-          <Button type="primary" block onClick={presenter.handleAskChatGPT}>
-            Ask ChatGPT
           </Button>
           <Button
             onClick={() => {
@@ -141,19 +136,26 @@ export default () => {
           </Button>
         </Space>
       </Footer>
-      <YapiModal
-        visible={model.yapiModalVsible}
-        onOk={(m) => {
-          model.setSelectedMaterial((s) => ({
-            ...s,
-            model: { ...model.selectedMaterial.model, ...m },
-          }));
-          model.setYapiModalVsible(false);
-        }}
-        onCancel={() => {
-          model.setYapiModalVsible(false);
-        }}
-      />
+      <Modal
+        title="修改表单数据"
+        maskClosable={false}
+        visible={model.tempFormDataModal.visible}
+        onCancel={presenter.handleUpdateModelCancel}
+        onOk={presenter.handleUpdateModelOk}
+        okText="确定"
+        cancelText="取消"
+      >
+        <CodeMirror
+          domId="modelCodeMirror"
+          lint
+          value={JSON.stringify(model.tempFormDataModal.formData, null, 2)}
+          onChange={(value) => {
+            model.setTempFormDataModal((s) => {
+              s.formData = JSON.parse(value);
+            });
+          }}
+        />
+      </Modal>
       <SelectDirectory
         visible={model.directoryModalVsible}
         loading={model.loading}
@@ -176,20 +178,6 @@ export default () => {
             .finally(() => {
               model.setLoding(false);
             });
-        }}
-      />
-      <JsonToTs
-        visible={model.jsonToTsModalVisble}
-        json={model.selectedMaterial}
-        onCancel={() => {
-          model.setJsonToTsModalVisble(false);
-        }}
-        onOk={(type) => {
-          model.setSelectedMaterial((s) => ({
-            ...s,
-            model: { ...model.selectedMaterial.model, type },
-          }));
-          model.setJsonToTsModalVisble(false);
         }}
       />
       <RunScript

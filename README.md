@@ -2,7 +2,7 @@
 
 低代码工具，支持 ChatGPT 和其它 LLM
 
-[详细文档](https://lowcoding.gitee.io/)
+[详细文档](https://lowcoding.github.io/)
 
 > 文档不经常更新，新功能使用方法可查看 [releases](https://github.com/lowcoding/lowcode-vscode/releases)
 

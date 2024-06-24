@@ -1,5 +1,10 @@
-import React, { useEffect, useRef } from 'react';
-import { Button, Space, message } from 'antd';
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+} from 'react';
+import { message } from 'antd';
 import { MessageType } from 'antd/lib/message';
 import { render } from 'amis';
 import './cxd.css';
@@ -14,7 +19,6 @@ import {
   RendererAction,
   RendererEvent,
 } from 'amis-core';
-import RunScript from '../RunScript';
 import { useState } from '@/hooks/useImmer';
 import { runScript } from '@/webview/service';
 
@@ -25,14 +29,7 @@ const request: { count: number; hideLoading?: MessageType } = {
 
 interface IProps {
   schema: object;
-  scripts?: [
-    {
-      method: string;
-      remark: string;
-    },
-  ];
   path: string;
-  onFormChange: (values: object) => void;
 }
 
 // 动作定义
@@ -74,8 +71,7 @@ export class RunScriptAction implements RendererAction {
 // @ts-ignore
 registerAction('runScript', new RunScriptAction());
 
-export default (props: IProps) => {
-  const [scriptModalVisible, setScriptModalVisible] = useState(false);
+export default forwardRef((props: IProps, ref) => {
   const [model, setModel] = useState({} as object);
   const amisScoped = useRef<any>();
   const env = {
@@ -187,65 +183,41 @@ export default (props: IProps) => {
     },
   };
 
+  useImperativeHandle(ref, () => ({
+    getValues: () => {
+      const component = amisScoped.current.getComponentByName('page.form');
+      if (component) {
+        setModel(component.getValues());
+        return component.getValues();
+      }
+      return {};
+    },
+    setValues: (values: object) => {
+      const component = amisScoped.current.getComponentByName('page.form');
+      if (component) {
+        component.setValues(values);
+      }
+      setModel(values);
+    },
+  }));
+
   useEffect(() => {
     componentData.model = model;
     componentData.materialPath = props.path;
   }, [model, props.path]);
-
-  const handleOpenRunScriptModal = () => {
-    const values = amisScoped.current
-      .getComponentByName('page.form')
-      .getValues();
-    setModel(values);
-    setScriptModalVisible(true);
-  };
-
-  const handleRunScriptResult = (result: object) => {
-    amisScoped.current.getComponentByName('page.form').setValues(result);
-    props.onFormChange(result);
-    setScriptModalVisible(false);
-  };
 
   return (
     <>
       {render(
         props.schema as any,
         {
-          scopeRef: (ref: any) => {
-            amisScoped.current = ref;
+          scopeRef: (scopeRef: any) => {
+            amisScoped.current = scopeRef;
           },
           useMobileUI: false,
         },
         env,
       )}
-      <br></br>
-      <Space>
-        <Button type="primary" size="small" onClick={handleOpenRunScriptModal}>
-          执行脚本
-        </Button>
-        <Button
-          type="primary"
-          size="small"
-          onClick={() => {
-            const values = amisScoped.current
-              .getComponentByName('page.form')
-              .getValues();
-            props.onFormChange(values);
-          }}
-        >
-          生成模板数据
-        </Button>
-      </Space>
-      <RunScript
-        visible={scriptModalVisible}
-        materialPath={props.path}
-        model={model}
-        scripts={props.scripts}
-        onCancel={() => {
-          setScriptModalVisible(false);
-        }}
-        onOk={handleRunScriptResult}
-      />
     </>
   );
-};
+});

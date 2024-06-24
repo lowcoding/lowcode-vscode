@@ -23,9 +23,11 @@ export const runScript = async (
   if (fs.existsSync(scriptFile)) {
     delete eval('require').cache[eval('require').resolve(scriptFile)];
     const script = eval('require')(scriptFile);
-    if (script[message.data.script]) {
+    if (script[message.data.script] || script.runScript) {
       const context = {
         model: message.data.model,
+        method: message.data.script,
+        script: message.data.script,
         params: message.data.params,
         clipboardImage: message.data.clipboardImage,
         vscode,
@@ -39,7 +41,9 @@ export const runScript = async (
         materialPath: message.data.materialPath,
         activeTextEditor: getLastActiveTextEditor(),
       };
-      const extendModel = await script[message.data.script](context);
+      const extendModel = await (
+        script[message.data.script] || script.runScript
+      )(context);
       return extendModel;
     }
     throw new Error(`方法: ${message.data.script} 不存在`);
