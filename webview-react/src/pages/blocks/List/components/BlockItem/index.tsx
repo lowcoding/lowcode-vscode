@@ -11,7 +11,7 @@ import 'swiper/swiper.css';
 import 'viewerjs/dist/viewer.css';
 
 export default (props: {
-  blockItem: Model['materials'][0];
+  blockItem: NonNullable<Model['materials']>[0];
   onDefaultClick: () => void;
 }) => {
   const viewer = useRef<Viewer | undefined>();
