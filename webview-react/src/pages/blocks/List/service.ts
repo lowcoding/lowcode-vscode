@@ -58,19 +58,6 @@ export default class Service {
     this.model.setOriMaterials(list);
     this.model.setSelectedCategory([]);
     this.model.setCategoryList(categoryList);
-    if (list.some((s) => s.privateMaterials)) {
-      const notPrivate = list.find((s) => !s.privateMaterials);
-      if (notPrivate) {
-        setTimeout(() => {
-          const projectName = notPrivate.name;
-          this.model.setSearchValue(projectName);
-          this.search();
-        }, 1000);
-      } else {
-        this.model.setMaterials(list);
-      }
-    } else {
-      this.model.setMaterials(list);
-    }
+    this.model.setMaterials(list);
   }
 }
