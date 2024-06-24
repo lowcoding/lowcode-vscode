@@ -32,18 +32,28 @@ export default class Service {
         return flag;
       });
     }
+    if (this.model.selectProject) {
+      filterList = filterList.filter((s) =>
+        s.name.includes(this.model.selectProject),
+      );
+    }
     this.model.setMaterials(filterList);
   }
 
   async getList() {
     const res = await getLocalMaterials('blocks');
     const categoryList: string[] = [];
+    const projectList: string[] = [];
     res.map((s) => {
       s.preview.category?.map((c) => {
         if (!categoryList.includes(c)) {
           categoryList.push(c);
         }
       });
+      const project = s.name.split(' ')[0];
+      if (!projectList.includes(project)) {
+        projectList.push(project);
+      }
     });
     const list: Model['materials'] = res.map((s, index) => ({
       ...s,
@@ -55,9 +65,11 @@ export default class Service {
       },
     }));
 
-    this.model.setOriMaterials(list);
     this.model.setSelectedCategory([]);
+    this.model.setSelectProject('');
+    this.model.setOriMaterials(list);
     this.model.setCategoryList(categoryList);
+    this.model.setProjectList(projectList);
     this.model.setMaterials(list);
   }
 }

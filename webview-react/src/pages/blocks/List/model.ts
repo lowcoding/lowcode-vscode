@@ -29,9 +29,13 @@ export const useModel = () => {
 
   const [directoryModalVsible, setDirectoryModalVsible] = useState(false);
 
+  const [projectList, setProjectList] = useState<string[]>([]);
+
   const [categoryList, setCategoryList] = useState<string[]>([]);
 
   const [selectedCategory, setSelectedCategory] = useState<string[]>([]);
+
+  const [selectProject, setSelectProject] = useState('');
 
   const [searchValue, setSearchValue] = useState('');
 
@@ -44,10 +48,14 @@ export const useModel = () => {
     setSelectedMaterial,
     directoryModalVsible,
     setDirectoryModalVsible,
+    projectList,
+    setProjectList,
     categoryList,
     setCategoryList,
     selectedCategory,
     setSelectedCategory,
+    selectProject,
+    setSelectProject,
     searchValue,
     setSearchValue,
   };
