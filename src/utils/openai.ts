@@ -1,3 +1,4 @@
+/* eslint-disable no-continue */
 import * as https from 'https';
 import { TextDecoder } from 'util';
 import { getChatGPTConfig } from './config';
@@ -8,7 +9,7 @@ export const createChatCompletion = (options: {
 }) =>
   new Promise<string>((resolve) => {
     let combinedResult = '';
-    let error = '发生错误：';
+    const error = '发生错误：';
     const config = getChatGPTConfig();
     const request = https.request(
       {
@@ -22,27 +23,32 @@ export const createChatCompletion = (options: {
         },
       },
       (res) => {
+        let preDataLast = '';
         res.on('data', async (chunk) => {
           const text = new TextDecoder('utf-8').decode(chunk);
           const data = text.split('\n\n').filter((s) => s);
           for (let i = 0; i < data.length; i++) {
             try {
               let element = data[i];
-              if (element.includes('data: ')) {
+              if (i === data.length - 1 && !data[i].endsWith('}')) {
+                preDataLast = data[i];
+                continue;
+              }
+              if (element.startsWith('data: ')) {
                 if (element.trim() === 'data:') {
                   // 处理只返回了 data: 的情况
-                  return;
+                  continue;
                 }
-              } else if (element.includes('delta')) {
+              } else {
                 // 处理没有 data 开头
-                element = `data: ${element}`;
+                element = preDataLast + element;
               }
               if (element.includes('data: ')) {
                 if (element.includes('[DONE]')) {
                   if (options.handleChunk) {
                     options.handleChunk({ text: '' });
                   }
-                  return;
+                  continue;
                 }
                 // remove 'data: '
                 const data = JSON.parse(element.replace('data: ', ''));
@@ -50,7 +56,7 @@ export const createChatCompletion = (options: {
                   if (options.handleChunk) {
                     options.handleChunk({ text: '' });
                   }
-                  return;
+                  continue;
                 }
                 const openaiRes = data.choices[0].delta.content;
                 if (openaiRes) {
@@ -62,19 +68,14 @@ export const createChatCompletion = (options: {
                   combinedResult += openaiRes;
                 }
               } else {
-                if (options.handleChunk) {
-                  options.handleChunk({
-                    text: element,
-                  });
-                }
-                return;
+                console.log('no includes data: ', element);
               }
             } catch (e) {
               console.error({
-                e,
+                e: (e as Error).toString(),
                 element: data[i],
               });
-              error = (e as Error).toString();
+              // error = (e as Error).toString();
             }
           }
         });
@@ -84,7 +85,6 @@ export const createChatCompletion = (options: {
               text: e.toString(),
             });
           }
-          // reject(e);
           resolve(e.toString());
         });
         res.on('end', () => {

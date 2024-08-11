@@ -136,26 +136,6 @@ export default () => {
           </Button>
         </Space>
       </Footer>
-      <Modal
-        title="修改表单数据"
-        maskClosable={false}
-        visible={model.tempFormDataModal.visible}
-        onCancel={presenter.handleUpdateModelCancel}
-        onOk={presenter.handleUpdateModelOk}
-        okText="确定"
-        cancelText="取消"
-      >
-        <CodeMirror
-          domId="modelCodeMirror"
-          lint
-          value={JSON.stringify(model.tempFormDataModal.formData, null, 2)}
-          onChange={(value) => {
-            model.setTempFormDataModal((s) => {
-              s.formData = JSON.parse(value);
-            });
-          }}
-        />
-      </Modal>
       <SelectDirectory
         visible={model.directoryModalVsible}
         loading={model.loading}
@@ -191,6 +171,27 @@ export default () => {
         }}
         onOk={presenter.handleRunScriptResult}
       />
+      <Modal
+        title="修改表单数据"
+        maskClosable={false}
+        visible={model.tempFormDataModal.visible}
+        onCancel={presenter.handleUpdateModelCancel}
+        onOk={presenter.handleUpdateModelOk}
+        okText="确定"
+        cancelText="取消"
+        zIndex={9999}
+      >
+        <CodeMirror
+          domId="modelCodeMirror"
+          lint
+          value={JSON.stringify(model.tempFormDataModal.formData, null, 2)}
+          onChange={(value) => {
+            model.setTempFormDataModal((s) => {
+              s.formData = JSON.parse(value);
+            });
+          }}
+        />
+      </Modal>
     </div>
   );
 };
