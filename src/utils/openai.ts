@@ -9,7 +9,7 @@ export const createChatCompletion = (options: {
 }) =>
   new Promise<string>((resolve) => {
     let combinedResult = '';
-    const error = '发生错误：';
+    let error = '发生错误：';
     const config = getChatGPTConfig();
     const request = https.request(
       {
@@ -27,6 +27,7 @@ export const createChatCompletion = (options: {
         res.on('data', async (chunk) => {
           const text = new TextDecoder('utf-8').decode(chunk);
           const data = text.split('\n\n').filter((s) => s);
+          console.log(data);
           for (let i = 0; i < data.length; i++) {
             try {
               let element = data[i];
@@ -43,7 +44,7 @@ export const createChatCompletion = (options: {
                 // 处理没有 data 开头
                 element = preDataLast + element;
               }
-              if (element.includes('data: ')) {
+              if (element.startsWith('data: ')) {
                 if (element.includes('[DONE]')) {
                   if (options.handleChunk) {
                     options.handleChunk({ text: '' });
@@ -69,13 +70,18 @@ export const createChatCompletion = (options: {
                 }
               } else {
                 console.log('no includes data: ', element);
+                if (options.handleChunk) {
+                  options.handleChunk({
+                    text: element,
+                  });
+                }
               }
             } catch (e) {
               console.error({
                 e: (e as Error).toString(),
                 element: data[i],
               });
-              // error = (e as Error).toString();
+              error = (e as Error).toString();
             }
           }
         });
