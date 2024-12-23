@@ -1,10 +1,10 @@
 import * as path from 'path';
 import * as fs from 'fs-extra';
-import { window } from 'vscode';
+import { window, ExtensionContext } from 'vscode';
 import { getSnippets } from './utils/materials';
 import { getEnv, rootPath } from './utils/vscodeEnv';
 
-export const runActivate = () => {
+export const runActivate = (extensionContext: ExtensionContext) => {
   const templateList = getSnippets().filter((s) => s.preview.runActivate);
   templateList.forEach((template) => {
     const scriptFile = path.join(template!.path, 'script/index.js');
@@ -14,7 +14,7 @@ export const runActivate = () => {
       if (script.onActivate) {
         const context = {
           workspaceRootPath: rootPath,
-          env: getEnv(),
+          env: { ...getEnv(), extensionContext },
           materialPath: template!.path,
           code: '',
         };
