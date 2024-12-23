@@ -24,7 +24,7 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions,
   );
 
-  runActivate();
+  runActivate(context);
 
   init({ extensionContext: context, extensionPath: context.extensionPath });
 
