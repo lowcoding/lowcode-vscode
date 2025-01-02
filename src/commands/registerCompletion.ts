@@ -1,4 +1,4 @@
-import * as vscode from 'vscode';
+import vscode from 'vscode';
 import { compile as compileEjs } from '../utils/ejs';
 import { getSnippets } from '../utils/materials';
 

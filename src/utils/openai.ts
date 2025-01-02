@@ -1,5 +1,5 @@
 /* eslint-disable no-continue */
-import * as https from 'https';
+import https from 'https';
 import { TextDecoder } from 'util';
 import { getChatGPTConfig } from './config';
 

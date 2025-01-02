@@ -1,5 +1,4 @@
-import * as vscode from 'vscode';
-import { TextEditor, TextEditorEdit } from 'vscode';
+import vscode, { TextEditor, TextEditorEdit } from 'vscode';
 import { getClipboardText, pasteToEditor } from '../utils/editor';
 import { compile } from '../utils/ejs';
 import { jsonIsValid, jsonParse } from '../utils/json';
@@ -9,11 +8,11 @@ export const openSnippet = (context: vscode.ExtensionContext) => {
   context.subscriptions.push(
     vscode.commands.registerTextEditorCommand(
       'lowcode.openSnippetByWebview',
-      (textEditor: TextEditor, edit: TextEditorEdit, ...args: any[]) => {
+      async (textEditor: TextEditor, edit: TextEditorEdit, ...args: any[]) => {
         const name = args[0];
         const template = args[1];
 
-        const rawClipboardText = getClipboardText();
+        const rawClipboardText = await getClipboardText();
         let clipboardText = rawClipboardText.trim();
         clipboardText = JSON.stringify(jsonParse(clipboardText));
 

@@ -1,7 +1,7 @@
 /* eslint-disable no-eval */
-import * as path from 'path';
-import * as vscode from 'vscode';
-import * as fs from 'fs-extra';
+import path from 'path';
+import vscode from 'vscode';
+import fs from 'fs-extra';
 import {
   blockMaterialsPath,
   getEnv,

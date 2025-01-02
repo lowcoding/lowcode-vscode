@@ -1,4 +1,4 @@
-import * as vscode from 'vscode';
+import vscode from 'vscode';
 import { generateCode } from './commands/generateCode';
 import { createOrShowWebview } from './commands/createOrShowWebview';
 import { createOrShowWebview as createOrShowAddSnippetWebview } from './commands/addSnippet';

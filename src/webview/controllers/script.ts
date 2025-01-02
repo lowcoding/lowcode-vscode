@@ -1,7 +1,7 @@
 /* eslint-disable no-eval */
-import * as vscode from 'vscode';
-import * as path from 'path';
-import * as fs from 'fs-extra';
+import vscode from 'vscode';
+import path from 'path';
+import fs from 'fs-extra';
 import { IMessage } from '../type';
 import { getEnv, rootPath } from '../../utils/vscodeEnv';
 import { getInnerLibs } from '../../utils/lib';

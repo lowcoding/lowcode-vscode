@@ -1,4 +1,4 @@
-import * as path from 'path';
+import path from 'path';
 import { workspace } from 'vscode';
 import { getSyncFolder } from './config';
 import { getExtensionContext } from '../context';

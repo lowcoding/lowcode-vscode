@@ -1,4 +1,4 @@
-import * as vscode from 'vscode';
+import vscode from 'vscode';
 import { genCodeByYapi } from '../genCode/genCodeByYapi';
 import { genCodeByJson } from '../genCode/genCodeByJson';
 import { genCodeByTypescript } from '../genCode/genCodeByTypescript';
@@ -12,7 +12,7 @@ export const generateCode = (context: vscode.ExtensionContext) => {
     vscode.commands.registerTextEditorCommand(
       'lowcode.generateCode',
       async () => {
-        const rawClipboardText = getClipboardText();
+        const rawClipboardText = await getClipboardText();
         let clipboardText = rawClipboardText.trim();
 
         clipboardText = JSON.stringify(jsonParse(clipboardText));

@@ -1,4 +1,4 @@
-import * as vscode from 'vscode';
+import vscode from 'vscode';
 import { commands } from '../utils/env';
 import { hideChatGPTView, showChatGPTView, showWebView } from '../webview';
 

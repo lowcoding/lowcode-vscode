@@ -1,11 +1,31 @@
 // Place your settings in this file to overwrite default and user settings.
 {
-    "files.exclude": {
-        "build": false // set this to true to hide the "out" folder with the compiled JS files
-    },
-    "search.exclude": {
-        "build": true // set this to false to include "out" folder in search results
-    },
-    // Turn off tsc task auto detection since we have the necessary tasks as npm scripts
-    "typescript.tsc.autoDetect": "off"
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.fixAll.stylelint": "explicit"
+  },
+  "stylelint.validate": [
+    "css",
+    "less",
+    "scss",
+    "vue"
+  ],
+  "[scss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[vue]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "files.exclude": {
+    "build": false // set this to true to hide the "out" folder with the compiled JS files
+  },
+  "search.exclude": {
+    "build": true // set this to false to include "out" folder in search results
+  },
+  "typescript.tsdk": "node_modules/typescript/lib",
 }

@@ -1,4 +1,4 @@
-import * as dirTree from 'directory-tree';
+import dirTree from 'directory-tree';
 import { rootPath } from '../../utils/vscodeEnv';
 
 export const getDirectoryTree = () => {
