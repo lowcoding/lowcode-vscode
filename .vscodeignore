@@ -15,24 +15,7 @@ vsc-extension-quickstart.md
 **/*.ts
 *.lock
 *.vsix
-webpack.config.js
+.lowcoderc
+esbuild.js
 
 node_modules
-!node_modules/prettier
-!node_modules/copy-paste
-!node_modules/iconv-lite
-!node_modules/safer-buffer
-!node_modules/typescript-json-schema
-!node_modules/glob
-!node_modules/fs.realpath
-!node_modules/minimatch
-!node_modules/brace-expansion
-!node_modules/concat-map
-!node_modules/balanced-match
-!node_modules/inherits
-!node_modules/path-is-absolute
-!node_modules/inflight
-!node_modules/wrappy
-!node_modules/once
-!node_modules/json-stable-stringify
-!node_modules/typescript

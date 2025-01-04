@@ -1,4 +1,4 @@
-import * as vscode from 'vscode';
+import vscode from 'vscode';
 import { commands } from '../utils/env';
 import { hideChatGPTView, showChatGPTView } from '../webview';
 import { getClipboardText, getSelectedText } from '../utils/editor';
@@ -19,11 +19,11 @@ export const registerChatGPTCommand = (context: vscode.ExtensionContext) => {
         'lowcode',
       );
     }),
-    vscode.commands.registerCommand('lowcode.askChatGPT', () => {
+    vscode.commands.registerCommand('lowcode.askChatGPT', async () => {
       showChatGPTView({
         task: {
           task: 'askChatGPT',
-          data: getSelectedText() || getClipboardText(),
+          data: getSelectedText() || (await getClipboardText()),
         },
       });
     }),
@@ -49,7 +49,7 @@ export const registerChatGPTCommand = (context: vscode.ExtensionContext) => {
         const template = templateList.find((s) => s.name === templateResult);
         const model = {
           rawSelectedText: getSelectedText() || '',
-          rawClipboardText: getClipboardText() || '',
+          rawClipboardText: await getClipboardText(),
         };
         const code = compileEjs(
           template?.commandPrompt || template!.preview.chatGPT?.commandPrompt!,

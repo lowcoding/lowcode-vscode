@@ -6,6 +6,7 @@
 		"outDir": "build",
 		"allowSyntheticDefaultImports": true,
 		"suppressImplicitAnyIndexErrors": true,
+		"esModuleInterop": true,
 		"lib": [
 			"ES5"
 		],

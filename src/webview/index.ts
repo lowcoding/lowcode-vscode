@@ -1,7 +1,6 @@
 /* eslint-disable no-underscore-dangle */
-import * as path from 'path';
-import * as vscode from 'vscode';
-import { window } from 'vscode';
+import path from 'path';
+import vscode, { window } from 'vscode';
 import { getExtensionPath, setLastActiveTextEditorId } from '../context';
 import { routes } from './routes';
 import { invokeCallback, invokeErrorCallback } from './callback';

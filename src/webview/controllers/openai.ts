@@ -1,4 +1,4 @@
-import * as vscode from 'vscode';
+import vscode from 'vscode';
 import { IMessage } from '../type';
 import { createChatCompletion } from '../../utils/llm';
 import { invokeChatGPTChunkCallback } from '../callback';

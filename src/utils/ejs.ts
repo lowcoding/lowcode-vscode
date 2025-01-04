@@ -1,8 +1,8 @@
-import * as ejs from 'ejs';
-import * as fse from 'fs-extra';
-import * as path from 'path';
-import * as glob from 'glob';
-import * as prettier from 'prettier';
+import ejs from 'ejs';
+import fse from 'fs-extra';
+import path from 'path';
+import glob from 'glob';
+import prettier from 'prettier';
 
 export type YapiInfo = {
   query_path: { path: string };

@@ -1,6 +1,6 @@
-import * as path from 'path';
-import * as fs from 'fs-extra';
-import * as execa from 'execa';
+import path from 'path';
+import fs from 'fs-extra';
+import execa from 'execa';
 import { renderEjsTemplates } from './ejs';
 import { tempDir } from './env';
 import { rootPath } from './vscodeEnv';

@@ -1,4 +1,4 @@
-import * as vscode from 'vscode';
+import vscode from 'vscode';
 import { formatPath } from '../utils/platform';
 import { showWebView } from '../webview';
 

@@ -1,5 +1,5 @@
-import * as path from 'path';
-import * as fs from 'fs-extra';
+import path from 'path';
+import fs from 'fs-extra';
 import { window, ExtensionContext } from 'vscode';
 import { getSnippets } from './utils/materials';
 import { getEnv, rootPath } from './utils/vscodeEnv';

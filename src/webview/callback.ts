@@ -1,4 +1,4 @@
-import * as vscode from 'vscode';
+import vscode from 'vscode';
 
 export function invokeCallback<T = any>(
   webview: vscode.Webview,

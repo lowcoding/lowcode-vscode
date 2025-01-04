@@ -3,19 +3,18 @@
 	"displayName": "lowcode",
 	"description": "lowcode tool, support ChatGPT and other LLM",
 	"author": "wjkang <ruoxieme@gmail.com>",
-	"version": "1.8.9",
+	"version": "1.9.0",
 	"icon": "asset/icon.png",
 	"publisher": "wjkang",
 	"repository": "https://github.com/lowcoding/lowcode-vscode",
 	"main": "./build/extension.js",
 	"scripts": {
 		"vscode:prepublish": "yarn run compile",
-		"compile": "webpack --mode production",
+		"compile": "node ./esbuild.js",
 		"compile:tsc": "tsc -p ./",
 		"dev": "yarn --cwd \"webview-react\" dev",
 		"build": "yarn --cwd \"webview-react\" build",
 		"lint": "eslint src --ext ts",
-		"watch": "webpack --mode development",
 		"pretest": "yarn run compile:tsc",
 		"test:js": "node ./build/test/runTest.js",
 		"test": "node ./build/test/runTest.js"
@@ -271,7 +270,6 @@
 		}
 	},
 	"devDependencies": {
-		"@types/copy-paste": "^1.1.30",
 		"@types/debug": "^4.1.5",
 		"@types/ejs": "^3.0.4",
 		"@types/fs-extra": "^9.0.1",
@@ -294,15 +292,13 @@
 		"prettier": "^2.2.1",
 		"ts-loader": "^8.0.3",
 		"typescript": "^4.3.5",
-		"vscode-test": "^1.3.0",
-		"webpack": "^4.44.1",
-		"webpack-cli": "^3.3.12"
+		"vscode-test": "^1.3.0"
 	},
 	"dependencies": {
 		"axios": "^0.19.2",
-		"copy-paste": "^1.3.0",
 		"directory-tree": "^2.2.4",
 		"ejs": "^3.1.3",
+		"esbuild": "^0.24.2",
 		"execa": "^4.0.3",
 		"fs-extra": "^9.0.1",
 		"generate-schema": "^2.6.0",

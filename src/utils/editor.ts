@@ -1,8 +1,13 @@
-import * as copyPaste from 'copy-paste';
-import { OpenDialogOptions, Range, SnippetString, window } from 'vscode';
+import { OpenDialogOptions, Range, SnippetString, window, env } from 'vscode';
 import { getLastActiveTextEditor } from '../context';
 
-export const getClipboardText = () => copyPaste.paste();
+export const getClipboardText = async () => {
+  let text = '';
+  try {
+    text = await env.clipboard.readText();
+  } catch (e) {}
+  return text;
+};
 
 export const getSelectedText = () => {
   const { selection, document } = window.activeTextEditor!;

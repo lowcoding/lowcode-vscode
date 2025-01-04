@@ -1,7 +1,7 @@
-import * as os from 'os';
-import * as path from 'path';
-import * as fs from 'fs-extra';
-import * as TJS from 'typescript-json-schema';
+import os from 'os';
+import path from 'path';
+import fs from 'fs-extra';
+import TJS from 'typescript-json-schema';
 import { compile } from 'json-schema-to-typescript';
 import { getConfig } from './config';
 

@@ -1,5 +1,5 @@
-import * as path from 'path';
-import * as fs from 'fs-extra';
+import path from 'path';
+import fs from 'fs-extra';
 import { createChatCompletion as openaiCreateChatCompletion } from './openai';
 import { emitter } from './emitter';
 import { getSyncFolder } from './config';

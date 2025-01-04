@@ -1,5 +1,5 @@
-import * as path from 'path';
-import * as fs from 'fs-extra';
+import path from 'path';
+import fs from 'fs-extra';
 import { workspace } from 'vscode';
 import { getFileContent } from './file';
 import { rootPath } from './vscodeEnv';

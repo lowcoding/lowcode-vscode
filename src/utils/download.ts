@@ -1,7 +1,7 @@
 import axios from 'axios';
-import * as path from 'path';
-import * as execa from 'execa';
-import * as fs from 'fs-extra';
+import path from 'path';
+import execa from 'execa';
+import fs from 'fs-extra';
 import { tempDir } from './env';
 
 const tar = require('tar');

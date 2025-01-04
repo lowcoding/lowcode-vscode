@@ -1,6 +1,6 @@
-import * as vscode from 'vscode';
-import * as path from 'path';
-import * as fs from 'fs-extra';
+import vscode from 'vscode';
+import path from 'path';
+import fs from 'fs-extra';
 import { getSnippets } from '../utils/materials';
 import { getEnv, rootPath } from '../utils/vscodeEnv';
 import { getInnerLibs } from '../utils/lib';
